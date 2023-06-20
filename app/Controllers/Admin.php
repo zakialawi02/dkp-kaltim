@@ -595,8 +595,8 @@ class Admin extends BaseController
     public function pending()
     {
         $data = [
-            'title' => 'PENDING LIST',
-            'tampilKafe' => $this->kafe->callPendingData()->getResult(),
+            'title' => 'Pending List',
+            'tampilDataIzin' => $this->izin->callPendingData()->getResult(),
         ];
         // echo '<pre>';
         // print_r($data);

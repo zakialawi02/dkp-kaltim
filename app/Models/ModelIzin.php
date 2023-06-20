@@ -39,7 +39,7 @@ class ModelIzin extends Model
     function callPendingData($id_perizinan = false)
     {
         if ($id_perizinan === false) {
-            return $this->db->table('tbl_perizinan')->select('tbl_perizinan.*, tbl_status_appv.*')
+            return $this->db->table('tbl_perizinan')->select('tbl_perizinan.*, tbl_status_appv.*, users.username')
                 ->join('tbl_status_appv', 'tbl_status_appv.id_perizinan = tbl_perizinan.id_perizinan', 'LEFT')
                 ->join('users', 'users.id = tbl_status_appv.user')
                 ->orderBy('created_at', 'DESC')

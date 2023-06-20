@@ -92,7 +92,7 @@ class Data extends BaseController
     public function dump()
     {
         $userid = user_id();
-        $data = $this->izin->userSubmitIzin($userid)->getResult();
+        $data = $this->izin->getIzinFive()->getResult();
         echo "<pre>";
         print_r($data);
         die;

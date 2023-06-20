@@ -65,7 +65,7 @@
 
                                                     <div class="d-flex align-items-center">
                                                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                                            <i class="bi bi-cup-hot"></i>
+                                                            <i class="bi bi-file-earmark-text"></i>
                                                         </div>
                                                         <div class="ps-3">
                                                             <h6><?= $countAllPerizinan; ?></h6>
@@ -146,7 +146,7 @@
                                                         </tbody>
                                                     </table>
 
-                                                    <a type="button" class="btn btn-primary" href="/admin/data/kafe">View More</a>
+                                                    <a type="button" class="btn btn-primary" href="/admin/data/kafe">Lihat Lebih Banyak</a>
                                                 </div>
 
                                             </div>
@@ -190,7 +190,7 @@
                                                 </center>
 
                                             </div>
-                                            <a type="button" class="btn btn-primary" href="/user/list">View More</a>
+                                            <a type="button" class="btn btn-primary" href="/user/list">Lihat Lebih Banyak</a>
 
                                         </div>
 
