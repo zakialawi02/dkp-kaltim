@@ -48,8 +48,6 @@
                     </div>
 
 
-
-
                     <div class="dashboard">
                         <?php if (in_groups('SuperAdmin') || in_groups('Admin')) :; ?>
                             <div class="row">
@@ -58,25 +56,25 @@
                                 <div class="col-lg-8">
                                     <div class="row">
 
-                                        <!-- kafe Card -->
+                                        <!--  Card -->
                                         <div class="col-xxl-4 col-md-6 mb-3">
                                             <div class="card info-card kaffe-card">
 
                                                 <div class="card-body">
-                                                    <h5 class="card-title">Jumlah Kafe <span>| Total</span></h5>
+                                                    <h5 class="card-title">Jumlah Perizinan <span>| Total</span></h5>
 
                                                     <div class="d-flex align-items-center">
                                                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                                             <i class="bi bi-cup-hot"></i>
                                                         </div>
                                                         <div class="ps-3">
-                                                            <h6><?= $countAllKafe; ?></h6>
+                                                            <h6><?= $countAllPerizinan; ?></h6>
                                                         </div>
                                                     </div>
                                                 </div>
 
                                             </div>
-                                        </div><!-- End kafe Card -->
+                                        </div><!-- End  Card -->
 
                                         <!-- Incrase Card -->
                                         <div class="col-xxl-4 col-md-6 mb-3">
@@ -119,30 +117,30 @@
 
                                         </div><!-- End user Card -->
 
-                                        <!-- Daftar Kafe -->
+                                        <!-- Daftar Pemohon -->
                                         <div class="col-12 p-2 pr-2 mb-3">
                                             <div class="card recent-sales overflow-auto p-2">
                                                 <div class="card-body">
-                                                    <h5 class="card-title">Daftar Kafe</h5>
+                                                    <h5 class="card-title">Daftar Perizinan | 5 Terbaru</h5>
 
                                                     <table id="tabels" class="table table-striped table-bordered">
                                                         <thead>
                                                             <tr>
-                                                                <th style="min-width:10em">Nama Kafe</th>
+                                                                <th>NIK</th>
+                                                                <th>Nama Pemohon</th>
                                                                 <th style="min-width:10em">Alamat</th>
-                                                                <th>Koordinat</th>
+                                                                <th>Kontak</th>
                                                                 <th>Data Masuk</th>
-                                                                <th>User By</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <?php foreach ($tampilKafe as $kafe) : ?>
+                                                            <?php foreach ($tampilIzin as $izin) : ?>
                                                                 <tr>
-                                                                    <td><?= $kafe->nama_kafe; ?></td>
-                                                                    <td><?= $kafe->alamat_kafe; ?></td>
-                                                                    <td><a href="#" class="text-primary"><?= $kafe->latitude; ?>, <?= $kafe->longitude; ?></a></td>
-                                                                    <td><?= date('d M Y', strtotime($kafe->created_at)); ?></td>
-                                                                    <td><span class="badge bg-primary"><?= $kafe->username; ?></span></td>
+                                                                    <td><?= $izin->nik; ?></td>
+                                                                    <td><?= $izin->nama; ?></td>
+                                                                    <td><?= $izin->alamat; ?></td>
+                                                                    <td><?= $izin->kontak; ?></td>
+                                                                    <td><?= date('d M Y', strtotime($izin->created_at)); ?></td>
                                                                 </tr>
                                                             <?php endforeach ?>
                                                         </tbody>
@@ -152,7 +150,7 @@
                                                 </div>
 
                                             </div>
-                                        </div><!-- End Daftar Kafe -->
+                                        </div><!-- End Daftar pemohon -->
 
                                     </div>
 
@@ -160,21 +158,6 @@
 
                                 <!-- Right side columns -->
                                 <div class="col-lg-4">
-
-                                    <div class="card mb-3">
-
-                                        <div class="card-body">
-                                            <h5 class="card-title">Pie Chart <span>| Kafe</span></h5>
-
-                                            <center>
-                                                <div>
-                                                    <div id="chart"></div>
-                                                </div>
-                                            </center>
-
-                                        </div>
-
-                                    </div><!-- End chart Activity -->
 
                                     <!-- New users -->
                                     <div class="card">
@@ -203,7 +186,7 @@
                                                     </tbody>
                                                 </table>
                                                 <center>
-                                                    <p><?= ($userMonth == null) ? 'No Data' : null; ?> </p>
+                                                    <p><?= ($userMonth == null) ? 'Tidak ada Data' : null; ?> </p>
                                                 </center>
 
                                             </div>
@@ -238,32 +221,32 @@
 
 
                                 <div class="col-xl-8 p-3">
-                                    <?php $userSubmitKafe = $userSubmitKafe ?>
-                                    <?php $pendingKafe = []; ?>
-                                    <?php $terimaKafe = []; ?>
-                                    <?php $tolakKafe = []; ?>
-                                    <?php foreach ($userSubmitKafe as $submitedData) : ?>
+                                    <?php $userSubmitIzin = $userSubmitIzin ?>
+                                    <?php $pendingIzin = []; ?>
+                                    <?php $terimaIzin = []; ?>
+                                    <?php $tolakIzin = []; ?>
+                                    <?php foreach ($userSubmitIzin as $submitedData) : ?>
                                         <?php if ($submitedData->stat_appv == 0) : ?>
-                                            <?php $pendingKafe[] = $submitedData ?>
+                                            <?php $pendingIzin[] = $submitedData ?>
                                         <?php elseif ($submitedData->stat_appv == 1) : ?>
-                                            <?php $terimaKafe[] = $submitedData ?>
+                                            <?php $terimaIzin[] = $submitedData ?>
                                         <?php else : ?>
-                                            <?php $tolakKafe[] = $submitedData ?>
+                                            <?php $tolakIzin[] = $submitedData ?>
                                         <?php endif ?>
                                     <?php endforeach ?>
 
-                                    <?php if (!empty($pendingKafe)) : ?>
-                                        <?php $totalPending = count($pendingKafe); ?>
+                                    <?php if (!empty($pendingIzin)) : ?>
+                                        <?php $totalPending = count($pendingIzin); ?>
                                     <?php else : ?>
                                         <?php $totalPending = 0 ?>
                                     <?php endif ?>
-                                    <?php if (!empty($terimaKafe)) : ?>
-                                        <?php $totalTerima = count($terimaKafe); ?>
+                                    <?php if (!empty($terimaIzin)) : ?>
+                                        <?php $totalTerima = count($terimaIzin); ?>
                                     <?php else : ?>
                                         <?php $totalTerima = 0 ?>
                                     <?php endif ?>
-                                    <?php if (!empty($tolakKafe)) : ?>
-                                        <?php $totalTolak = count($tolakKafe); ?>
+                                    <?php if (!empty($tolakIzin)) : ?>
+                                        <?php $totalTolak = count($tolakIzin); ?>
                                     <?php else : ?>
                                         <?php $totalTolak = 0 ?>
                                     <?php endif ?>
@@ -273,7 +256,7 @@
                                         <div class="card-body pt-3">
                                             <h3>Data</h3>
                                             <div class="accordion" id="accordionExample">
-                                                <?php if (empty($pendingKafe)) : ?>
+                                                <?php if (empty($pendingIzin)) : ?>
                                                     <div class="accordion-item">
                                                         <h2 class="accordion-header" id="headingOne">
                                                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -301,124 +284,80 @@
                                                                         <thead>
                                                                             <tr>
                                                                                 <th scope="col">Data Masuk</th>
-                                                                                <th scope="col">ID</th>
-                                                                                <th scope="col">Nama Kafe</th>
-                                                                                <th scope="col">Status</th>
+                                                                                <th scope="col">NIK</th>
+                                                                                <th scope="col">Nama Pemohon</th>
+                                                                                <th scope="col">Jenis Kegiatan</th>
                                                                                 <th scope="col">Aksi</th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            <?php foreach ($pendingKafe as $pkafe) : ?>
+                                                                            <?php foreach ($pendingIzin as $pIzin) : ?>
                                                                                 <tr class="">
-                                                                                    <td scope="row"><?= date('d M Y H:i:s', strtotime($pkafe->created_at)); ?></td>
-                                                                                    <td><?= $pkafe->id_kafe; ?></td>
-                                                                                    <td><?= $pkafe->nama_kafe; ?></td>
-                                                                                    <td><?= $pkafe->stat_appv == 0 ? 'Pending' : ($pkafe->stat_appv == 1 ? 'Terima' : 'Tolak') ?>
+                                                                                    <td scope="row"><?= date('d M Y H:i:s', strtotime($pIzin->created_at)); ?></td>
+                                                                                    <td><?= $pIzin->nik; ?></td>
+                                                                                    <td><?= $pIzin->nama; ?></td>
+                                                                                    <td><?= $pIzin->jenis_kegiatan ?>
                                                                                     </td>
                                                                                     <td>
                                                                                         <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="edit data">
-                                                                                            <a href="/kafe/edit/<?= $pkafe->id_kafe; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
+                                                                                            <a href="/kafe/edit/<?= $pIzin->id_perizinan; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
                                                                                         </div>
                                                                                         <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="hapus data">
-                                                                                            <form id="delete-form-<?= $pkafe->id_kafe; ?>" action="/admin/delete_Kafe/<?= $pkafe->id_kafe; ?>" method="post">
+                                                                                            <form id="delete-form-<?= $pIzin->id_perizinan; ?>" action="/admin/delete_Kafe/<?= $pIzin->id_perizinan; ?>" method="post">
                                                                                                 <?= csrf_field(); ?>
                                                                                                 <input type="hidden" name="_method" value="DELETE">
-                                                                                                <button type="button" class="asbn btn btn-danger bi bi-trash delete-btn" data-id="<?= $pkafe->id_kafe; ?>"></button>
+                                                                                                <button type="button" class="asbn btn btn-danger bi bi-trash delete-btn" data-id="<?= $pIzin->id_perizinan; ?>"></button>
                                                                                             </form>
                                                                                         </div>
                                                                                         <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="lihat data">
                                                                                             <!-- Trigger modal -->
-                                                                                            <button type="button" role="button" id="infos" class="asbn btn btn-secondary bi bi-eye" data-bs-toggle="modal" data-bs-target="#infoModal-<?= $pkafe->id_kafe ?>" onclick="showMap<?= $pkafe->id_kafe; ?>()"></button>
+                                                                                            <button type="button" role="button" id="infos" class="asbn btn btn-secondary bi bi-eye" data-bs-toggle="modal" data-bs-target="#infoModal-<?= $pIzin->id_perizinan ?>" onclick="showMap<?= $pIzin->id_perizinan; ?>()"></button>
                                                                                         </div>
                                                                                         <!-- Modal detail -->
-                                                                                        <div class=" modal fade" id="infoModal-<?= $pkafe->id_kafe ?>" tabindex="-1" aria-labelledby="infoModalLabel-<?= $pkafe->id_kafe ?>" aria-hidden="true">
+                                                                                        <div class=" modal fade" id="infoModal-<?= $pIzin->id_perizinan ?>" tabindex="-1" aria-labelledby="infoModalLabel-<?= $pIzin->id_perizinan ?>" aria-hidden="true">
                                                                                             <div class="modal-dialog modal-lg modal-fullscreen-lg-down">
                                                                                                 <div class="modal-content">
                                                                                                     <div class="modal-header">
-                                                                                                        <h5 class="modal-title" id="infoModalLabel-<?= $pkafe->id_kafe ?>">Preview</h5>
+                                                                                                        <h5 class="modal-title" id="infoModalLabel-<?= $pIzin->id_perizinan ?>">Pratinjau</h5>
                                                                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                                                     </div>
                                                                                                     <div class="modal-body">
-                                                                                                        <div class="card mb-2">
-                                                                                                            <div class="card-body">
-                                                                                                                <?php if (empty($pkafe->nama_foto)) : ?>
-                                                                                                                    <img src="/img/kafe/no image.jpg" class="img-pending">
-                                                                                                                <?php else : ?>
-                                                                                                                    <?php $foto_kafe = explode(', ', $pkafe->nama_foto); ?>
-                                                                                                                    <?php foreach ($foto_kafe as $foto) : ?>
-                                                                                                                        <img src="<?= base_url('/img/kafe/' . $foto); ?>" class="img-pending">
-                                                                                                                    <?php endforeach ?>
-                                                                                                                <?php endif ?>
-                                                                                                            </div>
-                                                                                                        </div>
                                                                                                         <div class="card">
                                                                                                             <div class="card-body">
                                                                                                                 <div class="table-responsive">
                                                                                                                     <table class="table table-responsive">
                                                                                                                         <thead class="thead-left">
                                                                                                                             <tr>
-                                                                                                                                <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;">Nama Kafe</th>
+                                                                                                                                <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;">Nama Pemohon</th>
                                                                                                                                 <th style="border-bottom-width: 1px; border-bottom-color: #dee2e6;">:</th>
-                                                                                                                                <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;"><?= $pkafe->nama_kafe; ?></th>
+                                                                                                                                <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;"><?= $pIzin->nama; ?></th>
                                                                                                                             </tr>
                                                                                                                         </thead>
                                                                                                                         <tbody>
                                                                                                                             <tr>
+                                                                                                                                <td>NIK</td>
+                                                                                                                                <th>:</th>
+                                                                                                                                <td><?= $pIzin->nik; ?></td>
+                                                                                                                            </tr>
+                                                                                                                            <tr>
                                                                                                                                 <td>Alamat</td>
                                                                                                                                 <th>:</th>
-                                                                                                                                <td><?= $pkafe->alamat_kafe; ?></td>
+                                                                                                                                <td><?= $pIzin->alamat; ?></td>
                                                                                                                             </tr>
                                                                                                                             <tr>
                                                                                                                                 <td>Koordinat</td>
                                                                                                                                 <th>:</th>
-                                                                                                                                <td><?= $pkafe->latitude; ?>, <?= $pkafe->longitude; ?></td>
+                                                                                                                                <td><?= $pIzin->latitude; ?>, <?= $pIzin->longitude; ?></td>
                                                                                                                             </tr>
                                                                                                                             <tr>
-                                                                                                                                <td>Wilayah Administrasi</td>
+                                                                                                                                <td>Jenis Kegiatan</td>
                                                                                                                                 <th>:</th>
-                                                                                                                                <td><?= $pkafe->nama_kelurahan ?>, Kec. <?= $pkafe->nama_kecamatan ?>, <?= $pkafe->nama_kabupaten ?></td>
-                                                                                                                            </tr>
-                                                                                                                            <tr>
-                                                                                                                                <td>Instagram</td>
-                                                                                                                                <th>:</th>
-                                                                                                                                <td><a href="https://www.instagram.com/<?= $pkafe->instagram_kafe ?>" target="_blank" rel="noopener noreferrer" class="d-inline-flex align-items-center">
-                                                                                                                                        <span>@<?= $pkafe->instagram_kafe ?> <i class="ri-external-link-line"></i></span></a></td>
-                                                                                                                            </tr>
-                                                                                                                            <tr>
-                                                                                                                                <td>Jam Oprasional</td>
-                                                                                                                                <th>:</th>
-                                                                                                                                <td><?php
-                                                                                                                                    $jam_oprasional = json_decode('[' . $pkafe->jam_oprasional . ']', true);
-
-                                                                                                                                    // Urutkan array $jam_oprasional berdasarkan hari dalam seminggu
-                                                                                                                                    usort($jam_oprasional, function ($a, $b) {
-                                                                                                                                        $hari_a = array_search($a['hari'], array('Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'));
-                                                                                                                                        $hari_b = array_search($b['hari'], array('Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'));
-                                                                                                                                        return $hari_a - $hari_b;
-                                                                                                                                    });
-
-                                                                                                                                    // Tampilkan jam operasional dalam urutan yang diinginkan
-                                                                                                                                    foreach ($jam_oprasional[0] as $jam) {
-                                                                                                                                        $hari = $jam['hari'];
-                                                                                                                                        $open_time = $jam['open_time'];
-                                                                                                                                        $close_time = $jam['close_time'];
-
-                                                                                                                                        echo $hari . ": ";
-                                                                                                                                        if ($open_time != null && $close_time != null) {
-                                                                                                                                            echo date("H:i", strtotime($open_time)) . "-" . date("H:i", strtotime($close_time));
-                                                                                                                                        } else {
-                                                                                                                                            echo "Tutup";
-                                                                                                                                        }
-                                                                                                                                        echo "<br>";
-                                                                                                                                    }
-                                                                                                                                    ?>
-
-                                                                                                                                </td>
+                                                                                                                                <td><?= $pIzin->jenis_kegiatan; ?></td>
                                                                                                                             </tr>
                                                                                                                             <tr>
                                                                                                                                 <td>Created at</td>
                                                                                                                                 <th>:</th>
-                                                                                                                                <td><?= date('d M Y H:i:s', strtotime($pkafe->created_at)); ?></td>
+                                                                                                                                <td><?= date('d M Y H:i:s', strtotime($pIzin->created_at)); ?></td>
                                                                                                                             </tr>
                                                                                                                         </tbody>
                                                                                                                     </table>
@@ -429,7 +368,7 @@
 
                                                                                                         <div class="card">
                                                                                                             <div class="card-body">
-                                                                                                                <div id="mymap-<?= $pkafe->id_kafe ?>" class="map"></div>
+                                                                                                                <div id="mymap-<?= $pIzin->id_perizinan ?>" class="map"></div>
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>
@@ -446,7 +385,7 @@
                                                         </div>
                                                     </div>
                                                 <?php endif ?>
-                                                <?php if (empty($terimaKafe)) : ?>
+                                                <?php if (empty($terimaIzin)) : ?>
                                                     <div class="accordion-item">
                                                         <h2 class="accordion-header" id="headingTwo">
                                                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -481,50 +420,38 @@
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            <?php foreach ($terimaKafe as $tkafe) : ?>
+                                                                            <?php foreach ($terimaIzin as $tIzin) : ?>
                                                                                 <tr class="">
-                                                                                    <td scope="row"><?= date('d M Y H:i:s', strtotime($tkafe->created_at)); ?></td>
-                                                                                    <td><?= $tkafe->id_kafe; ?></td>
-                                                                                    <td><?= $tkafe->nama_kafe; ?></td>
-                                                                                    <td><?= $tkafe->stat_appv == 0 ? 'Pending' : ($tkafe->stat_appv == 1 ? 'Terima' : 'Tolak') ?>
-                                                                                    <td><?= date('d M Y H:i:s', strtotime($tkafe->date_updated)); ?></td>
+                                                                                    <td scope="row"><?= date('d M Y H:i:s', strtotime($tIzin->created_at)); ?></td>
+                                                                                    <td><?= $tIzin->id_perizinan; ?></td>
+                                                                                    <td><?= $tIzin->nama; ?></td>
+                                                                                    <td><?= $tIzin->stat_appv == 0 ? 'Pending' : ($tIzin->stat_appv == 1 ? 'Terima' : 'Tolak') ?>
+                                                                                    <td><?= date('d M Y H:i:s', strtotime($tIzin->date_updated)); ?></td>
                                                                                     </td>
                                                                                     <td>
                                                                                         <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="edit data">
-                                                                                            <a href="/kafe/edit/<?= $tkafe->id_kafe; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
+                                                                                            <a href="/kafe/edit/<?= $tIzin->id_perizinan; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
                                                                                         </div>
                                                                                         <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="hapus data">
-                                                                                            <form id="delete-form-<?= $tkafe->id_kafe; ?>" action="/admin/delete_Kafe/<?= $tkafe->id_kafe; ?>" method="post">
+                                                                                            <form id="delete-form-<?= $tIzin->id_perizinan; ?>" action="/admin/delete_Kafe/<?= $tIzin->id_perizinan; ?>" method="post">
                                                                                                 <?= csrf_field(); ?>
                                                                                                 <input type="hidden" name="_method" value="DELETE">
-                                                                                                <button type="button" class="asbn btn btn-danger bi bi-trash delete-btn" data-id="<?= $tkafe->id_kafe; ?>"></button>
+                                                                                                <button type="button" class="asbn btn btn-danger bi bi-trash delete-btn" data-id="<?= $tIzin->id_perizinan; ?>"></button>
                                                                                             </form>
                                                                                         </div>
                                                                                         <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="lihat data">
                                                                                             <!-- Trigger modal -->
-                                                                                            <button type="button" role="button" id="infos" class="asbn btn btn-secondary bi bi-eye" data-bs-toggle="modal" data-bs-target="#infoModal-<?= $tkafe->id_kafe ?>" onclick="showMap<?= $tkafe->id_kafe; ?>()"></button>
+                                                                                            <button type="button" role="button" id="infos" class="asbn btn btn-secondary bi bi-eye" data-bs-toggle="modal" data-bs-target="#infoModal-<?= $tIzin->id_perizinan ?>" onclick="showMap<?= $tIzin->id_perizinan; ?>()"></button>
                                                                                         </div>
                                                                                         <!-- Modal detail -->
-                                                                                        <div class=" modal fade" id="infoModal-<?= $tkafe->id_kafe ?>" tabindex="-1" aria-labelledby="infoModalLabel-<?= $tkafe->id_kafe ?>" aria-hidden="true">
+                                                                                        <div class=" modal fade" id="infoModal-<?= $tIzin->id_perizinan ?>" tabindex="-1" aria-labelledby="infoModalLabel-<?= $tIzin->id_perizinan ?>" aria-hidden="true">
                                                                                             <div class="modal-dialog modal-lg modal-fullscreen-lg-down">
                                                                                                 <div class="modal-content">
                                                                                                     <div class="modal-header">
-                                                                                                        <h5 class="modal-title" id="infoModalLabel-<?= $tkafe->id_kafe ?>">Preview</h5>
+                                                                                                        <h5 class="modal-title" id="infoModalLabel-<?= $tIzin->id_perizinan ?>">Pratinjau</h5>
                                                                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                                                     </div>
                                                                                                     <div class="modal-body">
-                                                                                                        <div class="card mb-2">
-                                                                                                            <div class="card-body">
-                                                                                                                <?php if (empty($tkafe->nama_foto)) : ?>
-                                                                                                                    <img src="/img/kafe/no image.jpg" class="img-pending">
-                                                                                                                <?php else : ?>
-                                                                                                                    <?php $foto_kafe = explode(', ', $tkafe->nama_foto); ?>
-                                                                                                                    <?php foreach ($foto_kafe as $foto) : ?>
-                                                                                                                        <img src="<?= base_url('/img/kafe/' . $foto); ?>" class="img-pending">
-                                                                                                                    <?php endforeach ?>
-                                                                                                                <?php endif ?>
-                                                                                                            </div>
-                                                                                                        </div>
                                                                                                         <div class="card">
                                                                                                             <div class="card-body">
                                                                                                                 <div class="table-responsive">
@@ -533,66 +460,34 @@
                                                                                                                             <tr>
                                                                                                                                 <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;">Nama Kafe</th>
                                                                                                                                 <th style="border-bottom-width: 1px; border-bottom-color: #dee2e6;">:</th>
-                                                                                                                                <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;"><?= $tkafe->nama_kafe; ?></th>
+                                                                                                                                <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;"><?= $tIzin->nama; ?></th>
                                                                                                                             </tr>
                                                                                                                         </thead>
                                                                                                                         <tbody>
                                                                                                                             <tr>
+                                                                                                                                <td>NIK</td>
+                                                                                                                                <th>:</th>
+                                                                                                                                <td><?= $tIzin->nik; ?></td>
+                                                                                                                            </tr>
+                                                                                                                            <tr>
                                                                                                                                 <td>Alamat</td>
                                                                                                                                 <th>:</th>
-                                                                                                                                <td><?= $tkafe->alamat_kafe; ?></td>
+                                                                                                                                <td><?= $tIzin->alamat; ?></td>
                                                                                                                             </tr>
                                                                                                                             <tr>
                                                                                                                                 <td>Koordinat</td>
                                                                                                                                 <th>:</th>
-                                                                                                                                <td><?= $tkafe->latitude; ?>, <?= $tkafe->longitude; ?></td>
+                                                                                                                                <td><?= $tIzin->latitude; ?>, <?= $tIzin->longitude; ?></td>
                                                                                                                             </tr>
                                                                                                                             <tr>
-                                                                                                                                <td>Wilayah Administrasi</td>
+                                                                                                                                <td>Jenis Kegiatan</td>
                                                                                                                                 <th>:</th>
-                                                                                                                                <td><?= $tkafe->nama_kelurahan ?>, Kec. <?= $tkafe->nama_kecamatan ?>, <?= $tkafe->nama_kabupaten ?></td>
-                                                                                                                            </tr>
-                                                                                                                            <tr>
-                                                                                                                                <td>Instagram</td>
-                                                                                                                                <th>:</th>
-                                                                                                                                <td><a href="https://www.instagram.com/<?= $tkafe->instagram_kafe ?>" target="_blank" rel="noopener noreferrer" class="d-inline-flex align-items-center">
-                                                                                                                                        <span>@<?= $tkafe->instagram_kafe ?> <i class="ri-external-link-line"></i></span></a></td>
-                                                                                                                            </tr>
-                                                                                                                            <tr>
-                                                                                                                                <td>Jam Oprasional</td>
-                                                                                                                                <th>:</th>
-                                                                                                                                <td><?php
-                                                                                                                                    $jam_oprasional = json_decode('[' . $tkafe->jam_oprasional . ']', true);
-
-                                                                                                                                    // Urutkan array $jam_oprasional berdasarkan hari dalam seminggu
-                                                                                                                                    usort($jam_oprasional, function ($a, $b) {
-                                                                                                                                        $hari_a = array_search($a['hari'], array('Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'));
-                                                                                                                                        $hari_b = array_search($b['hari'], array('Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'));
-                                                                                                                                        return $hari_a - $hari_b;
-                                                                                                                                    });
-
-                                                                                                                                    // Tampilkan jam operasional dalam urutan yang diinginkan
-                                                                                                                                    foreach ($jam_oprasional[0] as $jam) {
-                                                                                                                                        $hari = $jam['hari'];
-                                                                                                                                        $open_time = $jam['open_time'];
-                                                                                                                                        $close_time = $jam['close_time'];
-
-                                                                                                                                        echo $hari . ": ";
-                                                                                                                                        if ($open_time != null && $close_time != null) {
-                                                                                                                                            echo date("H:i", strtotime($open_time)) . "-" . date("H:i", strtotime($close_time));
-                                                                                                                                        } else {
-                                                                                                                                            echo "Tutup";
-                                                                                                                                        }
-                                                                                                                                        echo "<br>";
-                                                                                                                                    }
-                                                                                                                                    ?>
-
-                                                                                                                                </td>
+                                                                                                                                <td><?= $tIzin->jenis_kegiatan; ?></td>
                                                                                                                             </tr>
                                                                                                                             <tr>
                                                                                                                                 <td>Created at</td>
                                                                                                                                 <th>:</th>
-                                                                                                                                <td><?= date('d M Y H:i:s', strtotime($tkafe->created_at)); ?></td>
+                                                                                                                                <td><?= date('d M Y H:i:s', strtotime($tIzin->created_at)); ?></td>
                                                                                                                             </tr>
                                                                                                                         </tbody>
                                                                                                                     </table>
@@ -603,7 +498,7 @@
 
                                                                                                         <div class="card">
                                                                                                             <div class="card-body">
-                                                                                                                <div id="mymap-<?= $tkafe->id_kafe ?>" class="map"></div>
+                                                                                                                <div id="mymap-<?= $tIzin->id_perizinan ?>" class="map"></div>
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>
@@ -620,7 +515,7 @@
                                                         </div>
                                                     </div>
                                                 <?php endif ?>
-                                                <?php if (empty($tolakKafe)) : ?>
+                                                <?php if (empty($tolakIzin)) : ?>
                                                     <div class="accordion-item">
                                                         <h2 class="accordion-header" id="headingThree">
                                                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
@@ -655,50 +550,38 @@
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            <?php foreach ($tolakKafe as $skafe) : ?>
+                                                                            <?php foreach ($tolakIzin as $sIzin) : ?>
                                                                                 <tr class="">
-                                                                                    <td scope="row"><?= date('d M Y H:i:s', strtotime($skafe->created_at)); ?></td>
-                                                                                    <td><?= $skafe->id_kafe; ?></td>
-                                                                                    <td><?= $skafe->nama_kafe; ?></td>
-                                                                                    <td><?= $skafe->stat_appv == 0 ? 'Pending' : ($skafe->stat_appv == 1 ? 'Terima' : 'Tolak') ?>
-                                                                                    <td><?= date('d M Y H:i:s', strtotime($skafe->date_updated)); ?></td>
+                                                                                    <td scope="row"><?= date('d M Y H:i:s', strtotime($sIzin->created_at)); ?></td>
+                                                                                    <td><?= $sIzin->id_perizinan; ?></td>
+                                                                                    <td><?= $sIzin->nama; ?></td>
+                                                                                    <td><?= $sIzin->stat_appv == 0 ? 'Pending' : ($sIzin->stat_appv == 1 ? 'Terima' : 'Tolak') ?>
+                                                                                    <td><?= date('d M Y H:i:s', strtotime($sIzin->date_updated)); ?></td>
                                                                                     </td>
                                                                                     <td>
                                                                                         <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="edit data">
-                                                                                            <a href="/kafe/edit/<?= $skafe->id_kafe; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
+                                                                                            <a href="/kafe/edit/<?= $sIzin->id_perizinan; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
                                                                                         </div>
                                                                                         <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="hapus data">
-                                                                                            <form id="delete-form-<?= $skafe->id_kafe; ?>" action="/admin/delete_Kafe/<?= $skafe->id_kafe; ?>" method="post">
+                                                                                            <form id="delete-form-<?= $sIzin->id_perizinan; ?>" action="/admin/delete_Kafe/<?= $sIzin->id_perizinan; ?>" method="post">
                                                                                                 <?= csrf_field(); ?>
                                                                                                 <input type="hidden" name="_method" value="DELETE">
-                                                                                                <button type="button" class="asbn btn btn-danger bi bi-trash delete-btn" data-id="<?= $skafe->id_kafe; ?>"></button>
+                                                                                                <button type="button" class="asbn btn btn-danger bi bi-trash delete-btn" data-id="<?= $sIzin->id_perizinan; ?>"></button>
                                                                                             </form>
                                                                                         </div>
                                                                                         <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="lihat data">
                                                                                             <!-- Trigger modal -->
-                                                                                            <button type="button" role="button" id="infos" class="asbn btn btn-secondary bi bi-eye" data-bs-toggle="modal" data-bs-target="#infoModal-<?= $skafe->id_kafe ?>" onclick="showMap<?= $skafe->id_kafe; ?>()"></button>
+                                                                                            <button type="button" role="button" id="infos" class="asbn btn btn-secondary bi bi-eye" data-bs-toggle="modal" data-bs-target="#infoModal-<?= $sIzin->id_perizinan ?>" onclick="showMap<?= $sIzin->id_perizinan; ?>()"></button>
                                                                                         </div>
                                                                                         <!-- Modal detail -->
-                                                                                        <div class=" modal fade" id="infoModal-<?= $skafe->id_kafe ?>" tabindex="-1" aria-labelledby="infoModalLabel-<?= $skafe->id_kafe ?>" aria-hidden="true">
+                                                                                        <div class=" modal fade" id="infoModal-<?= $sIzin->id_perizinan ?>" tabindex="-1" aria-labelledby="infoModalLabel-<?= $sIzin->id_perizinan ?>" aria-hidden="true">
                                                                                             <div class="modal-dialog modal-lg modal-fullscreen-lg-down">
                                                                                                 <div class="modal-content">
                                                                                                     <div class="modal-header">
-                                                                                                        <h5 class="modal-title" id="infoModalLabel-<?= $skafe->id_kafe ?>">Preview</h5>
+                                                                                                        <h5 class="modal-title" id="infoModalLabel-<?= $sIzin->id_perizinan ?>">Pratinjau</h5>
                                                                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                                                     </div>
                                                                                                     <div class="modal-body">
-                                                                                                        <div class="card mb-2">
-                                                                                                            <div class="card-body">
-                                                                                                                <?php if (empty($skafe->nama_foto)) : ?>
-                                                                                                                    <img src="/img/kafe/no image.jpg" class="img-pending">
-                                                                                                                <?php else : ?>
-                                                                                                                    <?php $foto_kafe = explode(', ', $skafe->nama_foto); ?>
-                                                                                                                    <?php foreach ($foto_kafe as $foto) : ?>
-                                                                                                                        <img src="<?= base_url('/img/kafe/' . $foto); ?>" class="img-pending">
-                                                                                                                    <?php endforeach ?>
-                                                                                                                <?php endif ?>
-                                                                                                            </div>
-                                                                                                        </div>
                                                                                                         <div class="card">
                                                                                                             <div class="card-body">
                                                                                                                 <div class="table-responsive">
@@ -707,66 +590,34 @@
                                                                                                                             <tr>
                                                                                                                                 <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;">Nama Kafe</th>
                                                                                                                                 <th style="border-bottom-width: 1px; border-bottom-color: #dee2e6;">:</th>
-                                                                                                                                <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;"><?= $skafe->nama_kafe; ?></th>
+                                                                                                                                <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;"><?= $sIzin->nama; ?></th>
                                                                                                                             </tr>
                                                                                                                         </thead>
                                                                                                                         <tbody>
                                                                                                                             <tr>
+                                                                                                                                <td>NIK</td>
+                                                                                                                                <th>:</th>
+                                                                                                                                <td><?= $sIzin->nik; ?></td>
+                                                                                                                            </tr>
+                                                                                                                            <tr>
                                                                                                                                 <td>Alamat</td>
                                                                                                                                 <th>:</th>
-                                                                                                                                <td><?= $skafe->alamat_kafe; ?></td>
+                                                                                                                                <td><?= $sIzin->alamat; ?></td>
                                                                                                                             </tr>
                                                                                                                             <tr>
                                                                                                                                 <td>Koordinat</td>
                                                                                                                                 <th>:</th>
-                                                                                                                                <td><?= $skafe->latitude; ?>, <?= $skafe->longitude; ?></td>
+                                                                                                                                <td><?= $sIzin->latitude; ?>, <?= $sIzin->longitude; ?></td>
                                                                                                                             </tr>
                                                                                                                             <tr>
-                                                                                                                                <td>Wilayah Administrasi</td>
+                                                                                                                                <td>Jenis Kegiatan</td>
                                                                                                                                 <th>:</th>
-                                                                                                                                <td><?= $skafe->nama_kelurahan ?>, Kec. <?= $skafe->nama_kecamatan ?>, <?= $skafe->nama_kabupaten ?></td>
-                                                                                                                            </tr>
-                                                                                                                            <tr>
-                                                                                                                                <td>Instagram</td>
-                                                                                                                                <th>:</th>
-                                                                                                                                <td><a href="https://www.instagram.com/<?= $skafe->instagram_kafe ?>" target="_blank" rel="noopener noreferrer" class="d-inline-flex align-items-center">
-                                                                                                                                        <span>@<?= $skafe->instagram_kafe ?> <i class="ri-external-link-line"></i></span></a></td>
-                                                                                                                            </tr>
-                                                                                                                            <tr>
-                                                                                                                                <td>Jam Oprasional</td>
-                                                                                                                                <th>:</th>
-                                                                                                                                <td><?php
-                                                                                                                                    $jam_oprasional = json_decode('[' . $skafe->jam_oprasional . ']', true);
-
-                                                                                                                                    // Urutkan array $jam_oprasional berdasarkan hari dalam seminggu
-                                                                                                                                    usort($jam_oprasional, function ($a, $b) {
-                                                                                                                                        $hari_a = array_search($a['hari'], array('Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'));
-                                                                                                                                        $hari_b = array_search($b['hari'], array('Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'));
-                                                                                                                                        return $hari_a - $hari_b;
-                                                                                                                                    });
-
-                                                                                                                                    // Tampilkan jam operasional dalam urutan yang diinginkan
-                                                                                                                                    foreach ($jam_oprasional[0] as $jam) {
-                                                                                                                                        $hari = $jam['hari'];
-                                                                                                                                        $open_time = $jam['open_time'];
-                                                                                                                                        $close_time = $jam['close_time'];
-
-                                                                                                                                        echo $hari . ": ";
-                                                                                                                                        if ($open_time != null && $close_time != null) {
-                                                                                                                                            echo date("H:i", strtotime($open_time)) . "-" . date("H:i", strtotime($close_time));
-                                                                                                                                        } else {
-                                                                                                                                            echo "Tutup";
-                                                                                                                                        }
-                                                                                                                                        echo "<br>";
-                                                                                                                                    }
-                                                                                                                                    ?>
-
-                                                                                                                                </td>
+                                                                                                                                <td><?= $sIzin->jenis_kegiatan; ?></td>
                                                                                                                             </tr>
                                                                                                                             <tr>
                                                                                                                                 <td>Created at</td>
                                                                                                                                 <th>:</th>
-                                                                                                                                <td><?= date('d M Y H:i:s', strtotime($skafe->created_at)); ?></td>
+                                                                                                                                <td><?= date('d M Y H:i:s', strtotime($sIzin->created_at)); ?></td>
                                                                                                                             </tr>
                                                                                                                         </tbody>
                                                                                                                     </table>
@@ -777,7 +628,7 @@
 
                                                                                                         <div class="card">
                                                                                                             <div class="card-body">
-                                                                                                                <div id="mymap-<?= $skafe->id_kafe ?>" class="map"></div>
+                                                                                                                <div id="mymap-<?= $sIzin->id_perizinan ?>" class="map"></div>
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>
@@ -834,72 +685,12 @@
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     </script>
-    <!-- Pie Chart -->
-    <script>
-        <?php $allKafe = $allKafe ?>
-        <?php $kodeTimur = [357824, 357810, 357809, 357803, 357826, 357825, 357808] ?>
-        <?php $kodeBarat = [357814, 357827, 357831, 357830, 357818, 357819, 357828] ?>
-        <?php $kodePusat = [357805, 357811, 357807, 357813] ?>
-        <?php $kodeUtara = [357816, 357812, 357815, 357817, 357829] ?>
-        <?php $kodeSelatan = [357804, 357802, 357820, 357806, 357801, 357823, 357822, 357821] ?>
-        <?php $surabayaTimur = []; ?>
-        <?php $surabayaBarat = []; ?>
-        <?php $surabayaPusat = []; ?>
-        <?php $surabayaUtara = []; ?>
-        <?php $surabayaSelatan = []; ?>
-        <?php foreach ($allKafe as $tp) {
-            if (in_array($tp->id_kecamatan, $kodeTimur)) {
-                $surabayaTimur[] = $tp;
-            } elseif (in_array($tp->id_kecamatan, $kodeBarat)) {
-                $surabayaBarat[] = $tp;
-            } elseif (in_array($tp->id_kecamatan, $kodePusat)) {
-                $surabayaPusat[] = $tp;
-            } elseif (in_array($tp->id_kecamatan, $kodeUtara)) {
-                $surabayaUtara[] = $tp;
-            } elseif (in_array($tp->id_kecamatan, $kodeSelatan)) {
-                $surabayaSelatan[] = $tp;
-            }
-        } ?>
-        <?php $ZsurabayaTimur = count($surabayaTimur); ?>
-        <?php $ZsurabayaBarat = count($surabayaBarat); ?>
-        <?php $ZsurabayaPusat = count($surabayaPusat); ?>
-        <?php $ZsurabayaUtara = count($surabayaUtara); ?>
-        <?php $ZsurabayaSelatan = count($surabayaSelatan); ?>
-
-        $(document).ready(function() {
-            var options = {
-                series: [<?= $ZsurabayaTimur; ?>, <?= $ZsurabayaBarat; ?>, <?= $ZsurabayaPusat; ?>, <?= $ZsurabayaUtara; ?>, <?= $ZsurabayaSelatan; ?>],
-                chart: {
-                    width: 300,
-                    type: 'pie',
-
-                },
-                legend: {
-                    position: 'bottom'
-                },
-                labels: ['Surabaya Timur', 'Surabaya Barat', 'Surabaya Pusat', 'Surabaya Utara', 'Surabaya Selatan'],
-                responsive: [{
-                    breakpoint: 480,
-                    options: {
-                        chart: {
-                            width: 300
-                        },
-
-                    }
-                }]
-            };
-
-            var chart = new ApexCharts(document.querySelector("#chart"), options);
-            chart.render();
-        });
-    </script>
-
     <script>
         $(document).ready(function() {
-            <?php foreach ($userSubmitKafe as $S) : ?>
+            <?php foreach ($userSubmitIzin as $S) : ?>
 
-                function showMap<?= $S->id_kafe; ?>() {
-                    var mymap = L.map('mymap-<?= $S->id_kafe; ?>').setView([<?= $S->latitude; ?>, <?= $S->longitude; ?>], 14);
+                function showMap<?= $S->id_perizinan; ?>() {
+                    var mymap = L.map('mymap-<?= $S->id_perizinan; ?>').setView([<?= $S->latitude; ?>, <?= $S->longitude; ?>], 14);
 
                     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiNjg2MzUzMyIsImEiOiJjbDh4NDExZW0wMXZsM3ZwODR1eDB0ajY0In0.6jHWxwN6YfLftuCFHaa1zw', {
                         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
@@ -910,8 +701,8 @@
                     }).addTo(mymap);
                     L.marker([<?= $S->latitude ?>, <?= $S->longitude ?>]).addTo(mymap)
                 }
-                $('#infoModal-<?= $S->id_kafe; ?>').on('shown.bs.modal', function() {
-                    showMap<?= $S->id_kafe; ?>();
+                $('#infoModal-<?= $S->id_perizinan; ?>').on('shown.bs.modal', function() {
+                    showMap<?= $S->id_perizinan; ?>();
                 })
             <?php endforeach ?>
         });

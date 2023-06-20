@@ -8,7 +8,7 @@ use App\Controllers\BaseController;
 use App\Models\ModelSetting;
 use App\Models\ModelAdministrasi;
 use App\Models\ModelGeojson;
-use App\Models\ModelKv;
+use App\Models\ModelIzin;
 use App\Models\ModelFoto;
 use App\Models\ModelUser;
 use Faker\Extension\Helper;
@@ -19,7 +19,7 @@ class Admin extends BaseController
     protected $ModelUser;
     protected $ModelAdministrasi;
     protected $ModelGeojson;
-    protected $ModelKv;
+    protected $ModelIzin;
     protected $ModelFoto;
     public function __construct()
     {
@@ -28,7 +28,7 @@ class Admin extends BaseController
         $this->user = new ModelUser();
         $this->Administrasi = new ModelAdministrasi();
         $this->FGeojson = new ModelGeojson();
-        $this->kafe = new ModelKv();
+        $this->izin = new ModelIzin();
         $this->fotoKafe = new ModelFoto();
     }
 
@@ -38,13 +38,12 @@ class Admin extends BaseController
         $data = [
             'title' => 'Dashboard',
             'userid' => $userid,
-            'allKafe' => $this->kafe->callKafe()->getResult(),
-            'countAllKafe' => $this->kafe->countAllKafe(),
-            'countAllPending' => $this->kafe->countAllPending(),
+            'countAllPerizinan' => $this->izin->getIzinFive()->getNumRows(),
+            'countAllPending' => $this->izin->callPendingData()->getNumRows(),
             'countAllUser' => $this->user->countAllUser(),
             'userMonth' => $this->user->userMonth()->getResult(),
-            'tampilKafe' => $this->kafe->getFiveKafe()->getResult(),
-            'userSubmitKafe' => $this->kafe->userSubmitKafe($userid)->getResult(),
+            'tampilIzin' => $this->izin->getIzinFive()->getResult(),
+            'userSubmitIzin' => $this->izin->userSubmitIzin($userid)->getResult(),
         ];
         // echo '<pre>';
         // print_r($data);

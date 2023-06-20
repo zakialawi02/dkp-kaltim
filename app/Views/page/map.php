@@ -105,13 +105,13 @@
     <div class="modalAdds" id="modalAdd">
         <div class="modalAdd-content">
             <div class="modal-header">
-                <h3>Cek Penggunaan</h3>
+                <h3>Cek Informasi</h3>
                 <button class="close-button" id="close-button">&times;</button>
             </div>
             <hr>
             <div class="modalAdd-body">
                 <div class="card-body">
-                    <form class="row g-3" action="" method="post" enctype="multipart/form-data" name="addKafe" id="addKafe">
+                    <form class="row g-3" action="/data/kirimAjuan" method="post" enctype="multipart/form-data">
                         <?= csrf_field(); ?>
 
                         <?php if (in_groups('User')) : ?>
@@ -119,10 +119,11 @@
                         <?php else : ?>
                             <input type="hidden" class="form-control" for="stat_appv" id="stat_appv" name="stat_appv" value="1">
                         <?php endif ?>
+                        <input type="hidden" class="form-control" for="koordinat" id="koordinat" name="koordinat" value="">
 
                         <div class="form-group">
                             <label class="col-md-12 mb-2">Jenis Kegiatan</label>
-                            <select class="form-select" id="pilihKegiatan" name="kegiatan" form="kegiatan" style="width: 100%;" required>
+                            <select class="form-select" id="pilihKegiatan" name="kegiatan" for="kegiatan" style="width: 100%;" required>
                                 <option></option>
                                 <option value="Kegiatan A1">Kegiatan A1</option>
                                 <option value="Kegiatan A2">Kegiatan A2</option>
@@ -141,7 +142,10 @@
                             </select>
                         </div>
 
-                        <div class="feedback" id="showKegiatan"></div>
+                        <div class="feedback">Keterangan:</div>
+                        <div class="info">
+                            <div class="feedback" id="showKegiatan"> </div>
+                        </div>
 
                         <button type="submit" class="btn btn-primary">Lanjutkan</button>
                     </form>
@@ -494,10 +498,6 @@
             map.panTo(e.latlng);
         }
 
-        function showCoordinates(e) {
-            alert(e.latlng);
-        }
-
         function copyCoordinates(e) {
             var latlng = e.latlng;
             var lat = latlng.lat.toFixed(6);
@@ -509,21 +509,54 @@
 
         var addKafe;
 
+        function processPoint(detectMe) {
+            var isInsidePolygon = false;
+            geoshp.eachLayer(function(layer) {
+                var polygon = layer.toGeoJSON();
+                if (turf.booleanPointInPolygon(detectMe, polygon)) {
+                    isInsidePolygon = true;
+                    var properties = polygon.properties;
+                    var kode = properties.kode_1;
+                    $.ajax({
+                        type: "POST",
+                        url: "<?php echo base_url('/admin/getkode'); ?>",
+                        data: {
+                            kode: kode
+                        },
+                        dataType: "json",
+                        success: function(response) {
+                            var detectIdWilayah = response.id;
+                            var detectTextWilayah = response.text;
+                            var id = detectIdWilayah;
+                            var text = detectTextWilayah;
+                            var option = new Option(detectTextWilayah, detectIdWilayah);
+                            $('#wilayahA').empty().append(option).val(detectIdWilayah);
+                        },
+                        error: function(xhr, status, error) {
+                            console.log(error);
+                        }
+                    });
+                }
+            });
+            if (!isInsidePolygon) {
+                $('#wilayahA').empty();
+            }
+        }
+
+
         <?php if (logged_in()) : ?>
 
             function addMarker(e) {
                 if (addKafe) map.removeLayer(addKafe);
-                addKafe = L.marker(e.latlng, {
-                    icon: inKafe
-                }).addTo(map);
+                addKafe = L.marker(e.latlng).addTo(map);
                 $("#loading-spinner").removeClass("d-none");
                 lat = e.latlng.lat;
                 lng = e.latlng.lng;
                 koordinat = lat + ", " + lng;
 
+                var detectMe = turf.point([lng, lat]); // Create a Turf.js point object
                 processPoint(detectMe);
-                $('#latitude').val(lat);
-                $('#longitude').val(lng);
+                $('#koordinat').val(koordinat);
                 setTimeout(function() {
                     $("#loading-spinner").addClass("d-none");
                     modal.style.display = "block";
@@ -541,36 +574,6 @@
                 }, 500);
             }
         <?php endif ?>
-
-        // set marker place from input
-        $("#latitude, #longitude").on('keyup', function() {
-            var lat = document.getElementById("latitude").value;
-            var lng = document.getElementById("longitude").value;
-            if (addKafe) map.removeLayer(addKafe);
-            addKafe = L.marker([lat, lng], {
-                icon: inKafe
-            }).addTo(map);
-        });
-
-        function mygps() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition);
-            } else {
-                alert("Geolokasi tidak didukung oleh peramban ini.");
-            }
-        }
-
-        function showPosition(position) {
-            var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
-            if (addKafe) map.removeLayer(addKafe);
-            addKafe = L.marker([latitude, longitude], {
-                icon: inKafe
-            }).addTo(map);
-            $('#latitude').val(latitude);
-            $('#longitude').val(longitude);
-            map.flyTo([latitude, longitude], 13)
-        }
 
         // controller
         var zoomControl = L.control.zoom({
@@ -653,6 +656,23 @@
         }).addTo(map);
 
 
+        // shapefile untuk batas admin detectme()
+        var geoshp = L.geoJson({
+            features: []
+        }, );
+
+        var wfunc = function(base, cb) {
+            importScripts('/leaflet/shp.js');
+            shp(base).then(cb);
+        }
+        var worker = cw({
+            data: wfunc
+        }, 2);
+        worker.data(cw.makeUrl('/geojson/batas_kelurahan_2021_sby_357820220801090416.zip')).then(function(data) {
+            geoshp.addData(data);
+        }, function(a) {
+            console.log(a)
+        });
 
         const screenWidth = screen.availWidth
         if (screenWidth < 455) {
