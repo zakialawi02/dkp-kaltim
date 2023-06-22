@@ -103,7 +103,7 @@
                     <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nobis accusantium reprehenderit ad optio at minima? Sequi optio reiciendis consectetur maiores, adipisci quaerat mollitia ad temporibus nostrum nobis consequatur laborum ea rerum debitis voluptatum! Quae dolorem sapiente aperiam maxime fuga provident dolores error sed praesentium ipsa iusto ea dicta quisquam commodi nemo velit pariatur eaque nesciunt odio quo neque aliquid consequatur, aliquam quasi. Laborum illum soluta dicta perferendis commodi vel dolore dolor in blanditiis, quidem vitae quia id suscipit, tenetur eos voluptates animi, repudiandae possimus quae quaerat velit qui assumenda. Sit dolorem, minima nobis optio voluptatibus quae perferendis delectus iure facilis.</p>
                 </div>
                 <div class="col col-md-5 kaffe d-flex justify-content-center">
-                    <img class="img-fluid p-2" style="width: 16rem;" src="img/kafe.png" alt="">
+                    <img class="img-fluid p-2" style="width: 16rem;" src="http://placeholder.com/600x600" alt="">
                 </div>
             </div>
 

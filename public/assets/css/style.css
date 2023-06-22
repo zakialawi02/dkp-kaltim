@@ -159,12 +159,17 @@ h6 {
 }
 
 /*** Header ***/
+#home {
+  width: 100%;
+  /* min-height: 90vh; */
+}
+
 .hero-header {
   background-image: linear-gradient(rgba(21, 21, 21, 0.276), rgba(17, 17, 17, 0.373)), url("/img/hero.webp");
   background-size: cover;
   background-position: center;
   width: 100%;
-  height: 95vh;
+  height: 92vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -294,21 +299,13 @@ h6 {
   text-align: left;
 }
 
-.left .qrcontact {
+.left .mapG {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: auto;
-  border: 1px solid rgb(176, 173, 173);
   padding: 1rem;
-  border-radius: 20px;
-  width: 18rem;
-}
-
-.left .qrcontact:hover {
-  border: 2px solid rgb(255, 255, 255);
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
+  width: 35rem;
 }
 
 
@@ -369,6 +366,12 @@ h6 {
   font-weight: 500;
   padding: 0.5rem 1rem;
   color: #38a838;
+}
+
+@media (max-width:1200px) {
+  .left .mapG {
+    width: 22rem;
+  }
 }
 
 @media (max-width:911px) {

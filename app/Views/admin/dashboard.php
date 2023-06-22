@@ -61,7 +61,7 @@
                                             <div class="card info-card kaffe-card">
 
                                                 <div class="card-body">
-                                                    <h5 class="card-title">Jumlah Perizinan <span>| Total</span></h5>
+                                                    <h5 class="card-title">Jumlah Perizinan</h5>
 
                                                     <div class="d-flex align-items-center">
                                                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -80,7 +80,7 @@
                                         <div class="col-xxl-4 col-md-6 mb-3">
                                             <div class="card info-card pending-card">
                                                 <div class="card-body">
-                                                    <h5 class="card-title">Pending <span>| Total</span></h5>
+                                                    <h5 class="card-title">Data Masuk/Pending</h5>
 
                                                     <div class="d-flex align-items-center">
                                                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -101,7 +101,7 @@
                                             <div class="card info-card users-card">
 
                                                 <div class="card-body">
-                                                    <h5 class="card-title">Users <span>| Total</span></h5>
+                                                    <h5 class="card-title">Pengguna Terdaftar</h5>
 
                                                     <div class="d-flex align-items-center">
                                                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -163,7 +163,7 @@
                                     <div class="card">
 
                                         <div class="card-body mb-3">
-                                            <h5 class="card-title">New Users <span>| Last 30 days</span></h5>
+                                            <h5 class="card-title">Pengguna Baru <span>| 30 Hari Terakhir</span></h5>
 
                                             <div class="activity">
 
@@ -171,7 +171,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th scope="col">Username</th>
-                                                            <th scope="col">Join at</th>
+                                                            <th scope="col">Tanggal Daftar</th>
                                                             <th scope="col">Role</th>
                                                         </tr>
                                                     </thead>

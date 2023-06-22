@@ -45,24 +45,17 @@
     <!-- ISI CONTENT -->
     <section class="contact bg-light" id="contact">
 
-        <div class="container-fluid p-md-5 pt-3 justify-content-center">
+        <div class="container-fluid p-md-5 justify-content-center">
             <center>
-                <h1 class="heading-title p-2">CONTACT ME</h1>
+                <h1 class="heading-title p-2">HUBUNGI KAMI</h1>
             </center>
 
             <div class="contact-center">
                 <div class="left">
-                    <center>
-                        <h2>Get in Touch</h2>
-                    </center>
-                    <p>
-                        Fill out the form to get in touch with me. <br> You don't like using forms? contact me by email
-                        or scan the
-                        following qrcode.
-                    </p>
+                    <div class="mapG">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7921.938879648819!2d117.14430572708419!3d-0.4901748562340048!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2df67f6d43f9887d%3A0x85dff83cf4af5ca8!2sDinas%20Kelautan%20Dan%20Perikanan%20Provinsi%20Kalimantan%20Timur!5e0!3m2!1sen!2sid!4v1687421095892!5m2!1sen!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
 
-                    <img src="/img/qrcontact.jpeg" alt="" class="qrcontact">
-                    <div class="p-2"></div>
                     <div>
                         <span class="icon"><i class="bi bi-geo-alt"></i></span>
                         <span class="content">
@@ -75,16 +68,13 @@
                         <span class="icon"><i class="bi bi-envelope"></i></span>
                         <span class="content">
                             <h3>Email</h3>
-                            <span>hallo@zakialawi.my.id</span>
+                            <span>mail@mail.com</span>
                         </span>
                     </div>
 
                 </div>
 
                 <div class="right">
-                    <center>
-                        <h2>Message me</h2>
-                    </center>
 
                     <!-- versi 2 -->
                     <div autocomplete="off" class="form" id="myForm" name="myform">
