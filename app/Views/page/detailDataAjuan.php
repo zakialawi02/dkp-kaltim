@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title><?= $title; ?> | <?= $tampilKafe->nama_kafe; ?></title>
+    <title><?= $title; ?></title>
     <meta content="" name="keywords">
     <meta content="" name="description">
 
@@ -60,38 +60,8 @@
             <div class="row align-items-center">
 
                 <div class="col-lg p-2">
-                    <div class="product-imgs">
-                        <div class="img-display">
-                            <div class="img-showcase">
-                                <?php if (empty($tampilKafe->nama_foto)) : ?>
-                                    <img src="/img/kafe/no image.jpg" class="grid-item">
-                                <?php else : ?>
-                                    <?php $foto_kafe = explode(', ', $tampilKafe->nama_foto); ?>
-                                    <?php foreach ($foto_kafe as $foto) : ?>
-                                        <img src="<?= base_url('/img/kafe/' . $foto); ?>" class="grid-item">
-                                    <?php endforeach ?>
-                                <?php endif ?>
-                            </div>
-                        </div>
-                        <div class="img-select">
-                            <?php if (!empty($tampilKafe->nama_foto)) : ?>
-                                <?php $foto_kafe = explode(', ', $tampilKafe->nama_foto); ?>
-                            <?php endif ?>
-                            <?php if (empty($tampilKafe->nama_foto) || count($foto_kafe) === 1) : ?>
-                                <div class="img-item"></div>
-                            <?php else : ?>
-
-                                <?php $i = 1; ?>
-                                <?php foreach ($foto_kafe as $foto) : ?>
-                                    <div class="img-item">
-                                        <a href="#" data-id="<?= $i; ?>">
-                                            <img src="<?= base_url('/img/kafe/' . $foto); ?>" class="grid-item">
-                                        </a>
-                                    </div>
-                                    <?php $i++; ?>
-                                <?php endforeach ?>
-                            <?php endif ?>
-                        </div>
+                    <div class="">
+                        <p>No Element</p>
                     </div>
                 </div>
 
@@ -99,84 +69,42 @@
                     <table class="table table-responsive">
                         <thead class="thead-left">
                             <tr>
-                                <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;">Nama Kafe</th>
+                                <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;">Nama</th>
                                 <th style="border-bottom-width: 1px; border-bottom-color: #dee2e6;">:</th>
-                                <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;"><?= $tampilKafe->nama_kafe; ?></th>
+                                <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;"><?= $tampilIzin->nama; ?></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
+                                <td>NIK</td>
+                                <th>:</th>
+                                <td><?= $tampilIzin->nik; ?></td>
+                            </tr>
+                            <tr>
                                 <td>Alamat</td>
                                 <th>:</th>
-                                <td><?= $tampilKafe->alamat_kafe; ?></td>
+                                <td><?= $tampilIzin->alamat; ?></td>
                             </tr>
                             <tr>
-                                <td>Koordinat</td>
+                                <td>Jenis Kegiatan</td>
                                 <th>:</th>
-                                <td><?= $tampilKafe->latitude; ?>, <?= $tampilKafe->longitude; ?></td>
-                            </tr>
-                            <tr>
-                                <td>Wilayah Administrasi</td>
-                                <th>:</th>
-                                <td><?= $tampilKafe->nama_kelurahan ?>, Kec. <?= $tampilKafe->nama_kecamatan ?>, <?= $tampilKafe->nama_kabupaten ?></td>
-                            </tr>
-                            <tr>
-                                <td>Instagram</td>
-                                <th>:</th>
-                                <td>
-                                    <?php if (empty($tampilKafe->instagram_kafe)) : ?>
-                                        <p>–</p>
-                                    <?php else : ?>
-                                        <a href="https://www.instagram.com/<?= $tampilKafe->instagram_kafe ?>" target="_blank" rel="noopener noreferrer" class="d-inline-flex align-items-center">
-                                            <span>@<?= $tampilKafe->instagram_kafe ?> <i class="ri-external-link-line"></i></span></a>
-                                    <?php endif ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Jam Oprasional</td>
-                                <th>:</th>
-                                <td><?php
-                                    $jam_oprasional = json_decode('[' . $tampilKafe->jam_oprasional . ']', true);
-                                    if (empty($jam_oprasional)) {
-                                        echo "<p>Tidak ada data</p>";
-                                    } else {
-                                        // Urutkan array berdasarkan urutan hari (Senin, Selasa, Rabu, dst.)
-                                        usort($jam_oprasional[0], function ($a, $b) {
-                                            $hari_urutan = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
-                                            return array_search($a['hari'], $hari_urutan) <=> array_search($b['hari'], $hari_urutan);
-                                        });
-
-                                        foreach ($jam_oprasional[0] as $jam) {
-                                            $hari = $jam['hari'];
-                                            $open_time = $jam['open_time'];
-                                            $close_time = $jam['close_time'];
-                                            echo $hari . ": ";
-                                            if ($open_time != null && $close_time != null) {
-                                                echo date("H:i", strtotime($open_time)) . "-" . date("H:i", strtotime($close_time));
-                                            } else {
-                                                echo "Tutup";
-                                            }
-                                            echo "<br>";
-                                        }
-                                    }
-                                    ?>
-                                </td>
+                                <td><?= $tampilIzin->jenis_kegiatan; ?></td>
                             </tr>
                             <?php if (in_groups('SuperAdmin') || in_groups('Admin')) :; ?>
                                 <tr>
                                     <td>Dibuat Pada</td>
                                     <th>:</th>
-                                    <td><?= date('d M Y H:i:s', strtotime($tampilKafe->created_at)); ?></td>
+                                    <td><?= date('d M Y H:i:s', strtotime($tampilIzin->created_at)); ?></td>
                                 </tr>
                                 <tr>
                                     <td>Terakhir diupdate</td>
                                     <th>:</th>
-                                    <td><?= date('d M Y H:i:s', strtotime($tampilKafe->updated_at)); ?></td>
+                                    <td><?= date('d M Y H:i:s', strtotime($tampilIzin->updated_at)); ?></td>
                                 </tr>
                                 <tr>
-                                    <td>Pengirim by</td>
+                                    <td>Pengirim (username) :</td>
                                     <th>:</th>
-                                    <td><?= $tampilKafe->username; ?></td>
+                                    <td><?= $tampilIzin->username; ?></td>
                                 </tr>
                             <?php endif ?>
                         </tbody>
@@ -278,7 +206,7 @@
 
         // set frame view
         var map = L.map('map', {
-            center: [<?= $tampilKafe->latitude; ?>, <?= $tampilKafe->longitude; ?>],
+            center: [<?= $tampilIzin->latitude; ?>, <?= $tampilIzin->longitude; ?>],
             zoom: 18,
             layers: [peta1],
             gestureHandling: true,
@@ -296,17 +224,7 @@
         L.control.mousePosition().addTo(map);
         L.control.scale().addTo(map);
 
-        // set marker place
-        var locKafe = L.icon({
-            iconUrl: '<?= base_url(); ?>/leaflet/icon/restaurant_breakfast.png',
-            iconSize: [40, 40],
-            iconAnchor: [17, 40], // point of the icon which will correspond to marker's location
-            popupAnchor: [0, -38] // point from which the popup should open relative to the iconAnchor
-        });
-
-        L.marker([<?= $tampilKafe->latitude; ?>, <?= $tampilKafe->longitude; ?>], {
-            icon: locKafe
-        }).addTo(map).bindPopup("<b><?= $tampilKafe->nama_kafe; ?></b></br><?= $tampilKafe->alamat_kafe; ?>").openPopup();
+        L.marker([<?= $tampilIzin->latitude; ?>, <?= $tampilIzin->longitude; ?>]).addTo(map).bindPopup("<b><?= $tampilIzin->nama; ?></b></br><?= $tampilIzin->alamat; ?>").openPopup();
     </script>
 
 </body>

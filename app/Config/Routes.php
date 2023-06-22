@@ -65,7 +65,7 @@ $routes->post('/admin/addKafe', 'Admin::addKafe');
 
 $routes->get('/user/manajemen', 'User::manajemen', ['filter' => 'role:SuperAdmin,Admin']);
 
-$routes->get('/kafe/(:num)/detail', 'Kafe::detail/$1');
+$routes->get('/data-perizinan/(:num)/detail', 'Data::detail/$1');
 
 $routes->get('/api/submit/user/(:num)', 'Api::submit/$1');
 

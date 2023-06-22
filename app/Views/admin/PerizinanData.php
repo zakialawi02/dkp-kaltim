@@ -76,7 +76,7 @@
                                             <td class="almkv"><?= $Iz->jenis_kegiatan; ?></td>
                                             <td class="aks">
                                                 <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                    <a href="/kafe/<?= $Iz->id_perizinan; ?>/detail" class="asbn btn btn-secondary bi bi-eye" role="button" target="_blank"></a>
+                                                    <a href="/data-perizinan/<?= $Iz->id_perizinan; ?>/detail" class="asbn btn btn-secondary bi bi-eye" role="button" target="_blank"></a>
                                                 </div>
                                                 <div class="btn-group mr-2" role="group" aria-label="First group">
                                                     <a href="/admin/data/data-perizinan/edit/<?= $Iz->id_perizinan; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>

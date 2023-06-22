@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\Validation\Exceptions\ValidationException;
 use CodeIgniter\Validation\Validation;
 use App\Controllers\BaseController;
@@ -87,6 +88,18 @@ class Data extends BaseController
             session()->setFlashdata('error', 'Gagal menambahkan data.');
             return $this->response->redirect(site_url('/map'));
         }
+    }
+
+    public function detail($id_perizinan)
+    {
+        $data = [
+            'title' => 'Detail Data Perizinan',
+            'tampilIzin' => $this->izin->getIzin($id_perizinan)->getRow(),
+        ];
+        if (empty($data['tampilIzin'])) {
+            throw new PageNotFoundException();
+        }
+        return view('page/detailDataAjuan', $data);
     }
 
     public function dump()

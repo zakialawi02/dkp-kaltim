@@ -279,8 +279,6 @@ class Admin extends BaseController
         $data = [
             'title' => 'DATA PERIZINAN',
             'tampilData' => $this->setting->tampilData()->getResult(),
-            'tampilGeojson' => $this->FGeojson->callGeojson()->getResult(),
-            'updateGeojson' => $this->FGeojson->callGeojson()->getRow(),
             'tampilIzin' => $this->izin->getIzin()->getResult(),
         ];
         // echo '<pre>';
