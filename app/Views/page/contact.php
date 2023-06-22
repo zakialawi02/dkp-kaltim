@@ -45,9 +45,9 @@
     <!-- ISI CONTENT -->
     <section class="contact bg-light" id="contact">
 
-        <div class="container-fluid p-md-5 justify-content-center">
+        <div class="container-fluid p-md-4 justify-content-center">
             <center>
-                <h1 class="heading-title p-2">HUBUNGI KAMI</h1>
+                <h1 class="heading-title">HUBUNGI KAMI</h1>
             </center>
 
             <div class="contact-center">
