@@ -28,8 +28,6 @@ class Kafe extends BaseController
         $data = [
             'title' => 'Beranda',
             'tampilData' => $this->setting->tampilData()->getResult(),
-            'tampilKafe' => $this->kafe->callKafe()->getResult(),
-            'randomFour' => $this->kafe->randomFour()->getResult(),
         ];
         // echo '<pre>';
         // print_r($data['tampilKafe']);
@@ -160,17 +158,6 @@ class Kafe extends BaseController
         $mpdf->WriteHTML($html);
         $this->response->setHeader('Content-Type', 'application/pdf');
         $mpdf->Output('data_kafe.pdf', 'I');
-    }
-
-    public function peta_pdf()
-    {
-        $data = [
-            'title' => 'Beranda',
-            'tampilGeojson' => $this->FGeojson->callGeojson()->getResult(),
-            'tampilData' => $this->setting->tampilData()->getResult(),
-            'tampilKafe' => $this->kafe->callKafe()->getResult(),
-        ];
-        return view('page/peta', $data);
     }
 
     public function map()

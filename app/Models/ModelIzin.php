@@ -24,13 +24,13 @@ class ModelIzin extends Model
             return $this->db->table('tbl_perizinan')->select('tbl_perizinan.*, tbl_status_appv.*')
                 ->join('tbl_status_appv', 'tbl_status_appv.id_perizinan = tbl_perizinan.id_perizinan', 'LEFT')
                 ->join('users', 'users.id = tbl_status_appv.user')
-                ->orderBy('created_at', 'DESC')
+                ->orderBy('updated_at', 'DESC')
                 ->getWhere(['stat_appv' => '1']);
         } else {
             return $this->db->table('tbl_perizinan')->select('tbl_perizinan.*, tbl_status_appv.*')
                 ->join('tbl_status_appv', 'tbl_status_appv.id_perizinan = tbl_perizinan.id_perizinan', 'LEFT')
                 ->join('users', 'users.id = tbl_status_appv.user')
-                ->orderBy('created_at', 'DESC')
+                ->orderBy('updated_at', 'DESC')
                 ->Where(['tbl_perizinan.id_perizinan' => $id_perizinan])
                 ->get();
         }
@@ -42,7 +42,7 @@ class ModelIzin extends Model
             return $this->db->table('tbl_perizinan')->select('tbl_perizinan.*, tbl_status_appv.*, users.username')
                 ->join('tbl_status_appv', 'tbl_status_appv.id_perizinan = tbl_perizinan.id_perizinan', 'LEFT')
                 ->join('users', 'users.id = tbl_status_appv.user')
-                ->orderBy('created_at', 'DESC')
+                ->orderBy('updated_at', 'DESC')
                 ->getWhere(['stat_appv' => '0']);
         } else {
             return $this->Where(['id_perizinan' => $id_perizinan])->get();

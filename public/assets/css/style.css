@@ -160,7 +160,7 @@ h6 {
 
 /*** Header ***/
 .hero-header {
-  background-image: linear-gradient(rgba(21, 21, 21, 0.276), rgba(17, 17, 17, 0.373)), url("/img/hero.jpg");
+  background-image: linear-gradient(rgba(21, 21, 21, 0.276), rgba(17, 17, 17, 0.373)), url("/img/hero.webp");
   background-size: cover;
   background-position: center;
   width: 100%;

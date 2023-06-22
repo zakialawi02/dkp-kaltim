@@ -45,13 +45,13 @@
             <!-- MAIN CONTENT -->
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-2 mb-3">Data Kafe</h1>
+                    <h1 class="mt-2 mb-3">Data Perizinan</h1>
 
                     <div class="card mb-4">
                         <div class="card-body">
 
                             <div class="m-1 mb-4 ">
-                                <a href="/admin/data/kafe/tambah" class="btn btn-primary bi bi-plus" role="button">Tambah</a>
+                                <a href="/admin/data/data-perizinan/tambah" class="btn btn-primary bi bi-plus" role="button">Tambah</a>
                                 <a href="/kafe/generatepdf" class="btn btn-primary bi bi-file-earmark-pdf-fill" target="_blank"> PDF</a>
                             </div>
 
@@ -59,31 +59,33 @@
                                 <thead>
                                     <tr>
                                         <th class="tgl">Tangal Data Masuk</th>
-                                        <th class="nama">Nama Kafe</th>
-                                        <th class="almkv">Alamat Kafe</th>
-                                        <th class="kood">Koordinat</th>
+                                        <th class="nama">NIK</th>
+                                        <th class="nama">Nama</th>
+                                        <th class="almkv">Alamat</th>
+                                        <th class="almkv">Jenis Kegiatan</th>
                                         <th class="aks">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($tampilKafe as $S) : ?>
+                                    <?php foreach ($tampilIzin as $Iz) : ?>
                                         <tr>
-                                            <td class="tgl"><?= date('d M Y H:i:s', strtotime($S->created_at)); ?></td>
-                                            <td class="nama"><?= $S->nama_kafe; ?></td>
-                                            <td class="almkv"><?= $S->alamat_kafe; ?></td>
-                                            <td class="kood"><?= $S->latitude; ?>, <?= $S->longitude; ?></td>
+                                            <td class="tgl"><?= date('d M Y H:i:s', strtotime($Iz->created_at)); ?></td>
+                                            <td class="nama"><?= $Iz->nik; ?></td>
+                                            <td class="nama"><?= $Iz->nama; ?></td>
+                                            <td class="almkv"><?= $Iz->alamat; ?></td>
+                                            <td class="almkv"><?= $Iz->jenis_kegiatan; ?></td>
                                             <td class="aks">
                                                 <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                    <a href="/kafe/<?= $S->id_kafe; ?>/detail" class="asbn btn btn-secondary bi bi-eye" role="button" target="_blank"></a>
+                                                    <a href="/kafe/<?= $Iz->id_perizinan; ?>/detail" class="asbn btn btn-secondary bi bi-eye" role="button" target="_blank"></a>
                                                 </div>
                                                 <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                    <a href="/admin/data/kafe/edit/<?= $S->id_kafe; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
+                                                    <a href="/admin/data/data-perizinan/edit/<?= $Iz->id_perizinan; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
                                                 </div>
                                                 <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                    <form id="delete-form-<?= $S->id_kafe; ?>" action="/admin/delete_Kafe/<?= $S->id_kafe; ?>" method="post">
+                                                    <form id="delete-form-<?= $Iz->id_perizinan; ?>" action="/admin/delete_Kafe/<?= $Iz->id_perizinan; ?>" method="post">
                                                         <?= csrf_field(); ?>
                                                         <input type="hidden" name="_method" value="DELETE">
-                                                        <button type="button" class="asbn btn btn-danger bi bi-trash delete-btn" data-id="<?= $S->id_kafe; ?>"></button>
+                                                        <button type="button" class="asbn btn btn-danger bi bi-trash delete-btn" data-id="<?= $Iz->id_perizinan; ?>"></button>
                                                     </form>
                                                 </div>
                                             </td>
@@ -229,32 +231,9 @@
         L.control.mousePosition().addTo(map);
         L.control.scale().addTo(map);
 
-
-        // set marker place
-        var locKafe = L.icon({
-            iconUrl: '<?= base_url(); ?>/leaflet/icon/restaurant_breakfast.png',
-            iconSize: [30, 30],
-            iconAnchor: [18.5, 30], // point of the icon which will correspond to marker's location
-            popupAnchor: [0, -28] // point from which the popup should open relative to the iconAnchor
-        });
-
-        <?php foreach ($tampilKafe as $K) : ?>
-            L.marker([<?= $K->latitude; ?>, <?= $K->longitude; ?>], {
-                icon: locKafe
-            }).addTo(map).bindPopup("<b>Nama Kafe</b> : <?= $K->nama_kafe; ?></br><b>Alamat</b> : <?= $K->alamat_kafe; ?></br><a id='tombol-viewmap' href='/kafe/<?= $K->id_kafe; ?>/detail' style='color:black;'>view</a>");
+        <?php foreach ($tampilIzin as $K) : ?>
+            L.marker([<?= $K->latitude; ?>, <?= $K->longitude; ?>]).addTo(map).bindPopup("<b>Nama</b> : <?= $K->nama; ?></br><b>Alamat</b> : <?= $K->alamat; ?></br><a id='tombol-viewmap' href='/kafe/<?= $K->id_perizinan; ?>/detail' style='color:black;'>view</a>");
         <?php endforeach ?>
-
-        // Map clik coordinate show
-        var popup = L.popup();
-
-        function onMapClick(e) {
-            popup
-                .setLatLng(e.latlng)
-                .setContent("You clicked the map at " + e.latlng.toString())
-                .openOn(map);
-        }
-
-        map.on('click', onMapClick);
     </script>
 
 </body>

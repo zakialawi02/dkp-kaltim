@@ -274,21 +274,19 @@ class Admin extends BaseController
 
 
     //  KV  ====================================================================================
-    public function Kafe()
+    public function DataPerizinan()
     {
-        $todayDate = date("m/d");
-
         $data = [
-            'title' => 'DATA KAFE',
+            'title' => 'DATA PERIZINAN',
             'tampilData' => $this->setting->tampilData()->getResult(),
             'tampilGeojson' => $this->FGeojson->callGeojson()->getResult(),
             'updateGeojson' => $this->FGeojson->callGeojson()->getRow(),
-            'tampilKafe' => $this->kafe->callKafe()->getResult(),
+            'tampilIzin' => $this->izin->getIzin()->getResult(),
         ];
         // echo '<pre>';
         // print_r($data['tampilKafe']);
         // die;
-        return view('admin/kafeData', $data);
+        return view('admin/PerizinanData', $data);
     }
 
     public function tambahKafe()
@@ -418,10 +416,10 @@ class Admin extends BaseController
         $addTime = $this->kafe->addTime($data);
         if ($addKafe && $addTime) {
             session()->setFlashdata('success', 'Data Berhasil Ditambahkan.');
-            return $this->response->redirect(site_url('/admin/data/kafe'));
+            return $this->response->redirect(site_url('/admin/data/data-perizinan'));
         } else {
             session()->setFlashdata('error', 'Data gagal ditambahkan.');
-            return $this->response->redirect(site_url('/admin/data/kafe'));
+            return $this->response->redirect(site_url('/admin/data/data-perizinan'));
         }
     }
 
@@ -553,14 +551,14 @@ class Admin extends BaseController
             if (in_groups('User')) {
                 return $this->response->redirect(site_url('/dashboard'));
             } else {
-                return $this->response->redirect(site_url('/admin/data/kafe'));
+                return $this->response->redirect(site_url('/admin/data/data-perizinan'));
             }
         } else {
             session()->setFlashdata('error', 'Gagal memperbarui data.');
             if (in_groups('User')) {
                 return $this->response->redirect(site_url('/dashboard'));
             } else {
-                return $this->response->redirect(site_url('/admin/data/kafe'));
+                return $this->response->redirect(site_url('/admin/data/data-perizinan'));
             }
         }
     }
@@ -579,14 +577,14 @@ class Admin extends BaseController
             if (in_groups('User')) {
                 return $this->response->redirect(site_url('/dashboard'));
             } else {
-                return $this->response->redirect(site_url('/admin/data/kafe'));
+                return $this->response->redirect(site_url('/admin/data/data-perizinan'));
             }
         } else {
             session()->setFlashdata('error', 'Gagal menghapus data.');
             if (in_groups('User')) {
                 return $this->response->redirect(site_url('/dashboard'));
             } else {
-                return $this->response->redirect(site_url('/admin/data/kafe'));
+                return $this->response->redirect(site_url('/admin/data/data-perizinan'));
             }
         }
     }

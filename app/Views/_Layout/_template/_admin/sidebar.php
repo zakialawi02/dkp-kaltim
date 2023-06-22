@@ -28,15 +28,15 @@
                         </div>
                     </div>
 
-                    <a class="nav-link collapsed" href="/admin/data/kafe" data-bs-toggle="collapse" data-bs-target="#collapseKafe" aria-expanded="false" aria-controls="collapseKafe">
-                        <div class="sb-nav-link-icon"><i class="fa-sharp fa-solid fa-store"></i></div>
-                        Kafe
+                    <a class="nav-link collapsed" href="/admin/data/data-perizinan" data-bs-toggle="collapse" data-bs-target="#collapseKafe" aria-expanded="false" aria-controls="collapseKafe">
+                        <div class="sb-nav-link-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+                        Perizinan
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
                     <div class="collapse" id="collapseKafe" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <div class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="/admin/data/kafe/tambah">Add Data</a>
-                            <a class="nav-link" href="/admin/data/kafe">All Data</a>
+                            <a class="nav-link" href="/admin/data/data-perizinan/tambah">Add Data</a>
+                            <a class="nav-link" href="/admin/data/data-perizinan">All Data</a>
                         </div>
                     </div>
 

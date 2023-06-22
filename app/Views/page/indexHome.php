@@ -64,8 +64,8 @@
             <div class="container py-5">
                 <div class="row g-5 align-items-center">
                     <div class="hero-content">
-                        <h1>Selamat Datang di WebGIS Kafe Surabaya</h1>
-                        <p>Jelajahi Kafe-kafe Terbaik, Mulai dari yang Klasik Hingga yang Trendi.</p>
+                        <h1>Selamat Datang di </h1>
+                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dignissimos quisquam officia quod modi corrupti. Quae quasi eius rerum facilis expedita.</p>
                         <a href="#discovery" class="btn btn-primary p-2">Mulai Jelajahi</a>
                     </div>
                 </div>
@@ -100,7 +100,7 @@
 
             <div class="row g-2">
                 <div class="col-md-7 kaff ">
-                    <p>Selamat datang di WebGIS Inventarisasi Kafe Surabaya! Kami adalah platform yang didedikasikan untuk menyediakan informasi lengkap tentang persebaran kafe di Surabaya. Kami menggunakan teknologi Geographical Information System (GIS) untuk menghadirkan peta interaktif yang mempermudah Anda dalam menjelajahi dan menemukan kafe-kafe menarik di Kota Surabaya. <br><br> Mari bergabung dengan kami dan temukan kafe-kafe terbaik di Surabaya melalui WebGIS Inventarisasi Kafe Surabaya!<br>Kafe yang kami kumpulkan merupakan kafe yang memiliki sifat bangunan permanen dan menyajikan minuman dan makanan ringan. Kafe-kafe ini juga menjadi tempat yang nyaman bagi pengunjung untuk menikmati waktu santai sambil menikmati hidangan yang disajikan.</p>
+                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nobis accusantium reprehenderit ad optio at minima? Sequi optio reiciendis consectetur maiores, adipisci quaerat mollitia ad temporibus nostrum nobis consequatur laborum ea rerum debitis voluptatum! Quae dolorem sapiente aperiam maxime fuga provident dolores error sed praesentium ipsa iusto ea dicta quisquam commodi nemo velit pariatur eaque nesciunt odio quo neque aliquid consequatur, aliquam quasi. Laborum illum soluta dicta perferendis commodi vel dolore dolor in blanditiis, quidem vitae quia id suscipit, tenetur eos voluptates animi, repudiandae possimus quae quaerat velit qui assumenda. Sit dolorem, minima nobis optio voluptatibus quae perferendis delectus iure facilis.</p>
                 </div>
                 <div class="col col-md-5 kaffe d-flex justify-content-center">
                     <img class="img-fluid p-2" style="width: 16rem;" src="img/kafe.png" alt="">
@@ -130,9 +130,6 @@
     <script src="https://unpkg.com/geojson-vt@3.2.0/geojson-vt.js"></script>
     <script src="/leaflet/leaflet-geojson-vt.js"></script>
     <script src="/leaflet/leaflet.ajax.min.js"></script>
-    <script src="/leaflet/leaflet.ajax.js"></script>
-    <script src="/leaflet/leaflet.featuregroup.subgroup.js"></script>
-    <script src="https://unpkg.com/leaflet.featuregroup.subgroup@1.0.2/dist/leaflet.featuregroup.subgroup.js"></script>
 
     <!-- Leafleat Setting js-->
     <!-- initialize the map on the "map" div with a given center and zoom -->
@@ -182,21 +179,6 @@
             "Satellite": peta2,
             "OSM": peta3,
         };
-
-
-
-        // set marker place
-        var locKafe = L.icon({
-            iconUrl: '<?= base_url(); ?>/leaflet/icon/restaurant_breakfast.png',
-            iconSize: [30, 30],
-            iconAnchor: [18.5, 30], // point of the icon which will correspond to marker's location
-            popupAnchor: [0, -28] // point from which the popup should open relative to the iconAnchor
-        });
-        <?php foreach ($tampilKafe as $K) : ?>
-            var marker = L.marker([<?= $K->latitude; ?>, <?= $K->longitude; ?>], {
-                icon: locKafe
-            }).addTo(map).bindPopup("<b><?= $K->nama_kafe; ?></b></br><?= $K->alamat_kafe; ?>");
-        <?php endforeach ?>
     </script>
 </body>
 

@@ -146,7 +146,7 @@
                                                         </tbody>
                                                     </table>
 
-                                                    <a type="button" class="btn btn-primary" href="/admin/data/kafe">Lihat Lebih Banyak</a>
+                                                    <a type="button" class="btn btn-primary" href="/admin/data/data-perizinan">Lihat Lebih Banyak</a>
                                                 </div>
 
                                             </div>

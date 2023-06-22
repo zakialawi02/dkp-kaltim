@@ -44,7 +44,7 @@
             <!-- MAIN CONTENT -->
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-2 mb-3">Pending Data Perizinan</h1>
+                    <h1 class="mt-2 mb-3">Data Perizinan Masuk</h1>
 
                     <div class="card mb-4">
                         <div class="card-body">
@@ -122,16 +122,17 @@
                                                                                         <td><?= $S->alamat; ?></td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <td>Koordinat</td>
-                                                                                        <th>:</th>
-                                                                                        <td><?= $S->latitude; ?>, <?= $S->longitude; ?></td>
-                                                                                    </tr>
-                                                                                    <tr>
                                                                                         <td>Jenis Kegiatan</td>
                                                                                         <th>:</th>
                                                                                         <td><?= $S->jenis_kegiatan; ?>
                                                                                         </td>
                                                                                     </tr>
+                                                                                    <tr>
+                                                                                        <td>Koordinat</td>
+                                                                                        <th>:</th>
+                                                                                        <td><?= $S->latitude; ?>, <?= $S->longitude; ?></td>
+                                                                                    </tr>
+
                                                                                     <tr>
                                                                                         <td>Created at</td>
                                                                                         <th>:</th>

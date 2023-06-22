@@ -23,11 +23,11 @@
     <!-- leaflet Component -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
     <link href="/leaflet/L.Control.MousePosition.css" rel="stylesheet">
-    <link rel="stylesheet" href="//unpkg.com/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css" type="text/css">
     <link rel="stylesheet" href="/leaflet/leaflet-sidepanel.css" />
     <link rel="stylesheet" href="/leaflet/iconLayers.css" />
     <link rel="stylesheet" href="/leaflet/leaflet.contextmenu.css" />
     <link rel="stylesheet" href="/leaflet/Leaflet.NavBar.css" />
+    <link rel="stylesheet" href="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.css" />
 
 </head>
 
@@ -159,7 +159,7 @@
 
     <div id="button-section-group" class="">
         <div id="button-section" class="float-end m-1">
-            <button id="modal-button" class="btn btn-primary">Add Data</button>
+            <button id="modal-button" class="btn btn-primary">Cek Kesesuaian</button>
             <?php if (logged_in()) : ?>
                 <a class="btn btn-primary" href="/dashboard" role="button">Dashboard</a>
                 <button type="button" id="logout-btn" class="btn btn-primary">Log Out</button>
@@ -294,10 +294,6 @@
         </script>
     <?php endif; ?>
 
-    <script>
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-    </script>
     <!-- modalAdd -->
     <script>
         const modalButton = document.getElementById("modal-button");
@@ -306,7 +302,13 @@
 
         modalButton.addEventListener("click", function() {
             <?php if (logged_in()) : ?>
-                modal.style.display = "block";
+                map.pm.enableDraw("Polygon", {
+                    snappable: true,
+                    snapDistance: 20,
+                });
+                if (drawnLayer) {
+                    map.removeLayer(drawnLayer);
+                }
             <?php else : ?>
                 $("#loading-spinner").removeClass("d-none");
                 setTimeout(function() {
@@ -323,8 +325,8 @@
             <?php endif ?>
         });
 
-        closeButton.addEventListener("click", function() {
-            modal.style.display = "none";
+        $('#close-button').click(function(e) {
+            $('#modalAdd').hide();
         });
 
         window.addEventListener("click", function(event) {
@@ -416,11 +418,8 @@
     <!-- Leafleat js Component -->
     <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js" integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
     <script src="https://unpkg.com/geojson-vt@3.2.0/geojson-vt.js"></script>
-    <script src="/leaflet/leaflet-geojson-vt.js"></script>
-    <script src="/leaflet/leaflet.ajax.min.js"></script>
     <script src="/leaflet/leaflet.ajax.js"></script>
     <script src="/leaflet/L.Control.MousePosition.js"></script>
-    <script src="//unpkg.com/leaflet-gesture-handling"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-tilelayer-geojson/1.0.2/TileLayer.GeoJSON.min.js"></script>
     <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js"></script>
     <script src="/leaflet/leaflet-sidepanel.min.js"></script>
@@ -433,6 +432,7 @@
     <script src="/leaflet/leaflet-hash.js"></script>
     <script src="/leaflet/Leaflet.NavBar.js"></script>
     <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
+    <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.min.js"></script>
 
     <!-- Leafleat Setting js-->
     <!-- initialize the map on the "map" div with a given center and zoom -->
@@ -469,7 +469,6 @@
                 zoom: <?= $D->zoom_view; ?>,
                 layers: [peta1],
                 zoomControl: false,
-                gestureHandling: false,
                 attributionControl: false,
                 contextmenu: true,
                 contextmenuWidth: 200,
@@ -575,6 +574,30 @@
             }
         <?php endif ?>
 
+        // add Leaflet-Geoman controls with some options to the map  
+        map.pm.setLang("id");
+        map.pm.addControls({
+            position: 'topleft',
+            drawCircleMarker: false,
+            rotateMode: false,
+            drawPolyline: false,
+            drawRectangle: false,
+            drawCircleMarker: false,
+            dragMode: false,
+            drawCircle: false,
+            drawText: false,
+            cutPolygon: false,
+            splitMode: false,
+        });
+        var drawnLayer;
+        map.on('pm:create', function(e) {
+            var layer = e.layer;
+            var koordinats = e.layer.getLatLngs()[0];
+            console.log('Polygon :', koordinats);
+            drawnLayer = layer;
+            $('#modalAdd').show();
+        });
+
         // controller
         var zoomControl = L.control.zoom({
             position: 'bottomright'
@@ -604,7 +627,6 @@
         L.control.mousePosition().addTo(map);
         L.control.scale().addTo(map);
         L.control.navbar().addTo(map);
-
         var hash = new L.Hash(map);
 
         // Tambahkan control accordion pada peta
