@@ -413,7 +413,7 @@
                                                                             <tr>
                                                                                 <th scope="col">Data Masuk</th>
                                                                                 <th scope="col">ID</th>
-                                                                                <th scope="col">Nama Kafe</th>
+                                                                                <th scope="col">Nama Pemohon</th>
                                                                                 <th scope="col">Status</th>
                                                                                 <th scope="col">Tanggal Status</th>
                                                                                 <th scope="col">Aksi</th>
@@ -458,7 +458,7 @@
                                                                                                                     <table class="table table-responsive">
                                                                                                                         <thead class="thead-left">
                                                                                                                             <tr>
-                                                                                                                                <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;">Nama Kafe</th>
+                                                                                                                                <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;">Nama Pemohon</th>
                                                                                                                                 <th style="border-bottom-width: 1px; border-bottom-color: #dee2e6;">:</th>
                                                                                                                                 <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;"><?= $tIzin->nama; ?></th>
                                                                                                                             </tr>
@@ -543,10 +543,10 @@
                                                                             <tr>
                                                                                 <th scope="col">Data Masuk</th>
                                                                                 <th scope="col">ID</th>
-                                                                                <th scope="col">Nama Kafe</th>
-                                                                                <th scope="col">Status</th>
-                                                                                <th scope="col">Tanggal Status</th>
-                                                                                <th scope="col">Aksi</th>
+                                                                                <th scope="col">Nama Pemohon</th>
+                                                                                <th scope="col">Jenis Kegiatan</th>
+                                                                                <th scope="col">Tanggal Update</th>
+                                                                                <th scope="col" style="width: 7rem;">Aksi</th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
@@ -555,9 +555,9 @@
                                                                                     <td scope="row"><?= date('d M Y H:i:s', strtotime($sIzin->created_at)); ?></td>
                                                                                     <td><?= $sIzin->id_perizinan; ?></td>
                                                                                     <td><?= $sIzin->nama; ?></td>
-                                                                                    <td><?= $sIzin->stat_appv == 0 ? 'Pending' : ($sIzin->stat_appv == 1 ? 'Terima' : 'Tolak') ?>
+                                                                                    <td><?= $sIzin->jenis_kegiatan ?></td>
                                                                                     <td><?= date('d M Y H:i:s', strtotime($sIzin->date_updated)); ?></td>
-                                                                                    </td>
+
                                                                                     <td>
                                                                                         <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="edit data">
                                                                                             <a href="/data-perizinan/<?= $sIzin->id_perizinan; ?>/edit/" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
@@ -588,7 +588,7 @@
                                                                                                                     <table class="table table-responsive">
                                                                                                                         <thead class="thead-left">
                                                                                                                             <tr>
-                                                                                                                                <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;">Nama Kafe</th>
+                                                                                                                                <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;">Nama Pemohon</th>
                                                                                                                                 <th style="border-bottom-width: 1px; border-bottom-color: #dee2e6;">:</th>
                                                                                                                                 <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;"><?= $sIzin->nama; ?></th>
                                                                                                                             </tr>
