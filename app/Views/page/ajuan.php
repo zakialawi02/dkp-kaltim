@@ -20,6 +20,7 @@
     <!-- Css assets -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
     <link href="/leaflet/L.Control.MousePosition.css" rel="stylesheet">
 
@@ -151,10 +152,19 @@
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <!-- Template Javascript -->
     <script src="/assets/js/main.js"></script>
 
+    <script>
+        $(document).ready(function() {
+            $('.form-select').select2({
+                placeholder: "Pilih Kegiatan",
+                allowClear: true
+            });
+        });
+    </script>
     <script>
         function detectKegiatan() {
             var kegiatanValue = $('#pilihKegiatan').val();

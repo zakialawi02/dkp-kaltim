@@ -73,14 +73,14 @@
                                             <td><?= $S->jenis_kegiatan; ?></td>
                                             <td>
                                                 <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                    <form action="/admin/rejectKafe/<?= $S->id_perizinan; ?>" method="post">
+                                                    <form action="/admin/tolakIzin/<?= $S->id_perizinan; ?>" method="post">
                                                         <?= csrf_field(); ?>
                                                         <input type="hidden" name="_method" value="DELETE">
                                                         <button type="submit" class="asbn btn btn-danger bi bi-x-octagon" data-bs-toggle="tooltip" data-bs-placement="top" title="Reject" onclick="return confirm('Yakin Tolak Data?')"></button>
                                                     </form>
                                                 </div>
                                                 <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                    <form action="/admin/approveKafe/<?= $S->id_perizinan; ?>" method="post">
+                                                    <form action="/admin/approveIzin/<?= $S->id_perizinan; ?>" method="post">
                                                         <?= csrf_field(); ?>
                                                         <input type="hidden" name="_method" value="DELETE">
                                                         <button type="submit" class="asbn btn btn-success bi bi-check-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Accept" onclick="return confirm('Approve?')"></button>

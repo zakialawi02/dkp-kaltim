@@ -17,7 +17,7 @@ if (is_file(SYSTEMPATH . 'Config/Routes.php')) {
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Kafe');
+$routes->setDefaultController('Data');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
@@ -36,14 +36,12 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Kafe::index');
-$routes->get('/noaccess', 'Kafe::noaccess');
+$routes->get('/', 'Data::index');
+$routes->get('/noaccess', 'Data::noaccess');
 $routes->match(['get', 'post'], 'admin/getDataAjaxRemote', 'Admin::getDataAjaxRemote');
 
-$routes->get('/map', 'Kafe::map');
-$routes->get('/data', 'Kafe::data');
-$routes->get('/contact', 'Kafe::contact');
-$routes->get('/about', 'Kafe::about');
+$routes->get('/map', 'Data::map');
+$routes->get('/contact', 'Data::contact');
 $routes->get('/dashboard', 'Admin::index', ['filter' => 'role:SuperAdmin,Admin,User']);
 $routes->get('/admin/pending', 'Admin::pending', ['filter' => 'role:SuperAdmin,Admin']);
 
@@ -57,11 +55,10 @@ $routes->delete('/admin/delete_Geojson/(:num)', 'Admin::delete_Geojson/$1', ['fi
 
 $routes->get('/admin/DataPerizinan', 'Admin::DataPerizinan', ['filter' => 'role:SuperAdmin,Admin']);
 $routes->get('/admin/data/data-perizinan', 'Admin::DataPerizinan', ['filter' => 'role:SuperAdmin,Admin']);
-$routes->get('/data-perizinan/tambah', 'Admin::tambahKafe', ['filter' => 'role:SuperAdmin,Admin,User']);
-$routes->get('/data-perizinan/edit/(:num)', 'Admin::editKafe/$1', ['filter' => 'role:SuperAdmin,Admin']);
-$routes->get('/kafe/edit/(:num)', 'Admin::editKafe/$1', ['filter' => 'role:SuperAdmin,Admin,User']);
-$routes->post('/admin/tambah_Kafe', 'Admin::tambah_Kafe');
-$routes->post('/admin/addKafe', 'Admin::addKafe');
+$routes->get('/data-perizinan/(:num)/edit/', 'Admin::editPerizinan/$1', ['filter' => 'role:SuperAdmin,Admin,User']);
+
+$routes->post('/data/tambahAjuan', 'Data::tambahAjuan', ['filter' => 'role:SuperAdmin,Admin,User']);
+$routes->delete('/admin/delete_izin/(:num)', 'Admin::delete_izin/$1', ['filter' => 'role:SuperAdmin,Admin,User']);
 
 $routes->get('/user/manajemen', 'User::manajemen', ['filter' => 'role:SuperAdmin,Admin']);
 

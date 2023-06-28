@@ -273,7 +273,7 @@ class Admin extends BaseController
 
 
 
-    //  KV  ====================================================================================
+    //  DATA PERIZINAN  ====================================================================================
     public function DataPerizinan()
     {
         $data = [
@@ -287,279 +287,16 @@ class Admin extends BaseController
         return view('admin/PerizinanData', $data);
     }
 
-    public function tambahKafe()
+    public function editPerizinan($id_perizinan)
     {
         $data = [
-            'title' => 'DATA KAFE',
-            'tampilData' => $this->setting->tampilData()->getResult(),
-            'tampilGeojson' => $this->FGeojson->callGeojson()->getResult(),
-            'provinsi' => $this->kafe->allProvinsi(),
-            'validation' => \Config\Services::validation()
+            'title' => 'DATA PERIZINAN',
+            'tampilIzin' => $this->izin->getIzin($id_perizinan)->getRow(),
         ];
-        return view('admin/tambahKafe', $data);
+
+        return view('admin/updateIzin', $data);
     }
 
-    public function editKafe($id_kafe)
-    {
-        $data = [
-            'title' => 'DATA KAFE',
-            'tampilData' => $this->setting->tampilData()->getResult(), //ambil settingan mapView
-            'tampilGeojson' => $this->FGeojson->callGeojson()->getResult(), //ambil data geojson
-            'tampilKafe' => $this->kafe->callKafe($id_kafe)->getRow(),
-            'getFoto' => $this->fotoKafe->getFoto($id_kafe)->getResult(),
-            'provinsi' => $this->kafe->allProvinsi(),
-        ];
-
-        return view('admin/updateKafe', $data);
-    }
-
-    // insert data
-    public function tambah_Kafe()
-    {
-        // dd($this->request->getVar());
-        $wilayah  = $this->request->getVar('wilayah');
-        $wilayah = explode(',', $wilayah);
-        $id_kelurahan = $wilayah[0];
-        $id_kecamatan = $wilayah[1];
-        $id_kabupaten = $wilayah[2];
-        $id_provinsi = $wilayah[3];
-
-        $user = user_id();
-        $data = [
-            'nama_kafe' => $this->request->getVar('nama_kafe'),
-            'alamat_kafe'  => $this->request->getVar('alamat_kafe'),
-            'longitude'  => $this->request->getVar('longitude'),
-            'latitude'  => $this->request->getVar('latitude'),
-            'instagram_kafe'  => $this->request->getVar('instagram_kafe'),
-            'id_provinsi'  => $id_provinsi,
-            'id_kabupaten'  => $id_kabupaten,
-            'id_kecamatan'  => $id_kecamatan,
-            'id_kelurahan'  => $id_kelurahan,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        ];
-        $addKafe = $this->kafe->addKafe($data);
-        $insert_id = $this->db->insertID();
-        $status = [
-            'id_kafe' => $insert_id,
-            'stat_appv' => $this->request->getVar('stat_appv'),
-            'user' => $user,
-        ];
-        $addStatus = $this->kafe->addStatus($status);
-
-        $files = $this->request->getFiles();
-        if (isset($files['foto_kafe']) && !empty($files['foto_kafe'])) {
-            foreach ($files['foto_kafe'] as $key => $img) {
-                if ($img->isValid() && !$img->hasMoved()) {
-                    $imageName = $img->getRandomName();
-                    // Image manipulation(compress)
-                    $image = \Config\Services::image()
-                        ->withFile($img)
-                        ->resize(1200, 900, true, 'height')
-                        ->save(FCPATH . '/img/kafe/' . $imageName);
-
-                    $dataF = [
-                        'id_kafe' => $insert_id,
-                        'nama_file_foto' => $imageName,
-                    ];
-                    $this->fotoKafe->addFoto($dataF);
-                }
-            }
-        }
-
-
-        $opens = $this->request->getVar('open-time[]');
-        $open = [];
-        foreach ($opens as $item) {
-            if ($item == '') {
-                $open[] = null;
-            } else {
-                $open[] = $item;
-            }
-        }
-        // print_r($open);
-        $closes = $this->request->getVar('close-time[]');
-        $close = [];
-        foreach ($closes as $item) {
-            if ($item == '') {
-                $close[] = null;
-            } else {
-                $close[] = $item;
-            }
-        }
-        // print_r($close);
-        $day = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
-
-        // Mengambil id kafe
-        $id = [];
-        foreach ($open as $key) {
-            $id[] = $insert_id;
-        }
-        // print_r($id);
-        $datas = [
-            'kafe_id' => $id,
-            'hari' => $day,
-            'open_time' => $open,
-            'close_time' => $close
-        ];
-        $data = [];
-        $i = 0;
-        foreach ($datas as $key => $val) {
-            $i = 0;
-            foreach ($val as $k => $v) {
-                $data[$i][$key] = $v;
-                $i++;
-            }
-        }
-        $addTime = $this->kafe->addTime($data);
-        if ($addKafe && $addTime) {
-            session()->setFlashdata('success', 'Data Berhasil Ditambahkan.');
-            return $this->response->redirect(site_url('/admin/data/data-perizinan'));
-        } else {
-            session()->setFlashdata('error', 'Data gagal ditambahkan.');
-            return $this->response->redirect(site_url('/admin/data/data-perizinan'));
-        }
-    }
-
-    // update data
-    public function update_Kafe()
-    {
-        // dd($this->request->getVar());
-        $wilayahLama  = $this->request->getVar('wilayahLama');
-        $wilayah  = $this->request->getVar('wilayah');
-        $id_kafe = $this->request->getPost('id');
-
-        if ($wilayah != $wilayahLama) {
-            // jika ada berubahan wilayah
-            $wilayah = explode(',', $this->request->getVar('wilayah'));
-            $id_kelurahan = $wilayah[0];
-            $id_kecamatan = $wilayah[1];
-            $id_kabupaten = $wilayah[2];
-            $id_provinsi = $wilayah[3];
-            $data = [
-                'id_kafe' => $id_kafe,
-                'id_provinsi'  => $id_provinsi,
-                'id_kabupaten'  => $id_kabupaten,
-                'id_kecamatan'  => $id_kecamatan,
-                'id_kelurahan'  => $id_kelurahan,
-                'nama_kafe' => $this->request->getVar('nama_kafe'),
-                'alamat_kafe'  => $this->request->getVar('alamat_kafe'),
-                'longitude'  => $this->request->getVar('longitude'),
-                'latitude'  => $this->request->getVar('latitude'),
-                'instagram_kafe'  => $this->request->getVar('instagram_kafe'),
-                'updated_at' => date('Y-m-d H:i:s'),
-            ];
-        } else {
-            // jika wilayah tetap
-            $data = [
-                'id_kafe' => $id_kafe,
-                'nama_kafe' => $this->request->getVar('nama_kafe'),
-                'alamat_kafe'  => $this->request->getVar('alamat_kafe'),
-                'longitude'  => $this->request->getVar('longitude'),
-                'latitude'  => $this->request->getVar('latitude'),
-                'instagram_kafe'  => $this->request->getVar('instagram_kafe'),
-                'updated_at' => date('Y-m-d H:i:s'),
-            ];
-        }
-        $updateKafe = $this->kafe->updateKafe($data, $id_kafe);
-        // echo '<pre>';
-        // var_dump($data);
-
-        $opens = $this->request->getVar('open-time[]');
-        $open = [];
-        foreach ($opens as $item) {
-            if ($item == '') {
-                $open[] = null;
-            } else {
-                $open[] = $item;
-            }
-        }
-        // print_r($open);
-        $closes = $this->request->getVar('close-time[]');
-        $close = [];
-        foreach ($closes as $item) {
-            if ($item == '') {
-                $close[] = null;
-            } else {
-                $close[] = $item;
-            }
-        }
-        // print_r($close);
-        $day = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
-
-        // Mengambil id kafe
-        $id = [];
-        foreach ($open as $key) {
-            $id[] = $id_kafe;
-        }
-        // print_r($id);
-        $datas = [
-            'kafe_id' => $id,
-            'hari' => $day,
-            'open_time' => $open,
-            'close_time' => $close
-        ];
-        $data = [];
-        $i = 0;
-        foreach ($datas as $key => $val) {
-            $i = 0;
-            foreach ($val as $k => $v) {
-                $data[$i][$key] = $v;
-                $i++;
-            }
-        }
-        foreach ($data as $time) {
-            $update = $time;
-            $hari = $update['hari'];
-            $updateTime = $this->kafe->updateTime($update, $id_kafe, $hari);
-        }
-        // var_dump($update);
-        // die;
-
-        $files = $this->request->getFiles();
-        if (isset($files['foto_kafe']) && !empty($files['foto_kafe'])) {
-            foreach ($files['foto_kafe'] as $key => $img) {
-                if ($img->isValid() && !$img->hasMoved()) {
-                    $imageName = $img->getRandomName();
-                    // Image manipulation(compress)
-                    $image = \Config\Services::image()
-                        ->withFile($img)
-                        ->resize(1200, 900, true, 'height')
-                        ->save(FCPATH . '/img/kafe/' . $imageName);
-
-                    $dataF = [
-                        'id_kafe' => $id_kafe,
-                        'nama_file_foto' => $imageName,
-                    ];
-                    $this->fotoKafe->addFoto($dataF);
-                }
-            }
-        }
-
-        if (in_groups('User')) {
-            $status = [
-                'stat_appv' => '0',
-                'date_updated' => date('Y-m-d H:i:s'),
-            ];
-            $this->kafe->chck_appv($status, $id_kafe);
-        }
-
-        if ($updateKafe && $updateTime) {
-            session()->setFlashdata('success', 'Data Berhasil diperbarui.');
-            if (in_groups('User')) {
-                return $this->response->redirect(site_url('/dashboard'));
-            } else {
-                return $this->response->redirect(site_url('/admin/data/data-perizinan'));
-            }
-        } else {
-            session()->setFlashdata('error', 'Gagal memperbarui data.');
-            if (in_groups('User')) {
-                return $this->response->redirect(site_url('/dashboard'));
-            } else {
-                return $this->response->redirect(site_url('/admin/data/data-perizinan'));
-            }
-        }
-    }
 
     // Delete Data
     public function delete_izin($id_perizinany)
@@ -595,8 +332,8 @@ class Admin extends BaseController
         return view('admin/pendingList', $data);
     }
 
-    // approve data
-    public function approveKafe($id_perizinan)
+    // approve data izin
+    public function approveIzin($id_perizinan)
     {
         $data = [
             'stat_appv' => '1',
@@ -612,8 +349,8 @@ class Admin extends BaseController
         }
     }
 
-    // reject data
-    public function rejectKafe($id_perizinan)
+    // reject data izin
+    public function tolakIzin($id_perizinan)
     {
         $data = [
             'stat_appv' => '2',
@@ -631,70 +368,6 @@ class Admin extends BaseController
 
 
 
-    public function autodel()
-    { // Mendapatkan waktu saat ini
-        $now = time();
-        $thirtyMinutesAgo = $now - (7 * 24 * 60 * 60); // Mengurangi 7 hari dalam detik
-
-        // $query = "DELETE FROM tbl_kafe WHERE stat_appv = 0 AND created_at < '$sevenDaysAgo'";
-        $query = $this->kafe->callTolakData()->getResult();
-
-        $delete = [];
-        foreach ($query as $row) {
-            $createdAt = strtotime($row->created_at);
-            if ($createdAt < $thirtyMinutesAgo) {
-                $id_del[] = $row->id_kafe;
-                $delete[] = $row;
-            }
-        }
-        // Mengubah array $id_del menjadi string dengan pemisah koma
-        $idDelString = implode(',', $id_del);
-        if (!empty($delete)) {
-            // Data ditemukan, lakukan penghapusan
-            $files = $this->fotoKafe->getFoto($idDelString)->getResult();
-            if (!empty($files)) {
-                foreach ($files as $img) {
-                    $file = $img->nama_file_foto;
-                    unlink("img/kafe/" . $file);
-                }
-            }
-            $this->kafe->delete(['id_kafe' => $idDelString]);
-            if ($this) {
-                echo "Data kafe yang tidak disetujui (stat_appv = 2) yang lebih dari 7 hari berhasil dihapus.";
-            } else {
-                echo "Gagal menghapus data kafe.";
-            }
-        } else {
-            echo "Tidak ada data kafe yang memenuhi kriteria penghapusan.";
-        }
-    }
-
-    // side server delete image
-    public function deleteImage()
-    {
-        // Menerima ID data yang akan dihapus dari permintaan POST
-        $id = $this->request->getPost('id');
-        $imgData = $this->fotoKafe->getImgRow($id)->getRow();
-        // Remove files from the server  
-        $file = $imgData->nama_file_foto;
-        unlink("img/kafe/" . $file);
-        // Delete image data 
-        $this->fotoKafe->delete(['id' => $id]);
-        // Ambil data gambar dari database
-        $imageUrl = $this->fotoKafe->getFoto()->getResult();
-        // Kembalikan data ke client dalam format JSON
-        return json_encode(['status' => true, 'imageUrl' => $imageUrl]);
-    }
-
-
-    // side server preview image
-    public function previewImg($id_kafe)
-    {
-        $data = [
-            'getFoto' => $this->fotoKafe->getFoto($id_kafe)->getResult(),
-        ];
-        return view('serverSide/previewImg', $data);
-    }
 
     //  SCRAP KAB/KOT, KECAMATAN, KELURAHAN
     // Ajax Remote Wilayah Administrasi

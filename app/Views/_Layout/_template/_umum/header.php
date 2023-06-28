@@ -12,7 +12,7 @@
             <a href="<?= base_url(); ?>/#home" class="nav-item nav-link active">Beranda</a>
             <a href="/map" class="nav-item nav-link">Cek Kesesuaian</a>
             <a href="/#about" class="nav-item nav-link">Tentang Kami</a>
-            <a href="/contact" class="nav-item nav-link">Kontak</a>
+            <a href="/kontak" class="nav-item nav-link">Kontak</a>
 
 
             <?php if (logged_in()) : ?>

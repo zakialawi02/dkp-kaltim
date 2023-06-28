@@ -10,7 +10,7 @@
 
 <br>
 
-<p>Jika Anda memiliki pertanyaan atau membutuhkan bantuan lebih lanjut, silakan hubungi tim dukungan kami di <a href="mailto:hallo@zakialawi.my.id">hallo@zakialawi.my.id</a> atau kunjungi website kami di <a href="https://kafesurabaya.id/contact">Contact Me</a>.</p>
+<p>Jika Anda memiliki pertanyaan atau membutuhkan bantuan lebih lanjut, silakan hubungi tim dukungan kami di <a href="mail@mail.com">mail@mail.com</a> atau kunjungi website kami di <a href="<?= base_url('/kontak'); ?>">Contact Me</a>.</p>
 
 <br>
 

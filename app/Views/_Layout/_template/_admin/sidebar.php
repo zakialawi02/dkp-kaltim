@@ -73,9 +73,9 @@
                     </a>
                 <?php endif ?>
 
-                <a class="nav-link" href="/contact">
+                <a class="nav-link" href="/kontak">
                     <div class="sb-nav-link-icon"><i class="bi bi-envelope-fill"></i></div>
-                    Contact
+                    Kontak Kami
                 </a>
 
             </div>

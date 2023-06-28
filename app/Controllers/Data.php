@@ -6,23 +6,48 @@ use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\Validation\Exceptions\ValidationException;
 use CodeIgniter\Validation\Validation;
 use App\Controllers\BaseController;
+use App\Models\ModelGeojson;
 use App\Models\ModelSetting;
 use App\Models\ModelIzin;
+use App\Models\ModelJenisKegiatan;
 use Faker\Extension\Helper;
 
 class Data extends BaseController
 {
+    protected $ModelGeojson;
     protected $ModelSetting;
     protected $ModelIzin;
+    protected $ModelJenisKegiatan;
     public function __construct()
     {
         helper(['form', 'url']);
+        $this->FGeojson = new ModelGeojson();
         $this->setting = new ModelSetting();
         $this->izin = new ModelIzin();
+        $this->kegiatan = new ModelJenisKegiatan();
     }
 
     public function index()
     {
+        $data = [
+            'title' => 'Beranda',
+            'tampilData' => $this->setting->tampilData()->getResult(),
+        ];
+        return view('page/indexHome', $data);
+    }
+
+    public function map()
+    {
+        $data = [
+            'title' => 'Cek Kesesuaian | Map Panel',
+            'tampilGeojson' => $this->FGeojson->callGeojson()->getResult(),
+            'tampilData' => $this->setting->tampilData()->getResult(),
+            'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
+        ];
+        // echo '<pre>';
+        // print_r($data['tampilGeojson']);
+        // die;
+        return view('page/map', $data);
     }
 
     public function pengajuan()
@@ -88,6 +113,49 @@ class Data extends BaseController
         }
     }
 
+    public function updateAjuan()
+    {
+        // dd($this->request->getVar());
+        $id_perizinan = $this->request->getPost('id');
+        $data = [
+            'nik' => $this->request->getVar('nik'),
+            'nama' => $this->request->getVar('nama'),
+            'alamat' => $this->request->getVar('alamat'),
+            'kontak' => $this->request->getVar('kontak'),
+            'jenis_kegiatan' => $this->request->getVar('kegiatan'),
+            'longitude' => $this->request->getVar('longitude'),
+            'latitude' => $this->request->getVar('latitude'),
+            'polygon' => $this->request->getVar('drawPolygon'),
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ];
+        $updateIzin =  $this->izin->updateIzin($data, $id_perizinan);
+
+        if (in_groups('User')) {
+            $status = [
+                'stat_appv' => '0',
+                'date_updated' => date('Y-m-d H:i:s'),
+            ];
+            $this->izin->chck_appv($status, $id_perizinan);
+        }
+
+        if ($updateIzin) {
+            session()->setFlashdata('success', 'Data Berhasil diperbarui.');
+            if (in_groups('User')) {
+                return $this->response->redirect(site_url('/dashboard'));
+            } else {
+                return $this->response->redirect(site_url('/admin/data/data-perizinan'));
+            }
+        } else {
+            session()->setFlashdata('error', 'Gagal memperbarui data.');
+            if (in_groups('User')) {
+                return $this->response->redirect(site_url('/dashboard'));
+            } else {
+                return $this->response->redirect(site_url('/admin/data/data-perizinan'));
+            }
+        }
+    }
+
     public function detail($id_perizinan)
     {
         $data = [
@@ -100,10 +168,29 @@ class Data extends BaseController
         return view('page/detailDataAjuan', $data);
     }
 
+    public function kontak()
+    {
+        $data = [
+            'title' => 'KONTAK KAMI',
+        ];
+        return view('page/contact', $data);
+    }
+
+    public function noaccess()
+    {
+        $data = [
+            'title' => 'No Access',
+            'pesan' => 'Anda Tidak Mempunyai Hak Akses'
+        ];
+        return view('page/noAccess', $data);
+    }
+
+
+
+
     public function dump()
     {
-        $userid = user_id();
-        $data = $this->izin->getIzinFive()->getResult();
+        $data = $this->kegiatan->getJenisKegiatan()->getResult();
         echo "<pre>";
         print_r($data);
         die;

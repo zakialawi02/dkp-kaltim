@@ -101,7 +101,7 @@
                                             <div class="card info-card users-card">
 
                                                 <div class="card-body">
-                                                    <h5 class="card-title">Pengguna Terdaftar</h5>
+                                                    <h5 class="card-title">Jumlah Pengguna</h5>
 
                                                     <div class="d-flex align-items-center">
                                                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -260,7 +260,7 @@
                                                     <div class="accordion-item">
                                                         <h2 class="accordion-header" id="headingOne">
                                                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                                Pending<span class="badge bg-secondary m-1"><?= $totalPending; ?></span> &nbsp;<span type="button" class="bi bi-info-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Menunggu data diverifikasi dan dapat muncul pada publik"></span>
+                                                                Pending<span class="badge bg-secondary m-1"><?= $totalPending; ?></span> &nbsp;<span type="button" class="bi bi-info-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Menunggu permohonan diverifikasi"></span>
                                                             </button>
                                                         </h2>
                                                         <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
@@ -273,7 +273,7 @@
                                                     <div class="accordion-item">
                                                         <h2 class="accordion-header" id="headingOne">
                                                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                                Pending<span class="badge bg-secondary m-1"><?= $totalPending; ?></span> &nbsp;<span type="button" class="bi bi-info-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Menunggu data diverifikasi dan dapat muncul pada publik"></span>
+                                                                Pending<span class="badge bg-secondary m-1"><?= $totalPending; ?></span> &nbsp;<span type="button" class="bi bi-info-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Menunggu permohonan diverifikasi"></span>
                                                             </button>
                                                         </h2>
                                                         <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
@@ -300,7 +300,7 @@
                                                                                     </td>
                                                                                     <td>
                                                                                         <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="edit data">
-                                                                                            <a href="/kafe/edit/<?= $pIzin->id_perizinan; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
+                                                                                            <a href="/data-perizinan/<?= $pIzin->id_perizinan; ?>/edit/" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
                                                                                         </div>
                                                                                         <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="hapus data">
                                                                                             <form id="delete-form-<?= $pIzin->id_perizinan; ?>" action="/admin/delete_izin/<?= $pIzin->id_perizinan; ?>" method="post">
@@ -389,7 +389,7 @@
                                                     <div class="accordion-item">
                                                         <h2 class="accordion-header" id="headingTwo">
                                                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                                Diterima<span class="badge bg-success m-1"><?= $totalTerima; ?></span> &nbsp;<span type="button" class="bi bi-info-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Data anda tampil kepublik"></span>
+                                                                Diterima<span class="badge bg-success m-1"><?= $totalTerima; ?></span> &nbsp;<span type="button" class="bi bi-info-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Permohonan anda disetujui"></span>
                                                             </button>
                                                         </h2>
                                                         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
@@ -402,7 +402,7 @@
                                                     <div class="accordion-item">
                                                         <h2 class="accordion-header" id="headingTwo">
                                                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                                Diterima<span class="badge bg-success m-1"><?= $totalTerima; ?></span> &nbsp;<span type="button" class="bi bi-info-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Data anda tampil kepublik"></span>
+                                                                Diterima<span class="badge bg-success m-1"><?= $totalTerima; ?></span> &nbsp;<span type="button" class="bi bi-info-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Permohonan anda disetujui"></span>
                                                             </button>
                                                         </h2>
                                                         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
@@ -430,7 +430,7 @@
                                                                                     </td>
                                                                                     <td>
                                                                                         <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="edit data">
-                                                                                            <a href="/kafe/edit/<?= $tIzin->id_perizinan; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
+                                                                                            <a href="/data-perizinan/<?= $tIzin->id_perizinan; ?>/edit/" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
                                                                                         </div>
                                                                                         <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="hapus data">
                                                                                             <form id="delete-form-<?= $tIzin->id_perizinan; ?>" action="/admin/delete_izin/<?= $tIzin->id_perizinan; ?>" method="post">
@@ -560,7 +560,7 @@
                                                                                     </td>
                                                                                     <td>
                                                                                         <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="edit data">
-                                                                                            <a href="/kafe/edit/<?= $sIzin->id_perizinan; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
+                                                                                            <a href="/data-perizinan/<?= $sIzin->id_perizinan; ?>/edit/" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
                                                                                         </div>
                                                                                         <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="hapus data">
                                                                                             <form id="delete-form-<?= $sIzin->id_perizinan; ?>" action="/admin/delete_izin/<?= $sIzin->id_perizinan; ?>" method="post">

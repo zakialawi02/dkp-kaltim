@@ -78,9 +78,9 @@
                                                 <div class="btn-group mr-2" role="group" aria-label="First group">
                                                     <a href="/data-perizinan/<?= $Iz->id_perizinan; ?>/detail" class="asbn btn btn-secondary bi bi-eye" role="button" target="_blank"></a>
                                                 </div>
-                                                <!-- <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                    <a href="/admin/data/data-perizinan/edit/<?= $Iz->id_perizinan; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
-                                                </div> -->
+                                                <div class="btn-group mr-2" role="group" aria-label="First group">
+                                                    <a href="/data-perizinan/<?= $Iz->id_perizinan; ?>/edit/" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
+                                                </div>
                                                 <div class="btn-group mr-2" role="group" aria-label="First group">
                                                     <form id="delete-form-<?= $Iz->id_perizinan; ?>" action="/admin/delete_izin/<?= $Iz->id_perizinan; ?>" method="post">
                                                         <?= csrf_field(); ?>
