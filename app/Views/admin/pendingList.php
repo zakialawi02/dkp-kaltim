@@ -237,7 +237,8 @@
                         attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
                         maxZoom: 18,
                     }).addTo(mymap);
-                    L.marker([<?= $S->latitude ?>, <?= $S->longitude ?>]).addTo(mymap)
+                    L.marker([<?= $S->latitude ?>, <?= $S->longitude ?>]).addTo(mymap);
+                    var polygon = L.polygon([<?= $S->polygon; ?>]).addTo(map);
 
                 }
                 $('#infoModal-<?= $S->id_perizinan; ?>').on('shown.bs.modal', function() {

@@ -77,18 +77,21 @@
                 <div class="right">
 
                     <!-- versi 2 -->
-                    <div autocomplete="off" class="form" id="myForm" name="myform">
+                    <form autocomplete="off" class="form" id="myForm" name="myform">
                         <?= csrf_field(); ?>
                         <div>
                             <input type="text" placeholder="Your Name" name="name" id="name" required />
+                            <div class="feedback kosong" id="kosongName"></div>
                             <input type="email" placeholder="Your Email" name="email" id="email" required />
+                            <div class="feedback kosong" id="kosongEmail"></div>
                         </div>
                         <input type="text" placeholder="Subject" name="judul" id="judul" required />
+                        <div class="feedback kosong" id="kosongJudul"></div>
                         <textarea cols="10" rows="10" placeholder="Your Message" name="message" id="message" required></textarea>
 
                         <div id="terkirim"></div>
-                        <input class="btn-contact" type="submit" onclick="sendMai()" role="button" value="Submit" name="sendMail">
-                    </div>
+                        <button class="btn-contact" type="submit" role="button" value="Submit" id="sendMail" name="sendMail">Kirim</button>
+                    </form>
 
                 </div>
             </div>
@@ -122,42 +125,7 @@
     <!-- Template Main JS File -->
     <script src="/assets/js/main.js"></script>
 
-    <script type="text/javascript">
-        (function() {
-            emailjs.init("AP-Zbwta6_TwadTCB");
-        })();
-    </script>
-    <script>
-        function sendMai() {
-            var templateParams = {
-                name: document.getElementById("name").value,
-                email: document.getElementById("email").value,
-                judul: document.getElementById("judul").value,
-                message: document.getElementById("message").value,
-            };
-            console.log(templateParams);
-            emailjs.send('service_7xgeic2', 'template_20331zc', templateParams)
-                .then(function(response) {
-                    console.log('SUCCESS!', response.status, response.text);
-                    document.getElementById("terkirim").innerHTML = "Berhasil dikirim!";
-                    document.getElementById("terkirim").style.display = "block";
-                    setTimeout(function() {
-                        document.getElementById("terkirim").style.display = "none";
-                    }, 5000);
-                    document.getElementById("name").value = "";
-                    document.getElementById("email").value = "";
-                    document.getElementById("judul").value = "";
-                    document.getElementById("message").value = "";
-                }, function(error) {
-                    console.log('FAILED...', error);
-                    document.getElementById("terkirim").innerHTML = "Gagal dikirim!";
-                    document.getElementById("terkirim").style.display = "block";
-                    setTimeout(function() {
-                        document.getElementById("terkirim").style.display = "none";
-                    }, 5000);
-                });
-        }
-    </script>
+
 </body>
 
 </html>

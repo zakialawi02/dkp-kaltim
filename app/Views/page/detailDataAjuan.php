@@ -69,7 +69,7 @@
                     <table class="table table-responsive">
                         <thead class="thead-left">
                             <tr>
-                                <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;">Nama</th>
+                                <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;">Nama Pemohon</th>
                                 <th style="border-bottom-width: 1px; border-bottom-color: #dee2e6;">:</th>
                                 <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;"><?= $tampilIzin->nama; ?></th>
                             </tr>
@@ -207,7 +207,7 @@
         // set frame view
         var map = L.map('map', {
             center: [<?= $tampilIzin->latitude; ?>, <?= $tampilIzin->longitude; ?>],
-            zoom: 18,
+            zoom: 12,
             layers: [peta1],
             gestureHandling: true,
         })

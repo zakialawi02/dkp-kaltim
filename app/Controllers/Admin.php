@@ -562,14 +562,9 @@ class Admin extends BaseController
     }
 
     // Delete Data
-    public function delete_Kafe($id_kafe)
+    public function delete_izin($id_perizinany)
     {
-        $files = $this->fotoKafe->getFoto($id_kafe)->getResult();
-        foreach ($files as $img) {
-            $file = $img->nama_file_foto;
-            unlink("img/kafe/" . $file);
-        }
-        $this->kafe->delete(['id_kafe' => $id_kafe]);
+        $this->izin->delete(['id_perizinany' => $id_perizinany]);
         if ($this) {
             session()->setFlashdata('success', 'Data berhasil dihapus.');
             if (in_groups('User')) {
@@ -601,13 +596,13 @@ class Admin extends BaseController
     }
 
     // approve data
-    public function approveKafe($id_kafe)
+    public function approveKafe($id_perizinan)
     {
         $data = [
             'stat_appv' => '1',
             'date_updated' => date('Y-m-d H:i:s'),
         ];
-        $this->kafe->chck_appv($data, $id_kafe);
+        $this->izin->chck_appv($data, $id_perizinan);
         if ($this) {
             session()->setFlashdata('success', 'Data Approved.');
             return $this->response->redirect(site_url('/admin/pending'));
@@ -618,13 +613,13 @@ class Admin extends BaseController
     }
 
     // reject data
-    public function rejectKafe($id_kafe)
+    public function rejectKafe($id_perizinan)
     {
         $data = [
             'stat_appv' => '2',
             'date_updated' => date('Y-m-d H:i:s'),
         ];
-        $this->kafe->chck_appv($data, $id_kafe);
+        $this->izin->chck_appv($data, $id_perizinan);
         if ($this) {
             session()->setFlashdata('success', 'Data Rejected.');
             return $this->response->redirect(site_url('/admin/pending'));

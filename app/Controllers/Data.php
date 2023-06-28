@@ -45,7 +45,7 @@ class Data extends BaseController
         $data = [
             'kegiatanValue' => $this->request->getVar('kegiatan'),
             'stat_appv' => $this->request->getPost('stat_appv'),
-            'koordinat' => $this->request->getPost('koordinat'),
+            'geojson' => $this->request->getPost('geojson'),
         ];
         session()->setFlashdata('data', $data);
 
@@ -56,27 +56,25 @@ class Data extends BaseController
     {
         // dd($this->request->getVar());
         $user = user_id();
-        $koordinats = $this->request->getVar('koordinat');
-        $koordinat = explode(', ', $koordinats);
-        $latitude = $koordinat['0'];
-        $longitude = $koordinat['1'];
         $data = [
             'nik' => $this->request->getVar('nik'),
             'nama' => $this->request->getVar('nama'),
             'alamat' => $this->request->getVar('alamat'),
             'kontak' => $this->request->getVar('kontak'),
             'jenis_kegiatan' => $this->request->getVar('kegiatan'),
-            'longitude' => $longitude,
-            'latitude' => $latitude,
+            'longitude' => $this->request->getVar('longitude'),
+            'latitude' => $this->request->getVar('latitude'),
+            'polygon' => $this->request->getVar('drawPolygon'),
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ];
         $addIzin =  $this->izin->addIzin($data);
         $insert_id = $this->db->insertID();
 
+        $stat_appv = 0;
         $status = [
             'id_perizinan' => $insert_id,
-            'stat_appv' => $this->request->getVar('stat_appv'),
+            'stat_appv' => $stat_appv,
             'user' => $user,
         ];
         $addStatus = $this->izin->addStatus($status);

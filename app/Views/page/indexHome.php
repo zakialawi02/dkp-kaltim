@@ -64,35 +64,17 @@
             <div class="container py-5">
                 <div class="row g-5 align-items-center">
                     <div class="hero-content">
-                        <h1>Selamat Datang di </h1>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dignissimos quisquam officia quod modi corrupti. Quae quasi eius rerum facilis expedita.</p>
-                        <a href="#discovery" class="btn btn-primary p-2">Mulai Jelajahi</a>
+                        <h1>Selamat Datang</h1>
+                        <p>Selamat Datang di Aplikasi Perizinan Dinas Kelautan dan Perikanan Kalimantan Timur.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Hdeader End -->
+    <!-- Header End -->
 
-    <!-- sekmen -->
-    <section id="sekmen">
-
-        <div class="container">
-
-        </div>
-
-    </section>
-    <!-- sekmen End -->
-
-    <section id="sekmen1">
-
-        <div class="container">
-
-        </div>
-
-    </section>
-
+    <!-- About Segment -->
     <section class="about pt-5" id="about" style="min-height: 20vh;">
         <div class="container p-5 ">
 
@@ -100,7 +82,7 @@
 
             <div class="row g-2">
                 <div class="col-md-7 kaff ">
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nobis accusantium reprehenderit ad optio at minima? Sequi optio reiciendis consectetur maiores, adipisci quaerat mollitia ad temporibus nostrum nobis consequatur laborum ea rerum debitis voluptatum! Quae dolorem sapiente aperiam maxime fuga provident dolores error sed praesentium ipsa iusto ea dicta quisquam commodi nemo velit pariatur eaque nesciunt odio quo neque aliquid consequatur, aliquam quasi. Laborum illum soluta dicta perferendis commodi vel dolore dolor in blanditiis, quidem vitae quia id suscipit, tenetur eos voluptates animi, repudiandae possimus quae quaerat velit qui assumenda. Sit dolorem, minima nobis optio voluptatibus quae perferendis delectus iure facilis.</p>
+                    <p>Aplikasi ini merupakan aplikasi yang dapat digunakan oleh masyarakat umum untuk melihat pemanfaatan dan penggunaan apa saja yang DAPAT dilakukan pada wilayah pesisir dan laut Provinsi Kalimantan Timur.</p>
                 </div>
                 <div class="col col-md-5 kaffe d-flex justify-content-center">
                     <img class="img-fluid p-2" style="width: 16rem;" src="http://placeholder.com/600x600" alt="">
@@ -108,9 +90,50 @@
             </div>
 
         </div>
+    </section>
+
+    <!-- discover -->
+    <section id="discover">
+
+        <div class="container p-5">
+            <div class="mt-5 p-2"></div>
+            <h2>Ajukan Permohonan</h2>
+            <p>Anda dapat mengajukan permohonan izin secara mandiri dengan sistem daring (online)</p>
+
+            <div class="d-flex gap-4 justify-content-md-center mt-3 pt-2">
+                <div class="card" style="width: 15rem;">
+                    <img src="<?= base_url('/img/checking.png'); ?>" class="card-img-top p-4">
+                    <div class="card-body">
+                        <center>
+                            <h5 class="card-title">Cek Kesesuaian</h5>
+                            <p class="card-text">Melihat kesesuaian pengajuan kegiatan dan wilayah.</p>
+                        </center>
+                    </div>
+                </div>
+                <div class="card" style="width: 15rem;">
+                    <img src="<?= base_url('/img/create.png'); ?>" class="card-img-top p-4">
+                    <div class="card-body">
+                        <center>
+                            <h5 class="card-title">Buat Ajuan</h5>
+                            <p class="card-text">Melakukan pengajuan izin secara secara mandiri dengan sistem daring (online).</p>
+                        </center>
+                    </div>
+                </div>
+                <div class="card" style="width: 15rem;">
+                    <img src="<?= base_url('/img/verification.png'); ?>" class="card-img-top p-4">
+                    <div class="card-body">
+                        <center>
+                            <h5 class="card-title">Lihat Status Ajuan</h5>
+                            <p class="card-text">Pemohon dapat melihat status pengajuan terkait penolakan maupun penerimaan izin.</p>
+                        </center>
+                    </div>
+                </div>
+
+            </div>
+        </div>
 
     </section>
-    <!-- Map End -->
+    <!-- discover End -->
 
     <!-- FOOTER -->
     <?= $this->include('_Layout/_template/_umum/footer'); ?>

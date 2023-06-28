@@ -50,10 +50,10 @@
                     <div class="card mb-4">
                         <div class="card-body">
 
-                            <div class="m-1 mb-4 ">
+                            <!-- <div class="m-1 mb-4 ">
                                 <a href="/admin/data/data-perizinan/tambah" class="btn btn-primary bi bi-plus" role="button">Tambah</a>
                                 <a href="/kafe/generatepdf" class="btn btn-primary bi bi-file-earmark-pdf-fill" target="_blank"> PDF</a>
-                            </div>
+                            </div> -->
 
                             <table id="datatablesSimple" class="datatablesSimple">
                                 <thead>
@@ -78,11 +78,11 @@
                                                 <div class="btn-group mr-2" role="group" aria-label="First group">
                                                     <a href="/data-perizinan/<?= $Iz->id_perizinan; ?>/detail" class="asbn btn btn-secondary bi bi-eye" role="button" target="_blank"></a>
                                                 </div>
-                                                <div class="btn-group mr-2" role="group" aria-label="First group">
+                                                <!-- <div class="btn-group mr-2" role="group" aria-label="First group">
                                                     <a href="/admin/data/data-perizinan/edit/<?= $Iz->id_perizinan; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
-                                                </div>
+                                                </div> -->
                                                 <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                    <form id="delete-form-<?= $Iz->id_perizinan; ?>" action="/admin/delete_Kafe/<?= $Iz->id_perizinan; ?>" method="post">
+                                                    <form id="delete-form-<?= $Iz->id_perizinan; ?>" action="/admin/delete_izin/<?= $Iz->id_perizinan; ?>" method="post">
                                                         <?= csrf_field(); ?>
                                                         <input type="hidden" name="_method" value="DELETE">
                                                         <button type="button" class="asbn btn btn-danger bi bi-trash delete-btn" data-id="<?= $Iz->id_perizinan; ?>"></button>
@@ -97,11 +97,11 @@
                         </div>
                     </div>
 
-                    <div class="card card-title">
+                    <!-- <div class="card card-title">
                         <div class="card-body">
                             <div class="map" id="map"></div>
                         </div>
-                    </div>
+                    </div> -->
 
                 </div>
             </main><!-- End #main -->

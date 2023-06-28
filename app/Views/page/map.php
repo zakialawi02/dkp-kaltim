@@ -117,9 +117,10 @@
                         <?php if (in_groups('User')) : ?>
                             <input type="hidden" class="form-control" for="stat_appv" id="stat_appv" name="stat_appv" value="0">
                         <?php else : ?>
-                            <input type="hidden" class="form-control" for="stat_appv" id="stat_appv" name="stat_appv" value="1">
+                            <input type="hidden" class="form-control" for="stat_appv" id="stat_appv" name="stat_appv" value="0">
                         <?php endif ?>
                         <input type="hidden" class="form-control" for="koordinat" id="koordinat" name="koordinat" value="">
+                        <input type="hidden" class="form-control" for="geojson" id="geojson" name="geojson" value="">
 
                         <div class="form-group">
                             <label class="col-md-12 mb-2">Jenis Kegiatan</label>
@@ -169,7 +170,8 @@
                 <button type="button" id="login-btn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
             <?php endif ?>
         </div>
-        <div class="search-container float-end">
+        <!-- kolom cari -->
+        <!-- <div class="search-container float-end">
             <form action="#" method="get">
                 <div class="input-group">
                     <input type="text" id="cariMark" class="form-control input-cari" placeholder="Cari...">
@@ -178,7 +180,7 @@
                     </span>
                 </div>
             </form>
-        </div>
+        </div> -->
 
 
 
@@ -576,25 +578,29 @@
 
         // add Leaflet-Geoman controls with some options to the map  
         map.pm.setLang("id");
-        map.pm.addControls({
-            position: 'topleft',
-            drawCircleMarker: false,
-            rotateMode: false,
-            drawPolyline: false,
-            drawRectangle: false,
-            drawCircleMarker: false,
-            dragMode: false,
-            drawCircle: false,
-            drawText: false,
-            cutPolygon: false,
-            splitMode: false,
-        });
+        // map.pm.addControls({
+        //     position: 'topleft',
+        //     drawCircleMarker: false,
+        //     rotateMode: false,
+        //     drawPolyline: false,
+        //     drawRectangle: false,
+        //     drawCircleMarker: false,
+        //     dragMode: false,
+        //     drawCircle: false,
+        //     drawText: false,
+        //     cutPolygon: false,
+        //     splitMode: false,
+        // });
         var drawnLayer;
         map.on('pm:create', function(e) {
             var layer = e.layer;
             var koordinats = e.layer.getLatLngs()[0];
-            console.log('Polygon :', koordinats);
             drawnLayer = layer;
+            var geojson = koordinats.map(function(coord) {
+                return [coord.lat, coord.lng];
+            });
+            var geojson = JSON.stringify(geojson);
+            $('#geojson').val(geojson);
             $('#modalAdd').show();
         });
 

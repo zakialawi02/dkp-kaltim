@@ -35,7 +35,7 @@
                     </a>
                     <div class="collapse" id="collapseKafe" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <div class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="/admin/data/data-perizinan/tambah">Add Data</a>
+                            <!-- <a class="nav-link" href="/admin/data/data-perizinan/tambah">Add Data</a> -->
                             <a class="nav-link" href="/admin/data/data-perizinan">All Data</a>
                         </div>
                     </div>

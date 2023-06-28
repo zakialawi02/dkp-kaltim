@@ -58,12 +58,7 @@
                             <form class="row g-3" action="/data/tambahAjuan" method="post" enctype="multipart/form-data">
                                 <?= csrf_field(); ?>
                                 <?php $datas = session()->getFlashdata('data'); ?>
-                                <?php if (in_groups('User')) : ?>
-                                    <input type="hidden" class="form-control" for="stat_appv" id="stat_appv" name="stat_appv" value="0">
-                                <?php else : ?>
-                                    <input type="hidden" class="form-control" for="stat_appv" id="stat_appv" name="stat_appv" value="1">
-                                <?php endif ?>
-                                <input type="hidden" class="form-control" for="koordinat" id="koordinat" name="koordinat" value="<?= $datas['koordinat']; ?>">
+                                <input type="hidden" class="form-control" id="drawPolygon" aria-describedby="textlHelp" name="drawPolygon">
 
                                 <h5>a. Identitas Pemohon</h5>
 
@@ -107,13 +102,24 @@
                                         <option value="Kegiatan AA5">Kegiatan AA5</option>
                                     </select>
                                 </div>
+                                <div class="form-group">
+                                    <label class="form-label">Masukkan Lokasi</label>
+                                    <div class="row g-2">
+                                        <div class="col col-md-6">
+                                            <input type="text" class="form-control" id="longitude" aria-describedby="textlHelp" placeholder="longitude" name="longitude" value="" required>
+                                        </div>
+                                        <div class="col col-md-6">
+                                            <input type="text" class="form-control" id="latitude" aria-describedby="textlHelp" placeholder="latitude" name="latitude" value="" required>
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <div class="feedback">Keterangan Kesesuaian:</div>
                                 <div class="info">
                                     <div class="feedback" id="showKegiatan"> </div>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-primary">Kirim</button>
                             </form>
                         </div>
                     </div>
@@ -122,6 +128,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="map" id="map"></div>
+                            <div id="koordinat"></div>
                         </div>
                     </div>
                 </div>
@@ -175,7 +182,16 @@
 
     <!-- Leaflet Component -->
     <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js" integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
-    <link href="/leaflet/L.Control.MousePosition.css" rel="stylesheet">
+    <script src="https://unpkg.com/geojson-vt@3.2.0/geojson-vt.js"></script>
+    <script src="/leaflet/leaflet.ajax.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-tilelayer-geojson/1.0.2/TileLayer.GeoJSON.min.js"></script>
+    <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js"></script>
+    <script src="/leaflet/L.Control.MousePosition.js"></script>
+    <script src="/leaflet/catiline.js"></script>
+    <script src="/leaflet/leaflet.shpfile.js"></script>
+    <script src="/leaflet/shp.js"></script>
+    <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
+
 
     <!-- Leafleat Setting js-->
     <!-- initialize the map on the "map" div with a given center and zoom -->
@@ -217,7 +233,6 @@
         });
 
         // set frame view
-
         <?php foreach ($tampilData as $D) : ?>
             var map = L.map('map', {
                 center: [<?= $D->coordinat_wilayah; ?>],
@@ -238,6 +253,37 @@
         L.control.layers(baseLayers).addTo(map);
         L.control.mousePosition().addTo(map);
         L.control.scale().addTo(map);
+
+        var drawnPolygon = L.polygon(<?= $datas['geojson']; ?>).addTo(map);
+        var centroid = turf.points(<?= $datas['geojson']; ?>);
+        var center = turf.center(centroid);
+        $('#latitude').val(center.geometry.coordinates[0]);
+        $('#longitude').val(center.geometry.coordinates[1]);
+        $("#drawPolygon").val(<?= $datas['geojson']; ?>);
+
+
+
+
+        // shapefile untuk batas admin detectme()
+        var geoshp = L.geoJson({
+            features: []
+        }, );
+
+        var wfunc = function(base, cb) {
+            importScripts('/leaflet/shp.js');
+            shp(base).then(cb);
+        }
+        var worker = cw({
+            data: wfunc
+        }, 2);
+        worker.data(cw.makeUrl('/geojson/batas_kelurahan_2021_sby_357820220801090416.zip')).then(function(data) {
+            geoshp.addData(data);
+        }, function(a) {
+            console.log(a)
+        });
+
+        var polygon = geoshp.toGeoJSON();
+        console.log(polygon);
     </script>
 
 </body>

@@ -201,9 +201,8 @@ h6 {
   }
 }
 
-#sekmen {
-  background-color: #38a838;
-  min-height: 99vh;
+#discover {
+  min-height: 50vh;
 }
 
 .title-white {
@@ -409,6 +408,13 @@ h6 {
 .feedback {
   font-size: small;
   display: block;
+}
+
+.feedback.kosong {
+  margin-top: -7px;
+  padding-bottom: 10px;
+  color: red;
+  /* display: none; */
 }
 
 .feedback.boleh {
