@@ -64,7 +64,7 @@ class Data extends BaseController
         return redirect()->to('map');
     }
 
-    public function kirimAjuan()
+    public function isiAjuan()
     {
         // dd($this->request->getVar());
         $data = [

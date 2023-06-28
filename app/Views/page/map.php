@@ -111,7 +111,7 @@
             <hr>
             <div class="modalAdd-body">
                 <div class="card-body">
-                    <form class="row g-3" action="/data/kirimAjuan" method="post" enctype="multipart/form-data">
+                    <form class="row g-3" action="/data/isiAjuan" method="post" enctype="multipart/form-data">
                         <?= csrf_field(); ?>
 
                         <?php if (in_groups('User')) : ?>

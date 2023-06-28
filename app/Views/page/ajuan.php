@@ -206,6 +206,13 @@
     <!-- Leafleat Setting js-->
     <!-- initialize the map on the "map" div with a given center and zoom -->
     <script>
+        var centroid = turf.points(<?= $datas['geojson']; ?>);
+        var center = turf.center(centroid);
+        $('#latitude').val(center.geometry.coordinates[0]);
+        $('#longitude').val(center.geometry.coordinates[1]);
+        $("#drawPolygon").val(<?= $datas['geojson']; ?>);
+    </script>
+    <script>
         // Base map
         var peta1 = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiNjg2MzUzMyIsImEiOiJjbDh4NDExZW0wMXZsM3ZwODR1eDB0ajY0In0.6jHWxwN6YfLftuCFHaa1zw', {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
@@ -243,15 +250,13 @@
         });
 
         // set frame view
-        <?php foreach ($tampilData as $D) : ?>
-            var map = L.map('map', {
-                center: [<?= $D->coordinat_wilayah; ?>],
-                zoom: <?= $D->zoom_view; ?>,
-                layers: [peta1],
-                attributionControl: false,
-                gestureHandling: true,
-            })
-        <?php endforeach ?>
+        var map = L.map('map', {
+            center: [center.geometry.coordinates[0], center.geometry.coordinates[1]],
+            zoom: 12,
+            layers: [peta1],
+            attributionControl: false,
+            gestureHandling: true,
+        })
 
         // controller
         var baseLayers = {
@@ -265,11 +270,7 @@
         L.control.scale().addTo(map);
 
         var drawnPolygon = L.polygon(<?= $datas['geojson']; ?>).addTo(map);
-        var centroid = turf.points(<?= $datas['geojson']; ?>);
-        var center = turf.center(centroid);
-        $('#latitude').val(center.geometry.coordinates[0]);
-        $('#longitude').val(center.geometry.coordinates[1]);
-        $("#drawPolygon").val(<?= $datas['geojson']; ?>);
+
 
 
 
