@@ -54,11 +54,16 @@ class Data extends BaseController
     {
         $session = session()->getFlashdata('data');
         if ($session != null) {
+            $kegiatanId = $session['kegiatanValue'];
             $data = [
                 'title' => 'Pengajuan',
                 'tampilData' => $this->setting->tampilData()->getResult(),
+                'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
+                'jenisZona' => $this->kegiatan->getZonaByKegiatanAjax($kegiatanId),
             ];
-
+            // echo '<pre>';
+            // print_r($data['jenisZona']);
+            // die;
             return view('page/ajuan', $data);
         }
         return redirect()->to('map');
@@ -69,7 +74,7 @@ class Data extends BaseController
         // dd($this->request->getVar());
         $data = [
             'kegiatanValue' => $this->request->getVar('kegiatan'),
-            'stat_appv' => $this->request->getPost('stat_appv'),
+            'zonaValue' => $this->request->getVar('SubZona'),
             'geojson' => $this->request->getPost('geojson'),
         ];
         session()->setFlashdata('data', $data);

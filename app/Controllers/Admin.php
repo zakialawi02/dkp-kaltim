@@ -332,10 +332,24 @@ class Admin extends BaseController
         // die;
         return view('admin/jenisKegiatan', $data);
     }
+    public function tambahKegiatan()
+    {
+        $data = [
+            'title' => 'Tambah Kegiatan',
+        ];
+        return view('admin/tambahKegiatan', $data);
+    }
+    public function tambah_kegiatan()
+    {
+        $data = [
+            'nama_kegiatan' => $this->request->getVar('nama_kegiatan'),
+        ];
+    }
+
     public function zonasi()
     {
         $data = [
-            'title' => 'Jenis Kegiatan',
+            'title' => 'Jenis Zonasi Kegiatan',
             'dataSubZona' => $this->kegiatan->getSubZona()->getResult(),
         ];
         // echo '<pre>';
@@ -346,7 +360,7 @@ class Admin extends BaseController
     public function statusZonasi()
     {
         $data = [
-            'title' => 'Jenis Kegiatan',
+            'title' => 'Status Zonasi',
             'dataStatusZonasi' => $this->kegiatan->getStatusZonasi()->getResult(),
         ];
         // echo '<pre>';
@@ -400,6 +414,14 @@ class Admin extends BaseController
             session()->setFlashdata('error', 'Proses gagal.');
             return $this->response->redirect(site_url('/admin/pending'));
         }
+    }
+
+    public function getZonaByKegiatan()
+    {
+        $kegiatanId = $this->request->getPost('kegiatanId');
+        $zonaKegiatan = $this->kegiatan->getZonaByKegiatanAjax($kegiatanId);
+
+        return $this->response->setJSON($zonaKegiatan);
     }
 
 

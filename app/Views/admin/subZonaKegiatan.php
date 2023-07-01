@@ -45,7 +45,7 @@
                             <table id="datatablesSimple">
                                 <thead>
                                     <tr>
-                                        <th>Nama Kegiatan</th>
+                                        <th>Nama Zonasi</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
