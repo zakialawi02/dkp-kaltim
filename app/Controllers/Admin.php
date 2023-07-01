@@ -9,6 +9,7 @@ use App\Models\ModelSetting;
 use App\Models\ModelAdministrasi;
 use App\Models\ModelGeojson;
 use App\Models\ModelIzin;
+use App\Models\ModelJenisKegiatan;
 use App\Models\ModelFoto;
 use App\Models\ModelUser;
 use Faker\Extension\Helper;
@@ -20,6 +21,7 @@ class Admin extends BaseController
     protected $ModelAdministrasi;
     protected $ModelGeojson;
     protected $ModelIzin;
+    protected $ModelJenisKegiatan;
     protected $ModelFoto;
     public function __construct()
     {
@@ -29,6 +31,7 @@ class Admin extends BaseController
         $this->Administrasi = new ModelAdministrasi();
         $this->FGeojson = new ModelGeojson();
         $this->izin = new ModelIzin();
+        $this->kegiatan = new ModelJenisKegiatan();
         $this->fotoKafe = new ModelFoto();
     }
 
@@ -316,6 +319,40 @@ class Admin extends BaseController
                 return $this->response->redirect(site_url('/admin/data/data-perizinan'));
             }
         }
+    }
+
+    public function kegiatan()
+    {
+        $data = [
+            'title' => 'Jenis Kegiatan',
+            'dataKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
+        ];
+        // echo '<pre>';
+        // print_r($data['dataKegiatan']);
+        // die;
+        return view('admin/jenisKegiatan', $data);
+    }
+    public function zonasi()
+    {
+        $data = [
+            'title' => 'Jenis Kegiatan',
+            'dataSubZona' => $this->kegiatan->getSubZona()->getResult(),
+        ];
+        // echo '<pre>';
+        // print_r($data['dataSubZona']);
+        // die;
+        return view('admin/subZonaKegiatan', $data);
+    }
+    public function statusZonasi()
+    {
+        $data = [
+            'title' => 'Jenis Kegiatan',
+            'dataStatusZonasi' => $this->kegiatan->getStatusZonasi()->getResult(),
+        ];
+        // echo '<pre>';
+        // print_r($data['dataStatusZonasi']);
+        // die;
+        return view('admin/statusZonasi', $data);
     }
 
     // Pending Data

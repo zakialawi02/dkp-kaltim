@@ -21,7 +21,22 @@ class ModelJenisKegiatan extends Model
     public function getJenisKegiatan()
     {
         return $this->db->table('tbl_kegiatan')
-            ->select('tbl_kegiatan.*')
+            ->select('*')
+            ->get();
+    }
+
+    public function getSubZona()
+    {
+        return $this->db->table('tbl_zona_pemanfaatan')
+            ->select('*')
+            ->get();
+    }
+    public function getStatusZonasi()
+    {
+        return $this->db->table('tbl_izin_zonasi')
+            ->select('*')
+            ->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan = tbl_izin_zonasi.id_kegiatan', 'LEFT')
+            ->join('tbl_zona_pemanfaatan', 'tbl_zona_pemanfaatan.id_sub = tbl_izin_zonasi.id_sub', 'LEFT')
             ->get();
     }
 
