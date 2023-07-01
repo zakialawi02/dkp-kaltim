@@ -61,9 +61,7 @@ class Data extends BaseController
                 'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
                 'jenisZona' => $this->kegiatan->getZonaByKegiatanAjax($kegiatanId),
             ];
-            // echo '<pre>';
-            // print_r($data['jenisZona']);
-            // die;
+
             return view('page/ajuan', $data);
         }
         return redirect()->to('map');
@@ -71,14 +69,15 @@ class Data extends BaseController
 
     public function isiAjuan()
     {
-        // dd($this->request->getVar());
         $data = [
             'kegiatanValue' => $this->request->getVar('kegiatan'),
             'zonaValue' => $this->request->getVar('SubZona'),
             'geojson' => $this->request->getPost('geojson'),
         ];
         session()->setFlashdata('data', $data);
-
+        // echo '<pre>';
+        // print_r($data);
+        // die;
         return redirect()->to('data/pengajuan');
     }
 

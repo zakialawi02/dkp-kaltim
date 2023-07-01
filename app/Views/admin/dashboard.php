@@ -130,7 +130,7 @@
                                                                 <th>Nama Pemohon</th>
                                                                 <th style="min-width:10em">Alamat</th>
                                                                 <th>Kontak</th>
-                                                                <th>Data Masuk</th>
+                                                                <th>Tanggal</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -283,7 +283,7 @@
                                                                     <table class="table">
                                                                         <thead>
                                                                             <tr>
-                                                                                <th scope="col">Data Masuk</th>
+                                                                                <th scope="col">Tanggal</th>
                                                                                 <th scope="col">NIK</th>
                                                                                 <th scope="col">Nama Pemohon</th>
                                                                                 <th scope="col">Jenis Kegiatan</th>
@@ -411,7 +411,7 @@
                                                                     <table class="table">
                                                                         <thead>
                                                                             <tr>
-                                                                                <th scope="col">Data Masuk</th>
+                                                                                <th scope="col">Tanggal</th>
                                                                                 <th scope="col">ID</th>
                                                                                 <th scope="col">Nama Pemohon</th>
                                                                                 <th scope="col">Status</th>
@@ -690,7 +690,7 @@
             <?php foreach ($userSubmitIzin as $S) : ?>
 
                 function showMap<?= $S->id_perizinan; ?>() {
-                    var mymap = L.map('mymap-<?= $S->id_perizinan; ?>').setView([<?= $S->latitude; ?>, <?= $S->longitude; ?>], 10);
+                    var mymap = L.map('mymap-<?= $S->id_perizinan; ?>').setView([<?= $S->latitude; ?>, <?= $S->longitude; ?>], 8);
 
                     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiNjg2MzUzMyIsImEiOiJjbDh4NDExZW0wMXZsM3ZwODR1eDB0ajY0In0.6jHWxwN6YfLftuCFHaa1zw', {
                         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
@@ -700,6 +700,7 @@
                         zoomOffset: -1
                     }).addTo(mymap);
                     L.marker([<?= $S->latitude ?>, <?= $S->longitude ?>]).addTo(mymap)
+                    var drawnPolygon = L.polygon(<?= $S->polygon; ?>).addTo(mymap);
                 }
                 $('#infoModal-<?= $S->id_perizinan; ?>').on('shown.bs.modal', function() {
                     showMap<?= $S->id_perizinan; ?>();

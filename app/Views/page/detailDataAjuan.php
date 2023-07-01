@@ -213,7 +213,7 @@
         // set frame view
         var map = L.map('map', {
             center: [<?= $tampilIzin->latitude; ?>, <?= $tampilIzin->longitude; ?>],
-            zoom: 12,
+            zoom: 8,
             layers: [peta1],
             gestureHandling: true,
         })
@@ -231,6 +231,7 @@
         L.control.scale().addTo(map);
 
         L.marker([<?= $tampilIzin->latitude; ?>, <?= $tampilIzin->longitude; ?>]).addTo(map).bindPopup("<b><?= $tampilIzin->nama; ?></b></br><?= $tampilIzin->alamat; ?>").openPopup();
+        var drawnPolygon = L.polygon(<?= $tampilIzin->polygon; ?>).addTo(map);
     </script>
 
 </body>

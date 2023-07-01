@@ -233,27 +233,6 @@
     <!-- <script src="/assets/js/main.js"></script> -->
 
     <script>
-        $('#pilihKegiatan').change(function() {
-            var kegiatanValue = $('#pilihKegiatan').val();
-            var boleh = ["Kegiatan AA1", "Kegiatan A1", "Kegiatan B1", "Kegiatan AA3", "Kegiatan A3", "Kegiatan B3"];
-            var bolehBesyarat = ["Kegiatan AA2", "Kegiatan A2", "Kegiatan B2", "Kegiatan AA4", "Kegiatan A4", "Kegiatan B4"];
-            var tidakBoleh = ["Kegiatan A5", "Kegiatan AA5"];
-            var showKegiatan = $('#showKegiatan');
-
-            showKegiatan.removeClass().addClass('feedback');
-            if (boleh.includes(kegiatanValue)) {
-                showKegiatan.text('Diperbolehkan').addClass('boleh');
-            } else if (bolehBesyarat.includes(kegiatanValue)) {
-                showKegiatan.text('Diperbolehkan Bersyarat').addClass('bolehBersyarat');
-            } else if (tidakBoleh.includes(kegiatanValue)) {
-                showKegiatan.text('Tidak diperbolehkan').addClass('tidakBoleh');
-            } else {
-                showKegiatan.text('');
-            }
-        })
-    </script>
-
-    <script>
         $(document).ready(function() {
             var dataKegiatan;
             $('#pilihKegiatan').change(function() {
@@ -355,6 +334,7 @@
 
         modalButton.addEventListener("click", function() {
             <?php if (logged_in()) : ?>
+                $("#modal-button").addClass("btn-warning");
                 map.pm.enableDraw("Polygon", {
                     snappable: true,
                     snapDistance: 20,
@@ -657,6 +637,7 @@
             var geojson = JSON.stringify(geojson);
             $('#geojson').val(geojson);
             $('#modalAdd').show();
+            $("#modal-button").removeClass("btn-warning");
         });
 
         // controller

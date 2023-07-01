@@ -298,12 +298,11 @@
         // set frame view
         var map = L.map('map', {
             center: [<?= $tampilIzin->latitude; ?>, <?= $tampilIzin->longitude; ?>],
-            zoom: 10,
+            zoom: 8,
             layers: [peta1],
             attributionControl: false,
             gestureHandling: true,
         })
-
 
         // controller
         var baseLayers = {
@@ -311,6 +310,10 @@
             "Satellite": peta2,
             "OSM": peta3,
         };
+
+        var drawnPolygon = L.polygon(<?= $tampilIzin->polygon; ?>).addTo(map);
+        <?php $polygon = json_encode($tampilIzin->polygon) ?>
+        $('#drawPolygon').val(<?= $polygon; ?>);
 
         L.control.layers(baseLayers).addTo(map);
         L.control.mousePosition().addTo(map);

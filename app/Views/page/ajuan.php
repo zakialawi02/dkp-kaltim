@@ -60,6 +60,8 @@
                                 <?= csrf_field(); ?>
                                 <?php $datas = session()->getFlashdata('data'); ?>
                                 <?php $dataZona = $jenisZona; ?>
+                                <?php $geojson = $datas['geojson'] ?>
+                                <?php $geojson = json_encode($geojson) ?>
 
                                 <input type="hidden" class="form-control" id="drawPolygon" aria-describedby="textlHelp" name="drawPolygon">
 
@@ -254,7 +256,7 @@
         var center = turf.center(centroid);
         $('#latitude').val(center.geometry.coordinates[0]);
         $('#longitude').val(center.geometry.coordinates[1]);
-        $("#drawPolygon").val(<?= $datas['geojson']; ?>);
+        $("#drawPolygon").val(<?= $geojson; ?>);
     </script>
     <script>
         // Base map

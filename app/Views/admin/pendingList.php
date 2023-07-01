@@ -231,15 +231,14 @@
         <script>
             $(document).ready(function() {
                 function showMap<?= $S->id_perizinan; ?>() {
-                    var mymap = L.map('mymap-<?= $S->id_perizinan; ?>').setView([<?= $S->latitude; ?>, <?= $S->longitude; ?>], 10);
+                    var mymap = L.map('mymap-<?= $S->id_perizinan; ?>').setView([<?= $S->latitude; ?>, <?= $S->longitude; ?>], 8);
 
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
                         maxZoom: 18,
                     }).addTo(mymap);
                     L.marker([<?= $S->latitude ?>, <?= $S->longitude ?>]).addTo(mymap);
-                    var polygon = L.polygon([<?= $S->polygon; ?>]).addTo(map);
-
+                    var drawnPolygon = L.polygon(<?= $S->polygon; ?>).addTo(mymap);
                 }
                 $('#infoModal-<?= $S->id_perizinan; ?>').on('shown.bs.modal', function() {
                     showMap<?= $S->id_perizinan; ?>();
