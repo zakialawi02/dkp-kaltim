@@ -9,12 +9,12 @@ class Email extends BaseConfig
     /**
      * @var string
      */
-    public $fromEmail = 'gdzaki222@gmail.com';
+    public $fromEmail;
 
     /**
      * @var string
      */
-    public $fromName = 'KAFE SURABAYA ID';
+    public $fromName;
 
     /**
      * @var string
@@ -54,14 +54,14 @@ class Email extends BaseConfig
      *
      * @var string
      */
-    public $SMTPUser = 'gdzaki222@gmail.com';
+    public $SMTPUser;
 
     /**
      * SMTP Password
      *
      * @var string
      */
-    public $SMTPPass = 'efciidgzxhtllaed';
+    public $SMTPPass;
 
     /**
      * SMTP Port

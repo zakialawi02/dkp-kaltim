@@ -110,7 +110,6 @@ class Admin extends BaseController
         // dd($this->request->getVar());
         $data = [
             'id' => 1,
-            'nama_web' => $this->request->getPost('nama_web'),
             'coordinat_wilayah' => $this->request->getPost('coordinat_wilayah'),
             'zoom_view' => $this->request->getPost('zoom_view'),
         ];

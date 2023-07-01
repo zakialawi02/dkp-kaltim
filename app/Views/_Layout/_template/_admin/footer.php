@@ -1,7 +1,8 @@
 <footer class="py-4 bg-light mt-auto">
     <div class="container-fluid px-4">
         <div class="d-flex align-items-center justify-content-between small">
-            <div class="text-muted">Copyright &copy; Kafe Surabaya | V1.0.0</div>
+            <div class="text-muted">&copy; <a href="<?= base_url(); ?>">
+                </a>All Right Reserved.</div>
             <!-- <div>
                 <a href="#">Privacy Policy</a>
                 &middot;

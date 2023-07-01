@@ -41,7 +41,7 @@ $routes->get('/noaccess', 'Data::noaccess');
 $routes->match(['get', 'post'], 'admin/getDataAjaxRemote', 'Admin::getDataAjaxRemote');
 
 $routes->get('/map', 'Data::map');
-$routes->get('/contact', 'Data::contact');
+$routes->get('/kontak', 'Data::kontak');
 $routes->get('/dashboard', 'Admin::index', ['filter' => 'role:SuperAdmin,Admin,User']);
 $routes->get('/admin/pending', 'Admin::pending', ['filter' => 'role:SuperAdmin,Admin']);
 

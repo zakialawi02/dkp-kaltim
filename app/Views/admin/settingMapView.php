@@ -55,15 +55,11 @@
                                 <form class="row g-3" action="/admin/UpdateSetting" method="post" enctype="multipart/form-data">
                                     <?= csrf_field(); ?>
 
-                                    <div class="col-12">
-                                        <label for="namaWeb" class="form-label">Website Name</label>
-                                        <input type="text" class="form-control" name="nama_web" value="<?= $D->nama_web; ?>" id="namaWeb" placeholder="site name">
-                                    </div>
                                     <div class="col-md-8">
-                                        <label for="koordinatView" class="form-label">Coordinate</label>
+                                        <label for="koordinatView" class="form-label">Koordinat</label>
                                         <input type="text" class="form-control" name="coordinat_wilayah" value="<?= $D->coordinat_wilayah; ?>" id="koordinatView" placeholder="Latitude, Longitude">
                                         <div id="passwordHelpBlock" class="form-text">
-                                            example: -7.0385384, 112.8998345
+                                            contoh: -7.0385384, 112.8998345
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -75,7 +71,7 @@
                                     </div>
 
                                     <div class="col-12">
-                                        <button type="submit" class="btn btn-primary">Save</button>
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
                                     </div>
                                 </form>
 

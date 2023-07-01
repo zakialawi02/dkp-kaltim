@@ -685,22 +685,23 @@
 
 
         // shapefile untuk batas admin detectme()
-        var geoshp = L.geoJson({
-            features: []
-        }, );
+        // var geoshp = L.geoJson({
+        //     features: []
+        // }, );
 
-        var wfunc = function(base, cb) {
-            importScripts('/leaflet/shp.js');
-            shp(base).then(cb);
-        }
-        var worker = cw({
-            data: wfunc
-        }, 2);
-        worker.data(cw.makeUrl('/geojson/batas_kelurahan_2021_sby_357820220801090416.zip')).then(function(data) {
-            geoshp.addData(data);
-        }, function(a) {
-            console.log(a)
-        });
+        // var wfunc = function(base, cb) {
+        //     importScripts('/leaflet/shp.js');
+        //     shp(base).then(cb);
+        // }
+        // var worker = cw({
+        //     data: wfunc
+        // }, 2);
+        // worker.data(cw.makeUrl('/geojson/batas_kelurahan_2021_sby_357820220801090416.zip')).then(function(data) {
+        //     geoshp.addData(data);
+        // }, function(a) {
+        //     console.log(a)
+        // });
+
 
         const screenWidth = screen.availWidth
         if (screenWidth < 455) {

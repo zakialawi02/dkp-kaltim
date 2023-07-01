@@ -78,16 +78,13 @@
     <section class="about pt-5" id="about" style="min-height: 20vh;">
         <div class="container p-5 ">
 
-            <h2>Tentang Kami</h2>
+            <center class="">
+                <h2>Tentang Kami</h2>
+            </center>
 
-            <div class="row g-2">
-                <div class="col-md-7 kaff ">
-                    <p>Aplikasi ini merupakan aplikasi yang dapat digunakan oleh masyarakat umum untuk melihat pemanfaatan dan penggunaan apa saja yang DAPAT dilakukan pada wilayah pesisir dan laut Provinsi Kalimantan Timur.</p>
-                </div>
-                <div class="col col-md-5 kaffe d-flex justify-content-center">
-                    <img class="img-fluid p-2" style="width: 16rem;" src="http://placeholder.com/600x600" alt="">
-                </div>
-            </div>
+            <center class="">
+                <p>Aplikasi ini merupakan aplikasi yang dapat digunakan oleh masyarakat umum untuk melihat pemanfaatan dan penggunaan apa saja yang dapat dilakukan pada wilayah pesisir dan laut Provinsi Kalimantan Timur.</p>
+            </center>
 
         </div>
     </section>
@@ -97,8 +94,10 @@
 
         <div class="container p-5">
             <div class="mt-5 p-2"></div>
-            <h2>Ajukan Permohonan</h2>
-            <p>Anda dapat mengajukan permohonan izin secara mandiri dengan sistem daring (online)</p>
+            <center>
+                <h2>Ajukan Permohonan</h2>
+                <p>Anda dapat mengajukan permohonan izin secara mandiri dengan sistem daring (online)</p>
+            </center>
 
             <div class="d-flex gap-4 justify-content-md-center mt-3 pt-2">
                 <div class="card" style="width: 15rem;">
