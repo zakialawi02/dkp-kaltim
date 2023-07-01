@@ -1,5 +1,5 @@
 /********** Template CSS **********/
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
 
 :root {
   --primary: #345DA7;
@@ -10,7 +10,7 @@
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: "Lato", sans-serif;
   scroll-behavior: smooth;
 }
 
@@ -21,7 +21,7 @@ h4,
 h5,
 h6 {
   font-weight: 500 !important;
-  font-family: "Noto Sans", sans-serif;
+  font-family: "Lato", sans-serif;
 }
 
 /*** Spinner ***/
@@ -87,7 +87,7 @@ h6 {
   margin-right: 30px;
   padding: 25px 0;
   color: var(--dark);
-  font-weight: 500;
+  font-weight: 600;
   outline: none;
   text-decoration: none;
 }
@@ -215,7 +215,7 @@ h6 {
 
 .card_title a p {
 
-  font-family: "Noto Sans", sans-serif;
+  font-family: "Lato", sans-serif;
   font-weight: 600;
   font-size: 1.7rem;
   color: whitesmoke;

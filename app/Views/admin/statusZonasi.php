@@ -35,7 +35,7 @@
             <!-- MAIN CONTENT -->
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-2 mb-3">Data Jenis Kegiatan</h1>
+                    <h1 class="mt-2 mb-3">Status Zonasi</h1>
 
                     <div class="card mb-4">
                         <div class="card-body">
@@ -46,34 +46,38 @@
                                 <thead>
                                     <tr>
                                         <th>Nama Kegiatan</th>
-                                        <th>Sub Zona</th>
-                                        <th>Status</th>
+                                        <?php foreach ($zona as $z) : ?>
+                                            <th><?= $z->kode_zonasi; ?></th>
+                                        <?php endforeach ?>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($dataStatusZonasi as $zona) : ?>
+                                    <?php foreach ($kegiatan as $keg) : ?>
                                         <tr>
-                                            <td><?= $zona->nama_kegiatan; ?></td>
-                                            <td><?= $zona->nama_subzona; ?></td>
-                                            <td><?= $zona->status_zonasi; ?></td>
-                                            <td>
-                                                <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                    <a href="/admin/kegiatan/edit/<?= $zona->id_kegiatan; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
-                                                </div>
-                                                <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                    <form action="/admin/delete_kegiatan/<?= $zona->id_kegiatan; ?>" method="post">
-                                                        <?= csrf_field(); ?>
-                                                        <input type="hidden" name="_method" value="DELETE">
-                                                        <button type="submit" class="asbn btn btn-danger bi bi-trash" onclick="return confirm('Yakin Hapus Data?')"></button>
-                                                    </form>
-                                                </div>
-
-                                            </td>
+                                            <td><?= $keg->nama_kegiatan; ?></td>
+                                            <?php $foundStatus = false; ?>
+                                            <?php foreach ($dataStatusZonasi as $status) : ?>
+                                                <?php if ($status->id_kegiatan == $keg->id_kegiatan) : ?>
+                                                    <td><?= $status->status_zonasi; ?></td>
+                                                    <?php $foundStatus = true; ?>
+                                                <?php endif ?>
+                                            <?php endforeach ?>
+                                            <?php if (!$foundStatus) : ?>
+                                                <td><a href="/admin/data/zonasi/<?= $keg->id_kegiatan; ?>/add/">Add</a></td>
+                                            <?php else : ?>
+                                                <td>
+                                                    <a href="/admin/data/zonasi/<?= $keg->id_kegiatan; ?>/edit/">Edit</a>
+                                                    <a href="<?= base_url('kegiatan/delete/' . $keg->id_kegiatan) ?>">Hapus</a>
+                                                </td>
+                                            <?php endif ?>
                                         </tr>
                                     <?php endforeach ?>
                                 </tbody>
                             </table>
+
+
+
 
                         </div>
                     </div>

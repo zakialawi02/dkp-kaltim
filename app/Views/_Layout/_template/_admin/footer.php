@@ -1,5 +1,6 @@
-<footer class="py-4 bg-light mt-auto">
+<footer class="py-4 mt-auto">
     <div class="container-fluid px-4">
+        <hr>
         <div class="d-flex align-items-center justify-content-between small">
             <div class="text-muted">&copy; <a href="<?= base_url(); ?>">
                 </a>All Right Reserved.</div>

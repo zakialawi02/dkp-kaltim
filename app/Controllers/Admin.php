@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\Validation\Exceptions\ValidationException;
 use CodeIgniter\Validation\Validation;
 use App\Controllers\BaseController;
@@ -13,6 +14,7 @@ use App\Models\ModelJenisKegiatan;
 use App\Models\ModelFoto;
 use App\Models\ModelUser;
 use Faker\Extension\Helper;
+use Mpdf\Tag\Br;
 
 class Admin extends BaseController
 {
@@ -41,15 +43,15 @@ class Admin extends BaseController
         $data = [
             'title' => 'Dashboard',
             'userid' => $userid,
-            'countAllPerizinan' => $this->izin->getIzinFive()->getNumRows(),
+            'countAllPerizinan' => $this->izin->getIzin()->getNumRows(),
             'countAllPending' => $this->izin->callPendingData()->getNumRows(),
             'countAllUser' => $this->user->countAllUser(),
             'userMonth' => $this->user->userMonth()->getResult(),
-            'tampilIzin' => $this->izin->getIzinFive()->getResult(),
+            'tampilIzin' => $this->izin->getIzin()->getResult(),
             'userSubmitIzin' => $this->izin->userSubmitIzin($userid)->getResult(),
         ];
         // echo '<pre>';
-        // print_r($data);
+        // print_r($data['tampilIzin']);
         // die;
         return view('admin/dashboard', $data);
     }
@@ -291,9 +293,17 @@ class Admin extends BaseController
 
     public function editPerizinan($id_perizinan)
     {
+
+        $kegiatanId = $this->izin->getIzin($id_perizinan)->getRow();
+        if (empty($kegiatanId)) {
+            throw new PageNotFoundException();
+        }
+        $kegiatanId = $kegiatanId->id_kegiatan;
         $data = [
             'title' => 'DATA PERIZINAN',
             'tampilIzin' => $this->izin->getIzin($id_perizinan)->getRow(),
+            'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
+            'jenisZona' => $this->kegiatan->getZonaByKegiatanAjax($kegiatanId),
         ];
 
         return view('admin/updateIzin', $data);
@@ -332,10 +342,24 @@ class Admin extends BaseController
         // die;
         return view('admin/jenisKegiatan', $data);
     }
+    public function tambahKegiatan()
+    {
+        $data = [
+            'title' => 'Tambah Kegiatan',
+        ];
+        return view('admin/tambahKegiatan', $data);
+    }
+    public function tambah_kegiatan()
+    {
+        $data = [
+            'nama_kegiatan' => $this->request->getVar('nama_kegiatan'),
+        ];
+    }
+
     public function zonasi()
     {
         $data = [
-            'title' => 'Jenis Kegiatan',
+            'title' => 'Jenis Zonasi Kegiatan',
             'dataSubZona' => $this->kegiatan->getSubZona()->getResult(),
         ];
         // echo '<pre>';
@@ -343,10 +367,13 @@ class Admin extends BaseController
         // die;
         return view('admin/subZonaKegiatan', $data);
     }
+
     public function statusZonasi()
     {
         $data = [
-            'title' => 'Jenis Kegiatan',
+            'title' => 'Status Zonasi',
+            'kegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
+            'zona' => $this->kegiatan->getSubZona()->getResult(),
             'dataStatusZonasi' => $this->kegiatan->getStatusZonasi()->getResult(),
         ];
         // echo '<pre>';
@@ -354,6 +381,63 @@ class Admin extends BaseController
         // die;
         return view('admin/statusZonasi', $data);
     }
+    public function editStatusZonasi($id_kegiatan)
+    {
+        $data = [
+            'title' => 'Edit Status Zonasi',
+            'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
+            'dataZonasi' => $this->kegiatan->getStatusZonasiGrouped($id_kegiatan)->getResult(),
+        ];
+        return view('admin/updateStatusZonasi', $data);
+    }
+    public function updateStatusZonasi($id_kegiatan)
+    {
+        $zona = $this->request->getPost('zona');
+        $status = $this->request->getPost('statusZonasi');
+        $dataZonasi = $this->kegiatan->getStatusZonasiGrouped($id_kegiatan)->getResult();
+        $i = 0;
+        foreach ($dataZonasi as $dataz) {
+            $id_sub = $dataz->id_sub;
+            $data = [
+                'id_kegiatan' => $id_kegiatan,
+                'id_sub' => $dataz->id_sub,
+                'status_zonasi' => $status[$i],
+            ];
+            $i++;
+            $this->kegiatan->updateZonasiStatus($id_kegiatan, $id_sub, $data);
+        }
+        if ($this->kegiatan) {
+            session()->setFlashdata('success', 'Data Berhasil diperbarui.');
+            return redirect()->to('/admin/statusZonasi');
+        } else {
+            session()->setFlashdata('error', 'Gagal memperbarui data.');
+            return redirect()->to('/admin/statusZonasi');
+        }
+    }
+
+
+    public function dumpAddStatusZonasi($id_kegiatan)
+    {
+        $kegiatan = $this->kegiatan->getJenisKegiatan($id_kegiatan)->getResult();
+        $kegiatan = $kegiatan[0]->id_kegiatan;
+        $zona = $this->kegiatan->getSubZona()->getResult();
+
+        foreach ($zona as $zona) {
+            $data = [
+                'id_kegiatan' => $kegiatan,
+                'id_sub' => $zona->id_sub,
+                'status_zonasi' => '3',
+            ];
+            // $this->kegiatan->addZonasiStatus($data);
+            // if ($this) {
+            //     echo ("Sukses");
+            // }
+            echo '<pre>';
+            print_r($data);
+        }
+        die;
+    }
+
 
     // Pending Data
     public function pending()
@@ -400,6 +484,14 @@ class Admin extends BaseController
             session()->setFlashdata('error', 'Proses gagal.');
             return $this->response->redirect(site_url('/admin/pending'));
         }
+    }
+
+    public function getZonaByKegiatan()
+    {
+        $kegiatanId = $this->request->getPost('kegiatanId');
+        $zonaKegiatan = $this->kegiatan->getZonaByKegiatanAjax($kegiatanId);
+
+        return $this->response->setJSON($zonaKegiatan);
     }
 
 
