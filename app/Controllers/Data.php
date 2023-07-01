@@ -193,9 +193,9 @@ class Data extends BaseController
 
 
 
-    public function dump()
+    public function dump($id_kegiatan)
     {
-        $data = $this->kegiatan->getJenisKegiatan()->getResult();
+        $data = $this->kegiatan->getStatusZonasiGrouped($id_kegiatan)->getResultArray();
         echo "<pre>";
         print_r($data);
         die;

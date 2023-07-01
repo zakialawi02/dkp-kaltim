@@ -13,6 +13,7 @@ use App\Models\ModelJenisKegiatan;
 use App\Models\ModelFoto;
 use App\Models\ModelUser;
 use Faker\Extension\Helper;
+use Mpdf\Tag\Br;
 
 class Admin extends BaseController
 {
@@ -357,10 +358,13 @@ class Admin extends BaseController
         // die;
         return view('admin/subZonaKegiatan', $data);
     }
+
     public function statusZonasi()
     {
         $data = [
             'title' => 'Status Zonasi',
+            'kegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
+            'zona' => $this->kegiatan->getSubZona()->getResult(),
             'dataStatusZonasi' => $this->kegiatan->getStatusZonasi()->getResult(),
         ];
         // echo '<pre>';
@@ -368,6 +372,63 @@ class Admin extends BaseController
         // die;
         return view('admin/statusZonasi', $data);
     }
+    public function editStatusZonasi($id_kegiatan)
+    {
+        $data = [
+            'title' => 'Edit Status Zonasi',
+            'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
+            'dataZonasi' => $this->kegiatan->getStatusZonasiGrouped($id_kegiatan)->getResult(),
+        ];
+        return view('admin/updateStatusZonasi', $data);
+    }
+    public function updateStatusZonasi($id_kegiatan)
+    {
+        $zona = $this->request->getPost('zona');
+        $status = $this->request->getPost('statusZonasi');
+        $dataZonasi = $this->kegiatan->getStatusZonasiGrouped($id_kegiatan)->getResult();
+        $i = 0;
+        foreach ($dataZonasi as $dataz) {
+            $id_sub = $dataz->id_sub;
+            $data = [
+                'id_kegiatan' => $id_kegiatan,
+                'id_sub' => $dataz->id_sub,
+                'status_zonasi' => $status[$i],
+            ];
+            $i++;
+            $this->kegiatan->updateZonasiStatus($id_kegiatan, $id_sub, $data);
+        }
+        if ($this->kegiatan) {
+            session()->setFlashdata('success', 'Data Berhasil diperbarui.');
+            return redirect()->to('/admin/statusZonasi');
+        } else {
+            session()->setFlashdata('error', 'Gagal memperbarui data.');
+            return redirect()->to('/admin/statusZonasi');
+        }
+    }
+
+
+    public function dumpAddStatusZonasi($id_kegiatan)
+    {
+        $kegiatan = $this->kegiatan->getJenisKegiatan($id_kegiatan)->getResult();
+        $kegiatan = $kegiatan[0]->id_kegiatan;
+        $zona = $this->kegiatan->getSubZona()->getResult();
+
+        foreach ($zona as $zona) {
+            $data = [
+                'id_kegiatan' => $kegiatan,
+                'id_sub' => $zona->id_sub,
+                'status_zonasi' => '3',
+            ];
+            // $this->kegiatan->addZonasiStatus($data);
+            // if ($this) {
+            //     echo ("Sukses");
+            // }
+            echo '<pre>';
+            print_r($data);
+        }
+        die;
+    }
+
 
     // Pending Data
     public function pending()

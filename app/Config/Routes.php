@@ -56,6 +56,7 @@ $routes->delete('/admin/delete_Geojson/(:num)', 'Admin::delete_Geojson/$1', ['fi
 $routes->get('/admin/DataPerizinan', 'Admin::DataPerizinan', ['filter' => 'role:SuperAdmin,Admin']);
 $routes->get('/admin/data/data-perizinan', 'Admin::DataPerizinan', ['filter' => 'role:SuperAdmin,Admin']);
 $routes->get('/data-perizinan/(:num)/edit/', 'Admin::editPerizinan/$1', ['filter' => 'role:SuperAdmin,Admin,User']);
+$routes->get('/admin/data/zonasi/(:num)/edit/', 'Admin::editStatusZonasi/$1', ['filter' => 'role:SuperAdmin,Admin']);
 
 $routes->post('/data/tambahAjuan', 'Data::tambahAjuan', ['filter' => 'role:SuperAdmin,Admin,User']);
 $routes->delete('/admin/delete_izin/(:num)', 'Admin::delete_izin/$1', ['filter' => 'role:SuperAdmin,Admin,User']);
