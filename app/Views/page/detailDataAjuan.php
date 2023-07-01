@@ -69,9 +69,9 @@
                     <table class="table table-responsive">
                         <thead class="thead-left">
                             <tr>
-                                <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;">Nama Pemohon</th>
-                                <th style="border-bottom-width: 1px; border-bottom-color: #dee2e6;">:</th>
-                                <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;"><?= $tampilIzin->nama; ?></th>
+                                <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #939597;">Nama Pemohon</th>
+                                <th style="border-bottom-width: 1px; border-bottom-color: #939597;">:</th>
+                                <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #939597;"><?= $tampilIzin->nama; ?></th>
                             </tr>
                         </thead>
                         <tbody>

@@ -11,7 +11,7 @@
         <div class="navbar-nav ms-auto py-4 py-lg-0">
             <a href="<?= base_url(); ?>/#home" class="nav-item nav-link active">Beranda</a>
             <a href="/map" class="nav-item nav-link">Cek Kesesuaian</a>
-            <a href="/#about" class="nav-item nav-link">Tentang Kami</a>
+            <a href="/#about" class="nav-item nav-link">Tentang</a>
             <a href="/kontak" class="nav-item nav-link">Kontak</a>
 
 

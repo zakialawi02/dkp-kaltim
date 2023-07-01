@@ -2002,9 +2002,9 @@ progress {
     --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
     width: 100%;
     margin-bottom: 1rem;
-    color: #999;
+    color: #212121;
     vertical-align: top;
-    border-color: #dee2e6
+    border-color: #939597
 }
 
 .table>:not(caption)>*>* {
@@ -8324,7 +8324,7 @@ fieldset:disabled .btn {
 }
 
 .text-body {
-    color: #999 !important
+    color: #272727 !important
 }
 
 .text-muted {
