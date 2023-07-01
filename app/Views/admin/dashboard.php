@@ -296,7 +296,7 @@
                                                                                     <td scope="row"><?= date('d M Y H:i:s', strtotime($pIzin->created_at)); ?></td>
                                                                                     <td><?= $pIzin->nik; ?></td>
                                                                                     <td><?= $pIzin->nama; ?></td>
-                                                                                    <td><?= $pIzin->jenis_kegiatan ?>
+                                                                                    <td><?= $pIzin->nama_kegiatan ?>
                                                                                     </td>
                                                                                     <td>
                                                                                         <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="edit data">
@@ -352,7 +352,7 @@
                                                                                                                             <tr>
                                                                                                                                 <td>Jenis Kegiatan</td>
                                                                                                                                 <th>:</th>
-                                                                                                                                <td><?= $pIzin->jenis_kegiatan; ?></td>
+                                                                                                                                <td><?= $pIzin->nama_kegiatan; ?></td>
                                                                                                                             </tr>
                                                                                                                             <tr>
                                                                                                                                 <td>Created at</td>
@@ -482,7 +482,7 @@
                                                                                                                             <tr>
                                                                                                                                 <td>Jenis Kegiatan</td>
                                                                                                                                 <th>:</th>
-                                                                                                                                <td><?= $tIzin->jenis_kegiatan; ?></td>
+                                                                                                                                <td><?= $tIzin->nama_kegiatan; ?></td>
                                                                                                                             </tr>
                                                                                                                             <tr>
                                                                                                                                 <td>Created at</td>
@@ -555,7 +555,7 @@
                                                                                     <td scope="row"><?= date('d M Y H:i:s', strtotime($sIzin->created_at)); ?></td>
                                                                                     <td><?= $sIzin->id_perizinan; ?></td>
                                                                                     <td><?= $sIzin->nama; ?></td>
-                                                                                    <td><?= $sIzin->jenis_kegiatan ?></td>
+                                                                                    <td><?= $sIzin->nama_kegiatan ?></td>
                                                                                     <td><?= date('d M Y H:i:s', strtotime($sIzin->date_updated)); ?></td>
 
                                                                                     <td>
@@ -612,7 +612,7 @@
                                                                                                                             <tr>
                                                                                                                                 <td>Jenis Kegiatan</td>
                                                                                                                                 <th>:</th>
-                                                                                                                                <td><?= $sIzin->jenis_kegiatan; ?></td>
+                                                                                                                                <td><?= $sIzin->nama_kegiatan; ?></td>
                                                                                                                             </tr>
                                                                                                                             <tr>
                                                                                                                                 <td>Created at</td>
@@ -690,7 +690,7 @@
             <?php foreach ($userSubmitIzin as $S) : ?>
 
                 function showMap<?= $S->id_perizinan; ?>() {
-                    var mymap = L.map('mymap-<?= $S->id_perizinan; ?>').setView([<?= $S->latitude; ?>, <?= $S->longitude; ?>], 14);
+                    var mymap = L.map('mymap-<?= $S->id_perizinan; ?>').setView([<?= $S->latitude; ?>, <?= $S->longitude; ?>], 10);
 
                     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiNjg2MzUzMyIsImEiOiJjbDh4NDExZW0wMXZsM3ZwODR1eDB0ajY0In0.6jHWxwN6YfLftuCFHaa1zw', {
                         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +

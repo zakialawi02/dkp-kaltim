@@ -73,7 +73,7 @@
                                             <td class="nama"><?= $Iz->nik; ?></td>
                                             <td class="nama"><?= $Iz->nama; ?></td>
                                             <td class="almkv"><?= $Iz->alamat; ?></td>
-                                            <td class="almkv"><?= $Iz->jenis_kegiatan; ?></td>
+                                            <td class="almkv"><?= $Iz->nama_kegiatan; ?></td>
                                             <td class="aks">
                                                 <div class="btn-group mr-2" role="group" aria-label="First group">
                                                     <a href="/data-perizinan/<?= $Iz->id_perizinan; ?>/detail" class="asbn btn btn-secondary bi bi-eye" role="button" target="_blank"></a>

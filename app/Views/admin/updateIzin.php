@@ -59,6 +59,7 @@
 
                                         <form class="row g-3" action="/data/updateAjuan" method="post" enctype="multipart/form-data">
                                             <?= csrf_field(); ?>
+                                            <?php $dataZona = $jenisZona; ?>
                                             <input type="hidden" class="form-control" id="id" aria-describedby="textlHelp" name="id" value="<?= $tampilIzin->id_perizinan; ?>">
                                             <input type="hidden" class="form-control" id="drawPolygon" aria-describedby="textlHelp" name="drawPolygon">
 
@@ -87,23 +88,22 @@
                                             <div class="form-group">
                                                 <label class="col-md-12 mb-2">Jenis Kegiatan</label>
                                                 <select class="form-select" id="pilihKegiatan" name="kegiatan" for="kegiatan" style="width: 100%;" required>
-                                                    <option value="<?= $tampilIzin->jenis_kegiatan; ?>"><?= $tampilIzin->jenis_kegiatan; ?></option>
-                                                    <option value="Kegiatan A1">Kegiatan A1</option>
-                                                    <option value="Kegiatan A2">Kegiatan A2</option>
-                                                    <option value="Kegiatan A3">Kegiatan A3</option>
-                                                    <option value="Kegiatan A4">Kegiatan A4</option>
-                                                    <option value="Kegiatan A5">Kegiatan A5</option>
-                                                    <option value="Kegiatan B1">Kegiatan B1</option>
-                                                    <option value="Kegiatan B2">Kegiatan B2</option>
-                                                    <option value="Kegiatan B3">Kegiatan B3</option>
-                                                    <option value="Kegiatan B4">Kegiatan B4</option>
-                                                    <option value="Kegiatan AA1">Kegiatan AA1</option>
-                                                    <option value="Kegiatan AA2">Kegiatan AA2</option>
-                                                    <option value="Kegiatan AA3">Kegiatan AA3</option>
-                                                    <option value="Kegiatan AA4">Kegiatan AA4</option>
-                                                    <option value="Kegiatan AA5">Kegiatan AA5</option>
+                                                    <option></option>
+                                                    <?php foreach ($jenisKegiatan as $K) : ?>
+                                                        <option value="<?= $K->id_kegiatan ?>" <?= $K->id_kegiatan == $tampilIzin->id_kegiatan ? 'selected' : '' ?>><?= $K->nama_kegiatan ?></option>
+                                                    <?php endforeach ?>
                                                 </select>
                                             </div>
+                                            <div class="form-group">
+                                                <label class="col-md-12 mb-2" for="SubZona">Zona Kegiatan:</label>
+                                                <select class="form-select" name="SubZona" id="SubZona" style="width: 100%;" required>
+                                                    <option></option>
+                                                    <?php foreach ($dataZona as $Z) : ?>
+                                                        <option value="<?= $Z['id_sub'] ?>" <?= $Z['id_sub'] == $tampilIzin->id_sub ? 'selected' : '' ?>><?= $Z['nama_subzona'] ?></option>
+                                                    <?php endforeach ?>
+                                                </select>
+                                            </div>
+
                                             <div class="form-group">
                                                 <label class="form-label">Masukkan Lokasi</label>
                                                 <div class="row g-2">
@@ -174,35 +174,75 @@
 
     <script>
         $(document).ready(function() {
-            $('.form-select').select2({
-                placeholder: "Pilih Kegiatan",
+            $('#pilihKegiatan').select2({
+                placeholder: "Pilih Jenis Kegiatan",
+                allowClear: true
+            });
+            $('#SubZona').select2({
+                placeholder: "Pilih Zona Wilayah Kegiatan",
                 allowClear: true
             });
         });
     </script>
     <script>
-        function detectKegiatan() {
-            var kegiatanValue = $('#pilihKegiatan').val();
-            var boleh = ["Kegiatan AA1", "Kegiatan A1", "Kegiatan B1", "Kegiatan AA3", "Kegiatan A3", "Kegiatan B3"];
-            var bolehBesyarat = ["Kegiatan AA2", "Kegiatan A2", "Kegiatan B2", "Kegiatan AA4", "Kegiatan A4", "Kegiatan B4"];
-            var tidakBoleh = ["Kegiatan A5", "Kegiatan AA5"];
-            var showKegiatan = $('#showKegiatan');
+        $(document).ready(function() {
+            var dataKegiatan = <?= json_encode($jenisZona); ?>;
 
-            showKegiatan.removeClass().addClass('feedback');
-            if (boleh.includes(kegiatanValue)) {
-                showKegiatan.text('Diperbolehkan').addClass('boleh');
-            } else if (bolehBesyarat.includes(kegiatanValue)) {
-                showKegiatan.text('Diperbolehkan Bersyarat').addClass('bolehBersyarat');
-            } else if (tidakBoleh.includes(kegiatanValue)) {
-                showKegiatan.text('Tidak diperbolehkan').addClass('tidakBoleh');
-            } else {
-                showKegiatan.text('');
+            function detectKegiatan() {
+                var zonaId = $('#SubZona').val();
+                var result = dataKegiatan.filter(function(item) {
+                    return item.id_sub === zonaId;
+                });
+                var status = result[0].status_zonasi;
+                var showKegiatan = $('#showKegiatan');
+                showKegiatan.removeClass().addClass('feedback');
+                if (status === '1') {
+                    showKegiatan.text('Diperbolehkan').addClass('boleh');
+                } else if (status === '2') {
+                    showKegiatan.text('Diperbolehkan Bersyarat').addClass('bolehBersyarat');
+                } else if (status === '3') {
+                    showKegiatan.text('Tidak diperbolehkan').addClass('tidakBoleh');
+                } else {
+                    showKegiatan.text('  -');
+                }
             }
-        }
-        detectKegiatan();
-        $('#pilihKegiatan').change(function() {
             detectKegiatan();
-        })
+
+            $('#pilihKegiatan').change(function() {
+                var kegiatanId = $(this).val();
+
+                if (kegiatanId !== '') {
+                    $('#SubZona').prop('disabled', false);
+
+                    $.ajax({
+                        url: "<?= base_url('admin/getZonaByKegiatan') ?>",
+                        method: "POST",
+                        data: {
+                            kegiatanId: kegiatanId
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            var options = '<option value="">Pilih Zona Kegiatan</option>';
+
+                            if (response.length > 0) {
+                                dataKegiatan = response;
+                                $.each(response, function(index, SubZona) {
+                                    options += '<option value="' + SubZona.id_sub + '">' + SubZona.nama_subzona + '</option>';
+                                });
+                            }
+                            $('#SubZona').html(options);
+                        }
+                    });
+                } else {
+                    $('#SubZona').prop('disabled', true);
+                    $('#SubZona').html('<option value="">Pilih Kegiatan terlebih dahulu</option>');
+                }
+            });
+
+            $('#SubZona').change(function(e) {
+                detectKegiatan()
+            });
+        });
     </script>
 
 

@@ -86,10 +86,16 @@
                                 <td><?= $tampilIzin->alamat; ?></td>
                             </tr>
                             <tr>
+                                <td>No. Telp/HP</td>
+                                <th>:</th>
+                                <td><?= $tampilIzin->kontak; ?></td>
+                            </tr>
+                            <tr>
                                 <td>Jenis Kegiatan</td>
                                 <th>:</th>
-                                <td><?= $tampilIzin->jenis_kegiatan; ?></td>
+                                <td><?= $tampilIzin->nama_kegiatan; ?></td>
                             </tr>
+
                             <?php if (in_groups('SuperAdmin') || in_groups('Admin')) :; ?>
                                 <tr>
                                     <td>Dibuat Pada</td>
@@ -102,7 +108,7 @@
                                     <td><?= date('d M Y H:i:s', strtotime($tampilIzin->updated_at)); ?></td>
                                 </tr>
                                 <tr>
-                                    <td>Pengirim (username) :</td>
+                                    <td>Pemohon (username) :</td>
                                     <th>:</th>
                                     <td><?= $tampilIzin->username; ?></td>
                                 </tr>

@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\Validation\Exceptions\ValidationException;
 use CodeIgniter\Validation\Validation;
 use App\Controllers\BaseController;
@@ -42,15 +43,15 @@ class Admin extends BaseController
         $data = [
             'title' => 'Dashboard',
             'userid' => $userid,
-            'countAllPerizinan' => $this->izin->getIzinFive()->getNumRows(),
+            'countAllPerizinan' => $this->izin->getIzin()->getNumRows(),
             'countAllPending' => $this->izin->callPendingData()->getNumRows(),
             'countAllUser' => $this->user->countAllUser(),
             'userMonth' => $this->user->userMonth()->getResult(),
-            'tampilIzin' => $this->izin->getIzinFive()->getResult(),
+            'tampilIzin' => $this->izin->getIzin()->getResult(),
             'userSubmitIzin' => $this->izin->userSubmitIzin($userid)->getResult(),
         ];
         // echo '<pre>';
-        // print_r($data);
+        // print_r($data['tampilIzin']);
         // die;
         return view('admin/dashboard', $data);
     }
@@ -292,9 +293,17 @@ class Admin extends BaseController
 
     public function editPerizinan($id_perizinan)
     {
+
+        $kegiatanId = $this->izin->getIzin($id_perizinan)->getRow();
+        if (empty($kegiatanId)) {
+            throw new PageNotFoundException();
+        }
+        $kegiatanId = $kegiatanId->id_kegiatan;
         $data = [
             'title' => 'DATA PERIZINAN',
             'tampilIzin' => $this->izin->getIzin($id_perizinan)->getRow(),
+            'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
+            'jenisZona' => $this->kegiatan->getZonaByKegiatanAjax($kegiatanId),
         ];
 
         return view('admin/updateIzin', $data);

@@ -70,7 +70,7 @@
                                             <td><?= $S->nama; ?></td>
                                             <td><?= $S->nik; ?></td>
                                             <td><?= $S->alamat; ?></td>
-                                            <td><?= $S->jenis_kegiatan; ?></td>
+                                            <td><?= $S->nama_kegiatan; ?></td>
                                             <td>
                                                 <div class="btn-group mr-2" role="group" aria-label="First group">
                                                     <form action="/admin/tolakIzin/<?= $S->id_perizinan; ?>" method="post">
@@ -124,7 +124,7 @@
                                                                                     <tr>
                                                                                         <td>Jenis Kegiatan</td>
                                                                                         <th>:</th>
-                                                                                        <td><?= $S->jenis_kegiatan; ?>
+                                                                                        <td><?= $S->nama_kegiatan; ?>
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
@@ -231,7 +231,7 @@
         <script>
             $(document).ready(function() {
                 function showMap<?= $S->id_perizinan; ?>() {
-                    var mymap = L.map('mymap-<?= $S->id_perizinan; ?>').setView([<?= $S->latitude; ?>, <?= $S->longitude; ?>], 14);
+                    var mymap = L.map('mymap-<?= $S->id_perizinan; ?>').setView([<?= $S->latitude; ?>, <?= $S->longitude; ?>], 10);
 
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
