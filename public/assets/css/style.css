@@ -115,6 +115,10 @@ h6 {
   .navbar .navbar-nav {
     border-top: 1px solid #eeeeee;
   }
+
+  .img-fluid.navbar-logo {
+    width: 14rem;
+  }
 }
 
 @media (min-width: 992px) {
@@ -199,6 +203,7 @@ h6 {
   .hero-header p {
     font-size: 1.2rem;
   }
+
 }
 
 #discover {
@@ -229,6 +234,10 @@ h6 {
   .card-list {
     /* On small screens, we are no longer using row direction but column */
     flex-direction: column;
+  }
+
+  .img-fluid.navbar-logo {
+    width: 10rem;
   }
 }
 

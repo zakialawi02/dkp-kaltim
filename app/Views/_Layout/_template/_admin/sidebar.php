@@ -12,6 +12,10 @@
                     <div class="sb-nav-link-icon"><i class="bi bi-grid-fill"></i></div>
                     Dashboard
                 </a>
+                <a class="nav-link" href="/map">
+                    <div class="sb-nav-link-icon"><i class="bi bi-journal-plus"></i></div>
+                    Buat Pengajuan
+                </a>
 
                 <?php if (in_groups('SuperAdmin') || in_groups('Admin')) :; ?>
                     <div class="sb-sidenav-menu-heading">Data</div>
