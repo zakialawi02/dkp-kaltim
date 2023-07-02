@@ -99,7 +99,7 @@
                 <p>Anda dapat mengajukan permohonan izin secara mandiri dengan sistem daring (online)</p>
             </center>
 
-            <div class="d-flex gap-4 justify-content-md-center mt-3 pt-2">
+            <div class="d-flex flex-wrap gap-4 align-content-center justify-content-center mt-3 pt-2">
                 <div class="card" style="width: 15rem;">
                     <img src="<?= base_url('/img/checking.png'); ?>" class="card-img-top p-4">
                     <div class="card-body">

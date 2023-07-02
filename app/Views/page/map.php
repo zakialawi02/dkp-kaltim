@@ -209,6 +209,7 @@
                         <div class="sidepanel-tab-content" data-tab-content="tab-2">
                             <h4>About</h4>
                             <hr>
+                            <p>Aplikasi ini merupakan aplikasi yang dapat digunakan oleh masyarakat umum untuk melihat pemanfaatan dan penggunaan apa saja yang dapat dilakukan pada wilayah pesisir dan laut Provinsi Kalimantan Timur.</p>
                         </div>
                     </div>
                 </div>
