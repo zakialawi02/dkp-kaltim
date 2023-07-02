@@ -230,7 +230,7 @@
         L.control.mousePosition().addTo(map);
         L.control.scale().addTo(map);
 
-        L.marker([<?= $tampilIzin->latitude; ?>, <?= $tampilIzin->longitude; ?>]).addTo(map).bindPopup("<b><?= $tampilIzin->nama; ?></b></br><?= $tampilIzin->alamat; ?>").openPopup();
+        L.marker([<?= $tampilIzin->latitude; ?>, <?= $tampilIzin->longitude; ?>]).addTo(map);
         var drawnPolygon = L.polygon(<?= $tampilIzin->polygon; ?>).addTo(map);
     </script>
 
