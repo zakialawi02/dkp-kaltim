@@ -103,7 +103,7 @@ class ModelJenisKegiatan extends Model
     public function getZonaByKegiatanAjax($kegiatanId)
     {
         return $this->db->table('tbl_izin_zonasi')
-            ->select('tbl_izin_zonasi.*, tbl_kegiatan.nama_kegiatan as nama_kegiatan, tbl_zona_pemanfaatan.nama_subzona as nama_subzona')
+            ->select('tbl_izin_zonasi.*, tbl_kegiatan.*, tbl_zona_pemanfaatan.*')
             ->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan = tbl_izin_zonasi.id_kegiatan', 'LEFT')
             ->join('tbl_zona_pemanfaatan', 'tbl_zona_pemanfaatan.id_sub = tbl_izin_zonasi.id_sub', 'LEFT')
             ->where('tbl_izin_zonasi.id_kegiatan', $kegiatanId)
