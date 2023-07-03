@@ -639,7 +639,45 @@
             $('#geojson').val(geojson);
             $('#modalAdd').show();
             $("#modal-button").removeClass("btn-warning");
+            detectOverlap();
         });
+
+        function detectOverlap() {
+            // Dapatkan GeoJSON dari layer yang digambar
+            var drawnGeoJSON = drawnLayer.toGeoJSON();
+            // Buat array untuk menyimpan data geometri shapefile yang overlap atau di dalam
+            var overlappingFeatures = [];
+            // Loop melalui setiap fitur pada shapefile
+            geoshp.eachLayer(function(layer) {
+                // Dapatkan GeoJSON dari fitur pada shapefile
+                var shapefileGeoJSON = layer.toGeoJSON();
+
+                // Buat objek turf dari GeoJSON
+                var drawnPoly = turf.polygon(drawnGeoJSON.geometry.coordinates);
+                var shapefilePoly = turf.polygon(shapefileGeoJSON.geometry.coordinates);
+                console.log(shapefileGeoJSON);
+                // Periksa overlap antara layer yang digambar dan shapefile menggunakan Turf.js
+                var overlap = turf.booleanOverlap(drawnPoly, shapefilePoly);
+                var within = turf.booleanWithin(drawnPoly, shapefilePoly);
+
+                if (overlap || within) {
+                    // Jika terdapat overlap, lakukan tindakan yang diinginkan
+                    console.log('Overlap detected!');
+                    var overlappingFeature = {
+                        geometry: shapefileGeoJSON.geometry,
+                        properties: shapefileGeoJSON.properties
+                    };
+                    // Tambahkan data ke dalam array overlappingFeatures
+                    overlappingFeatures.push(overlappingFeature);
+                }
+            });
+            console.log(overlappingFeatures);
+            // Ambil properti "zona" dari overlappingFeatures
+            var overlappingZones = overlappingFeatures.map(function(feature) {
+                return feature.properties.zona;
+            });
+            console.log(overlappingZones);
+        }
 
         // controller
         var zoomControl = L.control.zoom({
@@ -722,22 +760,22 @@
 
 
         // shapefile untuk batas admin detectme()
-        // var geoshp = L.geoJson({
-        //     features: []
-        // }, );
+        var geoshp = L.geoJson({
+            features: []
+        }, );
 
-        // var wfunc = function(base, cb) {
-        //     importScripts('/leaflet/shp.js');
-        //     shp(base).then(cb);
-        // }
-        // var worker = cw({
-        //     data: wfunc
-        // }, 2);
-        // worker.data(cw.makeUrl('/geojson/batas_kelurahan_2021_sby_357820220801090416.zip')).then(function(data) {
-        //     geoshp.addData(data);
-        // }, function(a) {
-        //     console.log(a)
-        // });
+        var wfunc = function(base, cb) {
+            importScripts('/leaflet/shp.js');
+            shp(base).then(cb);
+        }
+        var worker = cw({
+            data: wfunc
+        }, 2);
+        worker.data(cw.makeUrl('/geojson/dummy.zip')).then(function(data) {
+            geoshp.addData(data).addTo(map);
+        }, function(a) {
+            console.log(a)
+        });
 
 
         const screenWidth = screen.availWidth
