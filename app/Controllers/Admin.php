@@ -428,13 +428,14 @@ class Admin extends BaseController
                 'id_sub' => $zona->id_sub,
                 'status_zonasi' => '3',
             ];
-            // $this->kegiatan->addZonasiStatus($data);
+            $this->kegiatan->addZonasiStatus($data);
             // if ($this) {
             //     echo ("Sukses");
             // }
             echo '<pre>';
             print_r($data);
         }
+        return redirect()->to('/admin/statusZonasi');
         die;
     }
 
