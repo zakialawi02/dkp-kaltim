@@ -469,7 +469,8 @@
     <script src="/leaflet/shp.js"></script>
     <script src="/leaflet/leaflet-hash.js"></script>
     <script src="/leaflet/Leaflet.NavBar.js"></script>
-    <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
+    <script src="/leaflet/turf.min.js"></script>
+    <!-- <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script> -->
     <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.min.js"></script>
 
     <!-- Leafleat Setting js-->
@@ -517,12 +518,6 @@
                         copyCoordinates(e);
                     }
                 }, {
-                    text: 'Add marker here',
-                    icon: '/leaflet/icon/addm.png',
-                    callback: function(e) {
-                        addMarker(e);
-                    }
-                }, {
                     text: 'Center map here',
                     callback: function(e) {
                         centerMap(e);
@@ -545,72 +540,6 @@
         }
 
         var addKafe;
-
-        function processPoint(detectMe) {
-            var isInsidePolygon = false;
-            geoshp.eachLayer(function(layer) {
-                var polygon = layer.toGeoJSON();
-                if (turf.booleanPointInPolygon(detectMe, polygon)) {
-                    isInsidePolygon = true;
-                    var properties = polygon.properties;
-                    var kode = properties.kode_1;
-                    $.ajax({
-                        type: "POST",
-                        url: "<?php echo base_url('/admin/getkode'); ?>",
-                        data: {
-                            kode: kode
-                        },
-                        dataType: "json",
-                        success: function(response) {
-                            var detectIdWilayah = response.id;
-                            var detectTextWilayah = response.text;
-                            var id = detectIdWilayah;
-                            var text = detectTextWilayah;
-                            var option = new Option(detectTextWilayah, detectIdWilayah);
-                            $('#wilayahA').empty().append(option).val(detectIdWilayah);
-                        },
-                        error: function(xhr, status, error) {
-                            console.log(error);
-                        }
-                    });
-                }
-            });
-            if (!isInsidePolygon) {
-                $('#wilayahA').empty();
-            }
-        }
-
-
-        <?php if (logged_in()) : ?>
-
-            function addMarker(e) {
-                if (addKafe) map.removeLayer(addKafe);
-                addKafe = L.marker(e.latlng).addTo(map);
-                $("#loading-spinner").removeClass("d-none");
-                lat = e.latlng.lat;
-                lng = e.latlng.lng;
-                koordinat = lat + ", " + lng;
-
-                var detectMe = turf.point([lng, lat]); // Create a Turf.js point object
-                processPoint(detectMe);
-                $('#koordinat').val(koordinat);
-                setTimeout(function() {
-                    $("#loading-spinner").addClass("d-none");
-                    modal.style.display = "block";
-                }, 800);
-            }
-        <?php else : ?>
-
-            function addMarker(e) {
-                $("#loading-spinner").removeClass("d-none");
-                setTimeout(function() {
-                    $("#loading-spinner").addClass("d-none");
-                    Swal.fire('Anda harus login terlebih dahulu')
-                    var logModal = new bootstrap.Modal($('#loginModal'));
-                    logModal.show();
-                }, 500);
-            }
-        <?php endif ?>
 
         // add Leaflet-Geoman controls with some options to the map  
         map.pm.setLang("id");
@@ -651,11 +580,11 @@
             geoshp.eachLayer(function(layer) {
                 // Dapatkan GeoJSON dari fitur pada shapefile
                 var shapefileGeoJSON = layer.toGeoJSON();
-
+                console.log(shapefileGeoJSON);
                 // Buat objek turf dari GeoJSON
                 var drawnPoly = turf.polygon(drawnGeoJSON.geometry.coordinates);
                 var shapefilePoly = turf.polygon(shapefileGeoJSON.geometry.coordinates);
-                console.log(shapefileGeoJSON);
+                // console.log(shapefileGeoJSON);
                 // Periksa overlap antara layer yang digambar dan shapefile menggunakan Turf.js
                 var overlap = turf.booleanOverlap(drawnPoly, shapefilePoly);
                 var within = turf.booleanWithin(drawnPoly, shapefilePoly);
@@ -665,7 +594,7 @@
                     console.log('Overlap detected!');
                     var overlappingFeature = {
                         geometry: shapefileGeoJSON.geometry,
-                        properties: shapefileGeoJSON.properties
+                        properties: shapefileGeoJSON.properties,
                     };
                     // Tambahkan data ke dalam array overlappingFeatures
                     overlappingFeatures.push(overlappingFeature);
@@ -673,10 +602,10 @@
             });
             console.log(overlappingFeatures);
             // Ambil properti "zona" dari overlappingFeatures
-            var overlappingZones = overlappingFeatures.map(function(feature) {
-                return feature.properties.zona;
-            });
-            console.log(overlappingZones);
+            // var overlappingZones = overlappingFeatures.map(function(feature) {
+            //     return feature.properties.zona;
+            // });
+            // console.log(overlappingZones);
         }
 
         // controller
@@ -771,7 +700,7 @@
         var worker = cw({
             data: wfunc
         }, 2);
-        worker.data(cw.makeUrl('/geojson/dummy.zip')).then(function(data) {
+        worker.data(cw.makeUrl('/geojson/RZ50K_AR_REVISIMAR_2021_FIX_29_Maret.zip')).then(function(data) {
             geoshp.addData(data).addTo(map);
         }, function(a) {
             console.log(a)
