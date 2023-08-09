@@ -76,7 +76,9 @@
                                 </tbody>
                             </table>
 
-
+                            <?php foreach ($zona as $z) : ?>
+                                <p><?= $z->kode_zonasi; ?> : <?= $z->nama_subzona; ?></p>
+                            <?php endforeach ?>
 
 
                         </div>

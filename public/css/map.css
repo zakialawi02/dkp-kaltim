@@ -1,7 +1,27 @@
 #map {
     height: 100vh;
     width: 100%;
+    /* cursor: grab; */
     /* z-index: 0; */
+}
+
+.map .ol-zoom {
+    position: absolute;
+    bottom: 1.2rem;
+    right: 0.8rem;
+    top: auto;
+    left: auto;
+
+}
+
+.ol-overviewmap-map,
+.ol-overviewmap.ol-control button {
+    position: absolute !important;
+    bottom: 1.4rem !important;
+    left: 0.4rem !important;
+    top: auto !important;
+    right: auto !important;
+
 }
 
 
@@ -50,6 +70,96 @@
     margin-left: 5px;
     font-weight: 700;
     border-radius: 12px;
+}
+
+.sidepanel {
+    width: 25vw;
+    height: 100vh;
+    min-width: 100px;
+    position: absolute;
+    top: 0;
+    left: -25vw;
+    background-color: #f5f5f5;
+    transition: left 0.3s ease;
+    z-index: 2;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+}
+
+.sidepanel-content {
+    max-height: 95vh;
+    overflow-y: auto;
+}
+
+.sidepanel.expanded {
+    left: 0;
+}
+
+.toggle-sidepanel {
+    position: absolute;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: #f5f5f5;
+    color: #0e0e0e;
+    top: calc(50% - 22px);
+    left: calc(100% - 16px);
+    padding: 8px;
+    padding-bottom: 8px;
+    transform: rotate(90deg);
+    z-index: 1;
+    cursor: pointer;
+    border: 1px solid #000000;
+    border-radius: 8px;
+}
+
+.radio_item {
+    display: none !important;
+}
+
+.label_item {
+    opacity: 0.3;
+    width: 82px;
+    height: 82px;
+}
+
+.radio_item:checked+label {
+    opacity: 1;
+}
+
+label {
+    cursor: pointer;
+}
+
+.label_item>img {
+    width: 100%;
+}
+
+.label_item>span {
+    font-size: 14px;
+    position: absolute;
+    z-index: 2;
+    bottom: 2px;
+    text-shadow: 1px 1px 3px #333;
+    color: white;
+    left: 1px;
+}
+
+.label_item {
+    transition: all 0.3s;
+    position: relative;
+    display: inline-block;
+}
+
+.symbology {
+    display: block;
+    font-size: 14px;
+    color: #000000;
+    padding-bottom: 1px;
+
+}
+
+.irs-diapason,
+.noUi-origin-lower {
+    background: #48ac2e;
 }
 
 #panelID {
@@ -335,6 +445,13 @@
     overflow-y: auto;
 }
 
+@media screen and (max-width: 900px) {
+    .sidepanel {
+        width: 40vw;
+        left: -40vw;
+    }
+}
+
 @media screen and (max-width: 600px) {
     .modalAdd-content {
         width: 100%;
@@ -342,5 +459,12 @@
         margin: 0;
         overflow-y: scroll;
         -webkit-overflow-scrolling: touch;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .sidepanel {
+        width: 65vw;
+        left: -65vw;
     }
 }

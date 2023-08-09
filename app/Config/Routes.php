@@ -57,6 +57,8 @@ $routes->get('/admin/DataPerizinan', 'Admin::DataPerizinan', ['filter' => 'role:
 $routes->get('/admin/data/data-perizinan', 'Admin::DataPerizinan', ['filter' => 'role:SuperAdmin,Admin']);
 $routes->get('/data-perizinan/(:num)/detail', 'Data::detail/$1');
 $routes->get('/data-perizinan/(:num)/edit/', 'Admin::editPerizinan/$1', ['filter' => 'role:SuperAdmin,Admin,User']);
+$routes->get('/admin/kegiatan/', 'Admin::kegiatan', ['filter' => 'role:SuperAdmin,Admin']);
+$routes->get('/admin/kegiatan/tambah', 'Admin::tambahKegiatan', ['filter' => 'role:SuperAdmin,Admin']);
 $routes->get('/admin/data/zonasi/(:num)/edit/', 'Admin::editStatusZonasi/$1', ['filter' => 'role:SuperAdmin,Admin']);
 $routes->get('/admin/data/zonasi/(:num)/add/', 'Admin::dumpAddStatusZonasi/$1', ['filter' => 'role:SuperAdmin,Admin']);
 
@@ -65,6 +67,7 @@ $routes->delete('/admin/delete_izin/(:num)', 'Admin::delete_izin/$1', ['filter' 
 
 $routes->get('/user/manajemen', 'User::manajemen', ['filter' => 'role:SuperAdmin,Admin']);
 
+$routes->get('/map1', 'Data::mapCopy');
 
 
 /*
