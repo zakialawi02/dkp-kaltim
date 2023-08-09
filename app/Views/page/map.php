@@ -272,8 +272,10 @@
                 var result = dataKegiatan.filter(function(item) {
                     return item.id_sub === zonaId;
                 });
+                var kode_zone = result[0].kode_zonasi;
                 var status = result[0].status_zonasi;
                 var showKegiatan = $('#showKegiatan');
+                console.log(kode_zone);
                 showKegiatan.removeClass().addClass('feedback');
                 if (status === '1') {
                     showKegiatan.text('Diperbolehkan').addClass('boleh');
