@@ -19,15 +19,14 @@
     <!-- Template Main CSS File -->
     <link href="/css/StyleAdmin.css" rel="stylesheet" />
 
-    <!-- leaflet Component -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
-    <link href="/leaflet/L.Control.MousePosition.css" rel="stylesheet">
-    <link rel="stylesheet" href="//unpkg.com/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css" type="text/css">
-
+    <!-- Open Layers Component -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v7.4.0/ol.css">
+    <link rel="stylesheet" href="https://unpkg.com/ol-layerswitcher@4.1.1/dist/ol-layerswitcher.css" />
 
     <style>
         #map {
             height: 70vh;
+            cursor: grab;
         }
     </style>
 
@@ -59,12 +58,13 @@
                                         <label for="koordinatView" class="form-label">Koordinat</label>
                                         <input type="text" class="form-control" name="coordinat_wilayah" value="<?= $D->coordinat_wilayah; ?>" id="koordinatView" placeholder="Latitude, Longitude">
                                         <div id="passwordHelpBlock" class="form-text">
+                                            contoh: Latitude, Longitude <br>
                                             contoh: -7.0385384, 112.8998345
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="zoomView" class="form-label">Zoom</label>
-                                        <input type="number" min="1" max="20" class="form-control" name="zoom_view" id="zoomView" value="<?= $D->zoom_view; ?>">
+                                        <input type="number" min="1" max="20" step="0.01" inputmode=" numeric" class="form-control" name="zoom_view" id="zoomView" value="<?= $D->zoom_view; ?>" lang="en">
                                         <div id="passwordHelpBlock" class="form-text">
                                             min: 1, Max: 20
                                         </div>
@@ -127,77 +127,109 @@
         </script>
     <?php endif; ?>
 
-    <!-- Leafleat js Component -->
-    <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js" integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
-    <script src="https://unpkg.com/geojson-vt@3.2.0/geojson-vt.js"></script>
-    <script src="/leaflet/leaflet-geojson-vt.js"></script>
-    <script src="/leaflet/leaflet.ajax.min.js"></script>
-    <script src="/leaflet/leaflet.ajax.js"></script>
-    <script src="/leaflet/L.Control.MousePosition.js"></script>
-    <script src="//unpkg.com/leaflet-gesture-handling"></script>
+    <!-- Open Layers Component -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ol@v7.4.0/dist/ol.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/elm-pep@1.0.6/dist/elm-pep.js"></script>
+    <script src="https://unpkg.com/ol-layerswitcher@4.1.1"></script>
 
-    <!-- Leafleat Setting js-->
-    <!-- initialize the map on the "map" div with a given center and zoom -->
-    <script>
-        // Base map
-        var peta1 = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiNjg2MzUzMyIsImEiOiJjbDh4NDExZW0wMXZsM3ZwODR1eDB0ajY0In0.6jHWxwN6YfLftuCFHaa1zw', {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-                '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-            id: 'mapbox/streets-v11',
-            tileSize: 512,
-            zoomOffset: -1
-        });
-
-        var peta2 = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiNjg2MzUzMyIsImEiOiJjbDh4NDExZW0wMXZsM3ZwODR1eDB0ajY0In0.6jHWxwN6YfLftuCFHaa1zw', {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-                '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-            id: 'mapbox/satellite-v9'
-        });
-
-        var peta3 = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        });
-
-        var peta4 = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiNjg2MzUzMyIsImEiOiJjbDh4NDExZW0wMXZsM3ZwODR1eDB0ajY0In0.6jHWxwN6YfLftuCFHaa1zw', {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-                '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-            id: 'mapbox/dark-v10'
-        });
-
-        // set frame view
+    <script type="text/javascript">
         <?php foreach ($tampilData as $D) : ?>
-            var map = L.map('map', {
-                center: [<?= $D->coordinat_wilayah; ?>],
-                zoom: <?= $D->zoom_view; ?>,
-                layers: [peta1],
-                attributionControl: false,
-                gestureHandling: true,
-            })
+            <?php $koordinat = $D->coordinat_wilayah ?>
+            <?php $zoomView = $D->zoom_view ?>
+            <?php $splitKoordinat = explode(', ', $koordinat) ?>
+            <?php $lon = $splitKoordinat[0] ?>
+            <?php $lat = $splitKoordinat[1] ?>
         <?php endforeach ?>
 
-        // controller
-        var baseLayers = {
-            "Map": peta1,
-            "Satellite": peta2,
-            "OSM": peta3,
-        };
+        proj4.defs("EPSG:32750", "+proj=utm +zone=50 +south +ellps=WGS84 +datum=WGS84 +units=m +no_defs");
+        proj4.defs("EPSG:23836", "+proj=tmerc +lat_0=0 +lon_0=112.5 +k=0.9999 +x_0=200000 +y_0=1500000 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
 
-        L.control.layers(baseLayers).addTo(map);
-        L.control.mousePosition().addTo(map);
-        L.control.scale().addTo(map);
-
-        map.on('move', function(event) {
-            var center = map.getCenter();
-            var latitude = center.lat.toFixed(6); // Bulatkan nilai latitude menjadi 6 desimal
-            var longitude = center.lng.toFixed(6); // Bulatkan nilai longitude menjadi 6 desimal
-            $('#koordinatView').val(latitude + ', ' + longitude)
+        const projection = new ol.proj.Projection({
+            code: 'EPSG:32750',
+            units: 'm',
+            axisOrientation: 'neu'
         });
-        map.on('zoomend', function(event) {
-            var zoom = map.getZoom();
-            $('#zoomView').val(zoom)
+
+        // BaseMap
+        const osmBaseMap = new ol.layer.Tile({
+            title: 'Open Street Map',
+            type: 'base',
+            source: new ol.source.OSM(),
+            crossOrigin: 'anonymous',
+            visible: false,
+        });
+
+        const sourceBingMaps = new ol.source.BingMaps({
+            key: 'AjQ2yJ1-i-j_WMmtyTrjaZz-3WdMb2Leh_mxe9-YBNKk_mz1cjRC7-8ILM7WUVEu',
+            imagerySet: 'AerialWithLabels',
+            maxZoom: 20,
+        });
+        const bingAerialBaseMap = new ol.layer.Tile({
+            title: 'Bing Aerial',
+            type: 'base',
+            preload: Infinity,
+            source: sourceBingMaps,
+            crossOrigin: 'anonymous',
+            visible: true,
+        });
+
+        const mapboxBaseURL = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiNjg2MzUzMyIsImEiOiJjbDh4NDExZW0wMXZsM3ZwODR1eDB0ajY0In0.6jHWxwN6YfLftuCFHaa1zw';
+        const mapboxStyleId = 'mapbox/streets-v11';
+        const mapboxSource = new ol.source.XYZ({
+            url: mapboxBaseURL.replace('{id}', mapboxStyleId),
+        });
+        const mapboxBaseMap = new ol.layer.Tile({
+            title: 'MapBox Road',
+            type: 'base',
+            visible: false,
+            source: mapboxSource,
+            crossOrigin: 'anonymous',
+        });
+
+        const baseMaps = [osmBaseMap, bingAerialBaseMap, mapboxBaseMap];
+
+        // Init To Canvas/View
+        const view = new ol.View({
+            center: ol.proj.fromLonLat([<?= $lat; ?>, <?= $lon; ?>]),
+            zoom: <?= $zoomView; ?>,
+            Projection: projection
+        });
+        const viewMini = new ol.View({
+            center: ol.proj.fromLonLat([<?= $lat; ?>, <?= $lon; ?>]),
+            zoom: <?= $zoomView - 3; ?>,
+        });
+        const map = new ol.Map({
+            layers: baseMaps,
+            target: 'map',
+            controls: [
+                //Define the default controls
+                new ol.control.Zoom(),
+                new ol.control.Attribution(),
+                //Define some new controls
+                new ol.control.ScaleLine(),
+
+            ],
+            view: view,
+        });
+        const mainMap = map;
+
+        var layerSwitcher = new ol.control.LayerSwitcher({
+            tipLabel: 'Legend', // Optional label for button
+            groupSelectStyle: 'children' // Can be 'children' [default], 'group' or 'none'
+        });
+        map.addControl(layerSwitcher);
+
+        view.on('change', function() {
+            const zoomView = view.getZoom();
+            const centerCoordinate = view.getCenter();
+            const lonLatCenter = ol.proj.toLonLat(centerCoordinate);
+            $('#koordinatView').val(lonLatCenter[1] + ', ' + lonLatCenter[0])
+            $('#zoomView').val(zoomView.toFixed(1));
+        });
+        const zoomInput = document.getElementById('zoomView');
+        zoomInput.addEventListener('input', function() {
+            this.value = this.value.replace(',', '.');
         });
     </script>
 
