@@ -1,10 +1,13 @@
 <!doctype html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <title>Welcome | Login</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Favicon -->
+    <link href="/img/favicon.png" rel="icon">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -91,7 +94,7 @@
                             <?php if ($config->activeResetter) : ?>
                                 <div class="col-md-12 mb-3">
                                     <p class="text-center">
-                                        <a href="<?= url_to('forgot') ?>" class="google btn mybtn"><?= lang('Auth.forgotYourPassword') ?>
+                                        <a href="<?= url_to('forgot') ?>" class="google btn mybtn">Lupa Password?
                                         </a>
                                     </p>
                                 </div>
@@ -99,7 +102,7 @@
 
                             <?php if ($config->allowRegistration) : ?>
                                 <div class="form-group">
-                                    <p class="text-center">Don't have account? <a href="<?= url_to('register') ?>" id="signup">Sign up here</a></p>
+                                    <p class="text-center">Belum Punya Akun? <a href="<?= url_to('register') ?>" id="signup">Daftar Disini</a></p>
                                 </div>
                             <?php endif; ?>
 

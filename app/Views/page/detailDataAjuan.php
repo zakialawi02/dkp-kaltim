@@ -69,9 +69,9 @@
                     <table class="table table-responsive">
                         <thead class="thead-left">
                             <tr>
-                                <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;">Nama Pemohon</th>
-                                <th style="border-bottom-width: 1px; border-bottom-color: #dee2e6;">:</th>
-                                <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;"><?= $tampilIzin->nama; ?></th>
+                                <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #939597;">Nama Pemohon</th>
+                                <th style="border-bottom-width: 1px; border-bottom-color: #939597;">:</th>
+                                <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #939597;"><?= $tampilIzin->nama; ?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -86,10 +86,16 @@
                                 <td><?= $tampilIzin->alamat; ?></td>
                             </tr>
                             <tr>
+                                <td>No. Telp/HP</td>
+                                <th>:</th>
+                                <td><?= $tampilIzin->kontak; ?></td>
+                            </tr>
+                            <tr>
                                 <td>Jenis Kegiatan</td>
                                 <th>:</th>
-                                <td><?= $tampilIzin->jenis_kegiatan; ?></td>
+                                <td><?= $tampilIzin->nama_kegiatan; ?></td>
                             </tr>
+
                             <?php if (in_groups('SuperAdmin') || in_groups('Admin')) :; ?>
                                 <tr>
                                     <td>Dibuat Pada</td>
@@ -102,7 +108,7 @@
                                     <td><?= date('d M Y H:i:s', strtotime($tampilIzin->updated_at)); ?></td>
                                 </tr>
                                 <tr>
-                                    <td>Pengirim (username) :</td>
+                                    <td>Pemohon (username) :</td>
                                     <th>:</th>
                                     <td><?= $tampilIzin->username; ?></td>
                                 </tr>
@@ -207,7 +213,7 @@
         // set frame view
         var map = L.map('map', {
             center: [<?= $tampilIzin->latitude; ?>, <?= $tampilIzin->longitude; ?>],
-            zoom: 12,
+            zoom: 8,
             layers: [peta1],
             gestureHandling: true,
         })
@@ -224,7 +230,8 @@
         L.control.mousePosition().addTo(map);
         L.control.scale().addTo(map);
 
-        L.marker([<?= $tampilIzin->latitude; ?>, <?= $tampilIzin->longitude; ?>]).addTo(map).bindPopup("<b><?= $tampilIzin->nama; ?></b></br><?= $tampilIzin->alamat; ?>").openPopup();
+        L.marker([<?= $tampilIzin->latitude; ?>, <?= $tampilIzin->longitude; ?>]).addTo(map);
+        var drawnPolygon = L.polygon(<?= $tampilIzin->polygon; ?>).addTo(map);
     </script>
 
 </body>

@@ -54,9 +54,12 @@ class Data extends BaseController
     {
         $session = session()->getFlashdata('data');
         if ($session != null) {
+            $kegiatanId = $session['kegiatanValue'];
             $data = [
                 'title' => 'Pengajuan',
                 'tampilData' => $this->setting->tampilData()->getResult(),
+                'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
+                'jenisZona' => $this->kegiatan->getZonaByKegiatanAjax($kegiatanId),
             ];
 
             return view('page/ajuan', $data);
@@ -66,14 +69,15 @@ class Data extends BaseController
 
     public function isiAjuan()
     {
-        // dd($this->request->getVar());
         $data = [
             'kegiatanValue' => $this->request->getVar('kegiatan'),
-            'stat_appv' => $this->request->getPost('stat_appv'),
+            'zonaValue' => $this->request->getVar('SubZona'),
             'geojson' => $this->request->getPost('geojson'),
         ];
         session()->setFlashdata('data', $data);
-
+        // echo '<pre>';
+        // print_r($data);
+        // die;
         return redirect()->to('data/pengajuan');
     }
 
@@ -86,7 +90,8 @@ class Data extends BaseController
             'nama' => $this->request->getVar('nama'),
             'alamat' => $this->request->getVar('alamat'),
             'kontak' => $this->request->getVar('kontak'),
-            'jenis_kegiatan' => $this->request->getVar('kegiatan'),
+            'id_kegiatan' => $this->request->getVar('kegiatan'),
+            'id_sub' => $this->request->getVar('SubZona'),
             'longitude' => $this->request->getVar('longitude'),
             'latitude' => $this->request->getVar('latitude'),
             'polygon' => $this->request->getVar('drawPolygon'),
@@ -106,10 +111,10 @@ class Data extends BaseController
 
         if ($addIzin && $addStatus) {
             session()->setFlashdata('success', 'Data Berhasil ditambahkan.');
-            return $this->response->redirect(site_url('/map'));
+            return $this->response->redirect(site_url('/dashboard'));
         } else {
             session()->setFlashdata('error', 'Gagal menambahkan data.');
-            return $this->response->redirect(site_url('/map'));
+            return $this->response->redirect(site_url('/dashboard'));
         }
     }
 
@@ -122,7 +127,8 @@ class Data extends BaseController
             'nama' => $this->request->getVar('nama'),
             'alamat' => $this->request->getVar('alamat'),
             'kontak' => $this->request->getVar('kontak'),
-            'jenis_kegiatan' => $this->request->getVar('kegiatan'),
+            'id_kegiatan' => $this->request->getVar('kegiatan'),
+            'id_sub' => $this->request->getVar('SubZona'),
             'longitude' => $this->request->getVar('longitude'),
             'latitude' => $this->request->getVar('latitude'),
             'polygon' => $this->request->getVar('drawPolygon'),
@@ -190,7 +196,7 @@ class Data extends BaseController
 
     public function dump()
     {
-        $data = $this->kegiatan->getJenisKegiatan()->getResult();
+        $data = $this->kegiatan->getStatusZonasi()->getResultArray();
         echo "<pre>";
         print_r($data);
         die;

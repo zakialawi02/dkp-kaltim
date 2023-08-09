@@ -18,60 +18,95 @@ class ModelJenisKegiatan extends Model
         $this->db = db_connect();
     }
 
-    public function getJenisKegiatan()
+    public function getJenisKegiatan($id_kegiatan = false)
     {
-        return $this->db->table('tbl_kegiatan')
-            ->select('*')
-            ->get();
+        if ($id_kegiatan === false) {
+            return $this->db->table('tbl_kegiatan')
+                ->select('*')
+                ->orderBy('id_kegiatan', 'ASC')
+                ->get();
+        } else {
+            return $this->db->table('tbl_kegiatan')
+                ->select('*')
+                ->orderBy('id_kegiatan', 'ASC')
+                ->Where(['tbl_kegiatan.id_kegiatan' => $id_kegiatan])
+                ->get();
+        }
     }
 
-    public function getSubZona()
+    public function getSubZona($id_sub = false)
     {
-        return $this->db->table('tbl_zona_pemanfaatan')
-            ->select('*')
-            ->get();
+        if ($id_sub === false) {
+            return $this->db->table('tbl_zona_pemanfaatan')
+                ->select('*')
+                ->orderBy('id_sub', 'ASC')
+                ->get();
+        } else {
+            return $this->db->table('tbl_zona_pemanfaatan')
+                ->select('*')
+                ->orderBy('id_sub', 'ASC')
+                ->Where(['tbl_zona_pemanfaatan.id_sub' => $id_sub])
+                ->get();
+        }
     }
-    public function getStatusZonasi()
+    public function getStatusZonasi($id_kegiatan = false, $id_sub = false)
+    {
+        if ($id_kegiatan === false && $id_sub === false) {
+            return $this->db->table('tbl_izin_zonasi')
+                ->select('*')
+                ->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan = tbl_izin_zonasi.id_kegiatan', 'LEFT')
+                ->join('tbl_zona_pemanfaatan', 'tbl_zona_pemanfaatan.id_sub = tbl_izin_zonasi.id_sub', 'LEFT')
+                ->orderBy('tbl_izin_zonasi.id_kegiatan', 'ASC')
+                ->get();
+        } else {
+            return $this->db->table('tbl_izin_zonasi')
+                ->select('*')
+                ->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan = tbl_izin_zonasi.id_kegiatan', 'LEFT')
+                ->join('tbl_zona_pemanfaatan', 'tbl_zona_pemanfaatan.id_sub = tbl_izin_zonasi.id_sub', 'LEFT')
+                ->orderBy('tbl_izin_zonasi.id_kegiatan', 'ASC')
+                ->where(['tbl_kegiatan.id_kegiatan' => $id_kegiatan, 'tbl_zona_pemanfaatan.id_sub' => $id_sub])
+                ->get();
+        }
+    }
+
+    public function getStatusZonasiGrouped($id_kegiatan = false)
+    {
+        if ($id_kegiatan === false) {
+            return $this->db->table('tbl_izin_zonasi')
+                ->select('*')
+                ->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan = tbl_izin_zonasi.id_kegiatan', 'LEFT')
+                ->join('tbl_zona_pemanfaatan', 'tbl_zona_pemanfaatan.id_sub = tbl_izin_zonasi.id_sub', 'LEFT')
+                ->orderBy('tbl_izin_zonasi.id_sub', 'ASC')
+                ->get();
+        } else {
+            return $this->db->table('tbl_izin_zonasi')
+                ->select('*')
+                ->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan = tbl_izin_zonasi.id_kegiatan', 'LEFT')
+                ->join('tbl_zona_pemanfaatan', 'tbl_zona_pemanfaatan.id_sub = tbl_izin_zonasi.id_sub', 'LEFT')
+                ->orderBy('tbl_izin_zonasi.id_sub', 'ASC')
+                ->where(['tbl_kegiatan.id_kegiatan' => $id_kegiatan])
+                ->get();
+        }
+    }
+
+    public function addZonasiStatus($data)
+    {
+        return  $this->db->table('tbl_izin_zonasi')->insert($data);
+    }
+    public function updateZonasiStatus($id_kegiatan, $id_sub, $data)
+    {
+        return $this->db->table('tbl_izin_zonasi')->update($data, ['id_kegiatan' => $id_kegiatan, 'id_sub' => $id_sub]);
+    }
+
+
+    // AJAX Remote Dropdown
+    public function getZonaByKegiatanAjax($kegiatanId)
     {
         return $this->db->table('tbl_izin_zonasi')
-            ->select('*')
+            ->select('tbl_izin_zonasi.*, tbl_kegiatan.*, tbl_zona_pemanfaatan.*')
             ->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan = tbl_izin_zonasi.id_kegiatan', 'LEFT')
             ->join('tbl_zona_pemanfaatan', 'tbl_zona_pemanfaatan.id_sub = tbl_izin_zonasi.id_sub', 'LEFT')
-            ->get();
-    }
-
-    // Ajax Remote Wilayah Administrasi
-    public function getDataAjaxRemote($search)
-    {
-        return $this->db->table('tbl_kelurahan')
-            ->select('tbl_kelurahan.id_kelurahan as id_kelurahan, nama_kelurahan, tbl_kecamatan.id_kecamatan as id_kecamatan, nama_kecamatan, tbl_kabupaten.id_kabupaten as id_kabupaten, nama_kabupaten, tbl_provinsi.id_provinsi as id_provinsi, nama_provinsi')
-            ->join('tbl_kecamatan', 'tbl_kecamatan.id_kecamatan = tbl_kelurahan.id_kecamatan')
-            ->join('tbl_kabupaten', 'tbl_kabupaten.id_kabupaten = tbl_kecamatan.id_kabupaten')
-            ->join('tbl_provinsi', 'tbl_provinsi.id_provinsi = tbl_kabupaten.id_provinsi')
-            ->like('nama_kecamatan', $search)
-            ->orLike('nama_kelurahan', $search)
-            ->get()->getResultArray();
-    }
-    public function getKode($kode)
-    {
-        return $this->db->table('tbl_kelurahan')
-            ->select('tbl_kelurahan.id_kelurahan as id_kelurahan, nama_kelurahan, tbl_kecamatan.id_kecamatan as id_kecamatan, nama_kecamatan, tbl_kabupaten.id_kabupaten as id_kabupaten, nama_kabupaten, tbl_provinsi.id_provinsi as id_provinsi, nama_provinsi')
-            ->join('tbl_kecamatan', 'tbl_kecamatan.id_kecamatan = tbl_kelurahan.id_kecamatan')
-            ->join('tbl_kabupaten', 'tbl_kabupaten.id_kabupaten = tbl_kecamatan.id_kabupaten')
-            ->join('tbl_provinsi', 'tbl_provinsi.id_provinsi = tbl_kabupaten.id_provinsi')
-            ->where('tbl_kelurahan.id_kelurahan',  $kode)
-            ->get()->getResultArray();
-    }
-    // vardump AjaxRemote
-    public function Remote()
-    {
-        return $this->db->table('tbl_kelurahan')
-            ->select('tbl_kelurahan.id_kelurahan as id_kelurahan, nama_kelurahan, tbl_kecamatan.id_kecamatan as id_kecamatan, nama_kecamatan, tbl_kabupaten.id_kabupaten as id_kabupaten, nama_kabupaten, tbl_provinsi.id_provinsi as id_provinsi, nama_provinsi')
-            ->join('tbl_kecamatan', 'tbl_kecamatan.id_kecamatan = tbl_kelurahan.id_kecamatan')
-            ->join('tbl_kabupaten', 'tbl_kabupaten.id_kabupaten = tbl_kecamatan.id_kabupaten')
-            ->join('tbl_provinsi', 'tbl_provinsi.id_provinsi = tbl_kabupaten.id_provinsi')
-            ->like('nama_kecamatan', 'keput')
-            ->orLike('nama_kelurahan', 'keput')
+            ->where('tbl_izin_zonasi.id_kegiatan', $kegiatanId)
             ->get()->getResultArray();
     }
 }
