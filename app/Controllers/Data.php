@@ -50,6 +50,20 @@ class Data extends BaseController
         return view('page/map', $data);
     }
 
+    public function mapCopy()
+    {
+        $data = [
+            'title' => 'Cek Kesesuaian | Map Panel',
+            'tampilGeojson' => $this->FGeojson->callGeojson()->getResult(),
+            'tampilData' => $this->setting->tampilData()->getResult(),
+            'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
+        ];
+        // echo '<pre>';
+        // print_r($data['tampilGeojson']);
+        // die;
+        return view('page/mapCopy', $data);
+    }
+
     public function pengajuan()
     {
         $session = session()->getFlashdata('data');

@@ -144,7 +144,60 @@
                             <div class="feedback" id="showKegiatan"> </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Lanjutkan</button>
+                        <button type="submit" id="lanjutKirim" class="btn btn-primary">Lanjutkan</button>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="p-2"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal alert -->
+    <div class="modalAdds" id="modalAdd">
+        <div class="modalAdd-content">
+            <div class="modal-header">
+                <h3>Cek Informasi</h3>
+                <button class="close-button" id="close-button">&times;</button>
+            </div>
+            <hr>
+            <div class="modalAdd-body">
+                <div class="card-body">
+                    <form class="row g-3" action="/data/isiAjuan" method="post" enctype="multipart/form-data">
+                        <?= csrf_field(); ?>
+
+                        <?php if (in_groups('User')) : ?>
+                            <input type="hidden" class="form-control" for="stat_appv" id="stat_appv" name="stat_appv" value="0">
+                        <?php else : ?>
+                            <input type="hidden" class="form-control" for="stat_appv" id="stat_appv" name="stat_appv" value="0">
+                        <?php endif ?>
+                        <input type="hidden" class="form-control" for="koordinat" id="koordinat" name="koordinat" value="">
+                        <input type="hidden" class="form-control" for="geojson" id="geojson" name="geojson" value="">
+
+                        <div class="form-group">
+                            <label class="col-md-12 mb-2">Jenis Kegiatan</label>
+                            <select class="form-select" id="pilihKegiatan" name="kegiatan" for="kegiatan" style="width: 100%;" required>
+                                <option></option>
+                                <?php foreach ($jenisKegiatan as $K) : ?>
+                                    <option value="<?= $K->id_kegiatan; ?>"><?= $K->nama_kegiatan; ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-12 mb-2" for="SubZona">Zona Kegiatan:</label>
+                            <select class="form-select" name="SubZona" id="SubZona" style="width: 100%;" required disabled>
+                                <option value="">Pilih Kegiatan terlebih dahulu</option>
+                            </select>
+                        </div>
+
+                        <div class="feedback">Keterangan:</div>
+                        <div class="info">
+                            <div class="feedback" id="showKegiatan"> </div>
+                        </div>
+
+                        <button type="submit" id="lanjutKirim" class="btn btn-primary">Lanjutkan</button>
                     </form>
                 </div>
             </div>
@@ -276,12 +329,16 @@
                 var showKegiatan = $('#showKegiatan');
                 showKegiatan.removeClass().addClass('feedback');
                 if (status === '1') {
+                    $('#lanjutKirim').prop('disabled', false);
                     showKegiatan.text('Diperbolehkan').addClass('boleh');
                 } else if (status === '2') {
+                    $('#lanjutKirim').prop('disabled', false);
                     showKegiatan.text('Diperbolehkan Bersyarat').addClass('bolehBersyarat');
                 } else if (status === '3') {
+                    $('#lanjutKirim').prop('disabled', true);
                     showKegiatan.text('Tidak diperbolehkan').addClass('tidakBoleh');
                 } else {
+                    $('#lanjutKirim').prop('disabled', false);
                     showKegiatan.text('');
                 }
             });
@@ -602,10 +659,15 @@
             });
             console.log(overlappingFeatures);
             // Ambil properti "zona" dari overlappingFeatures
-            // var overlappingZones = overlappingFeatures.map(function(feature) {
-            //     return feature.properties.zona;
-            // });
-            // console.log(overlappingZones);
+            var overlappingZones = overlappingFeatures.map(function(feature) {
+                return feature.properties.SUBZONA2;
+            });
+            var overlappingZoness = overlappingFeatures.map(function(feature) {
+                return feature.properties.KODE_ZONA;
+            });
+            console.log("defined:");
+            console.log(overlappingZones);
+            console.log(overlappingZoness);
         }
 
         // controller
@@ -688,10 +750,26 @@
         }).addTo(map);
 
 
-        // shapefile untuk batas admin detectme()
+
+
+
+        // shapefile untuk detect
+        function getFeatureStyle(feature) {
+            var hexColor = feature.properties.warna; // Kolom atribut warna dalam hex color
+
+            // Kembalikan objek gaya
+            return {
+                fillColor: hexColor || 'white',
+                fillOpacity: 0.5,
+                // color: 'blue',
+            };
+        }
+
         var geoshp = L.geoJson({
             features: []
-        }, );
+        }, {
+            style: getFeatureStyle
+        });
 
         var wfunc = function(base, cb) {
             importScripts('/leaflet/shp.js');
@@ -700,11 +778,13 @@
         var worker = cw({
             data: wfunc
         }, 2);
-        worker.data(cw.makeUrl('/geojson/RZ50K_AR_REVISIMAR_2021_FIX_29_Maret.zip')).then(function(data) {
+        worker.data(cw.makeUrl('/geojson/RZ50K_AR_REVISIMAR_2021_FIX_29_Maret_warna.zip')).then(function(data) {
             geoshp.addData(data).addTo(map);
         }, function(a) {
             console.log(a)
         });
+
+
 
 
         const screenWidth = screen.availWidth
@@ -726,6 +806,16 @@
             zoomTombol.style.right = '0.2rem';
         }
     </script>
+
+    <!-- <script>
+        var a = "Pipa Minyak dan Gas";
+        var b = "Kabel Telekomunikasi";
+        var c = "Pipa Minyak dan Gas";
+        var x = a === b;
+        var z = a === c;
+        console.log(x);
+        console.log(z);
+    </script> -->
 
 </body>
 

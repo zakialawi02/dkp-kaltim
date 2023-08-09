@@ -89,17 +89,17 @@
 
                                 <div class="form-group">
                                     <label class="col-md-12 mb-2">Jenis Kegiatan</label>
-                                    <select class="form-select" id="pilihKegiatan" name="kegiatan" for="kegiatan" style="width: 100%;" required>
+                                    <select class="form-select" id="pilihKegiatan" name="kegiatan" for="kegiatan" style="width: 100%;" required disabled="disable>
                                         <option></option>
                                         <?php foreach ($jenisKegiatan as $K) : ?>
-                                            <option value="<?= $K->id_kegiatan ?>" <?= $K->id_kegiatan == $datas['kegiatanValue'] ? 'selected' : '' ?>><?= $K->nama_kegiatan ?></option>
-                                        <?php endforeach ?>
+                                            <option value=" <?= $K->id_kegiatan ?>" <?= $K->id_kegiatan == $datas['kegiatanValue'] ? 'selected' : '' ?>><?= $K->nama_kegiatan ?></option>
+                                    <?php endforeach ?>
                                     </select>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-12 mb-2" for="SubZona">Zona Kegiatan:</label>
-                                    <select class="form-select" name="SubZona" id="SubZona" style="width: 100%;" required>
+                                    <select class="form-select" name="SubZona" id="SubZona" style="width: 100%;" required disabled="disable">
                                         <option></option>
                                         <?php foreach ($dataZona as $Z) : ?>
                                             <option value="<?= $Z['id_sub'] ?>" <?= $Z['id_sub'] == $datas['zonaValue'] ? 'selected' : '' ?>><?= $Z['nama_subzona'] ?></option>
@@ -108,7 +108,7 @@
                                 </div>
 
 
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label class="form-label">Masukkan Lokasi</label>
                                     <div class="row g-2">
                                         <div class="col col-md-6">
@@ -118,7 +118,7 @@
                                             <input type="text" class="form-control" id="longitude" aria-describedby="textlHelp" placeholder="longitude" name="longitude" value="" required>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <div class="feedback">Keterangan Kesesuaian:</div>
                                 <div class="info">
