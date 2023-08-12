@@ -240,6 +240,10 @@
     <div class="map" id="map">
 
     </div>
+    <div class="footer-map">
+        <p id="mouse-position"></p>
+    </div>
+
     <div class="sidepanel">
         <div class="m-2 p-2">
             <div class="sidepanel-content">
@@ -850,7 +854,7 @@
             });
             var wms_layer = new ol.layer.Tile({
                 source: wmsSource,
-                visible: false,
+                visible: true,
                 opacity: 0.8
             });
 
@@ -924,7 +928,7 @@
                 anchor: [0.5, 1],
                 anchorXUnits: 'fraction',
                 anchorYUnits: 'fraction',
-                opacity: 0.75,
+                opacity: 1,
                 src: '/leaflet/images/marker-icon.png'
             })
         });
@@ -952,7 +956,6 @@
             const pusat = [];
             // console.log('Nilai CounterK: ', selectedCounter);
             // Ambil nilai koordinat
-
             $('.ini_koordinat').each(function() {
                 const longitudeInput = parseFloat($(this).find('#tx_x').val());
                 const latitudeInput = parseFloat($(this).find('#tx_y').val());
@@ -977,7 +980,6 @@
 
             });
             // console.log('Nilai Koordinat:', coordinates);
-
             var format = new ol.format.WKT();
             if (counterK < 2) {
                 var wkt = 'POINT (' + coordinates + ')';
@@ -1001,7 +1003,6 @@
                 dataProjection: 'EPSG:4326',
                 featureProjection: 'EPSG:3857'
             });
-
             var drawedVector = new ol.layer.Vector({
                 source: new ol.source.Vector({
                     features: [feature]
@@ -1058,6 +1059,16 @@
                 }
             });
         });
+
+        const mousePositionControl = new ol.control.MousePosition({
+            coordinateFormat: ol.coordinate.createStringXY(6),
+            projection: 'EPSG:4326',
+            // comment the following two lines to have the mouse position
+            // be placed within the map.
+            className: 'custom-mouse-position',
+            target: document.getElementById('mouse-position'),
+        });
+        map.addControl(mousePositionControl);
     </script>
 
     <!-- <script>

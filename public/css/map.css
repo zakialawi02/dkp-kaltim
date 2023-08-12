@@ -1,5 +1,5 @@
 #map {
-    height: 100vh;
+    height: 97vh;
     width: 100%;
     cursor: grab;
     /* z-index: 0; */
@@ -24,6 +24,21 @@
 
 }
 
+.footer-map {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    z-index: 1;
+    background-color: #f7f7f7;
+}
+
+#mouse-position {
+    padding: 0 1rem;
+    margin-left: 1rem;
+    margin-bottom: 2px;
+    font-size: 13px;
+}
 
 #loading-spinner {
     background-color: rgba(0, 0, 0, 0.5);
