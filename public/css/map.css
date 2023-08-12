@@ -1,7 +1,7 @@
 #map {
     height: 100vh;
     width: 100%;
-    /* cursor: grab; */
+    cursor: grab;
     /* z-index: 0; */
 }
 
@@ -401,13 +401,13 @@ label {
 .modalAdd-content {
     position: relative;
     margin: 10% auto;
-    margin-top: 4vh;
-    margin-bottom: 2vh;
+    margin-top: 1vh;
+    margin-bottom: 0;
     background-color: #fefefe;
     background-clip: padding-box;
     border: 1px solid rgba(0, 0, 0, 0.175);
     border-radius: 1rem;
-    width: 70%;
+    width: 80%;
     animation-name: fade;
     animation-duration: 0.3s;
 }
@@ -450,9 +450,7 @@ label {
         width: 40vw;
         left: -40vw;
     }
-}
 
-@media screen and (max-width: 600px) {
     .modalAdd-content {
         width: 100%;
         height: 100%;
@@ -461,6 +459,8 @@ label {
         -webkit-overflow-scrolling: touch;
     }
 }
+
+@media screen and (max-width: 600px) {}
 
 @media screen and (max-width: 420px) {
     .sidepanel {

@@ -106,101 +106,106 @@
             <hr>
             <div class="modalAdd-body">
                 <div class="card-body">
-                    <form class="row g-3" action="/data/isiAjuan" method="post" enctype="multipart/form-data">
-                        <?= csrf_field(); ?>
 
-                        <?php if (in_groups('User')) : ?>
-                            <input type="hidden" class="form-control" for="stat_appv" id="stat_appv" name="stat_appv" value="0">
-                        <?php else : ?>
-                            <input type="hidden" class="form-control" for="stat_appv" id="stat_appv" name="stat_appv" value="0">
-                        <?php endif ?>
-                        <input type="hidden" class="form-control" for="koordinat" id="koordinat" name="koordinat" value="">
-                        <input type="hidden" class="form-control" for="geojson" id="geojson" name="geojson" value="">
-
-                        <div class="form-group">
-                            <label class="col-md-12 mb-2">Jenis Kegiatan</label>
-                            <select class="form-select" id="pilihKegiatan" name="kegiatan" for="kegiatan" style="width: 100%;" required>
-                                <option></option>
-                                <?php foreach ($jenisKegiatan as $K) : ?>
-                                    <option value="<?= $K->id_kegiatan; ?>"><?= $K->nama_kegiatan; ?></option>
-                                <?php endforeach ?>
-                            </select>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="step_info">
+                                <h4>Masukkan Lokasi</h4>
+                                <p>Masukkan X,Y dari lokasi atau alamat lokasi</p>
+                            </div>
                         </div>
+                        <div class="col-sm-9">
 
-                        <div class="form-group">
-                            <label class="col-md-12 mb-2" for="SubZona">Zona Kegiatan:</label>
-                            <select class="form-select" name="SubZona" id="SubZona" style="width: 100%;" required disabled>
-                                <option value="">Pilih Kegiatan terlebih dahulu</option>
-                            </select>
+                            <div class="form_sep pb-3">
+                                <label>Berdasar :</label>
+                                &nbsp;&nbsp;
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input type="radio" name="berdasar" id="rd_dd" checked /> Degree Decimal &nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="radio" name="berdasar" id="rd_dms" /> Degree Minute Second
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form_sep ini_koordinat" id="isi_koordinat">
+                                <div class="form-group pb-3">
+                                    <div class='row'>
+                                        <div class='col-md-6'>
+                                            Longitude<br>
+                                            <input id="tx_x" value="117.040" type="text" class="form-control dd-input" alt="posisi X">
+                                        </div>
+
+                                        <div class='col-md-6'>
+                                            Latitude<br>
+                                            <input id="tx_y" value="-1.175" type="text" class="form-control dd-input" alt="posisi Y">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group pb-3">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            Longitude<br>
+                                            <div class="row">
+                                                <div class='col-md-3' style="padding-right:2px">
+                                                    Degree<br>
+                                                    <input id="md1_1" disabled value="117" type="text" class="form-control dms-input" alt="posisi X">
+                                                </div>
+                                                <div class='col-md-3' style="padding-left:2px;padding-right:2px">
+                                                    Minute<br>
+                                                    <input id="md1_2" disabled value="2" type="text" class="form-control dms-input" alt="posisi X">
+                                                </div>
+                                                <div class='col-md-3' style="padding-left:2px;padding-right:2px">
+                                                    Second<br>
+                                                    <input id="md1_3" disabled value="24" type="text" class="form-control dms-input" alt="posisi X">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            Latitude<br>
+                                            <div class="row">
+                                                <div class='col-md-3' style="padding-right:2px">
+                                                    Degree<br>
+                                                    <input id="md2_1" disabled value="-1" type="text" class="form-control dms-input" alt="posisi Y">
+                                                </div>
+                                                <div class='col-md-3' style="padding-left:2px;padding-right:2px">
+                                                    Minute<br>
+                                                    <input id="md2_2" disabled value="10" type="text" class="form-control dms-input" alt="posisi Y">
+                                                </div>
+                                                <div class='col-md-3' style="padding-left:2px;padding-right:2px">
+                                                    Second<br>
+                                                    <input id="md2_3" disabled value="32" type="text" class="form-control dms-input" alt="posisi Y">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <br>
+                            </div>
+
+                            <div class="g-2">
+                                <button type="button" class="btn btn-outline-dark float-end" id="tambah_koordinat" onclick="tambahKoordinat()">+ Tambah Titik</button>
+                                <button type="button" class="btn btn-outline-dark float-end" id="hapus_koordinat" disabled="true" onclick="hapusKoordinat()">- Hapus Titik</button>
+                            </div>
+
                         </div>
+                    </div>
 
-                        <div class="feedback">Keterangan:</div>
-                        <div class="info">
-                            <div class="feedback" id="showKegiatan"> </div>
-                        </div>
-
-                        <button type="submit" id="lanjutKirim" class="btn btn-primary">Lanjutkan</button>
-                    </form>
                 </div>
             </div>
             <div class="modal-footer">
-                <div class="p-2"></div>
+                <div class="p-2">
+                    <button type="button" class="btn btn-primary m-2" id="next_step">Lanjut</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal alert -->
-    <div class="modalAdds" id="modalAdd">
-        <div class="modalAdd-content">
-            <div class="modal-header">
-                <h3>Cek Informasi</h3>
-                <button class="close-button" id="close-button">&times;</button>
-            </div>
-            <hr>
-            <div class="modalAdd-body">
-                <div class="card-body">
-                    <form class="row g-3" action="/data/isiAjuan" method="post" enctype="multipart/form-data">
-                        <?= csrf_field(); ?>
-
-                        <?php if (in_groups('User')) : ?>
-                            <input type="hidden" class="form-control" for="stat_appv" id="stat_appv" name="stat_appv" value="0">
-                        <?php else : ?>
-                            <input type="hidden" class="form-control" for="stat_appv" id="stat_appv" name="stat_appv" value="0">
-                        <?php endif ?>
-                        <input type="hidden" class="form-control" for="koordinat" id="koordinat" name="koordinat" value="">
-                        <input type="hidden" class="form-control" for="geojson" id="geojson" name="geojson" value="">
-
-                        <div class="form-group">
-                            <label class="col-md-12 mb-2">Jenis Kegiatan</label>
-                            <select class="form-select" id="pilihKegiatan" name="kegiatan" for="kegiatan" style="width: 100%;" required>
-                                <option></option>
-                                <?php foreach ($jenisKegiatan as $K) : ?>
-                                    <option value="<?= $K->id_kegiatan; ?>"><?= $K->nama_kegiatan; ?></option>
-                                <?php endforeach ?>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-12 mb-2" for="SubZona">Zona Kegiatan:</label>
-                            <select class="form-select" name="SubZona" id="SubZona" style="width: 100%;" required disabled>
-                                <option value="">Pilih Kegiatan terlebih dahulu</option>
-                            </select>
-                        </div>
-
-                        <div class="feedback">Keterangan:</div>
-                        <div class="info">
-                            <div class="feedback" id="showKegiatan"> </div>
-                        </div>
-
-                        <button type="submit" id="lanjutKirim" class="btn btn-primary">Lanjutkan</button>
-                    </form>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <div class="p-2"></div>
-            </div>
-        </div>
-    </div>
 
     <div id="button-section-group" class="">
         <div id="button-section" class="float-end m-1">
@@ -350,7 +355,7 @@
 
                                 <!--RADIO 2-->
                                 <input type="radio" class="radio_item" value="bing" name="item" id="radio3" onclick="set_mapbox_road()">
-                                <label class="label_item" for="radio3"> <img src="https://placedog.net/100/100"> <span>S99</span> </label>
+                                <label class="label_item" for="radio3"> <img src="/leaflet/icon/here_normalday.png"> <span>MapBox</span> </label>
                             </div>
                         </div>
                     </div>
@@ -379,6 +384,102 @@
         $('.toggle-sidepanel').click(function() {
             $('.sidepanel').toggleClass('expanded');
         });
+
+        $("#rd_dd").click(function() {
+            $(".dd-input").prop("disabled", false);
+            $(".dms-input").prop("disabled", true);
+        });
+
+        $("#rd_dms").click(function() {
+            $(".dd-input").prop("disabled", true);
+            $(".dms-input").prop("disabled", false);
+        });
+
+        var counterK = 1;
+        const newKoordinatInput = `
+            <div class="form_sep ini_koordinat" id="isi_koordinat">
+                                <div class="form-group pb-3">
+                                    <div class='row'>
+                                        <div class='col-md-6'>
+                                            Longitude<br>
+                                            <input id="tx_x" value="117.040" type="text" class="form-control dd-input" alt="posisi X">
+                                        </div>
+
+                                        <div class='col-md-6'>
+                                            Latitude<br>
+                                            <input id="tx_y" value="-1.175" type="text" class="form-control dd-input" alt="posisi Y">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group pb-3">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            Longitude<br>
+                                            <div class="row">
+                                                <div class='col-md-3' style="padding-right:2px">
+                                                    Degree<br>
+                                                    <input id="md1_1" disabled value="117" type="text" class="form-control dms-input" alt="posisi X">
+                                                </div>
+                                                <div class='col-md-3' style="padding-left:2px;padding-right:2px">
+                                                    Minute<br>
+                                                    <input id="md1_2" disabled value="2" type="text" class="form-control dms-input" alt="posisi X">
+                                                </div>
+                                                <div class='col-md-3' style="padding-left:2px;padding-right:2px">
+                                                    Second<br>
+                                                    <input id="md1_3" disabled value="24" type="text" class="form-control dms-input" alt="posisi X">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            Latitude<br>
+                                            <div class="row">
+                                                <div class='col-md-3' style="padding-right:2px">
+                                                    Degree<br>
+                                                    <input id="md2_1" disabled value="-1" type="text" class="form-control dms-input" alt="posisi Y">
+                                                </div>
+                                                <div class='col-md-3' style="padding-left:2px;padding-right:2px">
+                                                    Minute<br>
+                                                    <input id="md2_2" disabled value="10" type="text" class="form-control dms-input" alt="posisi Y">
+                                                </div>
+                                                <div class='col-md-3' style="padding-left:2px;padding-right:2px">
+                                                    Second<br>
+                                                    <input id="md2_3" disabled value="32" type="text" class="form-control dms-input" alt="posisi Y">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <br>
+                            </div>
+                 `;
+
+        function tambahKoordinat() {
+            counterK++;
+            $('#hapus_koordinat').prop('disabled', false);
+            console.log(counterK);
+            $('.ini_koordinat:last').after(newKoordinatInput);
+            if ($('#rd_dd').is(":checked")) {
+                $(".dd-input").prop("disabled", false);
+                $(".dms-input").prop("disabled", true);
+            } else {
+                $(".dd-input").prop("disabled", true);
+                $(".dms-input").prop("disabled", false);
+            }
+
+        }
+
+        function hapusKoordinat() {
+            counterK--;
+            console.log(counterK);
+            if (counterK === 1) {
+                $('#hapus_koordinat').prop('disabled', true);
+            }
+            $('.ini_koordinat:last').remove();
+        }
     </script>
     <script>
         $(document).ready(function() {
@@ -482,41 +583,21 @@
     <script>
         const modalButton = document.getElementById("modal-button");
         const modal = document.getElementById("modalAdd");
-        const closeButton = document.getElementById("close-button");
 
         modalButton.addEventListener("click", function() {
-            <?php if (logged_in()) : ?>
-                $("#modal-button").addClass("btn-warning");
-                map.pm.enableDraw("Polygon", {
-                    snappable: true,
-                    snapDistance: 20,
-                });
-                if (drawnLayer) {
-                    map.removeLayer(drawnLayer);
-                }
-            <?php else : ?>
-                $("#loading-spinner").removeClass("d-none");
-                setTimeout(function() {
-                    $("#loading-spinner").addClass("d-none");
-                    Swal.fire({
-                        title: 'Anda harus login terlebih dahulu',
-                        customClass: {
-                            container: 'my-swal',
-                        },
-                    })
-                    var logModal = new bootstrap.Modal($('#loginModal'));
-                    logModal.show();
-                }, 500);
-            <?php endif ?>
+            $("#modal-button").addClass("btn-warning");
+            $('#modalAdd').show();
         });
 
         $('#close-button').click(function(e) {
+            $("#modal-button").removeClass("btn-warning");
             $('#modalAdd').hide();
         });
 
         window.addEventListener("click", function(event) {
             if (event.target == modal) {
-                modal.style.display = "none";
+                $("#modal-button").removeClass("btn-warning");
+                $('#modalAdd').hide();
             }
         });
     </script>
@@ -621,6 +702,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/ol@v7.4.0/dist/ol.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/elm-pep@1.0.6/dist/elm-pep.js"></script>
+    <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v2.0.0/turf.min.js"></script>
+    <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
 
 
     <script type="text/javascript">
@@ -632,9 +715,16 @@
             <?php $lat = $splitKoordinat[1] ?>
         <?php endforeach ?>
 
-        proj4.defs("EPSG:32750", "+proj=utm +zone=50 +south +ellps=WGS84 +datum=WGS84 +units=m +no_defs");
-        proj4.defs("EPSG:23836", "+proj=tmerc +lat_0=0 +lon_0=112.5 +k=0.9999 +x_0=200000 +y_0=1500000 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
+        proj4.defs("EPSG:32750", "+proj=utm +zone=50 +south +datum=WGS84 +units=m +no_defs +type=crs");
+        proj4.defs("EPSG:4326", "+proj=longlat +datum=WGS84 +no_defs +type=crs");
 
+        var x_cari;
+        var y_cari;
+        var drawedVector;
+        var styleDraw;
+        var wkt;
+        var coordinates;
+        var jsonCoordinates;
         const wmsLayers = [];
 
 
@@ -643,6 +733,7 @@
             units: 'm',
             axisOrientation: 'neu'
         });
+        ol.proj.addProjection(projection);
 
         // BaseMap
         const osmBaseMap = new ol.layer.Tile({
@@ -714,7 +805,6 @@
             controls: [
                 //Define the default controls
                 new ol.control.Zoom(),
-                new ol.control.Rotate(),
                 new ol.control.Attribution(),
                 //Define some new controls
                 // new ol.control.OverviewMap(),
@@ -749,17 +839,18 @@
         // Loop untuk menambahkan setiap lapisan WMS ke dalam objek peta
         for (const layerName of wmsLayerNames) {
             const wmsSource = new ol.source.TileWMS({
-                url: 'http://47.88.84.156:8080/geoserver/DKP-KALTIM/wms',
+                url: 'https://sipetarungkaltim.zakialawi.my.id/geoserver/DKP/wms',
                 params: {
-                    'LAYERS': `DKP-KALTIM:${layerName}`,
+                    'LAYERS': `DKP:${layerName}`,
                     'TILED': true,
                     'FORMAT': 'image/png',
                 },
                 serverType: 'geoserver',
+                crossOrigin: 'anonymous',
             });
             var wms_layer = new ol.layer.Tile({
                 source: wmsSource,
-                visible: true,
+                visible: false,
                 opacity: 0.8
             });
 
@@ -786,7 +877,7 @@
             layers.forEach(layer => {
                 if (layer instanceof ol.layer.Tile && layer.getSource() instanceof ol.source.TileWMS) {
                     const params = layer.getSource().getParams();
-                    if (params.LAYERS === `DKP-KALTIM:${layerName}`) {
+                    if (params.LAYERS === `DKP:${layerName}`) {
                         layer.setVisible(visibility);
                     }
                 }
@@ -827,28 +918,145 @@
             }
         }
 
-        view.on('change:center', function() {
-            // Mengambil koordinat tengah dari view saat ini
-            const centerCoordinate = view.getCenter();
-
-            // Konversi koordinat tengah ke koordinat lon-lat
-            const lonLatCenter = ol.proj.toLonLat(centerCoordinate);
-
-            // Tampilkan koordinat tengah pada konsol
-            console.log('Koordinat Tengah (Lon, Lat) setelah digeser:', lonLatCenter);
+        // style wkt geometry
+        const markerStyle = new ol.style.Style({
+            image: new ol.style.Icon({
+                anchor: [0.5, 1],
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'fraction',
+                opacity: 0.75,
+                src: '/leaflet/images/marker-icon.png'
+            })
         });
-        // Fungsi untuk menampilkan koordinat pada log console saat peta diklik
-        // function showCoordinateOnClick(event) {
-        //     const coordinate = event.coordinate;
-        //     const lonLat = ol.proj.toLonLat(coordinate);
-        //     console.log(`Latitude: ${lonLat[1]}, Longitude: ${lonLat[0]}`);
-        // }
-        // Menambahkan event listener ke objek peta
-        // map.on('click', showCoordinateOnClick);
-        map.on('click', function(e) {
-            console.log(e);
-            const coordinate = e.coordinate;
-            console.log(coordinate);
+        const lineStyle = new ol.style.Style({
+            stroke: new ol.style.Stroke({
+                color: 'red',
+                width: 2,
+            }),
+        });
+        const polygonStyle = new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: 'rgba(255, 0, 0, 0.4)',
+            }),
+            stroke: new ol.style.Stroke({
+                color: 'red',
+                width: 2,
+            }),
+        });
+
+        // klik lanjut
+        $('#next_step').click(function() {
+            coordinates = [];
+            jsonCoordinates = [];
+            const selectedCounter = counterK;
+            const pusat = [];
+            // console.log('Nilai CounterK: ', selectedCounter);
+            // Ambil nilai koordinat
+
+            $('.ini_koordinat').each(function() {
+                const longitudeInput = parseFloat($(this).find('#tx_x').val());
+                const latitudeInput = parseFloat($(this).find('#tx_y').val());
+                const isDMSMode = $(this).find('#rd_dms').prop('checked');
+
+                if ($('#rd_dms').is(":checked")) {
+                    const degree1 = $(this).find('#md1_1').val();
+                    const minute1 = $(this).find('#md1_2').val();
+                    const second1 = $(this).find('#md1_3').val();
+                    const degree2 = $(this).find('#md2_1').val();
+                    const minute2 = $(this).find('#md2_2').val();
+                    const second2 = $(this).find('#md2_3').val();
+
+                    longitude = parseFloat(degree1) + parseFloat(minute1 / 60) + parseFloat(second1 / 3600);
+                    latitude = parseFloat(degree2) - parseFloat(minute2 / 60) - parseFloat(second2 / 3600);
+                    coordinates.push([longitude + ' ' + latitude]);
+                    jsonCoordinates.push([longitude, latitude]);
+                } else if ($('#rd_dd').is(":checked")) {
+                    coordinates.push([longitudeInput + ' ' + latitudeInput]);
+                    jsonCoordinates.push([longitudeInput, latitudeInput]);
+                }
+
+            });
+            // console.log('Nilai Koordinat:', coordinates);
+
+            var format = new ol.format.WKT();
+            if (counterK < 2) {
+                var wkt = 'POINT (' + coordinates + ')';
+                pusat.push(jsonCoordinates[0]);
+                styleDraw = markerStyle;
+            } else if (counterK > 2) {
+                var wkt = 'POLYGON ((' + coordinates + ',' + coordinates[0] + '))';
+                var features = turf.points(jsonCoordinates);
+                var center = turf.center(features);
+                pusat.push(center.geometry.coordinates);
+                styleDraw = polygonStyle;
+            } else {
+                var wkt = 'LINESTRING (' + coordinates + ')';
+                var point1 = turf.point(jsonCoordinates[0]);
+                var point2 = turf.point(jsonCoordinates[1]);
+                var midpoint = turf.midpoint(point1, point2);
+                pusat.push(midpoint.geometry.coordinates);
+                styleDraw = lineStyle;
+            }
+            var feature = format.readFeature(wkt, {
+                dataProjection: 'EPSG:4326',
+                featureProjection: 'EPSG:3857'
+            });
+
+            var drawedVector = new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    features: [feature]
+                }),
+                style: styleDraw,
+            });
+            map.getLayers().forEach(layer => {
+                if (layer instanceof ol.layer.Vector) {
+                    map.removeLayer(layer);
+                }
+            });
+            map.addLayer(drawedVector);
+            // console.log(pusat[0]);
+
+            view.animate({
+                center: view.setCenter(ol.proj.fromLonLat(pusat[0])),
+                zoom: 12,
+                duration: 1500,
+            });
+        });
+
+
+        map.on('singleclick', function(evt) {
+            const viewResolution = view.getResolution();
+            const coordinate = evt.coordinate;
+            const projection = view.getProjection();
+            console.log(projection);
+            wmsLayers.forEach(layer => {
+                const url = layer.getSource().getFeatureInfoUrl(
+                    coordinate,
+                    viewResolution,
+                    projection, {
+                        INFO_FORMAT: 'application/json',
+                        FEATURE_COUNT: 1
+                    }
+                );
+
+                if (url) {
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            // Di sini Anda dapat memanipulasi data respons JSON
+                            // untuk mengambil atribut yang Anda butuhkan.
+
+                            if (data.features.length > 0) {
+                                console.log(data); // Tampilkan data JSON di konsol
+                                const attributes = data.features[0].properties;
+                                console.log(attributes); // Tampilkan atribut fitur di konsol
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching feature info:', error);
+                        });
+                }
+            });
         });
     </script>
 
