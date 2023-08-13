@@ -53,6 +53,7 @@ $routes->get('/admin/features/tambah', 'Admin::tambahGeojson', ['filter' => 'rol
 $routes->get('/admin/features/edit/(:num)', 'Admin::editGeojson/$1', ['filter' => 'role:SuperAdmin,Admin']);
 $routes->delete('/admin/delete_Geojson/(:num)', 'Admin::delete_Geojson/$1', ['filter' => 'role:SuperAdmin,Admin']);
 
+$routes->get('/admin/data/lihat/(:num)/(:any)', 'Admin::periksaDataMasuk/$1/$2', ['filter' => 'role:SuperAdmin,Admin']);
 $routes->get('/admin/DataPerizinan', 'Admin::DataPerizinan', ['filter' => 'role:SuperAdmin,Admin']);
 $routes->get('/admin/data/data-perizinan', 'Admin::DataPerizinan', ['filter' => 'role:SuperAdmin,Admin']);
 $routes->get('/data-perizinan/(:num)/detail', 'Data::detail/$1');

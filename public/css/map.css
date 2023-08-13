@@ -7,10 +7,11 @@
 
 .map .ol-zoom {
     position: absolute;
-    bottom: 1.2rem;
+    bottom: 2rem;
     right: 0.8rem;
     top: auto;
     left: auto;
+    scale: 1.2;
 
 }
 
@@ -23,6 +24,14 @@
     right: auto !important;
 
 }
+
+#ruler-button {
+    position: absolute;
+    top: 10rem;
+    right: 10px;
+    scale: 1.2;
+}
+
 
 .footer-map {
     display: block;

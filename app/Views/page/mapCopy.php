@@ -236,7 +236,9 @@
     </div>
 
 
-
+    <div id="ruler-button" class="ol-control">
+        <button><i class="bi bi-rulers"></i></button>
+    </div>
     <div class="map" id="map">
 
     </div>
@@ -260,8 +262,8 @@
 
                                 <div class="nouislider" id="transparansi-slider"></div>
                                 <br>
-                                <button class="btn btn-outline-dark" onclick="centang(1)">check all</button>
-                                <button class="btn btn-outline-dark" onclick="centang(0)">uncheck all</button>
+                                <button class="btn btn-outline-dark" onclick="centang(1)">Tampilkan Semua</button>
+                                <button class="btn btn-outline-dark" onclick="centang(0)">Sembunyikan Semua</button>
                                 <br><br>
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_0" id="clahan_0" value="kb" onclick="set_lahan(0)"><span style="min-width: 50px; background-image: url('/leaflet/icon/migrasi.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Alur Migrasi Mamalia Laut</label>
 
@@ -799,6 +801,9 @@
             center: ol.proj.fromLonLat([<?= $lat; ?>, <?= $lon; ?>]),
             zoom: <?= $zoomView - 3; ?>,
         });
+        var attribution = new ol.control.Attribution({
+            collapsible: true,
+        });
         const map = new ol.Map({
             layers: [
                 new ol.layer.Group({
@@ -807,10 +812,7 @@
             ],
             target: 'map',
             controls: [
-                //Define the default controls
                 new ol.control.Zoom(),
-                new ol.control.Attribution(),
-                //Define some new controls
                 // new ol.control.OverviewMap(),
                 new ol.control.ScaleLine(),
 
@@ -854,7 +856,7 @@
             });
             var wms_layer = new ol.layer.Tile({
                 source: wmsSource,
-                visible: true,
+                visible: false,
                 opacity: 0.8
             });
 
@@ -871,6 +873,7 @@
             ],
         });
         map.addControl(overviewMapControl);
+        map.addControl(attribution);
 
         set_bing_aerial();
 
@@ -1060,6 +1063,7 @@
             });
         });
 
+        // mouse coordinate show
         const mousePositionControl = new ol.control.MousePosition({
             coordinateFormat: ol.coordinate.createStringXY(6),
             projection: 'EPSG:4326',
@@ -1069,6 +1073,18 @@
             target: document.getElementById('mouse-position'),
         });
         map.addControl(mousePositionControl);
+
+
+        // Buat tombol kontrol
+        var rulerControl = new ol.control.Control({
+            element: document.getElementById('ruler-button'), // ID elemen tombol
+        });
+        map.addControl(rulerControl);
+        // Event listener untuk tombol
+        $(rulerControl.element).click(function(e) {
+            e.preventDefault();
+            alert('Tombol belum siap');
+        });
     </script>
 
     <!-- <script>
