@@ -484,7 +484,7 @@ class Admin extends BaseController
                 'stat_appv' => '2',
                 'date_updated' => date('Y-m-d H:i:s'),
             ];
-            $this->izin->saveTindakan($data, $id_perizinan);
+            $this->izin->saveStatusAppv($data, $id_perizinan);
             if ($this) {
                 session()->setFlashdata('success', 'Berhasil Menyimpan Tindakan.');
                 return $this->response->redirect(site_url('/admin/pending'));
@@ -510,7 +510,7 @@ class Admin extends BaseController
                     'date_updated' => date('Y-m-d H:i:s'),
                 ];
 
-                $this->izin->saveTindakan($data, $id_perizinan);
+                $this->izin->saveStatusAppv($data, $id_perizinan);
                 if ($this) {
                     session()->setFlashdata('success', 'Berhasil Menyimpan Tindakan.');
                     return $this->response->redirect(site_url('/admin/pending'));
@@ -524,39 +524,6 @@ class Admin extends BaseController
             }
         } else {
             session()->setFlashdata('error', 'Gagal Menyimpan Tindakan.');
-            return $this->response->redirect(site_url('/admin/pending'));
-        }
-    }
-    // approve data izin
-    public function approveIzin($id_perizinan)
-    {
-        $data = [
-            'stat_appv' => '1',
-            'date_updated' => date('Y-m-d H:i:s'),
-        ];
-        $this->izin->chck_appv($data, $id_perizinan);
-        if ($this) {
-            session()->setFlashdata('success', 'Data Approved.');
-            return $this->response->redirect(site_url('/admin/pending'));
-        } else {
-            session()->setFlashdata('error', 'Proses gagal.');
-            return $this->response->redirect(site_url('/admin/pending'));
-        }
-    }
-
-    // reject data izin
-    public function tolakIzin($id_perizinan)
-    {
-        $data = [
-            'stat_appv' => '2',
-            'date_updated' => date('Y-m-d H:i:s'),
-        ];
-        $this->izin->chck_appv($data, $id_perizinan);
-        if ($this) {
-            session()->setFlashdata('success', 'Data Rejected.');
-            return $this->response->redirect(site_url('/admin/pending'));
-        } else {
-            session()->setFlashdata('error', 'Proses gagal.');
             return $this->response->redirect(site_url('/admin/pending'));
         }
     }

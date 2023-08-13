@@ -92,11 +92,7 @@ class ModelIzin extends Model
     {
         return $this->db->table('tbl_status_appv')->insert($addStatus);
     }
-    public function chck_appv($data, $id_perizinan)
-    {
-        return $this->db->table('tbl_status_appv')->update($data, ['id_perizinan' => $id_perizinan]);
-    }
-    public function saveTindakan($data, $id_perizinan)
+    public function saveStatusAppv($data, $id_perizinan)
     {
         return $this->db->table('tbl_status_appv')->update($data, ['id_perizinan' => $id_perizinan]);
     }

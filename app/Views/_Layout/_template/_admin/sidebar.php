@@ -63,14 +63,6 @@
                         <div class="sb-nav-link-icon"><i class="bi bi-person-lines-fill"></i></div>
                         User Management
                     </a>
-                <?php endif ?>
-
-                <a class="nav-link" href="/user/list">
-                    <div class="sb-nav-link-icon"><i class="bi bi-person-lines-fill"></i></div>
-                    User List
-                </a>
-
-                <?php if (in_groups('SuperAdmin') || in_groups('Admin')) :; ?>
                     <a class="nav-link" href="/admin/setting">
                         <div class="sb-nav-link-icon"><i class="bi bi-sliders"></i></div>
                         Map View

@@ -156,7 +156,7 @@ class Data extends BaseController
                 'stat_appv' => '0',
                 'date_updated' => date('Y-m-d H:i:s'),
             ];
-            $this->izin->chck_appv($status, $id_perizinan);
+            $this->izin->saveStatusAppv($status, $id_perizinan);
         }
 
         if ($updateIzin) {
