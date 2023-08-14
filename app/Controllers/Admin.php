@@ -47,8 +47,8 @@ class Admin extends BaseController
             'countAllPending' => $this->izin->callPendingData()->getNumRows(),
             'countAllUser' => $this->user->countAllUser(),
             'userMonth' => $this->user->userMonth()->getResult(),
-            'tampilIzin' => $this->izin->getIzin()->getResult(),
-            'userSubmitIzin' => $this->izin->userSubmitIzin($userid)->getResult(),
+            'allDataPermohonan' => $this->izin->getAllPermohonan()->getResult(),
+            'userSubmitPermohonan' => $this->izin->userSubmitIzin($userid)->getResult(),
         ];
         // echo '<pre>';
         // print_r($data['tampilIzin']);
@@ -277,18 +277,18 @@ class Admin extends BaseController
 
 
 
-    //  DATA PERIZINAN  ====================================================================================
+    //  Data Pengajuan Informasi Ruang Laut  ====================================================================================
     public function DataPerizinan()
     {
         $data = [
-            'title' => 'DATA PERIZINAN',
+            'title' => 'Data Pengajuan Informasi Ruang Laut',
             'tampilData' => $this->setting->tampilData()->getResult(),
             'tampilIzin' => $this->izin->getIzin()->getResult(),
         ];
         // echo '<pre>';
         // print_r($data['tampilKafe']);
         // die;
-        return view('admin/PerizinanData', $data);
+        return view('admin/PermohonanData', $data);
     }
 
     public function editPerizinan($id_perizinan)
@@ -300,7 +300,7 @@ class Admin extends BaseController
         }
         $kegiatanId = $kegiatanId->id_kegiatan;
         $data = [
-            'title' => 'DATA PERIZINAN',
+            'title' => 'Data Pengajuan Informasi Ruang Laut',
             'tampilIzin' => $this->izin->getIzin($id_perizinan)->getRow(),
             'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
             'jenisZona' => $this->kegiatan->getZonaByKegiatanAjax($kegiatanId),
@@ -319,14 +319,14 @@ class Admin extends BaseController
             if (in_groups('User')) {
                 return $this->response->redirect(site_url('/dashboard'));
             } else {
-                return $this->response->redirect(site_url('/admin/data/data-perizinan'));
+                return $this->response->redirect(site_url('/admin/data/data-permohonan'));
             }
         } else {
             session()->setFlashdata('error', 'Gagal menghapus data.');
             if (in_groups('User')) {
                 return $this->response->redirect(site_url('/dashboard'));
             } else {
-                return $this->response->redirect(site_url('/admin/data/data-perizinan'));
+                return $this->response->redirect(site_url('/admin/data/data-permohonan'));
             }
         }
     }
@@ -454,9 +454,13 @@ class Admin extends BaseController
     }
 
     // periksa data masuk
-    public function periksaDataMasuk($id_perizinan, $nama)
+    public function periksaDataPermohonan($status, $id_perizinan, $nama)
     {
-        $permintaanId = $this->izin->callPendingData($id_perizinan)->getRow();
+        $statusArray = ['menunggu-jawaban', 'telah-disetujui', 'tidak-disetujui'];
+        if (!in_array($status, $statusArray)) {
+            throw new PageNotFoundException();
+        }
+        $permintaanId = $this->izin->getAllPermohonan($id_perizinan)->getRow();
         if (empty($permintaanId) && empty($nama)) {
             throw new PageNotFoundException();
         }
@@ -467,12 +471,12 @@ class Admin extends BaseController
             }
         }
         $data = [
-            'title' => 'Detail Data Masuk',
+            'title' => 'Detail Data Pengjuan Informasi',
             'tampilData' => $this->setting->tampilData()->getResult(),
-            'tampilDataIzin' => $this->izin->callPendingData($id_perizinan)->getRow(),
+            'tampilDataIzin' => $permintaanId,
         ];
 
-        return view('admin/detailDataMasuk', $data);
+        return view('admin/detailDataPermohonan', $data);
     }
 
 

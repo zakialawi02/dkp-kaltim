@@ -64,6 +64,22 @@
     <!-- Header End -->
 
     <!-- About Segment -->
+    <section class="modul pt-5" id="modul" style="min-height: 20vh;">
+        <div class="container p-5 ">
+
+            <center class="">
+                <h2>Modul</h2>
+            </center>
+
+            <center class="">
+                <p>...</p>
+            </center>
+
+        </div>
+    </section>
+
+
+    <!-- About Segment -->
     <section class="about pt-5" id="about" style="min-height: 20vh;">
         <div class="container p-5 ">
 
@@ -72,7 +88,7 @@
             </center>
 
             <center class="">
-                <p>Aplikasi ini merupakan aplikasi yang dapat digunakan oleh masyarakat umum untuk melihat pemanfaatan dan penggunaan apa saja yang dapat dilakukan pada wilayah pesisir dan laut Provinsi Kalimantan Timur.</p>
+                <p>Aplikasi Simata Laut Kaltim (Sistem Informasi Tata Ruang Laut Kaltim ) merupakan aplikasi yang dapat digunakan oleh masyarakat umum untuk memberikan akses Informasi Kesesuaian Kegiatan Pemanfaatan Ruang Laut di wilayah pesisir dan laut Provinsi Kalimantan Timur.</p>
             </center>
 
         </div>
@@ -103,7 +119,7 @@
                     <div class="card-body">
                         <center>
                             <h5 class="card-title">Buat Ajuan</h5>
-                            <p class="card-text">Melakukan pengajuan izin secara secara mandiri dengan sistem daring (online).</p>
+                            <p class="card-text">Buat Ajuan Melakukan permohonan Informasi Kesesuaian ruang Laut secara mandiri dengan system daring (online).</p>
                         </center>
                     </div>
                 </div>

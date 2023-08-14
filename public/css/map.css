@@ -105,7 +105,7 @@
     left: -25vw;
     background-color: #f5f5f5;
     transition: left 0.3s ease;
-    z-index: 2;
+    z-index: 10;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
 }
 
@@ -332,7 +332,7 @@ label {
     height: auto;
     /* background-color: rgba(255, 255, 255, 0.7); */
     padding: 10px;
-    z-index: 1001;
+    z-index: 1;
 }
 
 @media (max-width: 768px) {
@@ -348,11 +348,11 @@ label {
 }
 
 #login-btn {
-    z-index: 1000;
+    z-index: 100;
 }
 
 .modal-dialog {
-    z-index: 10000;
+    z-index: 100;
 }
 
 
@@ -375,7 +375,7 @@ label {
 }
 
 #loginModal {
-    z-index: 1055;
+    z-index: 100;
 }
 
 /* Search */
@@ -409,7 +409,7 @@ label {
 .modalAdds {
     display: none;
     position: fixed;
-    z-index: 11001;
+    z-index: 99;
     left: 0;
     top: 0;
     width: 100%;

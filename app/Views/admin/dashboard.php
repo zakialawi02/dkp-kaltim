@@ -1,3 +1,29 @@
+<?php $allData = $allDataPermohonan;
+foreach ($allData as $key => $row) {
+    if ($row->stat_appv == 0) {
+        $allDataBaru[] = $row;
+    } elseif ($row->stat_appv == 1) {
+        $allDataSetujui[] = $row;
+    } elseif ($row->stat_appv == 2) {
+        $allDataTolak[] = $row;
+    }
+}
+$allDataTerjawab = array_merge($allDataSetujui, $allDataTolak);
+usort($allDataSetujui, function ($a, $b) {
+    return strtotime($b->date_updated) - strtotime($a->date_updated);
+});
+usort($allDataTolak, function ($a, $b) {
+    return strtotime($b->date_updated) - strtotime($a->date_updated);
+});
+usort($allDataTerjawab, function ($a, $b) {
+    return strtotime($b->date_updated) - strtotime($a->date_updated);
+});
+$countAllPermohonan = count($allData);
+$countAllSetujui = count($allDataSetujui);
+$countAllPending = count($allDataBaru);
+$countAllTolak = count($allDataTolak);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -47,7 +73,6 @@
                         <h1><?= $title; ?></h1>
                     </div>
 
-
                     <div class="dashboard">
                         <?php if (in_groups('SuperAdmin') || in_groups('Admin')) :; ?>
                             <div class="row">
@@ -58,17 +83,17 @@
 
                                         <!--  Card -->
                                         <div class="col-xxl-4 col-md-6 mb-3">
-                                            <div class="card info-card kaffe-card">
+                                            <div class="card info-card totalls-card h-100">
 
                                                 <div class="card-body">
-                                                    <h5 class="card-title">Jumlah Perizinan</h5>
+                                                    <h5 class="card-title">Total Permohonan Informasi</h5>
 
                                                     <div class="d-flex align-items-center">
                                                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                                             <i class="bi bi-file-earmark-text"></i>
                                                         </div>
                                                         <div class="ps-3">
-                                                            <h6><?= $countAllPerizinan; ?></h6>
+                                                            <h6><?= $countAllPermohonan; ?></h6>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -78,9 +103,9 @@
 
                                         <!-- Incrase Card -->
                                         <div class="col-xxl-4 col-md-6 mb-3">
-                                            <div class="card info-card pending-card">
+                                            <div class="card info-card pending-card h-100">
                                                 <div class="card-body">
-                                                    <h5 class="card-title">Data Masuk/Pending</h5>
+                                                    <h5 class="card-title">Data Masuk/Baru</h5>
 
                                                     <div class="d-flex align-items-center">
                                                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -97,11 +122,10 @@
 
                                         <!-- user Card -->
                                         <div class="col-xxl-4 col-xl-12 mb-3">
-
-                                            <div class="card info-card users-card">
+                                            <div class="card info-card users-card h-100">
 
                                                 <div class="card-body">
-                                                    <h5 class="card-title">Jumlah Pengguna</h5>
+                                                    <h5 class="card-title">Total Pengguna</h5>
 
                                                     <div class="d-flex align-items-center">
                                                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -117,36 +141,75 @@
 
                                         </div><!-- End user Card -->
 
-                                        <!-- Daftar Pemohon -->
+                                        <!-- Daftar Data Masuk -->
                                         <div class="col-12 p-2 pr-2 mb-3">
                                             <div class="card recent-sales overflow-auto p-2">
                                                 <div class="card-body">
-                                                    <h5 class="card-title">Daftar Perizinan | 5 Terbaru</h5>
+                                                    <h5 class="card-title">Daftar Permohonan Baru | 5 Terbaru</h5>
 
                                                     <table id="tabels" class="table table-striped table-bordered">
                                                         <thead>
                                                             <tr>
+                                                                <th>Tanggal Masuk</th>
                                                                 <th>NIK</th>
                                                                 <th>Nama Pemohon</th>
                                                                 <th style="min-width:10em">Alamat</th>
                                                                 <th>Kontak</th>
-                                                                <th>Tanggal</th>
+                                                                <th> </th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <?php foreach ($tampilIzin as $izin) : ?>
+                                                            <?php foreach ($allDataBaru as $baru) : ?>
                                                                 <tr>
-                                                                    <td><?= $izin->nik; ?></td>
-                                                                    <td><?= $izin->nama; ?></td>
-                                                                    <td><?= $izin->alamat; ?></td>
-                                                                    <td><?= $izin->kontak; ?></td>
-                                                                    <td><?= date('d M Y', strtotime($izin->created_at)); ?></td>
+                                                                    <td><?= date('d M Y', strtotime($baru->created_at)); ?></td>
+                                                                    <td><?= $baru->nik; ?></td>
+                                                                    <td><?= $baru->nama; ?></td>
+                                                                    <td><?= $baru->alamat; ?></td>
+                                                                    <td><?= $baru->kontak; ?></td>
+                                                                    <td><a type="button" role="button" href="/admin/data/<?= ($baru->stat_appv == '0') ? 'menunggu-jawaban' : ''; ?>/lihat/<?= $baru->id_perizinan; ?>/<?= $baru->nama; ?>/" class="asbn btn btn-info bi bi-binoculars" data-bs-toggle="tooltip" data-bs-placement="top" title="Lihat" target="_blank"></a></td>
                                                                 </tr>
                                                             <?php endforeach ?>
                                                         </tbody>
                                                     </table>
 
-                                                    <a type="button" class="btn btn-primary" href="/admin/data/data-perizinan">Lihat Lebih Banyak</a>
+                                                    <a type="button" class="btn btn-primary" href="/admin/pending">Lihat Lebih Banyak</a>
+                                                </div>
+
+                                            </div>
+                                        </div><!-- End Daftar -->
+
+                                        <!-- Daftar Pemohon -->
+                                        <div class="col-12 p-2 pr-2 mb-3">
+                                            <div class="card recent-sales overflow-auto p-2">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Daftar Permohonan Dijawab | 5 Terbaru</h5>
+
+                                                    <table id="tabels" class="table table-striped table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Tanggal Jawaban</th>
+                                                                <th>NIK</th>
+                                                                <th>Nama Pemohon</th>
+                                                                <th style="min-width:10em">Alamat</th>
+                                                                <th>Status</th>
+                                                                <th> </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php foreach ($allDataTerjawab as $jawab) : ?>
+                                                                <tr>
+                                                                    <td><?= date('d M Y', strtotime($jawab->date_updated)); ?></td>
+                                                                    <td><?= $jawab->nik; ?></td>
+                                                                    <td><?= $jawab->nama; ?></td>
+                                                                    <td><?= $jawab->alamat; ?></td>
+                                                                    <td><span class="badge bg-<?= ($jawab->stat_appv == '1') ? 'success' : 'danger'; ?>"> <?= ($jawab->stat_appv == '1') ? 'Disetujui' : 'Tidak Disetujui'; ?> </span></td>
+                                                                    <td><a type="button" role="button" href="/admin/data/<?= ($jawab->stat_appv == '1') ? 'telah-disetujui' : 'tidak-disetujui'; ?>/lihat/<?= $jawab->id_perizinan; ?>/<?= $jawab->nama; ?>/" class="asbn btn btn-secondary bi bi-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Lihat" target="_blank"></a></td>
+                                                                </tr>
+                                                            <?php endforeach ?>
+                                                        </tbody>
+                                                    </table>
+
+                                                    <a type="button" class="btn btn-primary" href="/admin/data/data-permohonan">Lihat Lebih Banyak</a>
                                                 </div>
 
                                             </div>
@@ -221,11 +284,11 @@
 
 
                                 <div class="col-xl-8 p-3">
-                                    <?php $userSubmitIzin = $userSubmitIzin ?>
+                                    <?php $userSubmitPermohonan = $userSubmitPermohonan ?>
                                     <?php $pendingIzin = []; ?>
                                     <?php $terimaIzin = []; ?>
                                     <?php $tolakIzin = []; ?>
-                                    <?php foreach ($userSubmitIzin as $submitedData) : ?>
+                                    <?php foreach ($userSubmitPermohonan as $submitedData) : ?>
                                         <?php if ($submitedData->stat_appv == 0) : ?>
                                             <?php $pendingIzin[] = $submitedData ?>
                                         <?php elseif ($submitedData->stat_appv == 1) : ?>
@@ -709,7 +772,7 @@
 
     <script>
         $(document).ready(function() {
-            <?php foreach ($userSubmitIzin as $S) : ?>
+            <?php foreach ($userSubmitPermohonan as $S) : ?>
 
                 function showMap<?= $S->id_perizinan; ?>() {
                     var mymap = L.map('mymap-<?= $S->id_perizinan; ?>').setView([<?= $S->latitude; ?>, <?= $S->longitude; ?>], 8);

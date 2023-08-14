@@ -35,19 +35,10 @@
             <!-- MAIN CONTENT -->
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-2 mb-3">User Management</h1>
+                    <h1 class="mt-2 mb-3">Kelola Pengguna</h1>
 
                     <div class="card mb-4">
                         <div class="card-body">
-
-                            <!-- <?php if (session()->getFlashdata('alert')) : ?>
-                                <div class="card-body">
-                                    <div id="alert" class="alert alert-info alert-dismissible fade show" role="alert">
-                                        <?= session()->getFlashdata('alert'); ?>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    </div>
-                                </div>
-                            <?php endif; ?> -->
 
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#exampleModal">+ Tambah</button>
@@ -111,10 +102,11 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Username</th>
-                                        <th>Full Name</th>
+                                        <th>Tanggal Gabung</th>
+                                        <th>Nama</th>
                                         <th>Email</th>
                                         <th>Role</th>
-                                        <th>Active</th>
+                                        <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -124,6 +116,7 @@
                                         <tr>
                                             <th scope="row"><?= $i++; ?></th>
                                             <td><?= $user->username; ?></td>
+                                            <td><?= date('d M Y', strtotime($user->created_at)); ?></td>
                                             <td><?= $user->full_name; ?></td>
                                             <td><?= $user->email; ?></td>
                                             <td><span class="badge bg-<?= ($user->name == 'Admin' or $user->name == 'SuperAdmin') ? 'info' : 'secondary'; ?>"> <?= $user->name; ?> </span></td>

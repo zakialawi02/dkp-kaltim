@@ -51,7 +51,7 @@
                         <div class="card-body">
 
                             <!-- <div class="m-1 mb-4 ">
-                                <a href="/admin/data/data-perizinan/tambah" class="btn btn-primary bi bi-plus" role="button">Tambah</a>
+                                <a href="/admin/data/data-permohonan/tambah" class="btn btn-primary bi bi-plus" role="button">Tambah</a>
                                 <a href="/kafe/generatepdf" class="btn btn-primary bi bi-file-earmark-pdf-fill" target="_blank"> PDF</a>
                             </div> -->
 
@@ -76,7 +76,7 @@
                                             <td class="almkv"><?= $Iz->nama_kegiatan; ?></td>
                                             <td class="aks">
                                                 <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                    <a href="/data-perizinan/<?= $Iz->id_perizinan; ?>/detail" class="asbn btn btn-secondary bi bi-eye" role="button" target="_blank"></a>
+                                                    <a type="button" role="button" href="/admin/data/<?= ($Iz->stat_appv == '1') ? 'telah-disetujui' : 'tidak-disetujui'; ?>/lihat/<?= $Iz->id_perizinan; ?>/<?= $Iz->nama; ?>/" class="asbn btn btn-secondary bi bi-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Lihat" target="_blank"></a>
                                                 </div>
                                                 <div class="btn-group mr-2" role="group" aria-label="First group">
                                                     <a href="/data-perizinan/<?= $Iz->id_perizinan; ?>/edit/" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>

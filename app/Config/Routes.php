@@ -53,11 +53,11 @@ $routes->get('/admin/features/tambah', 'Admin::tambahGeojson', ['filter' => 'rol
 $routes->get('/admin/features/edit/(:num)', 'Admin::editGeojson/$1', ['filter' => 'role:SuperAdmin,Admin']);
 $routes->delete('/admin/delete_Geojson/(:num)', 'Admin::delete_Geojson/$1', ['filter' => 'role:SuperAdmin,Admin']);
 
-$routes->get('/admin/data/lihat/(:num)/(:any)', 'Admin::periksaDataMasuk/$1/$2', ['filter' => 'role:SuperAdmin,Admin']);
+$routes->get('/admin/data/(:any)/lihat/(:num)/(:any)', 'Admin::periksaDataPermohonan/$1/$2/$3', ['filter' => 'role:SuperAdmin,Admin,User']);
 $routes->get('/admin/DataPerizinan', 'Admin::DataPerizinan', ['filter' => 'role:SuperAdmin,Admin']);
-$routes->get('/admin/data/data-perizinan', 'Admin::DataPerizinan', ['filter' => 'role:SuperAdmin,Admin']);
-$routes->get('/data-perizinan/(:num)/detail', 'Data::detail/$1');
-$routes->get('/data-perizinan/(:num)/edit/', 'Admin::editPerizinan/$1', ['filter' => 'role:SuperAdmin,Admin,User']);
+$routes->get('/admin/data/data-permohonan', 'Admin::DataPerizinan', ['filter' => 'role:SuperAdmin,Admin']);
+$routes->get('/data-permohonan/(:num)/detail', 'Data::detail/$1');
+$routes->get('/data-permohonan/(:num)/edit/', 'Admin::editPerizinan/$1', ['filter' => 'role:SuperAdmin,Admin,User']);
 $routes->get('/admin/kegiatan/', 'Admin::kegiatan', ['filter' => 'role:SuperAdmin,Admin']);
 $routes->get('/admin/kegiatan/tambah', 'Admin::tambahKegiatan', ['filter' => 'role:SuperAdmin,Admin']);
 $routes->get('/admin/data/zonasi/(:num)/edit/', 'Admin::editStatusZonasi/$1', ['filter' => 'role:SuperAdmin,Admin']);

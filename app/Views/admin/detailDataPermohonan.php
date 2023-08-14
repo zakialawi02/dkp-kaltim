@@ -44,8 +44,25 @@
             <!-- MAIN CONTENT -->
             <main>
                 <div class="container-fluid px-4">
+                    <h3 class="mt-3 mb-3">Data Pengjuan Informasi</h3>
+
+                    <div class="alert alert-<?= ($tampilDataIzin->stat_appv == 0) ? 'warning' : 'secondary'; ?> d-flex align-items-center" role="alert">
+                        <div>
+                            <i class="bi <?= ($tampilDataIzin->stat_appv == 0) ? 'bi-exclamation-triangle' : 'bi-check2-circle'; ?> " style="font-size: x-large;"></i>
+                            <?= ($tampilDataIzin->stat_appv == 0) ? 'Data Permohanan Informasi Ruang Laut Oleh <u>' . $tampilDataIzin->nama . '</u> <b>Memerlukan Tindakan/Jawaban</b> Oleh Pihak Terkait' : 'Data Permohanan Informasi Ruang Laut Oleh <u>' . $tampilDataIzin->nama . '</u> <b>Telah Dibalas</b>'; ?>
+                        </div>
+                    </div>
+
                     <div class="card mb-3">
                         <div class="card-body">
+
+                            <div class="p-md-2">
+                                <h4 class="m-0">STATUS : <span class="badge bg-<?= ($tampilDataIzin->stat_appv == 0) ? 'warning' : (($tampilDataIzin->stat_appv == 1) ? 'success' : 'danger'); ?>"> <?= ($tampilDataIzin->stat_appv == 0) ? 'Menunggu Tindakan...' : (($tampilDataIzin->stat_appv == 1) ? 'Disetujui' : 'Tidak Disetujui'); ?> </span></h4>
+                                <?php if ($tampilDataIzin->stat_appv != 0) : ?>
+                                    <p style="font-size: smaller;">Pada: <?= date('d M Y H:i:s', strtotime($tampilDataIzin->date_updated)); ?></p>
+                                <?php endif ?>
+                            </div>
+
                             <div class="table-responsive">
                                 <table class="table table-responsive">
                                     <thead class="thead-left">
@@ -57,9 +74,14 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>NIK</td>
+                                            <td>NIK (Nomor Induk Kependudukan)</td>
                                             <th>:</th>
                                             <td><?= $tampilDataIzin->nik; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>NIB (Nomor Izin Berusaha)</td>
+                                            <th>:</th>
+                                            <td> </td>
                                         </tr>
                                         <tr>
                                             <td>Alamat</td>
@@ -77,13 +99,19 @@
                                             <td><?= $tampilDataIzin->nama_kegiatan; ?></td>
                                         </tr>
                                         <tr>
-                                            <td>Created at</td>
+                                            <td>Tanggal Pengajuan</td>
                                             <th>:</th>
                                             <td><?= date('d M Y H:i:s', strtotime($tampilDataIzin->created_at)); ?></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
+
+                            <h5>Berkas</h5>
+                            <div class="p-md-2">
+
+                            </div>
+
                         </div>
 
                     </div>
@@ -93,7 +121,7 @@
                             <div id="map" class="map"></div>
                         </div>
                     </div>
-                    <div class="card">
+                    <div class="card ambilTindakanJawaban">
                         <div class="card-body d-flex justify-content-end">
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -157,6 +185,23 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 
+    <script>
+        $(document).ready(function() {
+            $("th").css("pointer-events", "none");
+            $(".no-sort").css("pointer-events", "none");
+        });
+    </script>
+    <script>
+        <?php if (in_groups('SuperAdmin') || in_groups('Admin')) : ?>
+            <?php if ($tampilDataIzin->stat_appv != 0) : ?>
+                $('.ambilTindakanJawaban').remove('.ambilTindakanJawaban');
+            <?php endif ?>
+        <?php elseif (in_groups('User')) : ?>
+            $('.ambilTindakanJawaban').remove('.ambilTindakanJawaban');
+        <?php else : ?>
+            $('.ambilTindakanJawaban').remove('.ambilTindakanJawaban');
+        <?php endif ?>
+    </script>
     <script>
         $('input[type="radio"]').change(function(e) {
             $('button[type="submit"]').removeAttr('disabled');

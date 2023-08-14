@@ -112,6 +112,10 @@
                             <div class="step_info">
                                 <h4>Masukkan Lokasi</h4>
                                 <p>Masukkan X,Y dari lokasi atau alamat lokasi</p>
+                                <hr>
+                                <p>1. Jika jumlah titik sebanyak satu titik maka geometri akan bertipe titik(point)</p>
+                                <p>2. Jika jumlah titik sebanyak dua titik maka geometri akan bertipe garis(line)</p>
+                                <p>3. Jika jumlah titik lebih dari dua titik maka geometri akan bertipe poligon(polygon)</p>
                             </div>
                         </div>
                         <div class="col-sm-9">
@@ -130,52 +134,54 @@
                             </div>
 
                             <div class="form_sep ini_koordinat" id="isi_koordinat">
-                                <div class="form-group pb-3">
-                                    <div class='row'>
-                                        <div class='col-md-6'>
-                                            Longitude<br>
+                                <div class="form-group mb-3 pb-3">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <b>Longitude</b><br>
                                             <input id="tx_x" value="117.040" type="text" class="form-control dd-input" alt="posisi X">
                                         </div>
 
-                                        <div class='col-md-6'>
-                                            Latitude<br>
+                                        <div class="col-md-6">
+                                            <b>Latitude</b><br>
                                             <input id="tx_y" value="-1.175" type="text" class="form-control dd-input" alt="posisi Y">
                                         </div>
                                     </div>
                                 </div>
 
+                                <div class="p-3" style="border-top: 1px dotted rgb(130, 130, 130);"></div>
+
                                 <div class="form-group pb-3">
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            Longitude<br>
+                                        <div class="col-md-6 mb-3">
+                                            <b>Longitude</b><br>
                                             <div class="row">
-                                                <div class='col-md-3' style="padding-right:2px">
+                                                <div class="col-md-3" style="padding-right:2px">
                                                     Degree<br>
                                                     <input id="md1_1" disabled value="117" type="text" class="form-control dms-input" alt="posisi X">
                                                 </div>
-                                                <div class='col-md-3' style="padding-left:2px;padding-right:2px">
+                                                <div class="col-md-3" style="padding-left:2px;padding-right:2px">
                                                     Minute<br>
                                                     <input id="md1_2" disabled value="2" type="text" class="form-control dms-input" alt="posisi X">
                                                 </div>
-                                                <div class='col-md-3' style="padding-left:2px;padding-right:2px">
+                                                <div class="col-md-3" style="padding-left:2px;padding-right:2px">
                                                     Second<br>
                                                     <input id="md1_3" disabled value="24" type="text" class="form-control dms-input" alt="posisi X">
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6">
-                                            Latitude<br>
+                                        <div class="col-md-6 mb-3">
+                                            <b>Latitude</b><br>
                                             <div class="row">
-                                                <div class='col-md-3' style="padding-right:2px">
+                                                <div class="col-md-3" style="padding-right:2px">
                                                     Degree<br>
                                                     <input id="md2_1" disabled value="-1" type="text" class="form-control dms-input" alt="posisi Y">
                                                 </div>
-                                                <div class='col-md-3' style="padding-left:2px;padding-right:2px">
+                                                <div class="col-md-3" style="padding-left:2px;padding-right:2px">
                                                     Minute<br>
                                                     <input id="md2_2" disabled value="10" type="text" class="form-control dms-input" alt="posisi Y">
                                                 </div>
-                                                <div class='col-md-3' style="padding-left:2px;padding-right:2px">
+                                                <div class="col-md-3" style="padding-left:2px;padding-right:2px">
                                                     Second<br>
                                                     <input id="md2_3" disabled value="32" type="text" class="form-control dms-input" alt="posisi Y">
                                                 </div>
@@ -406,12 +412,12 @@
             <div class="form_sep ini_koordinat" id="isi_koordinat">
                                 <div class="form-group pb-3">
                                     <div class='row'>
-                                        <div class='col-md-6'>
+                                        <div class="col-md-6">
                                             Longitude<br>
                                             <input id="tx_x" value="117.040" type="text" class="form-control dd-input" alt="posisi X">
                                         </div>
 
-                                        <div class='col-md-6'>
+                                        <div class="col-md-6">
                                             Latitude<br>
                                             <input id="tx_y" value="-1.175" type="text" class="form-control dd-input" alt="posisi Y">
                                         </div>
@@ -1019,7 +1025,7 @@
             });
             map.addLayer(drawedVector);
             // console.log(pusat[0]);
-
+            map.getView().fit(drawedVector.getExtent())
             view.animate({
                 center: view.setCenter(ol.proj.fromLonLat(pusat[0])),
                 zoom: 12,
