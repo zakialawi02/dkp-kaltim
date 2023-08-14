@@ -58,7 +58,7 @@
                                         <th>NIK</th>
                                         <th>Alamat</th>
                                         <th>Jenis Kegiatan</th>
-                                        <th>Reject/Accept</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -72,93 +72,7 @@
                                             <td><?= $S->alamat; ?></td>
                                             <td><?= $S->nama_kegiatan; ?></td>
                                             <td>
-                                                <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                    <form action="/admin/tolakIzin/<?= $S->id_perizinan; ?>" method="post">
-                                                        <?= csrf_field(); ?>
-                                                        <input type="hidden" name="_method" value="DELETE">
-                                                        <button type="submit" class="asbn btn btn-danger bi bi-x-octagon" data-bs-toggle="tooltip" data-bs-placement="top" title="Reject" onclick="return confirm('Yakin Tolak Data?')"></button>
-                                                    </form>
-                                                </div>
-                                                <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                    <form action="/admin/approveIzin/<?= $S->id_perizinan; ?>" method="post">
-                                                        <?= csrf_field(); ?>
-                                                        <input type="hidden" name="_method" value="DELETE">
-                                                        <button type="submit" class="asbn btn btn-success bi bi-check-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Accept" onclick="return confirm('Approve?')"></button>
-                                                    </form>
-                                                </div>
-                                                <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                    <!-- Trigger modal -->
-                                                    <button type="button" id="infos" class="asbn btn btn-secondary bi bi-eye" data-bs-toggle="modal" data-bs-target="#infoModal-<?= $S->id_perizinan ?>" onclick="showMap<?= $S->id_perizinan; ?>()"></button>
-                                                </div>
-                                                <!-- Modal detail -->
-                                                <div class=" modal fade" id="infoModal-<?= $S->id_perizinan ?>" tabindex="-1" aria-labelledby="infoModalLabel-<?= $S->id_perizinan ?>" aria-hidden="true">
-                                                    <div class="modal-dialog modal-lg modal-fullscreen-lg-down">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="infoModalLabel-<?= $S->id_perizinan ?>">Pratinjau</h5>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <div class="card">
-                                                                    <div class="card-body">
-                                                                        <div class="table-responsive">
-                                                                            <table class="table table-responsive">
-                                                                                <thead class="thead-left">
-                                                                                    <tr>
-                                                                                        <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;">Nama Pemohon</th>
-                                                                                        <th style="border-bottom-width: 1px; border-bottom-color: #dee2e6;">:</th>
-                                                                                        <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;"><?= $S->nama; ?></th>
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                    <tr>
-                                                                                        <td>NIK</td>
-                                                                                        <th>:</th>
-                                                                                        <td><?= $S->nik; ?></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td>Alamat</td>
-                                                                                        <th>:</th>
-                                                                                        <td><?= $S->alamat; ?></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td>Jenis Kegiatan</td>
-                                                                                        <th>:</th>
-                                                                                        <td><?= $S->nama_kegiatan; ?>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td>Koordinat</td>
-                                                                                        <th>:</th>
-                                                                                        <td><?= $S->latitude; ?>, <?= $S->longitude; ?></td>
-                                                                                    </tr>
-
-                                                                                    <tr>
-                                                                                        <td>Created at</td>
-                                                                                        <th>:</th>
-                                                                                        <td><?= date('d M Y H:i:s', strtotime($S->created_at)); ?></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td>Username</td>
-                                                                                        <th>:</th>
-                                                                                        <td><?= $S->username; ?></td>
-                                                                                    </tr>
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </div>
-                                                                    </div>
-
-                                                                </div>
-
-                                                                <div class="card">
-                                                                    <div class="card-body">
-                                                                        <div id="mymap-<?= $S->id_perizinan ?>" class="mymap"></div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <a type="button" role="button" href="/admin/data/<?= ($S->stat_appv == '0') ? 'menunggu-jawaban' : ''; ?>/lihat/<?= $S->id_perizinan; ?>/<?= $S->nama; ?>/" class="asbn btn btn-info bi bi-binoculars" data-bs-toggle="tooltip" data-bs-placement="top" title="Aksi" target="_blank"> Periksa</a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -224,28 +138,6 @@
         </script>
     <?php endif; ?>
 
-    <!-- Leaflet Component -->
-    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
-
-    <?php foreach ($tampilDataIzin as $S) : ?>
-        <script>
-            $(document).ready(function() {
-                function showMap<?= $S->id_perizinan; ?>() {
-                    var mymap = L.map('mymap-<?= $S->id_perizinan; ?>').setView([<?= $S->latitude; ?>, <?= $S->longitude; ?>], 8);
-
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
-                        maxZoom: 18,
-                    }).addTo(mymap);
-                    L.marker([<?= $S->latitude ?>, <?= $S->longitude ?>]).addTo(mymap);
-                    var drawnPolygon = L.polygon(<?= $S->polygon; ?>).addTo(mymap);
-                }
-                $('#infoModal-<?= $S->id_perizinan; ?>').on('shown.bs.modal', function() {
-                    showMap<?= $S->id_perizinan; ?>();
-                })
-            });
-        </script>
-    <?php endforeach ?>
 
 </body>
 

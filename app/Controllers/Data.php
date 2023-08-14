@@ -31,9 +31,16 @@ class Data extends BaseController
     {
         $data = [
             'title' => 'Beranda',
-            'tampilData' => $this->setting->tampilData()->getResult(),
         ];
         return view('page/indexHome', $data);
+    }
+
+    public function modul()
+    {
+        $data = [
+            'title' => 'Modul',
+        ];
+        return view('page/modul', $data);
     }
 
     public function map()
@@ -156,7 +163,7 @@ class Data extends BaseController
                 'stat_appv' => '0',
                 'date_updated' => date('Y-m-d H:i:s'),
             ];
-            $this->izin->chck_appv($status, $id_perizinan);
+            $this->izin->saveStatusAppv($status, $id_perizinan);
         }
 
         if ($updateIzin) {
@@ -164,14 +171,14 @@ class Data extends BaseController
             if (in_groups('User')) {
                 return $this->response->redirect(site_url('/dashboard'));
             } else {
-                return $this->response->redirect(site_url('/admin/data/data-perizinan'));
+                return $this->response->redirect(site_url('/admin/data/data-permohonan'));
             }
         } else {
             session()->setFlashdata('error', 'Gagal memperbarui data.');
             if (in_groups('User')) {
                 return $this->response->redirect(site_url('/dashboard'));
             } else {
-                return $this->response->redirect(site_url('/admin/data/data-perizinan'));
+                return $this->response->redirect(site_url('/admin/data/data-permohonan'));
             }
         }
     }

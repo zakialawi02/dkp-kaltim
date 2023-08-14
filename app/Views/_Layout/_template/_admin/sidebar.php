@@ -6,15 +6,15 @@
 
                 <a class="nav-link pt-3" href="<?= base_url(); ?>">
                     <div class="sb-nav-link-icon"><i class="bi bi-house-door-fill"></i></div>
-                    HOME
+                    Beranda
                 </a>
                 <a class="nav-link" href="/dashboard">
                     <div class="sb-nav-link-icon"><i class="bi bi-grid-fill"></i></div>
                     Dashboard
                 </a>
                 <a class="nav-link" href="/map">
-                    <div class="sb-nav-link-icon"><i class="bi bi-journal-plus"></i></div>
-                    Buat Pengajuan
+                    <div class="sb-nav-link-icon"><i class="bi bi-pin-map-fill"></i></div>
+                    Peta
                 </a>
 
                 <?php if (in_groups('SuperAdmin') || in_groups('Admin')) :; ?>
@@ -28,52 +28,44 @@
                     <div class="collapse" id="collapseGeojson" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <div class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="/admin/features/tambah">Add Data</a>
-                            <a class="nav-link" href="/admin/features">All Data</a>
+                            <a class="nav-link" href="/admin/features">Semua Data</a>
                         </div>
                     </div>
 
-                    <a class="nav-link collapsed" href="/admin/data/data-perizinan" data-bs-toggle="collapse" data-bs-target="#collapseKafe" aria-expanded="false" aria-controls="collapseKafe">
+                    <a class="nav-link collapsed" href="/admin/data/data-permohonan" data-bs-toggle="collapse" data-bs-target="#collapseKafe" aria-expanded="false" aria-controls="collapseKafe">
                         <div class="sb-nav-link-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
-                        Perizinan
+                        Informasi Ruang Laut
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
                     <div class="collapse" id="collapseKafe" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <div class="sb-sidenav-menu-nested nav">
-                            <!-- <a class="nav-link" href="/admin/data/data-perizinan/tambah">Add Data</a> -->
-                            <a class="nav-link" href="/admin/data/data-perizinan">All Data</a>
+                            <!-- <a class="nav-link" href="/admin/data/data-permohonan/tambah">Add Data</a> -->
+                            <a class="nav-link" href="/admin/data/data-permohonan">Semua Data</a>
                         </div>
                     </div>
 
                     <a class="nav-link collapsed" href="/admin/features" data-bs-toggle="collapse" data-bs-target="#collapsePending" aria-expanded="false" aria-controls="collapsePending">
                         <div class="sb-nav-link-icon"><i class="bi bi-hourglass-split"></i></div>
-                        Pending
+                        Data Masuk/Baru
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
                     <div class="collapse" id="collapsePending" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <div class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="/admin/pending">All Data</a>
+                            <a class="nav-link" href="/admin/pending">Semua Data</a>
                         </div>
                     </div>
                 <?php endif ?>
 
-                <div class="sb-sidenav-menu-heading">Setting</div>
+                <div class="sb-sidenav-menu-heading">Pengaturan</div>
 
-                <?php if (in_groups('SuperAdmin') || in_groups('Admin')) :; ?>
+                <?php if (in_groups('SuperAdmin') || in_groups('Admin')) : ?>
                     <a class="nav-link" href="/user/manajemen">
                         <div class="sb-nav-link-icon"><i class="bi bi-person-lines-fill"></i></div>
-                        User Management
+                        Kelola Pengguna
                     </a>
-                <?php endif ?>
-
-                <a class="nav-link" href="/user/list">
-                    <div class="sb-nav-link-icon"><i class="bi bi-person-lines-fill"></i></div>
-                    User List
-                </a>
-
-                <?php if (in_groups('SuperAdmin') || in_groups('Admin')) :; ?>
                     <a class="nav-link" href="/admin/setting">
                         <div class="sb-nav-link-icon"><i class="bi bi-sliders"></i></div>
-                        Map View
+                        Peta
                     </a>
                 <?php endif ?>
 

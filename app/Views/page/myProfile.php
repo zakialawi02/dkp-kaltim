@@ -72,7 +72,7 @@
                                             </li>
 
                                             <li class="nav-item">
-                                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
+                                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Ganti Password</button>
                                             </li>
 
 
@@ -144,7 +144,7 @@
 
 
                                                     <div class="text-center">
-                                                        <button type="submit" id="update-button" class="btn btn-primary">Change</button>
+                                                        <button type="submit" id="update-button" class="btn btn-primary">Simpan Perubahan</button>
                                                     </div>
                                                 </form><!-- End Change my Data -->
 
@@ -172,7 +172,7 @@
                                                     </div> -->
 
                                                     <div class="row mb-3">
-                                                        <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+                                                        <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Password Baru</label>
                                                         <div class="col-md-8 col-lg-9">
                                                             <input name="newpassword" type="password" class="form-control <?= ($validation->hasError('newpassword')) ? 'is-invalid' : ''; ?>" id="newpassword" required>
                                                             <div class="invalid-feedback">
@@ -182,7 +182,7 @@
                                                     </div>
 
                                                     <div class="row mb-3">
-                                                        <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+                                                        <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Masukkan Ulang Password Baru</label>
                                                         <div class="col-md-8 col-lg-9">
                                                             <input name="renewpassword" type="password" class="form-control <?= ($validation->hasError('renewpassword')) ? 'is-invalid' : ''; ?>" id="renewpassword" required>
                                                             <div class="invalid-feedback">
@@ -225,6 +225,27 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js"></script>
     <script src="/js/scripts.js"></script>
 
+    <?php if (session()->getFlashdata('success')) : ?>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: '<?= session()->getFlashdata('success'); ?>',
+                timer: 2000,
+            });
+        </script>
+    <?php endif; ?>
+
+    <?php if (session()->getFlashdata('error')) : ?>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: '<?= session()->getFlashdata('error'); ?>',
+                timer: 2000,
+            });
+        </script>
+    <?php endif; ?>
 
     <script>
         $(document).ready(function() {
@@ -272,47 +293,6 @@
         });
     </script>
 
-    <script>
-        $(document).ready(function() {
-            $('#my-profile-form').submit(function(e) {
-                e.preventDefault();
-                $.ajax({
-                    url: '/MyProfile/UpdateMyData',
-                    type: 'POST',
-                    data: $(this).serialize(),
-                    success: function() {
-                        updatedUserData();
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Data Berhasil Diperbarui.',
-                            showConfirmButton: true,
-                            timer: 1500
-                        });
-                    },
-                    error: function() {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Data Gagal Diperbarui.',
-                            showConfirmButton: true,
-                            timer: 1500
-                        });
-                    }
-                });
-            });
-
-            function updatedUserData() {
-                $.ajax({
-                    url: '/MyProfile/updatedUserData',
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(user) {
-                        $('#full_name').text(': ' + user.full_name);
-                        $('#user_about').text(user.user_about);
-                    }
-                });
-            }
-        });
-    </script>
 
 </body>
 

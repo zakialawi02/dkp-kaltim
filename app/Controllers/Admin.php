@@ -47,8 +47,8 @@ class Admin extends BaseController
             'countAllPending' => $this->izin->callPendingData()->getNumRows(),
             'countAllUser' => $this->user->countAllUser(),
             'userMonth' => $this->user->userMonth()->getResult(),
-            'tampilIzin' => $this->izin->getIzin()->getResult(),
-            'userSubmitIzin' => $this->izin->userSubmitIzin($userid)->getResult(),
+            'allDataPermohonan' => $this->izin->getAllPermohonan()->getResult(),
+            'userSubmitPermohonan' => $this->izin->userSubmitIzin($userid)->getResult(),
         ];
         // echo '<pre>';
         // print_r($data['tampilIzin']);
@@ -277,18 +277,18 @@ class Admin extends BaseController
 
 
 
-    //  DATA PERIZINAN  ====================================================================================
+    //  Data Pengajuan Informasi Ruang Laut  ====================================================================================
     public function DataPerizinan()
     {
         $data = [
-            'title' => 'DATA PERIZINAN',
+            'title' => 'Data Pengajuan Informasi Ruang Laut',
             'tampilData' => $this->setting->tampilData()->getResult(),
             'tampilIzin' => $this->izin->getIzin()->getResult(),
         ];
         // echo '<pre>';
         // print_r($data['tampilKafe']);
         // die;
-        return view('admin/PerizinanData', $data);
+        return view('admin/PermohonanData', $data);
     }
 
     public function editPerizinan($id_perizinan)
@@ -300,7 +300,7 @@ class Admin extends BaseController
         }
         $kegiatanId = $kegiatanId->id_kegiatan;
         $data = [
-            'title' => 'DATA PERIZINAN',
+            'title' => 'Data Pengajuan Informasi Ruang Laut',
             'tampilIzin' => $this->izin->getIzin($id_perizinan)->getRow(),
             'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
             'jenisZona' => $this->kegiatan->getZonaByKegiatanAjax($kegiatanId),
@@ -319,14 +319,14 @@ class Admin extends BaseController
             if (in_groups('User')) {
                 return $this->response->redirect(site_url('/dashboard'));
             } else {
-                return $this->response->redirect(site_url('/admin/data/data-perizinan'));
+                return $this->response->redirect(site_url('/admin/data/data-permohonan'));
             }
         } else {
             session()->setFlashdata('error', 'Gagal menghapus data.');
             if (in_groups('User')) {
                 return $this->response->redirect(site_url('/dashboard'));
             } else {
-                return $this->response->redirect(site_url('/admin/data/data-perizinan'));
+                return $this->response->redirect(site_url('/admin/data/data-permohonan'));
             }
         }
     }
@@ -453,36 +453,81 @@ class Admin extends BaseController
         return view('admin/pendingList', $data);
     }
 
-    // approve data izin
-    public function approveIzin($id_perizinan)
+    // periksa data masuk
+    public function periksaDataPermohonan($status, $id_perizinan, $nama)
     {
-        $data = [
-            'stat_appv' => '1',
-            'date_updated' => date('Y-m-d H:i:s'),
-        ];
-        $this->izin->chck_appv($data, $id_perizinan);
-        if ($this) {
-            session()->setFlashdata('success', 'Data Approved.');
-            return $this->response->redirect(site_url('/admin/pending'));
-        } else {
-            session()->setFlashdata('error', 'Proses gagal.');
-            return $this->response->redirect(site_url('/admin/pending'));
+        $statusArray = ['menunggu-jawaban', 'telah-disetujui', 'tidak-disetujui'];
+        if (!in_array($status, $statusArray)) {
+            throw new PageNotFoundException();
         }
+        $permintaanId = $this->izin->getAllPermohonan($id_perizinan)->getRow();
+        if (empty($permintaanId) && empty($nama)) {
+            throw new PageNotFoundException();
+        }
+        if (empty($permintaanId->nama)) {
+            throw new PageNotFoundException();
+            if ($permintaanId->nama != $nama) {
+                throw new PageNotFoundException();
+            }
+        }
+        $data = [
+            'title' => 'Detail Data Pengjuan Informasi',
+            'tampilData' => $this->setting->tampilData()->getResult(),
+            'tampilDataIzin' => $permintaanId,
+        ];
+
+        return view('admin/detailDataPermohonan', $data);
     }
 
-    // reject data izin
-    public function tolakIzin($id_perizinan)
+
+    public function kirimTindakan($id_perizinan)
     {
-        $data = [
-            'stat_appv' => '2',
-            'date_updated' => date('Y-m-d H:i:s'),
-        ];
-        $this->izin->chck_appv($data, $id_perizinan);
-        if ($this) {
-            session()->setFlashdata('success', 'Data Rejected.');
-            return $this->response->redirect(site_url('/admin/pending'));
+        $stat_appv = $this->request->getPost('flexRadioDefault');
+        if ($stat_appv == 2) {
+            $data = [
+                'stat_appv' => '2',
+                'date_updated' => date('Y-m-d H:i:s'),
+            ];
+            $this->izin->saveStatusAppv($data, $id_perizinan);
+            if ($this) {
+                session()->setFlashdata('success', 'Berhasil Menyimpan Tindakan.');
+                return $this->response->redirect(site_url('/admin/pending'));
+            } else {
+                session()->setFlashdata('error', 'Gagal Menyimpan Tindakan.');
+                return $this->response->redirect(site_url('/admin/pending'));
+            }
+        } elseif ($stat_appv == 1) {
+            $infoData = $this->izin->callPendingData($id_perizinan)->getRow();
+            $nik = $infoData->nik;
+            // ambil file
+            $fileLampiran = $this->request->getFile('lampiranFile');
+            if ($fileLampiran->isValid() && !$fileLampiran->hasMoved()) {
+                //generate random file name
+                $extension = $fileLampiran->getExtension();
+                $newName = date('YmdHis') . '_' . $nik . '.' . $extension;
+                // pindah file to hosting
+                $fileLampiran->move('dokumen/lampiran-balasan/', $newName);
+
+                $data = [
+                    'stat_appv' => '1',
+                    'dokumen_lampiran' => $newName,
+                    'date_updated' => date('Y-m-d H:i:s'),
+                ];
+
+                $this->izin->saveStatusAppv($data, $id_perizinan);
+                if ($this) {
+                    session()->setFlashdata('success', 'Berhasil Menyimpan Tindakan.');
+                    return $this->response->redirect(site_url('/admin/pending'));
+                } else {
+                    session()->setFlashdata('error', 'Gagal Menyimpan Tindakan.');
+                    return $this->response->redirect(site_url('/admin/pending'));
+                }
+            } else {
+                session()->setFlashdata('error', 'Gagal Menyimpan Tindakan.');
+                return $this->response->redirect(site_url('/admin/pending'));
+            }
         } else {
-            session()->setFlashdata('error', 'Proses gagal.');
+            session()->setFlashdata('error', 'Gagal Menyimpan Tindakan.');
             return $this->response->redirect(site_url('/admin/pending'));
         }
     }

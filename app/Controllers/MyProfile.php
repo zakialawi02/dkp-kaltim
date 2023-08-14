@@ -44,14 +44,13 @@ class MyProfile extends BaseController
         ];
 
         $this->setting->updateMyData($data, $id);
-
-        $response = [
-            'status' => 'success',
-            'message' => 'Data updated successfully',
-            'user' => $data
-        ];
-
-        return $this->response->setJSON($response);
+        if ($this) {
+            session()->setFlashdata('success', 'Berhasil Memperbarui Data.');
+            return $this->response->redirect(site_url('/MyProfile'));
+        } else {
+            session()->setFlashdata('error', 'Gagal Memperbarui Data.');
+            return $this->response->redirect(site_url('/MyProfile'));
+        }
     }
 
     public function updatedUserData()

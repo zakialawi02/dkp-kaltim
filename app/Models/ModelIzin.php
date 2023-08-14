@@ -18,6 +18,26 @@ class ModelIzin extends Model
         $this->db = db_connect();
     }
 
+    function getAllPermohonan($id_perizinan = false)
+    {
+        if ($id_perizinan === false) {
+            return $this->db->table('tbl_perizinan')->select('tbl_perizinan.*, tbl_status_appv.*, users.username, tbl_kegiatan.*')
+                ->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan = tbl_perizinan.id_kegiatan', 'LEFT')
+                ->join('tbl_status_appv', 'tbl_status_appv.id_perizinan = tbl_perizinan.id_perizinan', 'LEFT')
+                ->join('users', 'users.id = tbl_status_appv.user')
+                ->orderBy('updated_at', 'DESC')
+                ->get();
+        } else {
+            return $this->db->table('tbl_perizinan')->select('tbl_perizinan.*, tbl_status_appv.*, users.username, tbl_kegiatan.*')
+                ->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan = tbl_perizinan.id_kegiatan', 'LEFT')
+                ->join('tbl_status_appv', 'tbl_status_appv.id_perizinan = tbl_perizinan.id_perizinan', 'LEFT')
+                ->join('users', 'users.id = tbl_status_appv.user')
+                ->orderBy('updated_at', 'DESC')
+                ->getWhere(['tbl_perizinan.id_perizinan' => $id_perizinan]);
+        }
+    }
+
+
     function getIzin($id_perizinan = false)
     {
         if ($id_perizinan === false) {
@@ -33,8 +53,7 @@ class ModelIzin extends Model
                 ->join('tbl_status_appv', 'tbl_status_appv.id_perizinan = tbl_perizinan.id_perizinan', 'LEFT')
                 ->join('users', 'users.id = tbl_status_appv.user')
                 ->orderBy('updated_at', 'DESC')
-                ->Where(['tbl_perizinan.id_perizinan' => $id_perizinan])
-                ->get();
+                ->getWhere(['stat_appv' => '1', 'tbl_perizinan.id_perizinan' => $id_perizinan]);
         }
     }
 
@@ -48,7 +67,12 @@ class ModelIzin extends Model
                 ->orderBy('updated_at', 'DESC')
                 ->getWhere(['stat_appv' => '0']);
         } else {
-            return $this->Where(['id_perizinan' => $id_perizinan])->get();
+            return $this->db->table('tbl_perizinan')->select('tbl_perizinan.*, tbl_status_appv.*, users.username, tbl_kegiatan.*')
+                ->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan = tbl_perizinan.id_kegiatan', 'LEFT')
+                ->join('tbl_status_appv', 'tbl_status_appv.id_perizinan = tbl_perizinan.id_perizinan', 'LEFT')
+                ->join('users', 'users.id = tbl_status_appv.user')
+                ->orderBy('updated_at', 'DESC')
+                ->getWhere(['stat_appv' => '0', 'tbl_perizinan.id_perizinan' => $id_perizinan]);
         }
     }
 
@@ -88,7 +112,7 @@ class ModelIzin extends Model
     {
         return $this->db->table('tbl_status_appv')->insert($addStatus);
     }
-    public function chck_appv($data, $id_perizinan)
+    public function saveStatusAppv($data, $id_perizinan)
     {
         return $this->db->table('tbl_status_appv')->update($data, ['id_perizinan' => $id_perizinan]);
     }

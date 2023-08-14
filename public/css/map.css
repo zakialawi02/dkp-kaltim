@@ -1,16 +1,17 @@
 #map {
-    height: 100vh;
+    height: 97vh;
     width: 100%;
-    /* cursor: grab; */
+    cursor: grab;
     /* z-index: 0; */
 }
 
 .map .ol-zoom {
     position: absolute;
-    bottom: 1.2rem;
+    bottom: 2rem;
     right: 0.8rem;
     top: auto;
     left: auto;
+    scale: 1.2;
 
 }
 
@@ -24,6 +25,29 @@
 
 }
 
+#ruler-button {
+    position: absolute;
+    top: 10rem;
+    right: 10px;
+    scale: 1.2;
+}
+
+
+.footer-map {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    z-index: 1;
+    background-color: #f7f7f7;
+}
+
+#mouse-position {
+    padding: 0 1rem;
+    margin-left: 1rem;
+    margin-bottom: 2px;
+    font-size: 13px;
+}
 
 #loading-spinner {
     background-color: rgba(0, 0, 0, 0.5);
@@ -81,7 +105,7 @@
     left: -25vw;
     background-color: #f5f5f5;
     transition: left 0.3s ease;
-    z-index: 2;
+    z-index: 10;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
 }
 
@@ -308,7 +332,7 @@ label {
     height: auto;
     /* background-color: rgba(255, 255, 255, 0.7); */
     padding: 10px;
-    z-index: 1001;
+    z-index: 1;
 }
 
 @media (max-width: 768px) {
@@ -324,11 +348,11 @@ label {
 }
 
 #login-btn {
-    z-index: 1000;
+    z-index: 100;
 }
 
 .modal-dialog {
-    z-index: 10000;
+    z-index: 100;
 }
 
 
@@ -351,7 +375,7 @@ label {
 }
 
 #loginModal {
-    z-index: 1055;
+    z-index: 100;
 }
 
 /* Search */
@@ -385,7 +409,7 @@ label {
 .modalAdds {
     display: none;
     position: fixed;
-    z-index: 11001;
+    z-index: 99;
     left: 0;
     top: 0;
     width: 100%;
@@ -401,13 +425,13 @@ label {
 .modalAdd-content {
     position: relative;
     margin: 10% auto;
-    margin-top: 4vh;
-    margin-bottom: 2vh;
+    margin-top: 1vh;
+    margin-bottom: 0;
     background-color: #fefefe;
     background-clip: padding-box;
     border: 1px solid rgba(0, 0, 0, 0.175);
     border-radius: 1rem;
-    width: 70%;
+    width: 80%;
     animation-name: fade;
     animation-duration: 0.3s;
 }
@@ -450,9 +474,7 @@ label {
         width: 40vw;
         left: -40vw;
     }
-}
 
-@media screen and (max-width: 600px) {
     .modalAdd-content {
         width: 100%;
         height: 100%;
@@ -461,6 +483,8 @@ label {
         -webkit-overflow-scrolling: touch;
     }
 }
+
+@media screen and (max-width: 600px) {}
 
 @media screen and (max-width: 420px) {
     .sidepanel {
