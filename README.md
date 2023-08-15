@@ -4,5 +4,7 @@
 -  Codeigniter 4
 -  Postgresql
 -  PostGIS
--  Leaflet js
+-  Geoserver
+-  OpenLayer
+-  Turf.js
 -  HTML, CSS, JS
