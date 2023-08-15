@@ -54,7 +54,7 @@ class Data extends BaseController
         // echo '<pre>';
         // print_r($data['tampilGeojson']);
         // die;
-        return view('page/map', $data);
+        return view('page/mapCopy', $data);
     }
 
     public function mapCopy()
@@ -68,7 +68,7 @@ class Data extends BaseController
         // echo '<pre>';
         // print_r($data['tampilGeojson']);
         // die;
-        return view('page/mapCopy', $data);
+        return view('page/map', $data);
     }
 
     public function pengajuan()
@@ -181,18 +181,6 @@ class Data extends BaseController
                 return $this->response->redirect(site_url('/admin/data/data-permohonan'));
             }
         }
-    }
-
-    public function detail($id_perizinan)
-    {
-        $data = [
-            'title' => 'Detail Data Perizinan',
-            'tampilIzin' => $this->izin->getIzin($id_perizinan)->getRow(),
-        ];
-        if (empty($data['tampilIzin'])) {
-            throw new PageNotFoundException();
-        }
-        return view('page/detailDataAjuan', $data);
     }
 
     public function kontak()

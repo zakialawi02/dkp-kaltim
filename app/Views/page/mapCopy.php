@@ -96,7 +96,7 @@
         </div>
     </div>
 
-    <!-- Modal Add Data -->
+    <!-- Modal Add cek kesesuaian -->
     <div class="modalAdds" id="modalAdd">
         <div class="modalAdd-content">
             <div class="modal-header">
@@ -194,9 +194,10 @@
                                 <br>
                             </div>
 
-                            <div class="g-2">
-                                <button type="button" class="btn btn-outline-dark float-end" id="tambah_koordinat" onclick="tambahKoordinat()">+ Tambah Titik</button>
-                                <button type="button" class="btn btn-outline-dark float-end" id="hapus_koordinat" disabled="true" onclick="hapusKoordinat()">- Hapus Titik</button>
+                            <div class="gap-2 float-end">
+                                <span id="jumlahCounterK">1</span>
+                                <button type="button" class="btn btn-outline-dark" id="hapus_koordinat" disabled="true" onclick="hapusKoordinat()">- Hapus Titik</button>
+                                <button type="button" class="btn btn-outline-dark" id="tambah_koordinat" onclick="tambahKoordinat()">+ Tambah Titik</button>
                             </div>
 
                         </div>
@@ -213,9 +214,74 @@
     </div>
 
 
+    <!-- Modal Add cek kesesuaian 2 -->
+    <div class="modalAdds" id="modalAdd2">
+        <div class="modalAdd-content">
+            <div class="modal-header">
+                <h3>Cek Informasi</h3>
+                <button class="close-button" id="close-button2">&times;</button>
+            </div>
+            <hr>
+            <div class="modalAdd-body">
+                <div class="card-body">
+
+                    <form class="row g-3" action="/data/isiAjuan" method="post" enctype="multipart/form-data">
+                        <?= csrf_field(); ?>
+
+                        <?php if (in_groups('User')) : ?>
+                            <input type="hidden" class="form-control" for="stat_appv" id="stat_appv" name="stat_appv" value="0">
+                        <?php else : ?>
+                            <input type="hidden" class="form-control" for="stat_appv" id="stat_appv" name="stat_appv" value="0">
+                        <?php endif ?>
+                        <input type="hidden" class="form-control" for="koordinat" id="koordinat" name="koordinat" value="">
+                        <input type="hidden" class="form-control" for="geojson" id="geojson" name="geojson" value="">
+
+                        <div class="form-group">
+                            <label class="col-md-12 mb-2">Jenis Kegiatan</label>
+                            <select class="form-select" id="pilihKegiatan" name="kegiatan" for="kegiatan" style="width: 100%;" required>
+                                <option></option>
+                                <?php foreach ($jenisKegiatan as $K) : ?>
+                                    <option value="<?= $K->id_kegiatan; ?>"><?= $K->nama_kegiatan; ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-12 mb-2" for="SubZona">Zona Kegiatan:</label>
+                            <select class="form-select" name="SubZona" id="SubZona" style="width: 100%;" required disabled>
+                                <option value="">Pilih Kegiatan terlebih dahulu</option>
+                            </select>
+                        </div>
+
+                        <div class="feedback">Keterangan:</div>
+                        <div class="info">
+                            <div class="feedback" id="showKegiatan"> </div>
+                        </div>
+
+                        <button type="submit" id="lanjutKirim" class="btn btn-primary">Lanjutkan</button>
+                    </form>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="p-2">
+                    <button type="button" class="btn btn-primary m-2" id="next_step2">Lanjut</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="button-section-group" class="">
         <div id="button-section" class="float-end m-1">
-            <button id="modal-button" class="btn btn-primary">Cek Kesesuaian</button>
+            <div class="btn-group" role="group">
+                <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Cek Kesesuaian
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                    <li id="modalAdd-button"><a class="dropdown-item" type="button" role="button">Masukkan Koordinat</a></li>
+                    <li id="modalAdd-button2"><a class="dropdown-item" type="button" role="button">Gambar Polygon</a></li>
+                </ul>
+            </div>
             <?php if (logged_in()) : ?>
                 <a class="btn btn-primary" href="/dashboard" role="button">Dashboard</a>
                 <button type="button" id="logout-btn" class="btn btn-primary">Log Out</button>
@@ -358,11 +424,11 @@
                         <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
                             <div class="accordion-body">
                                 <!--RADIO 1-->
-                                <input type="radio" class="radio_item" value="bingAe" name="item" id="radio1" onclick="set_bing_aerial()" checked>
+                                <input type="radio" class="radio_item" value="bingAe" name="item" id="radio1" onclick="set_bing_aerial()">
                                 <label class="label_item" for="radio1"> <img src="/leaflet/icon/here_satelliteday.png"> <span>Bing Aerial</span> </label>
 
                                 <!--RADIO 2-->
-                                <input type="radio" class="radio_item" value="osm" name="item" id="radio2" onclick="set_osm()">
+                                <input type="radio" class="radio_item" value="osm" name="item" id="radio2" onclick="set_osm()" checked>
                                 <label class="label_item" for="radio2"> <img src="/leaflet/icon/openstreetmap_mapnik.png"> <span>Open Street Map</span></label>
 
                                 <!--RADIO 2-->
@@ -471,8 +537,8 @@
 
         function tambahKoordinat() {
             counterK++;
+            $('#jumlahCounterK').html(counterK);
             $('#hapus_koordinat').prop('disabled', false);
-            console.log(counterK);
             $('.ini_koordinat:last').after(newKoordinatInput);
             if ($('#rd_dd').is(":checked")) {
                 $(".dd-input").prop("disabled", false);
@@ -481,12 +547,14 @@
                 $(".dd-input").prop("disabled", true);
                 $(".dms-input").prop("disabled", false);
             }
-
+            if (counterK == 10) {
+                $('#tambah_koordinat').prop('disabled', true);
+            }
         }
 
         function hapusKoordinat() {
             counterK--;
-            console.log(counterK);
+            $('#jumlahCounterK').html(counterK);
             if (counterK === 1) {
                 $('#hapus_koordinat').prop('disabled', true);
             }
@@ -591,25 +659,37 @@
         </script>
     <?php endif; ?>
 
-    <!-- modalAdd -->
+    <!-- modalAdd and modalAdd2-->
     <script>
-        const modalButton = document.getElementById("modal-button");
         const modal = document.getElementById("modalAdd");
-
-        modalButton.addEventListener("click", function() {
-            $("#modal-button").addClass("btn-warning");
+        const modal2 = document.getElementById("modalAdd2");
+        // modaladd
+        $('#modalAdd-button').click(function(e) {
             $('#modalAdd').show();
         });
 
         $('#close-button').click(function(e) {
-            $("#modal-button").removeClass("btn-warning");
             $('#modalAdd').hide();
         });
 
         window.addEventListener("click", function(event) {
             if (event.target == modal) {
-                $("#modal-button").removeClass("btn-warning");
                 $('#modalAdd').hide();
+            }
+        });
+
+        // modaladd2
+        $('#modalAdd-button2').click(function(e) {
+            startDrawing();
+        });
+
+        $('#close-button2').click(function(e) {
+            $('#modalAdd2').hide();
+        });
+
+        window.addEventListener("click", function(event) {
+            if (event.target == modal2) {
+                $('#modalAdd2').hide();
             }
         });
     </script>
@@ -715,8 +795,7 @@
     <script src="https://cdn.jsdelivr.net/npm/ol@v7.4.0/dist/ol.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/elm-pep@1.0.6/dist/elm-pep.js"></script>
     <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v2.0.0/turf.min.js"></script>
-    <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
-
+    <script src="/leaflet/turf.min.js"></script>
 
     <script type="text/javascript">
         <?php foreach ($tampilData as $D) : ?>
@@ -732,11 +811,13 @@
 
         var x_cari;
         var y_cari;
+        var drawInteraction;
         var drawedVector;
         var styleDraw;
         var wkt;
         var coordinates;
         var jsonCoordinates;
+        var geojsonFeature;
         const wmsLayers = [];
 
 
@@ -881,7 +962,7 @@
         map.addControl(overviewMapControl);
         map.addControl(attribution);
 
-        set_bing_aerial();
+        set_osm();
 
 
         // Fungsi untuk menyembunyikan atau menampilkan lapisan WMS
@@ -961,6 +1042,7 @@
         $('#next_step').click(function() {
             coordinates = [];
             jsonCoordinates = [];
+            geojsonFeature = [];
             const selectedCounter = counterK;
             const pusat = [];
             // console.log('Nilai CounterK: ', selectedCounter);
@@ -968,7 +1050,6 @@
             $('.ini_koordinat').each(function() {
                 const longitudeInput = parseFloat($(this).find('#tx_x').val());
                 const latitudeInput = parseFloat($(this).find('#tx_y').val());
-                const isDMSMode = $(this).find('#rd_dms').prop('checked');
 
                 if ($('#rd_dms').is(":checked")) {
                     const degree1 = $(this).find('#md1_1').val();
@@ -988,17 +1069,21 @@
                 }
 
             });
+            // console.log(jsonCoordinates);
             // console.log('Nilai Koordinat:', coordinates);
             var format = new ol.format.WKT();
             if (counterK < 2) {
                 var wkt = 'POINT (' + coordinates + ')';
                 pusat.push(jsonCoordinates[0]);
+                var geojsonFeature = turf.point([-75.343, 39.984]);
                 styleDraw = markerStyle;
             } else if (counterK > 2) {
                 var wkt = 'POLYGON ((' + coordinates + ',' + coordinates[0] + '))';
                 var features = turf.points(jsonCoordinates);
                 var center = turf.center(features);
                 pusat.push(center.geometry.coordinates);
+                jsonCoordinates.push(jsonCoordinates[0]);
+                var geojsonFeature = turf.polygon([jsonCoordinates]);
                 styleDraw = polygonStyle;
             } else {
                 var wkt = 'LINESTRING (' + coordinates + ')';
@@ -1006,8 +1091,10 @@
                 var point2 = turf.point(jsonCoordinates[1]);
                 var midpoint = turf.midpoint(point1, point2);
                 pusat.push(midpoint.geometry.coordinates);
+                var geojsonFeature = turf.lineString(jsonCoordinates);
                 styleDraw = lineStyle;
             }
+            // console.log(geojsonFeature);
             var feature = format.readFeature(wkt, {
                 dataProjection: 'EPSG:4326',
                 featureProjection: 'EPSG:3857'
@@ -1024,8 +1111,6 @@
                 }
             });
             map.addLayer(drawedVector);
-            // console.log(pusat[0]);
-            map.getView().fit(drawedVector.getExtent())
             view.animate({
                 center: view.setCenter(ol.proj.fromLonLat(pusat[0])),
                 zoom: 12,
@@ -1034,40 +1119,77 @@
         });
 
 
-        map.on('singleclick', function(evt) {
-            const viewResolution = view.getResolution();
-            const coordinate = evt.coordinate;
-            const projection = view.getProjection();
-            console.log(projection);
-            wmsLayers.forEach(layer => {
-                const url = layer.getSource().getFeatureInfoUrl(
-                    coordinate,
-                    viewResolution,
-                    projection, {
-                        INFO_FORMAT: 'application/json',
-                        FEATURE_COUNT: 1
-                    }
-                );
-
-                if (url) {
-                    fetch(url)
-                        .then(response => response.json())
-                        .then(data => {
-                            // Di sini Anda dapat memanipulasi data respons JSON
-                            // untuk mengambil atribut yang Anda butuhkan.
-
-                            if (data.features.length > 0) {
-                                console.log(data); // Tampilkan data JSON di konsol
-                                const attributes = data.features[0].properties;
-                                console.log(attributes); // Tampilkan atribut fitur di konsol
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error fetching feature info:', error);
-                        });
+        // Fungsi untuk memulai penggambaran
+        function startDrawing() {
+            if (drawInteraction) {
+                map.removeInteraction(drawInteraction);
+            }
+            map.getLayers().forEach(layer => {
+                if (layer instanceof ol.layer.Vector) {
+                    map.removeLayer(layer);
                 }
             });
-        });
+            var drawedVector = new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    features: [],
+                }),
+                style: polygonStyle,
+            });
+            drawInteraction = new ol.interaction.Draw({
+                source: drawedVector.getSource(),
+                type: 'Polygon'
+            });
+            drawInteraction.on('drawend', function(event) {
+                const drawnFeature = event.feature;
+                const jsonCoordinates = drawnFeature.getGeometry().getCoordinates();
+                // console.log('Koordinat polygon yang digambar:', jsonCoordinates);
+                var geojsonFeature = turf.polygon(jsonCoordinates);
+                const newFeature = new ol.Feature({
+                    geometry: new ol.geom.Polygon(jsonCoordinates)
+                });
+                drawedVector.getSource().addFeature(newFeature);
+                map.removeInteraction(drawInteraction);
+                $('#modalAdd2').show();
+            });
+            map.addInteraction(drawInteraction);
+            map.addLayer(drawedVector);
+        }
+
+
+        // map.on('singleclick', function(evt) {
+        //     const viewResolution = view.getResolution();
+        //     const coordinate = evt.coordinate;
+        //     const projection = view.getProjection();
+        //     console.log(projection);
+        //     wmsLayers.forEach(layer => {
+        //         const url = layer.getSource().getFeatureInfoUrl(
+        //             coordinate,
+        //             viewResolution,
+        //             projection, {
+        //                 INFO_FORMAT: 'application/json',
+        //                 FEATURE_COUNT: 1
+        //             }
+        //         );
+
+        //         if (url) {
+        //             fetch(url)
+        //                 .then(response => response.json())
+        //                 .then(data => {
+        //                     // Di sini Anda dapat memanipulasi data respons JSON
+        //                     // untuk mengambil atribut yang Anda butuhkan.
+
+        //                     if (data.features.length > 0) {
+        //                         console.log(data); // Tampilkan data JSON di konsol
+        //                         const attributes = data.features[0].properties;
+        //                         console.log(attributes); // Tampilkan atribut fitur di konsol
+        //                     }
+        //                 })
+        //                 .catch(error => {
+        //                     console.error('Error fetching feature info:', error);
+        //                 });
+        //         }
+        //     });
+        // });
 
         // mouse coordinate show
         const mousePositionControl = new ol.control.MousePosition({
@@ -1093,6 +1215,38 @@
         });
     </script>
 
+
+    <!-- <script>
+        var poly1 = turf.polygon([
+            [
+                [0, 0],
+                [0, 5],
+                [5, 5],
+                [5, 0],
+                [0, 0]
+            ]
+        ]);
+        var poly2 = turf.polygon([
+            [
+                [1, 1],
+                [1, 6],
+                [6, 6],
+                [6, 1],
+                [1, 1]
+            ]
+        ]);
+        var poly3 = turf.polygon([
+            [
+                [10, 10],
+                [10, 15],
+                [15, 15],
+                [15, 10],
+                [10, 10]
+            ]
+        ]);
+        console.log(turf.booleanOverlap(poly1, poly2));
+        console.log(turf.booleanOverlap(poly2, poly3));
+    </script> -->
     <!-- <script>
         var a = "Pipa Minyak dan Gas";
         var b = "Kabel Telekomunikasi";
