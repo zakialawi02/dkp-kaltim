@@ -54,7 +54,7 @@ class Data extends BaseController
         // echo '<pre>';
         // print_r($data['tampilGeojson']);
         // die;
-        return view('page/mapcopy', $data);
+        return view('page/mapCopy', $data);
     }
 
     public function mapCopy()
@@ -68,7 +68,7 @@ class Data extends BaseController
         // echo '<pre>';
         // print_r($data['tampilGeojson']);
         // die;
-        return view('page/mapCopy', $data);
+        return view('page/map', $data);
     }
 
     public function pengajuan()

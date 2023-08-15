@@ -102,7 +102,7 @@
 
                                 <div class="card">
                                     <div class="card-body pt-3">
-                                        <h3>Data</h3>
+                                        <h3>Data Permohonan</h3>
                                         <div class="accordion" id="accordionExample">
                                             <?php if (empty($pendingIzin)) : ?>
                                                 <div class="accordion-item">
@@ -131,7 +131,7 @@
                                                                 <table class="table">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th scope="col">Tanggal</th>
+                                                                            <th scope="col">Tanggal Pengajuan</th>
                                                                             <th scope="col">NIK</th>
                                                                             <th scope="col">Nama Pemohon</th>
                                                                             <th scope="col">Jenis Kegiatan</th>
@@ -196,11 +196,11 @@
                                                                 <table class="table">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th scope="col">Tanggal</th>
-                                                                            <th scope="col">ID</th>
+                                                                            <th scope="col">Tanggal Pengajuan</th>
+                                                                            <th scope="col">NIK</th>
                                                                             <th scope="col">Nama Pemohon</th>
-                                                                            <th scope="col">Status</th>
-                                                                            <th scope="col">Tanggal Status</th>
+                                                                            <th scope="col">Jenis Kegiatan</th>
+                                                                            <th scope="col">Tanggal Dibalas</th>
                                                                             <th scope="col">Aksi</th>
                                                                         </tr>
                                                                     </thead>
@@ -208,9 +208,9 @@
                                                                         <?php foreach ($terimaIzin as $tIzin) : ?>
                                                                             <tr class="">
                                                                                 <td scope="row"><?= date('d M Y H:i:s', strtotime($tIzin->created_at)); ?></td>
-                                                                                <td><?= $tIzin->id_perizinan; ?></td>
+                                                                                <td><?= $tIzin->nik; ?></td>
                                                                                 <td><?= $tIzin->nama; ?></td>
-                                                                                <td><?= $tIzin->stat_appv == 0 ? 'Pending' : ($tIzin->stat_appv == 1 ? 'Terima' : 'Tolak') ?>
+                                                                                <td><?= $pIzin->nama_kegiatan ?>
                                                                                 <td><?= date('d M Y H:i:s', strtotime($tIzin->date_updated)); ?></td>
                                                                                 </td>
                                                                                 <td>
@@ -263,11 +263,11 @@
                                                                 <table class="table">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th scope="col">Data Masuk</th>
-                                                                            <th scope="col">ID</th>
+                                                                            <th scope="col">Tangaal Pengajuan</th>
+                                                                            <th scope="col">NIK</th>
                                                                             <th scope="col">Nama Pemohon</th>
                                                                             <th scope="col">Jenis Kegiatan</th>
-                                                                            <th scope="col">Tanggal Update</th>
+                                                                            <th scope="col">Tanggal Dibalas</th>
                                                                             <th scope="col" style="width: 7rem;">Aksi</th>
                                                                         </tr>
                                                                     </thead>
@@ -275,7 +275,7 @@
                                                                         <?php foreach ($tolakIzin as $sIzin) : ?>
                                                                             <tr class="">
                                                                                 <td scope="row"><?= date('d M Y H:i:s', strtotime($sIzin->created_at)); ?></td>
-                                                                                <td><?= $sIzin->id_perizinan; ?></td>
+                                                                                <td><?= $sIzin->nik; ?></td>
                                                                                 <td><?= $sIzin->nama; ?></td>
                                                                                 <td><?= $sIzin->nama_kegiatan ?></td>
                                                                                 <td><?= date('d M Y H:i:s', strtotime($sIzin->date_updated)); ?></td>

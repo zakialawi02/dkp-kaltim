@@ -14,23 +14,11 @@
                 </a>
                 <a class="nav-link" href="/map">
                     <div class="sb-nav-link-icon"><i class="bi bi-pin-map-fill"></i></div>
-                    Peta
+                    Cek Kesesuaian
                 </a>
 
                 <?php if (in_groups('SuperAdmin') || in_groups('Admin')) :; ?>
                     <div class="sb-sidenav-menu-heading">Data</div>
-
-                    <a class="nav-link collapsed" href="/admin/features" data-bs-toggle="collapse" data-bs-target="#collapseGeojson" aria-expanded="false" aria-controls="collapseGeojson">
-                        <div class="sb-nav-link-icon"><i class="bi bi-archive-fill"></i></div>
-                        Features
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
-                    <div class="collapse" id="collapseGeojson" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                        <div class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="/admin/features/tambah">Add Data</a>
-                            <a class="nav-link" href="/admin/features">Semua Data</a>
-                        </div>
-                    </div>
 
                     <a class="nav-link collapsed" href="/admin/data/data-permohonan" data-bs-toggle="collapse" data-bs-target="#collapseKafe" aria-expanded="false" aria-controls="collapseKafe">
                         <div class="sb-nav-link-icon"><i class="bi bi-file-earmark-text-fill"></i></div>

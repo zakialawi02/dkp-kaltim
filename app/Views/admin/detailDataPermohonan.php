@@ -247,7 +247,7 @@
             type: 'base',
             source: new ol.source.OSM(),
             crossOrigin: 'anonymous',
-            visible: false,
+            visible: true,
         });
 
         const sourceBingMaps = new ol.source.BingMaps({
@@ -261,7 +261,7 @@
             preload: Infinity,
             source: sourceBingMaps,
             crossOrigin: 'anonymous',
-            visible: true,
+            visible: false,
         });
 
         const mapboxBaseURL = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiNjg2MzUzMyIsImEiOiJjbDh4NDExZW0wMXZsM3ZwODR1eDB0ajY0In0.6jHWxwN6YfLftuCFHaa1zw';
@@ -284,10 +284,6 @@
             center: ol.proj.fromLonLat([<?= $lat; ?>, <?= $lon; ?>]),
             zoom: <?= $zoomView; ?>,
             Projection: projection
-        });
-        const viewMini = new ol.View({
-            center: ol.proj.fromLonLat([<?= $lat; ?>, <?= $lon; ?>]),
-            zoom: <?= $zoomView - 3; ?>,
         });
         const map = new ol.Map({
             layers: baseMaps,

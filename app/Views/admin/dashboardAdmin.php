@@ -1,4 +1,8 @@
-<?php $allData = $allDataPermohonan;
+<?php
+$allData = $allDataPermohonan;
+$allDataBaru = [];
+$allDataSetujui = [];
+$allDataTolak = [];
 foreach ($allData as $key => $row) {
     if ($row->stat_appv == 0) {
         $allDataBaru[] = $row;
@@ -165,7 +169,7 @@ $countAllTolak = count($allDataTolak);
                                                                 <td><?= $baru->nama; ?></td>
                                                                 <td><?= $baru->alamat; ?></td>
                                                                 <td><?= $baru->kontak; ?></td>
-                                                                <td><a type="button" role="button" href="/admin/data/<?= ($baru->stat_appv == '0') ? 'menunggu-jawaban' : ''; ?>/lihat/<?= $baru->id_perizinan; ?>/<?= $baru->nama; ?>/" class="asbn btn btn-info bi bi-binoculars" data-bs-toggle="tooltip" data-bs-placement="top" title="Lihat" target="_blank"></a></td>
+                                                                <td><a type="button" role="button" href="/admin/data/<?= ($baru->stat_appv == '0') ? 'menunggu-jawaban' : ''; ?>/lihat/<?= $baru->id_perizinan; ?>/<?= $baru->nama; ?>/" class="asbn btn btn-info bi bi-binoculars" data-bs-toggle="tooltip" data-bs-placement="top" title="Periksa" target="_blank"></a></td>
                                                             </tr>
                                                         <?php endforeach ?>
                                                     </tbody>
