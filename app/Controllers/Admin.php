@@ -40,20 +40,25 @@ class Admin extends BaseController
     public function index()
     {
         $userid = user_id();
-        $data = [
-            'title' => 'Dashboard',
-            'userid' => $userid,
-            'countAllPerizinan' => $this->izin->getIzin()->getNumRows(),
-            'countAllPending' => $this->izin->callPendingData()->getNumRows(),
-            'countAllUser' => $this->user->countAllUser(),
-            'userMonth' => $this->user->userMonth()->getResult(),
-            'allDataPermohonan' => $this->izin->getAllPermohonan()->getResult(),
-            'userSubmitPermohonan' => $this->izin->userSubmitIzin($userid)->getResult(),
-        ];
-        // echo '<pre>';
-        // print_r($data['tampilIzin']);
-        // die;
-        return view('admin/dashboard', $data);
+        if (in_groups('SuperAdmin') || in_groups('Admin')) {
+            $data = [
+                'title' => 'Dashboard',
+                'userid' => $userid,
+                'countAllUser' => $this->user->countAllUser(),
+                'userMonth' => $this->user->userMonth()->getResult(),
+                'allDataPermohonan' => $this->izin->getAllPermohonan()->getResult(),
+            ];
+            return view('admin/dashboardAdmin', $data);
+        } elseif (in_groups('User')) {
+            $data = [
+                'title' => 'Dashboard',
+                'userid' => $userid,
+                'userSubmitPermohonan' => $this->izin->userSubmitIzin($userid)->getResult(),
+            ];
+            return view('admin/dashboardUser', $data);
+        } else {
+            throw new PageNotFoundException();
+        };
     }
 
     public function tes()
@@ -294,14 +299,14 @@ class Admin extends BaseController
     public function editPerizinan($id_perizinan)
     {
 
-        $kegiatanId = $this->izin->getIzin($id_perizinan)->getRow();
+        $kegiatanId = $this->izin->getAllPermohonan($id_perizinan)->getRow();
         if (empty($kegiatanId)) {
             throw new PageNotFoundException();
         }
         $kegiatanId = $kegiatanId->id_kegiatan;
         $data = [
             'title' => 'Data Pengajuan Informasi Ruang Laut',
-            'tampilIzin' => $this->izin->getIzin($id_perizinan)->getRow(),
+            'tampilIzin' => $this->izin->getAllPermohonan($id_perizinan)->getRow(),
             'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
             'jenisZona' => $this->kegiatan->getZonaByKegiatanAjax($kegiatanId),
         ];

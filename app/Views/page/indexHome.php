@@ -54,7 +54,7 @@
                 <div class="row g-5 align-items-center">
                     <div class="hero-content">
                         <h1>Selamat Datang</h1>
-                        <p>Selamat Datang di Aplikasi Perizinan Dinas Kelautan dan Perikanan Kalimantan Timur.</p>
+                        <p>Selamat Datang di Aplikasi Simata Laut Kaltim (Sistem Informasi Tata Ruang Laut Kaltim) Dinas Kelautan dan Perikanan Provinsi Kalimantan Timur.</p>
                     </div>
                 </div>
             </div>
@@ -73,6 +73,8 @@
 
             <center class="">
                 <p>...</p>
+                <br>
+                <button type="button" class="btn btn-primary">Lihat Dokumen</button>
             </center>
 
         </div>

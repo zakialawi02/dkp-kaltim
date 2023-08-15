@@ -862,7 +862,7 @@
             });
             var wms_layer = new ol.layer.Tile({
                 source: wmsSource,
-                visible: false,
+                visible: true,
                 opacity: 0.8
             });
 
