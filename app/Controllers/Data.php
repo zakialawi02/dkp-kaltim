@@ -210,4 +210,34 @@ class Data extends BaseController
         print_r($data);
         die;
     }
+
+    public function petaPreview()
+    {
+        $data = [
+            'tampilData' => $this->setting->tampilData()->getResult(),
+        ];
+        return view('serverSide/petaPreview', $data);
+    }
+
+
+
+    // AJAX/SERVER SIDE
+    public function cekData()
+    {
+        $url = $this->request->getVar('ue');
+        $response = file_get_contents($url);
+        if ($response !== false) {
+            $jsonData = json_decode($response, true);
+        } else {
+            echo "Gagal mengambil data dari URL.";
+        }
+        $data = [
+            'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
+            'lon' => $this->request->getVar('lon'),
+            'lat' => $this->request->getVar('lat'),
+            'url' => $jsonData,
+        ];
+        // dd($data);
+        return view('serverSide/cekHasil', $data);
+    }
 }
