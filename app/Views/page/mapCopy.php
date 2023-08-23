@@ -117,88 +117,110 @@
                                 <p>2. Jika jumlah titik sebanyak dua titik maka geometri akan bertipe garis(line)</p>
                                 <p>3. Jika jumlah titik lebih dari dua titik maka geometri akan bertipe poligon(polygon)</p>
                             </div>
+                            <div class="preview gap-2">
+                                <p>Preview:</p>
+                                <div class="previewMap" id="previewMap"> </div>
+                            </div>
                         </div>
-                        <div class="col-sm-9">
+                        <div class="col-sm-9 ">
 
                             <div class="form_sep pb-3">
                                 <label>Berdasar :</label>
                                 &nbsp;&nbsp;
+                                <div class="col-md-6">
+                                    <input type="radio" style="transform: scale(1.4);" name="berdasar" id="rd_file" /> Dengan File &nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+                                <div class="inputByFile d-none">
+                                    <div class="mb-3">
+                                        <label for="isiByFile" class="form-label">Dengan File</label>
+                                        <input type="file" class="form-control file-input" name="isiByFile" id="isiByFile" accept=".kmz,.topojson,.geojson,.gpx,.xlsx,.xls,.csv" aria-describedby="fileHelpId">
+                                        <div id="fileHelpId" class="form-text">Pilih file ...</div>
+                                    </div>
+                                </div>
+
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input type="radio" name="berdasar" id="rd_dd" checked /> Degree Decimal &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="radio" style="transform: scale(1.4);" name="berdasar" id="rd_dd" checked /> Degree Decimal &nbsp;&nbsp;&nbsp;&nbsp;
                                     </div>
                                     <div class="col-md-6">
-                                        <input type="radio" name="berdasar" id="rd_dms" /> Degree Minute Second
+                                        <input type="radio" style="transform: scale(1.4);" name="berdasar" id="rd_dms" /> Degree Minute Second
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="form_sep ini_koordinat" id="isi_koordinat">
-                                <div class="form-group mb-3 pb-3">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <b>Longitude</b><br>
-                                            <input id="tx_x" value="117.040" type="text" class="form-control dd-input" alt="posisi X">
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <b>Latitude</b><br>
-                                            <input id="tx_y" value="-1.175" type="text" class="form-control dd-input" alt="posisi Y">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="p-3" style="border-top: 1px dotted rgb(130, 130, 130);"></div>
-
-                                <div class="form-group pb-3">
-                                    <div class="row">
-                                        <div class="col-md-6 mb-3">
-                                            <b>Longitude</b><br>
+                            <div class="form_isi_koordinat">
+                                <div class="form_sep" id="isi_koordinat">
+                                    <div class="ini_koordinat">
+                                        <div class="form-group mb-3 pb-3">
                                             <div class="row">
-                                                <div class="col-md-3" style="padding-right:2px">
-                                                    Degree<br>
-                                                    <input id="md1_1" disabled value="117" type="text" class="form-control dms-input" alt="posisi X">
+                                                <div class="col-md-6">
+                                                    <b>Longitude</b><br>
+                                                    <input id="tx_x" value="117.040" type="text" class="form-control dd-input" alt="posisi X">
                                                 </div>
-                                                <div class="col-md-3" style="padding-left:2px;padding-right:2px">
-                                                    Minute<br>
-                                                    <input id="md1_2" disabled value="2" type="text" class="form-control dms-input" alt="posisi X">
-                                                </div>
-                                                <div class="col-md-3" style="padding-left:2px;padding-right:2px">
-                                                    Second<br>
-                                                    <input id="md1_3" disabled value="24" type="text" class="form-control dms-input" alt="posisi X">
+
+                                                <div class="col-md-6">
+                                                    <b>Latitude</b><br>
+                                                    <input id="tx_y" value="-1.175" type="text" class="form-control dd-input" alt="posisi Y">
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6 mb-3">
-                                            <b>Latitude</b><br>
+                                        <div class="p-3" style="border-top: 1px dotted rgb(130, 130, 130);"></div>
+
+                                        <div class="form-group pb-3">
                                             <div class="row">
-                                                <div class="col-md-3" style="padding-right:2px">
-                                                    Degree<br>
-                                                    <input id="md2_1" disabled value="-1" type="text" class="form-control dms-input" alt="posisi Y">
+                                                <div class="col-md-6 mb-3">
+                                                    <b>Longitude</b><br>
+                                                    <div class="row">
+                                                        <div class="col-md-3" style="padding-right:2px">
+                                                            Degree<br>
+                                                            <input id="md1_1" disabled value="117" type="text" class="form-control dms-input" alt="posisi X">
+                                                        </div>
+                                                        <div class="col-md-3" style="padding-left:2px;padding-right:2px">
+                                                            Minute<br>
+                                                            <input id="md1_2" disabled value="2" type="text" class="form-control dms-input" alt="posisi X">
+                                                        </div>
+                                                        <div class="col-md-3" style="padding-left:2px;padding-right:2px">
+                                                            Second<br>
+                                                            <input id="md1_3" disabled value="24" type="text" class="form-control dms-input" alt="posisi X">
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-3" style="padding-left:2px;padding-right:2px">
-                                                    Minute<br>
-                                                    <input id="md2_2" disabled value="10" type="text" class="form-control dms-input" alt="posisi Y">
-                                                </div>
-                                                <div class="col-md-3" style="padding-left:2px;padding-right:2px">
-                                                    Second<br>
-                                                    <input id="md2_3" disabled value="32" type="text" class="form-control dms-input" alt="posisi Y">
+
+                                                <div class="col-md-6 mb-3">
+                                                    <b>Latitude</b><br>
+                                                    <div class="row">
+                                                        <div class="col-md-3" style="padding-right:2px">
+                                                            Degree<br>
+                                                            <input id="md2_1" disabled value="-1" type="text" class="form-control dms-input" alt="posisi Y">
+                                                        </div>
+                                                        <div class="col-md-3" style="padding-left:2px;padding-right:2px">
+                                                            Minute<br>
+                                                            <input id="md2_2" disabled value="10" type="text" class="form-control dms-input" alt="posisi Y">
+                                                        </div>
+                                                        <div class="col-md-3" style="padding-left:2px;padding-right:2px">
+                                                            Second<br>
+                                                            <input id="md2_3" disabled value="32" type="text" class="form-control dms-input" alt="posisi Y">
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <hr>
+                                        <br>
                                     </div>
                                 </div>
-
-                                <hr>
-                                <br>
+                                <div class="gap-2 float-end nav-koordinat">
+                                    <span>Jumlah Titik:
+                                        <span id="jumlahCounterK">1</span>
+                                    </span>
+                                    <button type="button" class="btn btn-outline-dark s-btn" id="reset_koordinat" onclick="resetKoordinat()">Reset</button>
+                                    <button type="button" class="btn btn-outline-dark s-btn" id="hapus_koordinat" disabled="true" onclick="hapusKoordinat()">- Hapus Titik</button>
+                                    <button type="button" class="btn btn-outline-dark s-btn" id="tambah_koordinat" onclick="tambahKoordinat()">+ Tambah Titik</button>
+                                </div>
                             </div>
 
-                            <div class="gap-2 float-end">
-                                <span id="jumlahCounterK">1</span>
-                                <button type="button" class="btn btn-outline-dark" id="hapus_koordinat" disabled="true" onclick="hapusKoordinat()">- Hapus Titik</button>
-                                <button type="button" class="btn btn-outline-dark" id="tambah_koordinat" onclick="tambahKoordinat()">+ Tambah Titik</button>
-                            </div>
 
                         </div>
                     </div>
@@ -215,7 +237,7 @@
 
 
     <!-- Modal Add cek kesesuaian 2 -->
-    <div class="modalAdds" id="modalAdd2">
+    <div class="modalAdds" id="modalCekHasil">
         <div class="modalAdd-content">
             <div class="modal-header">
                 <h3>Cek Informasi</h3>
@@ -225,47 +247,14 @@
             <div class="modalAdd-body">
                 <div class="card-body">
 
-                    <form class="row g-3" action="/data/isiAjuan" method="post" enctype="multipart/form-data">
-                        <?= csrf_field(); ?>
-
-                        <?php if (in_groups('User')) : ?>
-                            <input type="hidden" class="form-control" for="stat_appv" id="stat_appv" name="stat_appv" value="0">
-                        <?php else : ?>
-                            <input type="hidden" class="form-control" for="stat_appv" id="stat_appv" name="stat_appv" value="0">
-                        <?php endif ?>
-                        <input type="hidden" class="form-control" for="koordinat" id="koordinat" name="koordinat" value="">
-                        <input type="hidden" class="form-control" for="geojson" id="geojson" name="geojson" value="">
-
-                        <div class="form-group">
-                            <label class="col-md-12 mb-2">Jenis Kegiatan</label>
-                            <select class="form-select" id="pilihKegiatan" name="kegiatan" for="kegiatan" style="width: 100%;" required>
-                                <option></option>
-                                <?php foreach ($jenisKegiatan as $K) : ?>
-                                    <option value="<?= $K->id_kegiatan; ?>"><?= $K->nama_kegiatan; ?></option>
-                                <?php endforeach ?>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-12 mb-2" for="SubZona">Zona Kegiatan:</label>
-                            <select class="form-select" name="SubZona" id="SubZona" style="width: 100%;" required disabled>
-                                <option value="">Pilih Kegiatan terlebih dahulu</option>
-                            </select>
-                        </div>
-
-                        <div class="feedback">Keterangan:</div>
-                        <div class="info">
-                            <div class="feedback" id="showKegiatan"> </div>
-                        </div>
-
-                        <button type="submit" id="lanjutKirim" class="btn btn-primary">Lanjutkan</button>
-                    </form>
+                    <div class="div_hasilCek" id="div_hasilCek">
+                        <img src="/img/loading.gif">
+                    </div>
 
                 </div>
             </div>
             <div class="modal-footer">
                 <div class="p-2">
-                    <button type="button" class="btn btn-primary m-2" id="next_step2">Lanjut</button>
                 </div>
             </div>
         </div>
@@ -326,102 +315,120 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="panelsStayOpen-headingOne">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
-                                Layer Zona
+                                Layer KKPRL
                             </button>
                         </h2>
                         <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
                             <div class="accordion-body">
 
-                                <div class="nouislider" id="transparansi-slider"></div>
+                                <div class="">
+                                    <p>Transparansi</p>
+                                    <div class="nouislider2" id="transparansi-slider2"></div>
+                                </div>
                                 <br>
-                                <button class="btn btn-outline-dark" onclick="centang(1)">Tampilkan Semua</button>
-                                <button class="btn btn-outline-dark" onclick="centang(0)">Sembunyikan Semua</button>
+                                <button class="btn btn-outline-dark xs-btn" onclick="centang(1)">Tampilkan Semua</button>
+                                <button class="btn btn-outline-dark xs-btn" onclick="centang(0)">Sembunyikan Semua</button>
                                 <br><br>
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_0" id="clahan_0" value="kb" onclick="set_lahan(0)"><span style="min-width: 50px; background-image: url('/leaflet/icon/migrasi.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Alur Migrasi Mamalia Laut</label>
 
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_1" id="clahan_1" value="kb" onclick="set_lahan(1)"><span style="min-width: 50px; background-image: url('/leaflet/icon/budidayalaut.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Budidaya Laut</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked="true" autocomplete="off" name="czona_15" id="czona_15" value="kb" onclick="set_zona(15)"><span style="min-width: 50px; background-image: url('/leaflet/icon/jar minyak.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Jaringan Minyak dan Gas Bumi</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked="true" autocomplete="off" name="czona_16" id="czona_16" value="kb" onclick="set_zona(16)"><span style="min-width: 50px; background-image: url('/leaflet/icon/jar telekom.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Jaringan Telekomunikasi</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_0" id="czona_0" value="kb" onclick="set_zona(0)"><span style="min-width: 50px; background-image: url('/leaflet/icon/konservasi.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Kawasan Konservasi Lainnya</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_1" id="czona_1" value="kb" onclick="set_zona(1)"><span style="min-width: 50px; background-image: url('/leaflet/icon/kkm.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Kawasan Konservasi Maritim</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_2" id="czona_2" value="kb" onclick="set_zona(2)"><span style="min-width: 50px; background-image: url('/leaflet/icon/konservasi2.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Pencadangan/Indikasi Kawasan Konservasi</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_3" id="czona_3" value="kb" onclick="set_zona(3)"><span style="min-width: 50px; background-image: url('/leaflet/icon/taman.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Taman</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_4" id="czona_4" value="kb" onclick="set_zona(4)"><span style="min-width: 50px; background-image: url('/leaflet/icon/bandarudara.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Bandar Udara</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_5" id="czona_5" value="kb" onclick="set_zona(5)"><span style="min-width: 50px; background-image: url('/leaflet/icon/industri2.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Industri</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_6" id="czona_6" value="kb" onclick="set_zona(6)"><span style="min-width: 50px; background-image: url('/leaflet/icon/wisata.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Pariwisata</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_7" id="czona_7" value="kb" onclick="set_zona(7)"><span style="min-width: 50px; background-image: url('/leaflet/icon/pelabuhan.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Pelabuhan Perikanan</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_8" id="czona_8" value="kb" onclick="set_zona(8)"><span style="min-width: 50px; background-image: url('/leaflet/icon/pelabuhan2.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Pelabuhan Umum</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_9" id="czona_9" value="kb" onclick="set_zona(9)"><span style="min-width: 50px; background-image: url('/leaflet/icon/dagangan.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Perdagangan Barang dan/atau Jasa</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_10" id="czona_10" value="kb" onclick="set_zona(10)"><span style="min-width: 50px; background-image: url('/leaflet/icon/budidayalaut.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Perikanan Budi Daya</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked="true" autocomplete="off" name="czona_11" id="czona_11" value="kb" onclick="set_zona(11)"><span style="min-width: 50px; background-image: url('/leaflet/icon/tangkap.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Perikanan Tangkap</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_12" id="czona_12" value="kb" onclick="set_zona(12)"><span style="min-width: 50px; background-image: url('/leaflet/icon/permukiman.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Permukiman</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_13" id="czona_13" value="kb" onclick="set_zona(13)"><span style="min-width: 50px; background-image: url('/leaflet/icon/pertahanan.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Pertahanan dan Keamanan</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_14" id="czona_14" value="kb" onclick="set_zona(14)"><span style="min-width: 50px; background-image: url('/leaflet/icon/zona tambangan.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Pertambangan Minyak dan Gas Bumi</label>
 
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_2" id="clahan_2" value="kb" onclick="set_lahan(2)"><span style="min-width: 50px; background-image: url('/leaflet/icon/dlkrdlkp.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Daerah Lingkungan Kerja (DLKr) & Daerah Lingkungan Kepentingan (DLKp)</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_3" id="clahan_3" value="kb" onclick="set_lahan(3)"><span style="min-width: 50px; background-image: url('/leaflet/icon/demersal.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Demersal</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_4" id="clahan_4" value="kb" onclick="set_lahan(4)"><span style="min-width: 50px; background-image: url('/leaflet/icon/minyak.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Gas dan Minyak Bumi</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_5" id="clahan_5" value="kb" onclick="set_lahan(5)"><span style="min-width: 50px; background-image: url('/leaflet/icon/kabel.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Kabel Telekomunikasi</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_6" id="clahan_6" value="kb" onclick="set_lahan(6)"><span style="min-width: 50px; background-image: url('/leaflet/icon/pelagis.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Pelagis</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_7" id="clahan_7" value="kb" onclick="set_lahan(7)"><span style="min-width: 50px; background-image: url('/leaflet/icon/pelagisdandemersal.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Pelagis dan Demersal</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_8" id="clahan_8" value="kb" onclick="set_lahan(8)"><span style="min-width: 50px; background-image: url('/leaflet/icon/pemukiman.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Permukiman Nelayan</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_9" id="clahan_9" value="kb" onclick="set_lahan(9)"><span style="min-width: 50px; background-image: url('/leaflet/icon/kabel.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Pipa Minyak dan Gas</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_10" id="clahan_10" value="kb" onclick="set_lahan(10)"><span style="min-width: 50px; background-image: url('/leaflet/icon/pol_white.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Tidak Dibagi Ke Dalam Subzona</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_11" id="clahan_11" value="kb" onclick="set_lahan(11)"><span style="min-width: 50px; background-image: url('/leaflet/icon/wkopp.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Wilayah Kerja dan Wilayah Pengoperasian Pelabuhan Perikanan (WKOPP) </label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_12" id="clahan_12" value="kb" onclick="set_lahan(12)"><span style="min-width: 50px; background-image: url('/leaflet/icon/'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Wisata Alam Bawah Laut</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_13" id="clahan_13" value="kb" onclick="set_lahan(13)"><span style="min-width: 50px; background-image: url('/leaflet/icon/wisata.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Wisata Pantai/Pesisir dan Pulau-Pulau Kecil</label>
-
-                                <!-- <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_0" id="clahan_0" value="kb" onclick="set_lahan(0)"><span style="min-width: 50px; background-image: url('/leaflet/icon/migrasi.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Migrasi Biota Tertentu</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_1" id="clahan_1" value="kb" onclick="set_lahan(1)"><span style="min-width: 50px; background-image: url('/leaflet/icon/migrasi.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Migrasi Penyu</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_2" id="clahan_2" value="kb" onclick="set_lahan(2)"><span style="min-width: 50px; background-image: url('/leaflet/icon/kabel.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Pipa Air Bersih</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_3" id="clahan_3" value="kb" onclick="set_lahan(3)"><span style="min-width: 50px; background-image: url('/leaflet/icon/kabel.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Kabel Listrik</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_4" id="clahan_4" value="kb" onclick="set_lahan(4)"><span style="min-width: 50px; background-image: url('/leaflet/icon/kabel.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Kabel Telekomunikasi</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_5" id="clahan_5" value="kb" onclick="set_lahan(5)"><span style="min-width: 50px; background-image: url('/leaflet/icon/kabel.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Pipa Minyak dan Gas</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_6" id="clahan_6" value="kb" onclick="set_lahan(6)"><span style="min-width: 50px; background-image: url('/leaflet/icon/pelayaran.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Pelayaran-Perlintasan Lokal</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_7" id="clahan_7" value="kb" onclick="set_lahan(7)"><span style="min-width: 50px; background-image: url('/leaflet/icon/pelayaran.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Pelayaran-Perlintasan Nasional</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_8" id="clahan_8" value="kb" onclick="set_lahan(8)"><span style="min-width: 50px; background-image: url('/leaflet/icon/pelayaran.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Pelayaran-Perlintasan Regional</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_9" id="clahan_9" value="kb" onclick="set_lahan(9)"><span style="min-width: 50px; background-image: url('/leaflet/icon/konservasiperairan.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Inti KKP</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_10" id="clahan_10" value="kb" onclick="set_lahan(10)"><span style="min-width: 50px; background-image: url('/leaflet/icon/konservasipesisir.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Inti KKP3K </label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_11" id="clahan_11" value="kb" onclick="set_lahan(11)"><span style="min-width: 50px; background-image: url('/leaflet/icon/bandarudara.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Daerah Lingkungan Kerja Bandar Udara</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_12" id="clahan_12" value="kb" onclick="set_lahan(12)"><span style="min-width: 50px; background-image: url('/leaflet/icon/pltugu.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> PLTU/PLTGu</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_13" id="clahan_13" value="kb" onclick="set_lahan(13)"><span style="min-width: 50px; background-image: url('/leaflet/icon/industri.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Industri Maritim</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_14" id="clahan_14" value="kb" onclick="set_lahan(14)"> <span style="min-width: 50px; background-image: url('/leaflet/icon/industri.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Industri Manufaktur</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_15" id="clahan_15" value="kb" onclick="set_lahan(15)"><span style="min-width: 50px; background-image: url('/leaflet/icon/budidayalaut.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Budidaya Laut</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_16" id="clahan_16" value="kb" onclick="set_lahan(16)"><span style="min-width: 50px; background-image: url('/leaflet/icon/dlkrdlkp.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Daerah Lingkungan Kerja (DLKr) & Daerah Lingkungan Kepentingan (DLKp)</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_17" id="clahan_17" value="kb" onclick="set_lahan(17)"><span style="min-width: 50px; background-image: url('/leaflet/icon/wkopp.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Wilayah Kerja dan Wilayah Pengoperasian Pelabuhan Perikanan (WKOPP)</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_18" id="clahan_18" value="kb" onclick="set_lahan(18)"><span style="min-width: 50px; background-image: url('/leaflet/icon/minyak.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Minyak Bumi</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_19" id="clahan_19" value="kb" onclick="set_lahan(19)"><span style="min-width: 50px; background-image: url('/leaflet/icon/pasirlaut.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Pasir Laut</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_20" id="clahan_20" value="kb" onclick="set_lahan(20)"> <span style="min-width: 50px; background-image: url('/leaflet/icon/pelagis.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Pelagis</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_21" id="clahan_21" value="kb" onclick="set_lahan(21)"><span style="min-width: 50px; background-image: url('/leaflet/icon/pelagisdandemersal.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Pelagis dan Demersal</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_22" id="clahan_22" value="kb" onclick="set_lahan(22)"> <span style="min-width: 50px; background-image: url('/leaflet/icon/'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Wisata Alam Bawah Laut</label>
-
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" checked="true" autocomplete="off" name="clahan_23" id="clahan_23" value="kb" onclick="set_lahan(23)"><span style="min-width: 50px; background-image: url('/leaflet/icon/wisata.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Wisata Alam Pantai/Pesisir dan Pulau-pulau Kecil</label> -->
                             </div>
                         </div>
                     </div>
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                                Peta Dasar
+                                Layer RZWP3K
                             </button>
                         </h2>
                         <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                            <div class="accordion-body">
+
+                                <div class="">
+                                    <p>Transparansi</p>
+                                    <div class="nouislider" id="transparansi-slider"></div>
+                                </div>
+                                <br>
+                                <button class="btn btn-outline-dark xs-btn" onclick="centang(3)">Tampilkan Semua</button>
+                                <button class="btn btn-outline-dark xs-btn" onclick="centang(2)">Sembunyikan Semua</button>
+                                <br><br>
+
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_0" id="clahan_0" value="kb" onclick="set_subzona(0)"><span style="min-width: 50px; background-image: url('/leaflet/icon/migrasi.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Alur Migrasi Mamalia Laut</label>
+
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_1" id="clahan_1" value="kb" onclick="set_subzona(1)"><span style="min-width: 50px; background-image: url('/leaflet/icon/budidayalaut.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Budidaya Laut</label>
+
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_2" id="clahan_2" value="kb" onclick="set_subzona(2)"><span style="min-width: 50px; background-image: url('/leaflet/icon/dlkrdlkp.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Daerah Lingkungan Kerja (DLKr) & Daerah Lingkungan Kepentingan (DLKp)</label>
+
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_3" id="clahan_3" value="kb" onclick="set_subzona(3)"><span style="min-width: 50px; background-image: url('/leaflet/icon/demersal.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Demersal</label>
+
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_4" id="clahan_4" value="kb" onclick="set_subzona(4)"><span style="min-width: 50px; background-image: url('/leaflet/icon/minyak.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Gas dan Minyak Bumi</label>
+
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_5" id="clahan_5" value="kb" onclick="set_subzona(5)"><span style="min-width: 50px; background-image: url('/leaflet/icon/kkm.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Kawasan Konservasi Maritim</label>
+
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_6" id="clahan_6" value="kb" onclick="set_subzona(6)"><span style="min-width: 50px; background-image: url('/leaflet/icon/kkp.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Kawasan Konservasi Perikanan</label>
+
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_7" id="clahan_7" value="kb" onclick="set_subzona(7)"><span style="min-width: 50px; background-image: url('/leaflet/icon/konservasipesisir.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Kawasan Konservasi </label>
+
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_8" id="clahan_8" value="kb" onclick="set_subzona(8)"><span style="min-width: 50px; background-image: url('/leaflet/icon/kabel.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Kabel Telekomunikasi</label>
+
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_9" id="clahan_9" value="kb" onclick="set_subzona(9)"><span style="min-width: 50px; background-image: url('/leaflet/icon/pelagis.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Pelagis</label>
+
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_10" id="clahan_10" value="kb" onclick="set_subzona(10)"><span style="min-width: 50px; background-image: url('/leaflet/icon/pelagisdandemersal.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Pelagis dan Demersal</label>
+
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_11" id="clahan_11" value="kb" onclick="set_subzona(11)"><span style="min-width: 50px; background-image: url('/leaflet/icon/pemukiman.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Permukiman Nelayan </label>
+
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_12" id="clahan_12" value="kb" onclick="set_subzona(12)"><span style="min-width: 50px; background-image: url('/leaflet/icon/kabel.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Pipa Minyak dan Gas</label>
+
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_14" id="clahan_14" value="kb" onclick="set_subzona(14)"><span style="min-width: 50px; background-image: url('/leaflet/icon/wisata.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Taman Wisata Alam Bawah Laut</label>
+
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_15" id="clahan_15" value="kb" onclick="set_subzona(15)"><span style="min-width: 50px; background-image: url('/leaflet/icon/wkopp.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Wilayah Kerja dan Wilayah Pengoperasian Pelabuhan Perikanan (WKOPP)</label>
+
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_16" id="clahan_16" value="kb" onclick="set_subzona(16)"><span style="min-width: 50px; background-image: url('/leaflet/icon/wisata.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Wisata Alam Bawah Laut</label>
+
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_17" id="clahan_17" value="kb" onclick="set_subzona(17)"><span style="min-width: 50px; background-image: url('/leaflet/icon/wisata.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Wisata Pantai/Pesisir dan Pulau-Pulau Kecil</label>
+
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_18" id="clahan_18" value="kb" onclick="set_subzona(18)"><span style="min-width: 50px; background-image: url('/leaflet/icon/bandarudara.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Bandar Udara</label>
+
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_19" id="clahan_19" value="kb" onclick="set_subzona(19)"><span style="min-width: 50px; background-image: url('/leaflet/icon/industri.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Industri</label>
+
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_20" id="clahan_20" value="kb" onclick="set_subzona(20)"><span style="min-width: 50px; background-image: url('/leaflet/icon/Zona_Inti.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Inti</label>
+
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_21" id="clahan_21" value="kb" onclick="set_subzona(21)"><span style="min-width: 50px; background-image: url('/leaflet/icon/dagangan2.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Jasa/Perdagangan</label>
+
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_22" id="clahan_22" value="kb" onclick="set_subzona(22)"><span style="min-width: 50px; background-image: url('/leaflet/icon/Zona Lainnya.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Lainnya</label>
+
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_23" id="clahan_23" value="kb" onclick="set_subzona(23)"><span style="min-width: 50px; background-image: url('/leaflet/icon/Zona Pemanfaatan Terbatas.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Pemanfaatan Terbatas</label>
+
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_24" id="clahan_24" value="kb" onclick="set_subzona(24)"><span style="min-width: 50px; background-image: url('/leaflet/icon/polred.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Pertahanan dan Keamanan</label>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                                Peta Dasar
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
                             <div class="accordion-body">
                                 <!--RADIO 1-->
                                 <input type="radio" class="radio_item" value="bingAe" name="item" id="radio1" onclick="set_bing_aerial()">
@@ -455,22 +462,39 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
     <script src=" https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js "></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script lang="javascript" src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
 
     <!-- Template Javascript -->
     <!-- <script src="/assets/js/main.js"></script> -->
+    <script>
+        $(document).ready(function() {
+            $("th").css("pointer-events", "none");
+            $(".no-sort").css("pointer-events", "none");
+        });
+    </script>
     <script>
         $('.toggle-sidepanel').click(function() {
             $('.sidepanel').toggleClass('expanded');
         });
 
+        $("#rd_file").click(function() {
+            $(".dd-input").prop("disabled", true);
+            $(".dms-input").prop("disabled", true);
+            $('.form_isi_koordinat').addClass('d-none');
+            $('.inputByFile').removeClass('d-none');
+        });
         $("#rd_dd").click(function() {
             $(".dd-input").prop("disabled", false);
             $(".dms-input").prop("disabled", true);
+            $('.form_isi_koordinat').removeClass('d-none');
+            $('.inputByFile').addClass('d-none');
         });
-
         $("#rd_dms").click(function() {
             $(".dd-input").prop("disabled", true);
             $(".dms-input").prop("disabled", false);
+            $('.form_isi_koordinat').removeClass('d-none');
+            $('.inputByFile').addClass('d-none');
         });
 
         var counterK = 1;
@@ -560,64 +584,15 @@
             }
             $('.ini_koordinat:last').remove();
         }
-    </script>
-    <script>
-        $(document).ready(function() {
-            var dataKegiatan;
-            $('#pilihKegiatan').change(function() {
-                var kegiatanId = $(this).val();
 
-                if (kegiatanId !== '') {
-                    $('#SubZona').prop('disabled', false);
-
-                    $.ajax({
-                        url: "<?= base_url('admin/getZonaByKegiatan') ?>",
-                        method: "POST",
-                        data: {
-                            kegiatanId: kegiatanId
-                        },
-                        dataType: 'json',
-                        success: function(response) {
-                            var options = '<option value="">Pilih Zona Kegiatan</option>';
-
-                            if (response.length > 0) {
-                                dataKegiatan = response;
-                                $.each(response, function(index, SubZona) {
-                                    options += '<option value="' + SubZona.id_sub + '">' + SubZona.nama_subzona + '</option>';
-                                });
-                            }
-                            $('#SubZona').html(options);
-                        }
-                    });
-                } else {
-                    $('#SubZona').prop('disabled', true);
-                    $('#SubZona').html('<option value="">Pilih Kegiatan terlebih dahulu</option>');
-                }
-            });
-
-            $('#SubZona').change(function(e) {
-                var zonaId = $(this).val();
-                var result = dataKegiatan.filter(function(item) {
-                    return item.id_sub === zonaId;
-                });
-                var status = result[0].status_zonasi;
-                var showKegiatan = $('#showKegiatan');
-                showKegiatan.removeClass().addClass('feedback');
-                if (status === '1') {
-                    $('#lanjutKirim').prop('disabled', false);
-                    showKegiatan.text('Diperbolehkan').addClass('boleh');
-                } else if (status === '2') {
-                    $('#lanjutKirim').prop('disabled', false);
-                    showKegiatan.text('Diperbolehkan Bersyarat').addClass('bolehBersyarat');
-                } else if (status === '3') {
-                    $('#lanjutKirim').prop('disabled', true);
-                    showKegiatan.text('Tidak diperbolehkan').addClass('tidakBoleh');
-                } else {
-                    $('#lanjutKirim').prop('disabled', false);
-                    showKegiatan.text('');
-                }
-            });
-        });
+        function resetKoordinat() {
+            counterK = 1;
+            $('#jumlahCounterK').html(counterK);
+            $('#hapus_koordinat').prop('disabled', true);
+            $('#tambah_koordinat').prop('disabled', false);
+            $('.ini_koordinat').remove('.ini_koordinat');
+            $('#isi_koordinat').append(newKoordinatInput);
+        }
     </script>
 
     <?php if (in_groups('Admin' && 'SuperAdmin')) : ?>
@@ -659,13 +634,14 @@
         </script>
     <?php endif; ?>
 
-    <!-- modalAdd and modalAdd2-->
+    <!-- modalAdd and modalCekHasil-->
     <script>
         const modal = document.getElementById("modalAdd");
-        const modal2 = document.getElementById("modalAdd2");
+        const modal2 = document.getElementById("modalCekHasil");
         // modaladd
         $('#modalAdd-button').click(function(e) {
             $('#modalAdd').show();
+            $("#previewMap").html('<iframe src="/data/petaPreview" id="petaPreview" frameborder="0"></iframe>');
         });
 
         $('#close-button').click(function(e) {
@@ -678,18 +654,18 @@
             }
         });
 
-        // modaladd2
+        // modalCekHasil
         $('#modalAdd-button2').click(function(e) {
             startDrawing();
         });
 
         $('#close-button2').click(function(e) {
-            $('#modalAdd2').hide();
+            $('#modalCekHasil').hide();
         });
 
         window.addEventListener("click", function(event) {
             if (event.target == modal2) {
-                $('#modalAdd2').hide();
+                $('#modalCekHasil').hide();
             }
         });
     </script>
@@ -765,20 +741,17 @@
         });
     </script>
     <script>
-        $(document).ready(function() {
-            $('#pilihKegiatan').select2({
-                placeholder: "Pilih Jenis Kegiatan",
-                allowClear: true
-            });
-            $('#SubZona').select2({
-                placeholder: "Pilih Zona Wilayah Kegiatan",
-                allowClear: true
-            });
-        });
-    </script>
-    <script>
         const opacitySlider = document.getElementById('transparansi-slider');
         noUiSlider.create(opacitySlider, {
+            start: [0.8],
+            range: {
+                'min': 0,
+                'max': 1,
+            },
+            step: 0.01,
+        });
+        const opacitySlider2 = document.getElementById('transparansi-slider2');
+        noUiSlider.create(opacitySlider2, {
             start: [0.8],
             range: {
                 'min': 0,
@@ -809,8 +782,6 @@
         proj4.defs("EPSG:32750", "+proj=utm +zone=50 +south +datum=WGS84 +units=m +no_defs +type=crs");
         proj4.defs("EPSG:4326", "+proj=longlat +datum=WGS84 +no_defs +type=crs");
 
-        var x_cari;
-        var y_cari;
         var drawInteraction;
         var drawedVector;
         var styleDraw;
@@ -818,9 +789,29 @@
         var coordinates;
         var jsonCoordinates;
         var geojsonFeature;
-        const wmsLayers = [];
+        const KKPRL_Layer = [];
+        const RZWP3K_Layer = [];
 
 
+        const vectorSource = new ol.source.Vector();
+        const KKPRLALLsource = new ol.source.TileWMS({
+            url: 'https://sipetarungkaltim.zakialawi.my.id/geoserver/KKPRL/wms',
+            params: {
+                'LAYERS': 'KKPRL:KKPRL_RTRW_KALTIM_05_01_2023_AR_OKk',
+                'TILED': true
+            },
+            serverType: 'geoserver',
+            crossOrigin: 'anonymous'
+        });
+        const RZWP3KALLsource = new ol.source.TileWMS({
+            url: 'https://sipetarungkaltim.zakialawi.my.id/geoserver/RZWP3K/wms',
+            params: {
+                'LAYERS': 'RZWP3K:RZ50K_AR_REVISIMAR_2021_FIX_29_Maret',
+                'TILED': true
+            },
+            serverType: 'geoserver',
+            crossOrigin: 'anonymous'
+        });
         const projection = new ol.proj.Projection({
             code: 'EPSG:32750',
             units: 'm',
@@ -900,7 +891,6 @@
             target: 'map',
             controls: [
                 new ol.control.Zoom(),
-                // new ol.control.OverviewMap(),
                 new ol.control.ScaleLine(),
 
             ],
@@ -911,30 +901,58 @@
         // map.addLayer(wms_layer);
 
         // Membuat array lapisan WMS dari GeoServer
-        const wmsLayerNames = [
+        const RZWP3KLayerNames = [
             'Alur_Migrasi_Mamalia_Laut',
             'Budidaya_Laut',
             'DLKr-DLKp',
             'Demersal',
             'Gas_dan_Minyak_Bumi',
+            'KKM',
+            'KKP',
+            'KKP3K',
             'Kabel_Telekomunikasi',
             'Pelagis',
             'Pelagis_dan_Demersal',
             'Permukiman_Nelayan',
             'Pipa_Minyak_dan_Gas',
-            'Tidak_Dibagi_Ke_Dalam_Subzona',
+            'Taman_Wisata_Alam_Laut',
             'WKOPP',
             'Wisata_Alam_Bawah_Laut',
             'Wisata_Pantai_Pesisir_dan_Pulau-Pulau_Kecil',
-
+            'Zona_Bandar_Udara',
+            'Zona_Industri',
+            'Zona_Inti',
+            'Zona_Jasa__Perdagangan',
+            'Zona_Lainnya',
+            'Zona_Pemanfaatan_Terbatas',
+            'Zona_Pertahanan_dan_Keamanan',
         ];
-
+        const KKPRLLayerNames = [
+            'Kawasan_Konservasi_Lainnya',
+            'Kawasan_Konservasi_Maritim',
+            'Pencadangan_Indikasi_Kawasan_Konservasi',
+            'Taman',
+            'Zona_Bandar_Udara',
+            'Zona_Industri',
+            'Zona_Pariwisata',
+            'Zona_Pelabuhan_Perikanan',
+            'Zona_Pelabuhan_Umum',
+            'Zona_Perdagangan_Barang_dan_atau_Jasa',
+            'Zona_Perikanan_Budi_Daya',
+            'Zona_Perikanan_Tangkap',
+            'Zona_Permukiman',
+            'Zona_Pertahanan_dan_Keamanan',
+            'Zona_Pertambangan_Minyak_dan_Gas_Bumi',
+            'Jaringan_Minyak_dan_Gas_Bumi',
+            'Jaringan_Tetap',
+        ];
+        const layersToShow = ['Zona_Perikanan_Tangkap', 'Jaringan_Minyak_dan_Gas_Bumi', 'Jaringan_Tetap'];
         // Loop untuk menambahkan setiap lapisan WMS ke dalam objek peta
-        for (const layerName of wmsLayerNames) {
+        for (const layerName of RZWP3KLayerNames) {
             const wmsSource = new ol.source.TileWMS({
-                url: 'https://sipetarungkaltim.zakialawi.my.id/geoserver/DKP/wms',
+                url: 'https://sipetarungkaltim.zakialawi.my.id/geoserver/RZWP3K/wms?',
                 params: {
-                    'LAYERS': `DKP:${layerName}`,
+                    'LAYERS': `RZWP3K:${layerName}`,
                     'TILED': true,
                     'FORMAT': 'image/png',
                 },
@@ -943,12 +961,31 @@
             });
             var wms_layer = new ol.layer.Tile({
                 source: wmsSource,
-                visible: false,
+                visible: layersToShow.includes(layerName),
                 opacity: 0.8
             });
-
             map.addLayer(wms_layer);
-            wmsLayers.push(wms_layer);
+            RZWP3K_Layer.push(wms_layer);
+        }
+
+        for (const layerName of KKPRLLayerNames) {
+            const wmsSource = new ol.source.TileWMS({
+                url: 'https://sipetarungkaltim.zakialawi.my.id/geoserver/KKPRL/wms?',
+                params: {
+                    'LAYERS': `KKPRL:${layerName}`,
+                    'TILED': true,
+                    'FORMAT': 'image/png',
+                },
+                serverType: 'geoserver',
+                crossOrigin: 'anonymous',
+            });
+            var wms_layer = new ol.layer.Tile({
+                source: wmsSource,
+                visible: layersToShow.includes(layerName),
+                opacity: 0.8
+            });
+            map.addLayer(wms_layer);
+            KKPRL_Layer.push(wms_layer);
         }
 
         const overviewMapControl = new ol.control.OverviewMap({
@@ -965,54 +1002,84 @@
         set_osm();
 
 
-        // Fungsi untuk menyembunyikan atau menampilkan lapisan WMS
+        // Fungsi untuk menyembunyikan atau menampilkan lapisan WMS (per checkbox)
         function toggleWMSLayer(layerName, visibility) {
             const layers = map.getLayers();
             layers.forEach(layer => {
                 if (layer instanceof ol.layer.Tile && layer.getSource() instanceof ol.source.TileWMS) {
                     const params = layer.getSource().getParams();
-                    if (params.LAYERS === `DKP:${layerName}`) {
+                    if (params.LAYERS === `RZWP3K:${layerName}`) {
+                        layer.setVisible(visibility);
+                    } else if (params.LAYERS === `KKPRL:${layerName}`) {
                         layer.setVisible(visibility);
                     }
                 }
             });
         }
 
-        function set_lahan(index) {
+        function set_subzona(index) {
             const checkbox = document.getElementById(`clahan_${index}`);
-            const layerName = wmsLayerNames[index];
+            const layerName = RZWP3KLayerNames[index];
+            const visibility = checkbox.checked;
+            toggleWMSLayer(layerName, visibility);
+        }
+
+        function set_zona(index) {
+            const checkbox = document.getElementById(`czona_${index}`);
+            const layerName = KKPRLLayerNames[index];
             const visibility = checkbox.checked;
             toggleWMSLayer(layerName, visibility);
         }
 
         // Fungsi untuk mengubah transparansi lapisan WMS
-        function updateWMSTransparency(opacity) {
-            wmsLayers.forEach(wmsLayers => {
-                wmsLayers.setOpacity(opacity);
-            });
+        function updateWMSTransparency(opacity, wms) {
+            if (wms == "RZWP3K_Layer") {
+                RZWP3K_Layer.forEach(RZWP3K_Layer => {
+                    RZWP3K_Layer.setOpacity(opacity);
+                });
+            } else {
+                KKPRL_Layer.forEach(KKPRL_Layer => {
+                    KKPRL_Layer.setOpacity(opacity);
+                });
+            }
         }
         opacitySlider.noUiSlider.on('update', function(values, handle) {
+            wms = "RZWP3K_Layer";
             const opacity = parseFloat(values[handle]);
-            updateWMSTransparency(opacity);
+            updateWMSTransparency(opacity, wms);
+        });
+        opacitySlider2.noUiSlider.on('update', function(values, handle) {
+            wms = "KKPRL_Layer";
+            const opacity = parseFloat(values[handle]);
+            updateWMSTransparency(opacity, wms);
         });
 
         // Fungsi check all/uncheck (show/hide all) layer wms
         function centang(cons) {
-            var jumlahZona = wmsLayers.length;
             if (cons == 1) {
-                for (var i = 0; i < jumlahZona; i++) {
-                    $('#clahan_' + i).prop('checked', true);
-                    wmsLayers[i].setVisible(true);
+                for (var i = 0; i < KKPRL_Layer.length; i++) {
+                    $('#czona_' + i).prop('checked', true);
+                    KKPRL_Layer[i].setVisible(true);
                 }
-            } else {
-                for (var i = 0; i < jumlahZona; i++) {
+            } else if (cons == 0) {
+                for (var i = 0; i < KKPRL_Layer.length; i++) {
+                    $('#czona_' + i).prop('checked', false);
+                    KKPRL_Layer[i].setVisible(false);
+                }
+            } else if (cons == 3) {
+                for (var i = 0; i < RZWP3K_Layer.length; i++) {
+                    $('#clahan_' + i).prop('checked', true);
+                    RZWP3K_Layer[i].setVisible(true);
+                }
+            } else if (cons == 2) {
+                for (var i = 0; i < RZWP3K_Layer.length; i++) {
                     $('#clahan_' + i).prop('checked', false);
-                    wmsLayers[i].setVisible(false);
+                    RZWP3K_Layer[i].setVisible(false);
                 }
             }
         }
 
-        // style wkt geometry
+        // style vector geometry
         const markerStyle = new ol.style.Style({
             image: new ol.style.Icon({
                 anchor: [0.5, 1],
@@ -1038,19 +1105,39 @@
             }),
         });
 
+        function cekHasil(lon, lat, url) {
+            $('#modalCekHasil').show();
+            $("#div_hasilCek").html('<img src="/img/loading.gif">');
+            ue = encodeURIComponent(url);
+            if (url) {
+                var act = '/data/cekData?lon=' + lon + '&lat=' + lat + '&ue=' + ue;
+                $.ajax({
+                    url: act,
+                    success: function(data) {
+                        $('#div_hasilCek').html(data);
+                    },
+                    error: function(error) {
+                        console.error('Error:', error);
+                    }
+                });
+            }
+        }
+
+        function cekHasil2() {
+            $("#div_hasilCek").html('<img src="/img/loading.gif">');
+            $('#modalCekHasil').show();
+        }
         // klik lanjut
         $('#next_step').click(function() {
             coordinates = [];
             jsonCoordinates = [];
             geojsonFeature = [];
             const selectedCounter = counterK;
-            const pusat = [];
             // console.log('Nilai CounterK: ', selectedCounter);
             // Ambil nilai koordinat
             $('.ini_koordinat').each(function() {
                 const longitudeInput = parseFloat($(this).find('#tx_x').val());
                 const latitudeInput = parseFloat($(this).find('#tx_y').val());
-
                 if ($('#rd_dms').is(":checked")) {
                     const degree1 = $(this).find('#md1_1').val();
                     const minute1 = $(this).find('#md1_2').val();
@@ -1058,7 +1145,6 @@
                     const degree2 = $(this).find('#md2_1').val();
                     const minute2 = $(this).find('#md2_2').val();
                     const second2 = $(this).find('#md2_3').val();
-
                     longitude = parseFloat(degree1) + parseFloat(minute1 / 60) + parseFloat(second1 / 3600);
                     latitude = parseFloat(degree2) - parseFloat(minute2 / 60) - parseFloat(second2 / 3600);
                     coordinates.push([longitude + ' ' + latitude]);
@@ -1069,28 +1155,23 @@
                 }
 
             });
-            // console.log(jsonCoordinates);
+            console.log(jsonCoordinates);
             // console.log('Nilai Koordinat:', coordinates);
+            if (vectorSource) {
+                vectorSource.clear();
+            }
             var format = new ol.format.WKT();
             if (counterK < 2) {
                 var wkt = 'POINT (' + coordinates + ')';
-                pusat.push(jsonCoordinates[0]);
-                var geojsonFeature = turf.point([-75.343, 39.984]);
+                var geojsonFeature = turf.point([jsonCoordinates[0][0], jsonCoordinates[0][1]]);
                 styleDraw = markerStyle;
             } else if (counterK > 2) {
                 var wkt = 'POLYGON ((' + coordinates + ',' + coordinates[0] + '))';
-                var features = turf.points(jsonCoordinates);
-                var center = turf.center(features);
-                pusat.push(center.geometry.coordinates);
                 jsonCoordinates.push(jsonCoordinates[0]);
                 var geojsonFeature = turf.polygon([jsonCoordinates]);
                 styleDraw = polygonStyle;
             } else {
                 var wkt = 'LINESTRING (' + coordinates + ')';
-                var point1 = turf.point(jsonCoordinates[0]);
-                var point2 = turf.point(jsonCoordinates[1]);
-                var midpoint = turf.midpoint(point1, point2);
-                pusat.push(midpoint.geometry.coordinates);
                 var geojsonFeature = turf.lineString(jsonCoordinates);
                 styleDraw = lineStyle;
             }
@@ -1100,96 +1181,139 @@
                 featureProjection: 'EPSG:3857'
             });
             var drawedVector = new ol.layer.Vector({
-                source: new ol.source.Vector({
-                    features: [feature]
-                }),
+                source: vectorSource,
                 style: styleDraw,
             });
-            map.getLayers().forEach(layer => {
-                if (layer instanceof ol.layer.Vector) {
-                    map.removeLayer(layer);
-                }
-            });
+            vectorSource.addFeature(feature);
             map.addLayer(drawedVector);
-            view.animate({
-                center: view.setCenter(ol.proj.fromLonLat(pusat[0])),
-                zoom: 12,
+            var extent = drawedVector.getSource().getExtent();
+            map.getView().fit(extent, {
+                padding: [100, 100, 100, 100],
+                minResolution: map.getView().getResolutionForZoom(13),
                 duration: 1500,
             });
+
+            if (counterK == 1) {
+                const viewResolution = view.getResolution();
+                var coordinates3857 = jsonCoordinates.map(coordinate => ol.proj.transform(coordinate, 'EPSG:4326', 'EPSG:3857'));
+                var url = KKPRLALLsource.getFeatureInfoUrl(coordinates3857[0], viewResolution, 'EPSG:3857', {
+                    'INFO_FORMAT': 'application/json',
+                    FEATURE_COUNT: 1
+                });
+                var lon = coordinates3857[0][0];
+                var lat = coordinates3857[0][1];
+                cekHasil(lon, lat, url)
+            } else {
+                cekHasil2()
+            }
+
+
         });
 
+        $('#isi_koordinat').keyup(function(e) {
+            const iframe = document.getElementById("petaPreview");
+            coordinates = [];
+            jsonCoordinates = [];
+            geojsonFeature = [];
+            const selectedCounter = counterK;
+            // console.log('Nilai CounterK: ', selectedCounter);
+            // Ambil nilai koordinat
+            $('.ini_koordinat').each(function() {
+                const longitudeInput = parseFloat($(this).find('#tx_x').val());
+                const latitudeInput = parseFloat($(this).find('#tx_y').val());
+                if ($('#rd_dms').is(":checked")) {
+                    const degree1 = $(this).find('#md1_1').val();
+                    const minute1 = $(this).find('#md1_2').val();
+                    const second1 = $(this).find('#md1_3').val();
+                    const degree2 = $(this).find('#md2_1').val();
+                    const minute2 = $(this).find('#md2_2').val();
+                    const second2 = $(this).find('#md2_3').val();
+                    longitude = parseFloat(degree1) + parseFloat(minute1 / 60) + parseFloat(second1 / 3600);
+                    latitude = parseFloat(degree2) - parseFloat(minute2 / 60) - parseFloat(second2 / 3600);
+                    coordinates.push([longitude + ' ' + latitude]);
+                    jsonCoordinates.push([longitude, latitude]);
+                } else if ($('#rd_dd').is(":checked")) {
+                    coordinates.push([longitudeInput + ' ' + latitudeInput]);
+                    jsonCoordinates.push([longitudeInput, latitudeInput]);
+                }
+            });
+            iframe.contentWindow.postMessage({
+                jsonCoordinates,
+                selectedCounter,
+            }, '<?= base_url('/data/petaPreview'); ?>');
+        });
 
         // Fungsi untuk memulai penggambaran
         function startDrawing() {
             if (drawInteraction) {
                 map.removeInteraction(drawInteraction);
             }
-            map.getLayers().forEach(layer => {
-                if (layer instanceof ol.layer.Vector) {
-                    map.removeLayer(layer);
-                }
-            });
+            map.getViewport().style.cursor = "crosshair"
+            if (vectorSource) {
+                vectorSource.clear();
+            }
             var drawedVector = new ol.layer.Vector({
-                source: new ol.source.Vector({
-                    features: [],
-                }),
+                source: vectorSource,
                 style: polygonStyle,
             });
             drawInteraction = new ol.interaction.Draw({
-                source: drawedVector.getSource(),
+                source: new ol.source.Vector(),
                 type: 'Polygon'
             });
             drawInteraction.on('drawend', function(event) {
-                const drawnFeature = event.feature;
-                const jsonCoordinates = drawnFeature.getGeometry().getCoordinates();
-                // console.log('Koordinat polygon yang digambar:', jsonCoordinates);
-                var geojsonFeature = turf.polygon(jsonCoordinates);
-                const newFeature = new ol.Feature({
+                var drawnFeature = event.feature;
+                jsonCoordinates = drawnFeature.getGeometry().getCoordinates();
+                console.log('Koordinat polygon yang digambar:', jsonCoordinates);
+                var polygonFeature = new ol.Feature({
                     geometry: new ol.geom.Polygon(jsonCoordinates)
                 });
-                drawedVector.getSource().addFeature(newFeature);
+                vectorSource.addFeature(polygonFeature);
                 map.removeInteraction(drawInteraction);
-                $('#modalAdd2').show();
+                jsonCoordinates = drawnFeature.getGeometry();
+                jsonCoordinates.transform('EPSG:3857', 'EPSG:4326');
+                jsonCoordinates = jsonCoordinates.getCoordinates();
+                console.log('Koordinat polygon yang digambar:', jsonCoordinates);
+                var geojsonFeature = turf.polygon(jsonCoordinates);
+                cekHasil2();
+                map.getViewport().style.cursor = "grab"
             });
             map.addInteraction(drawInteraction);
             map.addLayer(drawedVector);
         }
 
 
-        // map.on('singleclick', function(evt) {
-        //     const viewResolution = view.getResolution();
-        //     const coordinate = evt.coordinate;
-        //     const projection = view.getProjection();
-        //     console.log(projection);
-        //     wmsLayers.forEach(layer => {
-        //         const url = layer.getSource().getFeatureInfoUrl(
-        //             coordinate,
-        //             viewResolution,
-        //             projection, {
-        //                 INFO_FORMAT: 'application/json',
-        //                 FEATURE_COUNT: 1
-        //             }
-        //         );
+        map.on('singleclick', function(evt) {
+            const viewResolution = view.getResolution();
+            const coordinate = evt.coordinate;
+            const projection = view.getProjection();
+            console.log(coordinate);
+            console.log(projection);
+            KKPRL_Layer.forEach(layer => {
+                const url = layer.getSource().getFeatureInfoUrl(
+                    coordinate,
+                    viewResolution,
+                    projection, {
+                        INFO_FORMAT: 'application/json',
+                        FEATURE_COUNT: 1
+                    }
+                );
 
-        //         if (url) {
-        //             fetch(url)
-        //                 .then(response => response.json())
-        //                 .then(data => {
-        //                     // Di sini Anda dapat memanipulasi data respons JSON
-        //                     // untuk mengambil atribut yang Anda butuhkan.
+                if (url) {
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            // Di sini Anda dapat memanipulasi data respons JSON
+                            // untuk mengambil atribut yang Anda butuhkan.
 
-        //                     if (data.features.length > 0) {
-        //                         console.log(data); // Tampilkan data JSON di konsol
-        //                         const attributes = data.features[0].properties;
-        //                         console.log(attributes); // Tampilkan atribut fitur di konsol
-        //                     }
-        //                 })
-        //                 .catch(error => {
-        //                     console.error('Error fetching feature info:', error);
-        //                 });
-        //         }
-        //     });
-        // });
+                            if (data.features.length > 0) {
+                                console.log(data); // Tampilkan data JSON di konsol
+                                const attributes = data.features[0].properties;
+                                console.log(attributes); // Tampilkan atribut fitur di konsol
+                            }
+                        })
+                }
+            });
+        });
 
         // mouse coordinate show
         const mousePositionControl = new ol.control.MousePosition({
@@ -1208,45 +1332,116 @@
             element: document.getElementById('ruler-button'), // ID elemen tombol
         });
         map.addControl(rulerControl);
-        // Event listener untuk tombol
         $(rulerControl.element).click(function(e) {
             e.preventDefault();
             alert('Tombol belum siap');
         });
-    </script>
 
+
+        $('#isiByFile').change(function(e) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            jsonCoordinates = [];
+            if (vectorSource) {
+                vectorSource.clear();
+            }
+            const readFilePromise = new Promise((resolve, reject) => {
+                reader.onload = function(event) {
+                    const fileName = file.name;
+                    const fileExtension = fileName.split('.').pop();
+                    if (fileExtension == 'xlsx' || fileExtension == 'xls' || fileExtension == 'csv') {
+                        const data = new Uint8Array(event.target.result);
+                        const workbook = XLSX.read(data, {
+                            type: 'array'
+                        });
+                        const firstSheetName = workbook.SheetNames[0];
+                        const worksheet = workbook.Sheets[firstSheetName];
+                        const json = XLSX.utils.sheet_to_json(worksheet, {
+                            header: 1
+                        });
+                        var dataArr = [json][0];
+                        dataArr.shift();
+                        if (dataArr.length < 2) {
+                            console.log(dataArr);
+                            jsonCoordinates = [dataArr[0].slice(1, 3)];
+                        } else {
+                            dataArr.push(dataArr[0]);
+                            for (let index = 0; index < dataArr.length; index++) {
+                                var coord = dataArr[index].slice(1, 3);
+                                jsonCoordinates.push(coord);
+                            }
+                        }
+                    } else {
+                        alert("File Belum Support");
+                    }
+                    resolve(); // Selesaikan Promise saat selesai membaca file.
+                };
+
+                if (file) {
+                    reader.readAsArrayBuffer(file);
+                } else {
+                    alert("Gagal!")
+                    reject(new Error("File not found"));
+                }
+            });
+
+            readFilePromise.then(() => {
+                var drawedVector = new ol.layer.Vector({
+                    source: vectorSource,
+                    style: styleDraw,
+                });
+                map.addLayer(drawedVector);
+                if (jsonCoordinates.length < 2) {
+                    const viewResolution = view.getResolution();
+                    var coordinates3857 = jsonCoordinates.map(coordinate => ol.proj.transform(coordinate, 'EPSG:4326', 'EPSG:3857'));
+                    var url = KKPRLALLsource.getFeatureInfoUrl(coordinates3857[0], viewResolution, 'EPSG:3857', {
+                        'INFO_FORMAT': 'application/json',
+                        FEATURE_COUNT: 1
+                    });
+                    var lon = coordinates3857[0][0];
+                    var lat = coordinates3857[0][1];
+                    cekHasil(lon, lat, url);
+                } else {
+                    cekHasil2();
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
 
     <!-- <script>
         var poly1 = turf.polygon([
-            [
-                [0, 0],
-                [0, 5],
-                [5, 5],
-                [5, 0],
-                [0, 0]
-            ]
+        [
+        [0, 0],
+        [0, 5],
+        [5, 5],
+        [5, 0],
+        [0, 0]
+        ]
         ]);
         var poly2 = turf.polygon([
-            [
-                [1, 1],
-                [1, 6],
-                [6, 6],
-                [6, 1],
-                [1, 1]
-            ]
+        [
+        [1, 1],
+        [1, 6],
+        [6, 6],
+        [6, 1],
+        [1, 1]
+        ]
         ]);
         var poly3 = turf.polygon([
-            [
-                [10, 10],
-                [10, 15],
-                [15, 15],
-                [15, 10],
-                [10, 10]
-            ]
+        [
+        [10, 10],
+        [10, 15],
+        [15, 15],
+        [15, 10],
+        [10, 10]
+        ]
         ]);
         console.log(turf.booleanOverlap(poly1, poly2));
         console.log(turf.booleanOverlap(poly2, poly3));
     </script> -->
+
     <!-- <script>
         var a = "Pipa Minyak dan Gas";
         var b = "Kabel Telekomunikasi";

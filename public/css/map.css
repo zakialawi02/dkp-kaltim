@@ -469,6 +469,28 @@ label {
     overflow-y: auto;
 }
 
+#div_hasilCek img {
+    height: 2rem;
+}
+
+.thead {
+    width: 10rem;
+}
+
+.tspace {
+    width: 2px;
+}
+
+.xs-btn {
+    font-size: 12px;
+    padding: 6px;
+}
+
+.s-btn {
+    font-size: 14px;
+    padding: 8px;
+}
+
 @media screen and (max-width: 900px) {
     .sidepanel {
         width: 40vw;
