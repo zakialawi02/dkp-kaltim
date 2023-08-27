@@ -61,7 +61,6 @@
                             <form class="row g-3" action="/data/tambahAjuan" method="post" enctype="multipart/form-data">
                                 <?= csrf_field(); ?>
                                 <?php $datas = session()->getFlashdata('data'); ?>
-                                <?php $dataZona = $jenisZona; ?>
                                 <?php $geojson = $datas['geojson'] ?>
                                 <?php $geojson = json_encode($geojson) ?>
 
@@ -69,6 +68,10 @@
 
                                 <h5>a. Identitas Pemohon</h5>
 
+                                <div class="form-group">
+                                    <label class="form-label">NIB (Nomor Induk Berusaha)</label>
+                                    <input type="text" class="form-control" id="nik" aria-describedby="textlHelp" name="nik" required>
+                                </div>
                                 <div class="form-group">
                                     <label class="form-label">NIK (Nomor Induk Kependudukan)</label>
                                     <input type="text" class="form-control" id="nik" aria-describedby="textlHelp" name="nik" required>
@@ -100,13 +103,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-md-12 mb-2" for="SubZona">Zona Kegiatan:</label>
-                                    <select class="form-select" name="SubZona" id="SubZona" style="width: 100%;" required disabled="disable">
-                                        <option></option>
-                                        <?php foreach ($dataZona as $Z) : ?>
-                                            <option value="<?= $Z['id_sub'] ?>" <?= $Z['id_sub'] == $datas['zonaValue'] ? 'selected' : '' ?>><?= $Z['nama_subzona'] ?></option>
-                                        <?php endforeach ?>
-                                    </select>
+                                    <label class="col-md-12 mb-2" for="SubZona">Zona</label>
+
                                 </div>
 
                                 <div class="feedback">Keterangan Kesesuaian:</div>
@@ -165,73 +163,8 @@
                 placeholder: "Pilih Jenis Kegiatan",
                 allowClear: true
             });
-            $('#SubZona').select2({
-                placeholder: "Pilih Zona Wilayah Kegiatan",
-                allowClear: true
-            });
         });
     </script>
-    <script>
-        $(document).ready(function() {
-            var dataKegiatan = <?= json_encode($jenisZona); ?>;
-
-            function detectKegiatan() {
-                var zonaId = $('#SubZona').val();
-                var result = dataKegiatan.filter(function(item) {
-                    return item.id_sub === zonaId;
-                });
-                var status = result[0].status_zonasi;
-                var showKegiatan = $('#showKegiatan');
-                showKegiatan.removeClass().addClass('feedback');
-                if (status === '1') {
-                    showKegiatan.text('Diperbolehkan').addClass('boleh');
-                } else if (status === '2') {
-                    showKegiatan.text('Diperbolehkan Bersyarat').addClass('bolehBersyarat');
-                } else if (status === '3') {
-                    showKegiatan.text('Tidak diperbolehkan').addClass('tidakBoleh');
-                } else {
-                    showKegiatan.text('  -');
-                }
-            }
-            detectKegiatan();
-
-            $('#pilihKegiatan').change(function() {
-                var kegiatanId = $(this).val();
-
-                if (kegiatanId !== '') {
-                    $('#SubZona').prop('disabled', false);
-
-                    $.ajax({
-                        url: "<?= base_url('admin/getZonaByKegiatan') ?>",
-                        method: "POST",
-                        data: {
-                            kegiatanId: kegiatanId
-                        },
-                        dataType: 'json',
-                        success: function(response) {
-                            var options = '<option value="">Pilih Zona Kegiatan</option>';
-
-                            if (response.length > 0) {
-                                dataKegiatan = response;
-                                $.each(response, function(index, SubZona) {
-                                    options += '<option value="' + SubZona.id_sub + '">' + SubZona.nama_subzona + '</option>';
-                                });
-                            }
-                            $('#SubZona').html(options);
-                        }
-                    });
-                } else {
-                    $('#SubZona').prop('disabled', true);
-                    $('#SubZona').html('<option value="">Pilih Kegiatan terlebih dahulu</option>');
-                }
-            });
-
-            $('#SubZona').change(function(e) {
-                detectKegiatan()
-            });
-        });
-    </script>
-
 
     <!-- Open Layers Component -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"></script>

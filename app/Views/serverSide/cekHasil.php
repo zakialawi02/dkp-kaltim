@@ -1,36 +1,50 @@
 <?php
-$hasil = $url;
-if ($hasil['features'] == null) {
-    $namaObjek = "Maaf, titik yang anda pilih berada diluar area kawasan.";
-    $kawasan = "-";
-    $kode = "-";
-} else {
-    $attribute = $hasil['features'][0]['properties'];
-    $namaObjek = $attribute['NAMOBJ'];
-    $kawasan = $attribute['ORDE01'];
-    $kode = $attribute['KODKWS'];
+if ($objectID != null) {
+    $id = array_unique($objectID);
+    $kawasan = array_unique($kawasan);
+    $name = array_unique($objectName);
+    $kode = array_unique($kode);
+    $orde = array_unique($orde);
+    $remark = array_unique($remark);
 }
-// dd($hasil);
+$id = $objectID ?? "-";
+$kawasan = $kawasan ?? "Maaf, Tidak ada data / Tidak terdeteksi";
+$name = $name ?? "Maaf, Tidak ada data / Tidak terdeteksi";
+$kode = $kode  ?? "-";
+$orde = $orede  ?? "-";
+$remark = $remark ?? "-";
 ?>
-
+<p class="form-text text-muted">*Zona Yang Saling Tumpang Tindih Dengan Lokasi Geometry</p>
 <div class="hasilKonten">
 
     <div class="table-responsive">
-        <table class="table">
+        <table class="table align-middle">
             <tr>
                 <td class="thead">Nama Objek</td>
                 <td class="tspace">:</td>
-                <td class="kawasan"><?= $namaObjek; ?></td>
+                <td class="kawasan">
+                    <?php foreach ($name as $val) : ?>
+                        <?= $val; ?> <br>
+                    <?php endforeach ?>
+                </td>
             </tr>
             <tr>
                 <td class="thead">Kawasan</td>
                 <td class="tspace">:</td>
-                <td class="zona"><?= $kawasan; ?></td>
+                <td class="zona">
+                    <?php foreach ($kawasan as $val) : ?>
+                        <?= $val; ?> <br>
+                    <?php endforeach ?>
+                </td>
             </tr>
             <tr>
                 <td class="thead">Kode</td>
                 <td class="tspace">:</td>
-                <td class="subzona"><?= $kode; ?></td>
+                <td class="subzona">
+                    <?php foreach ($kode as $val) : ?>
+                        <?= $val; ?> <br>
+                    <?php endforeach ?>
+                </td>
             </tr>
         </table>
     </div>
@@ -44,7 +58,7 @@ if ($hasil['features'] == null) {
 
         <div class="form-group">
             <label class="col-md-12 mb-2">Jenis Kegiatan</label>
-            <select class="form-select" id="pilihKegiatan" name="kegiatan" for="kegiatan" style="width: 100%;" required>
+            <select class="form-select" id="pilihKegiatan" name="kegiatan" for="kegiatan" style="width: 100%;" onchange="cek()" required>
                 <option></option>
                 <?php foreach ($jenisKegiatan as $K) : ?>
                     <option value="<?= $K->id_kegiatan; ?>"><?= $K->nama_kegiatan; ?></option>
@@ -54,8 +68,8 @@ if ($hasil['features'] == null) {
 
 
         <div class="feedback">Keterangan:</div>
-        <div class="info">
-            <div class="feedback" id="showKegiatan"> </div>
+        <div class="info_status">
+            <div class="" id="showKegiatan"> </div>
         </div>
 
         <button type="submit" id="lanjutKirim" class="btn btn-primary">Lanjutkan</button>

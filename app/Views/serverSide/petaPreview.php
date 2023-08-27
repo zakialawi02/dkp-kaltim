@@ -96,8 +96,8 @@
             var data = event.data;
             var counterK = event.data.selectedCounter;
             var jsonCoordinates = data.jsonCoordinates;
-            console.log(counterK);
-            console.log(jsonCoordinates);
+            // console.log(counterK);
+            // console.log(jsonCoordinates);
             vectorSource.clear();
             if (counterK < 2) {
                 var pointFeature = new ol.Feature({

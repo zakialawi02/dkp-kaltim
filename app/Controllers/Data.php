@@ -77,10 +77,9 @@ class Data extends BaseController
         if ($session != null) {
             $kegiatanId = $session['kegiatanValue'];
             $data = [
-                'title' => 'Pengajuan',
+                'title' => 'Pengajuan Informasi',
                 'tampilData' => $this->setting->tampilData()->getResult(),
                 'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
-                'jenisZona' => $this->kegiatan->getZonaByKegiatanAjax($kegiatanId),
             ];
 
             return view('page/ajuan', $data);
@@ -92,7 +91,6 @@ class Data extends BaseController
     {
         $data = [
             'kegiatanValue' => $this->request->getVar('kegiatan'),
-            'zonaValue' => $this->request->getVar('SubZona'),
             'geojson' => $this->request->getPost('geojson'),
         ];
         session()->setFlashdata('data', $data);
@@ -222,22 +220,60 @@ class Data extends BaseController
 
 
     // AJAX/SERVER SIDE
+    // public function cekData()
+    // {
+    //     $url = $this->request->getVar('ue');
+    //     $response = file_get_contents($url);
+    //     if ($response !== false) {
+    //         $jsonData = json_decode($response, true);
+    //     } else {
+    //         echo "Gagal mengambil data dari URL.";
+    //     }
+    //     $data = [
+    //         'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
+    //         'lon' => $this->request->getVar('lon'),
+    //         'lat' => $this->request->getVar('lat'),
+    //         'url' => $jsonData,
+    //     ];
+    //     // dd($data);
+    //     return view('serverSide/cekHasil', $data);
+    // }
+
     public function cekData()
     {
-        $url = $this->request->getVar('ue');
-        $response = file_get_contents($url);
-        if ($response !== false) {
-            $jsonData = json_decode($response, true);
-        } else {
-            echo "Gagal mengambil data dari URL.";
-        }
         $data = [
             'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
-            'lon' => $this->request->getVar('lon'),
-            'lat' => $this->request->getVar('lat'),
-            'url' => $jsonData,
+            'objectID' => $this->request->getPost('id'),
+            'kawasan' => $this->request->getPost('kawasan'),
+            'objectName' => $this->request->getPost('name'),
+            'kode' => $this->request->getPost('kode'),
+            'orde' => $this->request->getPost('orde'),
+            'remark' => $this->request->getPost('remark'),
         ];
+
+        // echo '<pre>';
+        // print_r($data);
+        // die;
         // dd($data);
         return view('serverSide/cekHasil', $data);
+    }
+
+    public function cekStatus()
+    {
+        $valKegiatan = $this->request->getPost('kegiatanName');
+        $fecthKegiatan = $this->kegiatan->getJenisKegiatan($valKegiatan)->getResult();
+
+        $response = [
+            'status' => 'Succes',
+            'valKegiatan' => $valKegiatan,
+            'fecthKegiatan' => $fecthKegiatan,
+            'kegiatanName' => $fecthKegiatan[0],
+            'kodeKegiatan' => $fecthKegiatan[0]->kode_kegiatan,
+        ];
+        // echo '<pre>';
+        // print_r($response);
+        // die;
+        // dd($data);
+        return $this->response->setJSON($response);
     }
 }

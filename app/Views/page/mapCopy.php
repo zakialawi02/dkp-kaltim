@@ -119,7 +119,7 @@
                             </div>
                             <div class="preview gap-2">
                                 <p>Preview:</p>
-                                <div class="previewMap" id="previewMap"> </div>
+                                <div class="previewMap" id="previewMap"><iframe src="/data/petaPreview" id="petaPreview" frameborder="0"></iframe></div>
                             </div>
                         </div>
                         <div class="col-sm-9 ">
@@ -133,7 +133,7 @@
                                 <div class="inputByFile d-none">
                                     <div class="mb-3">
                                         <label for="isiByFile" class="form-label">Dengan File</label>
-                                        <input type="file" class="form-control file-input" name="isiByFile" id="isiByFile" accept=".kmz,.topojson,.geojson,.gpx,.xlsx,.xls,.csv" aria-describedby="fileHelpId">
+                                        <input type="file" class="form-control file-input" name="isiByFile" id="isiByFile" accept=".kmz,.kml,.topojson,.geojson,.gpx,.xlsx,.xls,.csv" aria-describedby="fileHelpId">
                                         <div id="fileHelpId" class="form-text">Pilih file ...</div>
                                     </div>
                                 </div>
@@ -641,7 +641,6 @@
         // modaladd
         $('#modalAdd-button').click(function(e) {
             $('#modalAdd').show();
-            $("#previewMap").html('<iframe src="/data/petaPreview" id="petaPreview" frameborder="0"></iframe>');
         });
 
         $('#close-button').click(function(e) {
@@ -741,6 +740,26 @@
         });
     </script>
     <script>
+        function cek() {
+            var kegiatanName = $('#pilihKegiatan').val();
+            $(".info_status").html('<img src="/img/loading.gif">');
+            $.ajax({
+                    method: "POST",
+                    url: "<?= base_url('/data/cekStatus'); ?>",
+                    data: {
+                        kegiatanName
+                    },
+                    dataType: "json",
+                })
+                .done(function(response) {
+                    console.log(response);
+                })
+                .fail(function(error) {
+                    console.error('Error:', error);
+                })
+        }
+    </script>
+    <script>
         const opacitySlider = document.getElementById('transparansi-slider');
         noUiSlider.create(opacitySlider, {
             start: [0.8],
@@ -768,6 +787,8 @@
     <script src="https://cdn.jsdelivr.net/npm/ol@v7.4.0/dist/ol.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/elm-pep@1.0.6/dist/elm-pep.js"></script>
     <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v2.0.0/turf.min.js"></script>
+    <script src="/leaflet/catiline.js"></script>
+    <script src="https://unpkg.com/shpjs@latest/dist/shp.js"></script>
     <script src="/leaflet/turf.min.js"></script>
 
     <script type="text/javascript">
@@ -789,6 +810,7 @@
         var coordinates;
         var jsonCoordinates;
         var geojsonFeature;
+        var overlappingFeatures
         const KKPRL_Layer = [];
         const RZWP3K_Layer = [];
 
@@ -1105,28 +1127,149 @@
             }),
         });
 
-        function cekHasil(lon, lat, url) {
-            $('#modalCekHasil').show();
+        function modalLoading() {
             $("#div_hasilCek").html('<img src="/img/loading.gif">');
-            ue = encodeURIComponent(url);
-            if (url) {
-                var act = '/data/cekData?lon=' + lon + '&lat=' + lat + '&ue=' + ue;
-                $.ajax({
-                    url: act,
-                    success: function(data) {
-                        $('#div_hasilCek').html(data);
-                    },
-                    error: function(error) {
-                        console.error('Error:', error);
-                    }
-                });
-            }
+            $('#modalCekHasil').show();
         }
 
-        function cekHasil2() {
-            $("#div_hasilCek").html('<img src="/img/loading.gif">');
-            $('#modalCekHasil').show();
+        // function cekHasil(lon, lat, url) {
+
+        //     ue = encodeURIComponent(url);
+        //     if (url) {
+        //         var act = '/data/cekData?lon=' + lon + '&lat=' + lat + '&ue=' + ue;
+        //         $.ajax({
+        //             url: act,
+        //             success: function(data) {
+        //                 $('#div_hasilCek').html(data);
+        //             },
+        //             error: function(error) {
+        //                 console.error('Error:', error);
+        //             }
+        //         });
+        //     }
+        // }
+
+        function cekHasil(id, kawasan, name, kode, orde, remark) {
+            var act = "/data/cekData";
+            $.ajax({
+                url: act,
+                method: "POST",
+                data: {
+                    id,
+                    kawasan,
+                    name,
+                    kode,
+                    orde,
+                    remark,
+                },
+                dataType: "html",
+            }).done(function(data) {
+                var response = data;
+                console.log(response);
+                $('#div_hasilCek').html(data);
+            }).fail(function(error) {
+                console.error('Error:', error);
+            });
+
         }
+
+        function prosesDetectInput(drawn, type = "polygon") {
+            modalLoading();
+            overlappingFeatures = [];
+            if (type == "point") {
+                try {
+                    geoshp.features.forEach(function(layer) {
+                        var shapefileGeoJSON = layer;
+                        // console.log(shapefileGeoJSON);
+                        var geojsonFeature = turf.point(drawn);
+                        // console.log(geojsonFeature);
+                        var shapefilePoly = turf.polygon(shapefileGeoJSON.geometry.coordinates);
+                        // console.log(shapefilePoly);
+                        var inside = turf.booleanPointInPolygon(geojsonFeature, shapefilePoly);
+                        if (inside) {
+                            console.log('Overlap detected!');
+                            var overlappingFeature = {
+                                geometry: shapefileGeoJSON.geometry,
+                                properties: shapefileGeoJSON.properties,
+                            };
+                            // Tambahkan data ke dalam array overlappingFeatures
+                            overlappingFeatures.push(overlappingFeature);
+                        }
+                    });
+                } catch (error) {
+                    alert("Terjadi Kesalahan, Mohon Reload Browser");
+                }
+            } else if (type == "line") {
+                try {
+                    geoshp.features.forEach(function(layer) {
+                        var shapefileGeoJSON = layer;
+                        // console.log(shapefileGeoJSON);
+                        var geojsonFeature = turf.lineString(drawn);
+                        // console.log(geojsonFeature);
+                        var shapefilePoly = turf.polygon(shapefileGeoJSON.geometry.coordinates);
+                        // console.log(shapefilePoly);
+                        var intersect = turf.booleanIntersects(geojsonFeature, shapefilePoly);
+                        if (intersect) {
+                            console.log('Overlap detected!');
+                            var overlappingFeature = {
+                                geometry: shapefileGeoJSON.geometry,
+                                properties: shapefileGeoJSON.properties,
+                            };
+                            // Tambahkan data ke dalam array overlappingFeatures
+                            overlappingFeatures.push(overlappingFeature);
+                        }
+                    });
+                } catch (error) {
+                    alert("Terjadi Kesalahan, Mohon Reload Browser");
+                }
+            } else { //polygon
+                try {
+                    geoshp.features.forEach(function(layer) {
+                        var shapefileGeoJSON = layer;
+                        // console.log(shapefileGeoJSON);
+                        var geojsonFeature = turf.polygon(drawn);
+                        // console.log(geojsonFeature);
+                        var shapefilePoly = turf.polygon(shapefileGeoJSON.geometry.coordinates);
+                        // console.log(shapefilePoly);
+                        var overlap = turf.booleanOverlap(geojsonFeature, shapefilePoly);
+                        var within = turf.booleanWithin(geojsonFeature, shapefilePoly);
+                        console.log(overlap || within);
+                        if (overlap || within) {
+                            console.log('Overlap detected!');
+                            var overlappingFeature = {
+                                geometry: shapefileGeoJSON.geometry,
+                                properties: shapefileGeoJSON.properties,
+                            };
+                            // Tambahkan data ke dalam array overlappingFeatures
+                            overlappingFeatures.push(overlappingFeature);
+                        }
+                    });
+                } catch (error) {
+                    alert("Terjadi Kesalahan, Mohon Reload Browser");
+                }
+            }
+            console.log(overlappingFeatures);
+            var overlappingID = overlappingFeatures.map(function(feature) {
+                return feature.properties.OBJECTID;
+            });
+            var overlappingKawasan = overlappingFeatures.map(function(feature) {
+                return feature.properties.JNSRPR;
+            });
+            var overlappingObject = overlappingFeatures.map(function(feature) {
+                return feature.properties.NAMOBJ;
+            });
+            var overlappingKode = overlappingFeatures.map(function(feature) {
+                return feature.properties.KODKWS;
+            });
+            var overlappingOrde = overlappingFeatures.map(function(feature) {
+                return feature.properties.ORDE01;
+            });
+            var overlappingRemark = overlappingFeatures.map(function(feature) {
+                return feature.properties.REMARK;
+            });
+            cekHasil(overlappingID, overlappingKawasan, overlappingObject, overlappingKode, overlappingOrde, overlappingRemark);
+        }
+
         // klik lanjut
         $('#next_step').click(function() {
             coordinates = [];
@@ -1157,9 +1300,7 @@
             });
             console.log(jsonCoordinates);
             // console.log('Nilai Koordinat:', coordinates);
-            if (vectorSource) {
-                vectorSource.clear();
-            }
+            vectorSource.clear();
             var format = new ol.format.WKT();
             if (counterK < 2) {
                 var wkt = 'POINT (' + coordinates + ')';
@@ -1193,25 +1334,29 @@
                 duration: 1500,
             });
 
-            if (counterK == 1) {
-                const viewResolution = view.getResolution();
-                var coordinates3857 = jsonCoordinates.map(coordinate => ol.proj.transform(coordinate, 'EPSG:4326', 'EPSG:3857'));
-                var url = KKPRLALLsource.getFeatureInfoUrl(coordinates3857[0], viewResolution, 'EPSG:3857', {
-                    'INFO_FORMAT': 'application/json',
-                    FEATURE_COUNT: 1
-                });
-                var lon = coordinates3857[0][0];
-                var lat = coordinates3857[0][1];
-                cekHasil(lon, lat, url)
+            if (counterK < 2) {
+                // const viewResolution = view.getResolution();
+                // var coordinates3857 = jsonCoordinates.map(coordinate => ol.proj.transform(coordinate, 'EPSG:4326', 'EPSG:3857'));
+                // var url = KKPRLALLsource.getFeatureInfoUrl(coordinates3857[0], viewResolution, 'EPSG:3857', {
+                //     'INFO_FORMAT': 'application/json',
+                //     FEATURE_COUNT: 1
+                // });
+                // var lon = coordinates3857[0][0];
+                // var lat = coordinates3857[0][1];
+                // modalLoading();
+                // cekHasil(lon, lat, url);
+                prosesDetectInput(jsonCoordinates[0], "point");
+            } else if (counterK > 2) {
+                prosesDetectInput(jsonCoordinates, "polygon");
             } else {
-                cekHasil2()
+                prosesDetectInput(jsonCoordinates, "line");
             }
 
 
         });
 
         $('#isi_koordinat').keyup(function(e) {
-            const iframe = document.getElementById("petaPreview");
+
             coordinates = [];
             jsonCoordinates = [];
             geojsonFeature = [];
@@ -1237,6 +1382,7 @@
                     jsonCoordinates.push([longitudeInput, latitudeInput]);
                 }
             });
+            const iframe = document.getElementById("petaPreview");
             iframe.contentWindow.postMessage({
                 jsonCoordinates,
                 selectedCounter,
@@ -1249,9 +1395,7 @@
                 map.removeInteraction(drawInteraction);
             }
             map.getViewport().style.cursor = "crosshair"
-            if (vectorSource) {
-                vectorSource.clear();
-            }
+            vectorSource.clear();
             var drawedVector = new ol.layer.Vector({
                 source: vectorSource,
                 style: polygonStyle,
@@ -1263,57 +1407,109 @@
             drawInteraction.on('drawend', function(event) {
                 var drawnFeature = event.feature;
                 jsonCoordinates = drawnFeature.getGeometry().getCoordinates();
-                console.log('Koordinat polygon yang digambar:', jsonCoordinates);
+                // console.log('Koordinat polygon yang digambar:', jsonCoordinates);
                 var polygonFeature = new ol.Feature({
                     geometry: new ol.geom.Polygon(jsonCoordinates)
                 });
                 vectorSource.addFeature(polygonFeature);
                 map.removeInteraction(drawInteraction);
+
+
                 jsonCoordinates = drawnFeature.getGeometry();
                 jsonCoordinates.transform('EPSG:3857', 'EPSG:4326');
                 jsonCoordinates = jsonCoordinates.getCoordinates();
-                console.log('Koordinat polygon yang digambar:', jsonCoordinates);
-                var geojsonFeature = turf.polygon(jsonCoordinates);
-                cekHasil2();
+                // console.log('Koordinat polygon yang digambar:', jsonCoordinates);
                 map.getViewport().style.cursor = "grab"
+                prosesDetectInput(jsonCoordinates, "polygon");
             });
             map.addInteraction(drawInteraction);
             map.addLayer(drawedVector);
         }
 
 
-        map.on('singleclick', function(evt) {
-            const viewResolution = view.getResolution();
-            const coordinate = evt.coordinate;
-            const projection = view.getProjection();
-            console.log(coordinate);
-            console.log(projection);
-            KKPRL_Layer.forEach(layer => {
-                const url = layer.getSource().getFeatureInfoUrl(
-                    coordinate,
-                    viewResolution,
-                    projection, {
-                        INFO_FORMAT: 'application/json',
-                        FEATURE_COUNT: 1
-                    }
-                );
 
-                if (url) {
-                    fetch(url)
-                        .then(response => response.json())
-                        .then(data => {
-                            // Di sini Anda dapat memanipulasi data respons JSON
-                            // untuk mengambil atribut yang Anda butuhkan.
+        let geoshp;
+        // // Membaca dan memproses file shapefile
+        // // shp('<?= base_url('/geojson/KKPRL_RTRW.zip'); ?> ').then(function(geojson) {
+        // shp('http://localhost:8080/geojson/KKPRL_RTRW.zip').then(function(data) {
+        //     geoshp = data;
+        //     console.log(geoshp);
+        //     addTogeoshp(geoshp);
 
-                            if (data.features.length > 0) {
-                                console.log(data); // Tampilkan data JSON di konsol
-                                const attributes = data.features[0].properties;
-                                console.log(attributes); // Tampilkan atribut fitur di konsol
-                            }
-                        })
-                }
+        //     var format = new ol.format.GeoJSON();
+        //     var features = format.readFeatures(geoshp);
+        //     features.forEach(function(feature) {
+        //         feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
+        //     });
+
+        //     var vectorSource = new ol.source.Vector({
+        //         features: features
+        //     });
+        //     var vectorLayer = new ol.layer.Vector({
+        //         source: vectorSource,
+        //         style: polygonStyle
+        //     });
+        //     map.addLayer(vectorLayer);
+        // }).catch(function(error) {
+        //     console.error("Error processing shapefile:", error);
+        // });
+
+        // function addTogeoshp(data) {
+        //     console.log("Var Global:", data);
+        // }
+
+        try {
+            var wfunc = function(base, cb) {
+                importScripts('https://unpkg.com/shpjs@latest/dist/shp.js');
+                shp(base).then(cb);
+            }
+            var worker = cw({
+                data: wfunc
+            }, 2);
+            worker.data(cw.makeUrl('/geojson/KKPRL_RTRW_KALTIM_05_01_2023_AR_OK_Explode.zip')).then(function(data) {
+                geoshp = data;
+                console.log("Var Global:", data);
+            }, function(a) {
+                console.log(a)
             });
-        });
+        } catch (error) {
+            console.log(`error: ${error}`);
+        }
+
+
+
+        // map.on('singleclick', function(evt) {
+        //     const viewResolution = view.getResolution();
+        //     const coordinate = evt.coordinate;
+        //     const projection = view.getProjection();
+        //     console.log(coordinate);
+        //     console.log(projection);
+        //     KKPRL_Layer.forEach(layer => {
+        //         const url = layer.getSource().getFeatureInfoUrl(
+        //             coordinate,
+        //             viewResolution,
+        //             projection, {
+        //                 INFO_FORMAT: 'application/json',
+        //                 FEATURE_COUNT: 1
+        //             }
+        //         );
+
+        //         if (url) {
+        //             fetch(url)
+        //                 .then(response => response.json())
+        //                 .then(data => {
+        //                     // Di sini Anda dapat memanipulasi data respons JSON
+        //                     // untuk mengambil atribut yang Anda butuhkan.
+
+        //                     if (data.features.length > 0) {
+        //                         console.log(data); // Tampilkan data JSON di konsol
+        //                         const attributes = data.features[0].properties;
+        //                         console.log(attributes); // Tampilkan atribut fitur di konsol
+        //                     }
+        //                 })
+        //         }
+        //     });
+        // });
 
         // mouse coordinate show
         const mousePositionControl = new ol.control.MousePosition({
@@ -1339,17 +1535,16 @@
 
 
         $('#isiByFile').change(function(e) {
+            var selectedCounter;
             const file = e.target.files[0];
             const reader = new FileReader();
             jsonCoordinates = [];
-            if (vectorSource) {
-                vectorSource.clear();
-            }
-            const readFilePromise = new Promise((resolve, reject) => {
+            vectorSource.clear();
+            const readFile = new Promise((resolve, reject) => {
                 reader.onload = function(event) {
                     const fileName = file.name;
-                    const fileExtension = fileName.split('.').pop();
-                    if (fileExtension == 'xlsx' || fileExtension == 'xls' || fileExtension == 'csv') {
+                    const getExtension = fileName.split('.').pop();
+                    if (getExtension == 'xlsx' || getExtension == 'xls' || getExtension == 'csv') {
                         const data = new Uint8Array(event.target.result);
                         const workbook = XLSX.read(data, {
                             type: 'array'
@@ -1361,18 +1556,37 @@
                         });
                         var dataArr = [json][0];
                         dataArr.shift();
-                        if (dataArr.length < 2) {
-                            console.log(dataArr);
+                        selectedCounter = dataArr.length;
+                        if (selectedCounter < 2) {
                             jsonCoordinates = [dataArr[0].slice(1, 3)];
+                            var pointFeature = new ol.Feature({
+                                geometry: new ol.geom.Point(ol.proj.fromLonLat(jsonCoordinates[0]))
+                            });
+                            vectorSource.addFeature(pointFeature);
+                            styleDraw = markerStyle;
                         } else {
                             dataArr.push(dataArr[0]);
                             for (let index = 0; index < dataArr.length; index++) {
                                 var coord = dataArr[index].slice(1, 3);
                                 jsonCoordinates.push(coord);
                             }
+                            var polygonFeature = new ol.Feature({
+                                geometry: new ol.geom.Polygon([jsonCoordinates.map(coordinate => ol.proj.transform(coordinate, 'EPSG:4326', 'EPSG:3857'))])
+                            });
+                            vectorSource.addFeature(polygonFeature);
+                            styleDraw = polygonStyle;
                         }
+                        const iframe = document.getElementById("petaPreview");
+                        iframe.contentWindow.postMessage({
+                            jsonCoordinates,
+                            selectedCounter,
+                        }, '<?= base_url('/data/petaPreview'); ?>');
                     } else {
                         alert("File Belum Support");
+
+
+
+
                     }
                     resolve(); // Selesaikan Promise saat selesai membaca file.
                 };
@@ -1385,25 +1599,13 @@
                 }
             });
 
-            readFilePromise.then(() => {
+            readFile.then(() => {
                 var drawedVector = new ol.layer.Vector({
                     source: vectorSource,
                     style: styleDraw,
                 });
                 map.addLayer(drawedVector);
-                if (jsonCoordinates.length < 2) {
-                    const viewResolution = view.getResolution();
-                    var coordinates3857 = jsonCoordinates.map(coordinate => ol.proj.transform(coordinate, 'EPSG:4326', 'EPSG:3857'));
-                    var url = KKPRLALLsource.getFeatureInfoUrl(coordinates3857[0], viewResolution, 'EPSG:3857', {
-                        'INFO_FORMAT': 'application/json',
-                        FEATURE_COUNT: 1
-                    });
-                    var lon = coordinates3857[0][0];
-                    var lat = coordinates3857[0][1];
-                    cekHasil(lon, lat, url);
-                } else {
-                    cekHasil2();
-                }
+
             }).catch(error => {
                 console.error('Error:', error);
             });
