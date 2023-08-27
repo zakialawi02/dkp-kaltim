@@ -525,7 +525,7 @@
     <script src="/leaflet/leaflet.contextmenu.js"></script>
     <script src="/leaflet/catiline.js"></script>
     <script src="/leaflet/leaflet.shpfile.js"></script>
-    <script src="/leaflet/shp.js"></script>
+    <script src="https://unpkg.com/shpjs@latest/dist/shp.js"></script>
     <script src="/leaflet/leaflet-hash.js"></script>
     <script src="/leaflet/Leaflet.NavBar.js"></script>
     <script src="/leaflet/turf.min.js"></script>
@@ -774,7 +774,7 @@
         });
 
         var wfunc = function(base, cb) {
-            importScripts('/leaflet/shp.js');
+            importScripts('https://unpkg.com/shpjs@latest/dist/shp.js');
             shp(base).then(cb);
         }
         var worker = cw({
@@ -782,6 +782,7 @@
         }, 2);
         worker.data(cw.makeUrl('/geojson/RZ50K_AR_REVISIMAR_2021_FIX_29_Maret_warna.zip')).then(function(data) {
             geoshp.addData(data).addTo(map);
+            console.log("Var Global:", data);
         }, function(a) {
             console.log(a)
         });

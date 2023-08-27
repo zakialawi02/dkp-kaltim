@@ -11,7 +11,7 @@ class ModelJenisKegiatan extends Model
     protected $primaryKey = 'id_kegiatan';
     protected $returnType     = 'array';
 
-    protected $allowedFields = ['nama_kegiatan'];
+    protected $allowedFields = ['nama_kegiatan', 'kode_kegiatan'];
 
     function __construct()
     {
@@ -100,13 +100,5 @@ class ModelJenisKegiatan extends Model
 
 
     // AJAX Remote Dropdown
-    public function getZonaByKegiatanAjax($kegiatanId)
-    {
-        return $this->db->table('tbl_izin_zonasi')
-            ->select('tbl_izin_zonasi.*, tbl_kegiatan.*, tbl_zona_pemanfaatan.*')
-            ->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan = tbl_izin_zonasi.id_kegiatan', 'LEFT')
-            ->join('tbl_zona_pemanfaatan', 'tbl_zona_pemanfaatan.id_sub = tbl_izin_zonasi.id_sub', 'LEFT')
-            ->where('tbl_izin_zonasi.id_kegiatan', $kegiatanId)
-            ->get()->getResultArray();
-    }
+
 }
