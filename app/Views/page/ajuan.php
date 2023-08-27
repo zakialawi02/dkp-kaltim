@@ -103,7 +103,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-md-12 mb-2" for="SubZona">Zona</label>
+                                    <label class="col-md-12 mb-2" for="SubZona">Zona Tercakup</label>
 
                                 </div>
 
