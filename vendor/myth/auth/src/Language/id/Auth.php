@@ -28,9 +28,9 @@ return [
     'errorSendingActivation' => 'Gagal mengirim pesan aktivasi ke: {0}',
 
     // Login
-    'badAttempt'      => 'Tidak dapat memasukkan Anda. Harap periksa kredensial Anda.',
+    'badAttempt'      => 'Gagal Masuk. Harap periksa kredensial Anda.',
     'loginSuccess'    => 'Selamat datang kembali!',
-    'invalidPassword' => 'Tidak dapat memasukkan Anda. Harap periksa kata sandi Anda.',
+    'invalidPassword' => 'Gagal Masuk. Harap periksa kata sandi Anda.',
 
     // Forgotten Passwords
     'forgotDisabled'  => 'Opsi pengaturan ulang kata sandi telah dinonaktifkan.',

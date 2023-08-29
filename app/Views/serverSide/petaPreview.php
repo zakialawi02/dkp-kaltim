@@ -15,8 +15,7 @@
 
         #mymap {
             height: 100vh;
-            width: 97%;
-            padding-right: 1rem;
+            width: 100%;
         }
     </style>
 
