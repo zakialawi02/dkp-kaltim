@@ -12758,11 +12758,11 @@ body {
 }
 
 #layoutSidenav #layoutSidenav_nav {
-    flex-basis: 225px;
+    flex-basis: 300px;
     flex-shrink: 0;
     transition: transform 0.15s ease-in-out;
     z-index: 1038;
-    transform: translateX(-225px);
+    transform: translateX(-300px);
 }
 
 #layoutSidenav #layoutSidenav_content {
@@ -12773,7 +12773,7 @@ body {
     min-width: 0;
     flex-grow: 1;
     min-height: calc(100vh - 56px);
-    margin-left: -225px;
+    margin-left: -300px;
 }
 
 .sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
@@ -12805,11 +12805,11 @@ body {
     }
 
     .sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
-        transform: translateX(-225px);
+        transform: translateX(-300px);
     }
 
     .sb-sidenav-toggled #layoutSidenav #layoutSidenav_content {
-        margin-left: -225px;
+        margin-left: -300px;
     }
 
     .sb-sidenav-toggled #layoutSidenav #layoutSidenav_content:before {
@@ -12822,7 +12822,7 @@ body {
 }
 
 .sb-nav-fixed #layoutSidenav #layoutSidenav_nav {
-    width: 225px;
+    width: 300px;
     height: 100vh;
     z-index: 1038;
 }
@@ -12836,7 +12836,7 @@ body {
 }
 
 .sb-nav-fixed #layoutSidenav #layoutSidenav_content {
-    padding-left: 225px;
+    padding-left: 300px;
     top: 56px;
 }
 
@@ -12871,7 +12871,7 @@ body {
 }
 
 .sb-topnav .navbar-brand {
-    width: 225px;
+    width: 300px;
     margin: 0;
 }
 

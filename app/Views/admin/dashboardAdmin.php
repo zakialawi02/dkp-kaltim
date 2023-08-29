@@ -212,7 +212,7 @@ $countAllTolak = count($allDataTolak);
                                                     </tbody>
                                                 </table>
 
-                                                <a type="button" class="btn btn-primary" href="/admin/data/data-permohonan">Lihat Lebih Banyak</a>
+                                                <a type="button" class="btn btn-primary" href="/admin/data/permohonan/disetujui/semua">Lihat Lebih Banyak</a>
                                             </div>
 
                                         </div>

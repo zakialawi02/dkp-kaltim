@@ -54,8 +54,14 @@ $routes->get('/admin/features/edit/(:num)', 'Admin::editGeojson/$1', ['filter' =
 $routes->delete('/admin/delete_Geojson/(:num)', 'Admin::delete_Geojson/$1', ['filter' => 'role:SuperAdmin,Admin']);
 
 $routes->get('/admin/data/(:any)/lihat/(:num)/(:any)', 'Admin::periksaDataPermohonan/$1/$2/$3', ['filter' => 'role:SuperAdmin,Admin,User']);
-$routes->get('/admin/DataPerizinan', 'Admin::DataPerizinan', ['filter' => 'role:SuperAdmin,Admin']);
-$routes->get('/admin/data/data-permohonan', 'Admin::DataPerizinan', ['filter' => 'role:SuperAdmin,Admin']);
+$routes->get('/admin/DataPerizinanDisetujuiSemua', 'Admin::DataPerizinanDisetujuiSemua', ['filter' => 'role:SuperAdmin,Admin']);
+$routes->get('/admin/data/permohonan/disetujui/semua', 'Admin::DataPerizinanDisetujuiSemua', ['filter' => 'role:SuperAdmin,Admin']);
+$routes->get('/admin/DataPerizinanDisetujuiDenganLampiran', 'Admin::DataPerizinanDisetujuiDenganLampiran', ['filter' => 'role:SuperAdmin,Admin']);
+$routes->get('/admin/data/permohonan/disetujui/terlampir', 'Admin::DataPerizinanDisetujuiDenganLampiran', ['filter' => 'role:SuperAdmin,Admin']);
+$routes->get('/admin/DataPerizinanDisetujuiTanpaLampiran', 'Admin::DataPerizinanDisetujuiTanpaLampiran', ['filter' => 'role:SuperAdmin,Admin']);
+$routes->get('/admin/data/permohonan/disetujui/', 'Admin::DataPerizinanDisetujuiTanpaLampiran', ['filter' => 'role:SuperAdmin,Admin']);
+$routes->get('/admin/DataPerizinanTidakDisetujui', 'Admin::DataPerizinanTidakDisetujui', ['filter' => 'role:SuperAdmin,Admin']);
+$routes->get('/admin/data/permohonan/tidak-disetujui/semua', 'Admin::DataPerizinanTidakDisetujui', ['filter' => 'role:SuperAdmin,Admin']);
 $routes->get('/data-permohonan/(:num)/detail', 'Data::detail/$1');
 $routes->get('/data-permohonan/(:num)/edit/', 'Admin::editPerizinan/$1', ['filter' => 'role:SuperAdmin,Admin,User']);
 $routes->get('/admin/kegiatan/', 'Admin::kegiatan', ['filter' => 'role:SuperAdmin,Admin']);

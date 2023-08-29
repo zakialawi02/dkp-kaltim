@@ -158,7 +158,7 @@
                                                                                         </form>
                                                                                     </div>
                                                                                     <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="lihat data">
-                                                                                        <a type="button" role="button" href="/admin/data/<?= ($pIzin->stat_appv == '1') ? 'telah-disetujui' : 'tidak-disetujui'; ?>/lihat/<?= $pIzin->id_perizinan; ?>/<?= $pIzin->nama; ?>/" class="asbn btn btn-secondary bi bi-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Lihat" target="_blank"></a>
+                                                                                        <a type="button" role="button" href="/admin/data/<?= ($pIzin->stat_appv == '1') ? 'telah-disetujui' : (($pIzin->stat_appv == '0') ? 'menunggu-jawaban' : 'tidak-disetujui'); ?>/lihat/<?= $pIzin->id_perizinan; ?>/<?= $pIzin->nama; ?>/" class="asbn btn btn-secondary bi bi-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Lihat" target="_blank"></a>
                                                                                     </div>
                                                                                 </td>
                                                                             </tr>

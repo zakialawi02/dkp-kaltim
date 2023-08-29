@@ -20,15 +20,18 @@
                 <?php if (in_groups('SuperAdmin') || in_groups('Admin')) :; ?>
                     <div class="sb-sidenav-menu-heading">Data</div>
 
-                    <a class="nav-link collapsed" href="/admin/data/data-permohonan" data-bs-toggle="collapse" data-bs-target="#collapseKafe" aria-expanded="false" aria-controls="collapseKafe">
+                    <a class="nav-link collapsed" href="/admin/data/permohonan/disetujui/semua" data-bs-toggle="collapse" data-bs-target="#collapseKafe" aria-expanded="false" aria-controls="collapseKafe">
                         <div class="sb-nav-link-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
                         Informasi Ruang Laut
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
                     <div class="collapse" id="collapseKafe" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <div class="sb-sidenav-menu-nested nav">
-                            <!-- <a class="nav-link" href="/admin/data/data-permohonan/tambah">Add Data</a> -->
-                            <a class="nav-link" href="/admin/data/data-permohonan">Semua Data</a>
+                            <!-- <a class="nav-link" href="/admin/data/permohonan/disetujui/semua/tambah">Add Data</a> -->
+                            <a class="nav-link" href="/admin/data/permohonan/disetujui/semua">Semua Data Disetujui</a>
+                            <a class="nav-link" href="/admin/data/permohonan/disetujui/terlampir">Data Disetujui Dengan Lampiran</a>
+                            <a class="nav-link" href="/admin/data/permohonan/disetujui/">Data Disetujui Tanpa Lampiran</a>
+                            <a class="nav-link" href="/admin/data/permohonan/tidak-disetujui/semua">Semua Data Tidak Disetujui</a>
                         </div>
                     </div>
 

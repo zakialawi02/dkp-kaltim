@@ -661,12 +661,6 @@
         $('#close-button2').click(function(e) {
             $('#modalCekHasil').hide();
         });
-
-        window.addEventListener("click", function(event) {
-            if (event.target == modal2) {
-                $('#modalCekHasil').hide();
-            }
-        });
     </script>
     <!-- login/logout -->
     <script>
@@ -781,7 +775,6 @@
     </script>
 
 
-
     <!-- Open Layers Component -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/ol@v7.4.0/dist/ol.js"></script>
@@ -819,7 +812,7 @@
         const KKPRLALLsource = new ol.source.TileWMS({
             url: 'https://sipetarungkaltim.zakialawi.my.id/geoserver/KKPRL/wms',
             params: {
-                'LAYERS': 'KKPRL:KKPRL_RTRW_KALTIM_05_01_2023_AR_OKk',
+                'LAYERS': 'KKPRL:KKPRL_RTRW_KALTIM_10_03_2023_AR_FIX',
                 'TILED': true
             },
             serverType: 'geoserver',
@@ -965,10 +958,10 @@
             'Zona_Permukiman',
             'Zona_Pertahanan_dan_Keamanan',
             'Zona_Pertambangan_Minyak_dan_Gas_Bumi',
-            'Jaringan_Minyak_dan_Gas_Bumi',
-            'Jaringan_Tetap',
+            'Sistem_Jaringan_Energi',
+            'Sistem_Jaringan_Telekomunikasi',
         ];
-        const layersToShow = ['Zona_Perikanan_Tangkap', 'Jaringan_Minyak_dan_Gas_Bumi', 'Jaringan_Tetap'];
+        const layersToShow = ['Zona_Perikanan_Tangkap', 'Sistem_Jaringan_Energi', 'Sistem_Jaringan_Telekomunikasi'];
         // Loop untuk menambahkan setiap lapisan WMS ke dalam objek peta
         for (const layerName of RZWP3KLayerNames) {
             const wmsSource = new ol.source.TileWMS({
@@ -1149,7 +1142,15 @@
         //     }
         // }
 
-        function cekHasil(id, kawasan, name, kode, orde, remark) {
+        function kirim() {
+            let valueKegiatan = $("#pilihKegiatan").val();
+            let geojson = geojsonFeature;
+            let getOverlap = overlappingFeatures;
+            $("#geojson").val(JSON.stringify(geojson));
+            $("#getOverlap").val(JSON.stringify(getOverlap));
+        }
+
+        function cekHasil(id, kawasan, name, kode, orde, remark, geojson) {
             var act = "/data/cekData";
             $.ajax({
                 url: act,
@@ -1161,19 +1162,18 @@
                     kode,
                     orde,
                     remark,
+                    geojsonFeature,
                 },
                 dataType: "html",
-            }).done(function(data) {
-                var response = data;
-                console.log(response);
-                $('#div_hasilCek').html(data);
+            }).done(function(response) {
+                // console.log(response);
+                $('#div_hasilCek').html(response);
             }).fail(function(error) {
                 console.error('Error:', error);
             });
-
         }
 
-        function prosesDetectInput(drawn, type = "polygon") {
+        function prosesDetectInput(drawn, type = "polygon", geojson) {
             modalLoading();
             overlappingFeatures = [];
             if (type == "point") {
@@ -1233,7 +1233,6 @@
                         // console.log(shapefilePoly);
                         var overlap = turf.booleanOverlap(geojsonFeature, shapefilePoly);
                         var within = turf.booleanWithin(geojsonFeature, shapefilePoly);
-                        console.log(overlap || within);
                         if (overlap || within) {
                             console.log('Overlap detected!');
                             var overlappingFeature = {
@@ -1267,7 +1266,7 @@
             var overlappingRemark = overlappingFeatures.map(function(feature) {
                 return feature.properties.REMARK;
             });
-            cekHasil(overlappingID, overlappingKawasan, overlappingObject, overlappingKode, overlappingOrde, overlappingRemark);
+            cekHasil(overlappingID, overlappingKawasan, overlappingObject, overlappingKode, overlappingOrde, overlappingRemark, geojson);
         }
 
         // klik lanjut
@@ -1304,16 +1303,16 @@
             var format = new ol.format.WKT();
             if (counterK < 2) {
                 var wkt = 'POINT (' + coordinates + ')';
-                var geojsonFeature = turf.point([jsonCoordinates[0][0], jsonCoordinates[0][1]]);
+                geojsonFeature = turf.point([jsonCoordinates[0][0], jsonCoordinates[0][1]]);
                 styleDraw = markerStyle;
             } else if (counterK > 2) {
                 var wkt = 'POLYGON ((' + coordinates + ',' + coordinates[0] + '))';
                 jsonCoordinates.push(jsonCoordinates[0]);
-                var geojsonFeature = turf.polygon([jsonCoordinates]);
+                geojsonFeature = turf.polygon([jsonCoordinates]);
                 styleDraw = polygonStyle;
             } else {
                 var wkt = 'LINESTRING (' + coordinates + ')';
-                var geojsonFeature = turf.lineString(jsonCoordinates);
+                geojsonFeature = turf.lineString(jsonCoordinates);
                 styleDraw = lineStyle;
             }
             // console.log(geojsonFeature);
@@ -1331,7 +1330,6 @@
             map.getView().fit(extent, {
                 padding: [100, 100, 100, 100],
                 minResolution: map.getView().getResolutionForZoom(13),
-                duration: 1500,
             });
 
             if (counterK < 2) {
@@ -1345,11 +1343,11 @@
                 // var lat = coordinates3857[0][1];
                 // modalLoading();
                 // cekHasil(lon, lat, url);
-                prosesDetectInput(jsonCoordinates[0], "point");
+                prosesDetectInput(jsonCoordinates[0], "point", geojsonFeature);
             } else if (counterK > 2) {
-                prosesDetectInput(jsonCoordinates, "polygon");
+                prosesDetectInput([jsonCoordinates], "polygon", geojsonFeature);
             } else {
-                prosesDetectInput(jsonCoordinates, "line");
+                prosesDetectInput(jsonCoordinates, "line", geojsonFeature);
             }
 
 
@@ -1419,8 +1417,9 @@
                 jsonCoordinates.transform('EPSG:3857', 'EPSG:4326');
                 jsonCoordinates = jsonCoordinates.getCoordinates();
                 // console.log('Koordinat polygon yang digambar:', jsonCoordinates);
+                geojsonFeature = turf.polygon(jsonCoordinates);
                 map.getViewport().style.cursor = "grab"
-                prosesDetectInput(jsonCoordinates, "polygon");
+                prosesDetectInput(jsonCoordinates, "polygon", geojsonFeature);
             });
             map.addInteraction(drawInteraction);
             map.addLayer(drawedVector);
@@ -1466,7 +1465,7 @@
             var worker = cw({
                 data: wfunc
             }, 2);
-            worker.data(cw.makeUrl('/geojson/KKPRL_RTRW_KALTIM_05_01_2023_AR_OK_Explode.zip')).then(function(data) {
+            worker.data(cw.makeUrl('/geojson/KKPRL_RTRW_KALTIM_10_03_2023_AR_FIX_EXPLODE.zip')).then(function(data) {
                 geoshp = data;
                 console.log("Var Global:", data);
             }, function(a) {

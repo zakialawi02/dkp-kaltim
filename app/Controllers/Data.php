@@ -75,7 +75,6 @@ class Data extends BaseController
     {
         $session = session()->getFlashdata('data');
         if ($session != null) {
-            $kegiatanId = $session['kegiatanValue'];
             $data = [
                 'title' => 'Pengajuan Informasi',
                 'tampilData' => $this->setting->tampilData()->getResult(),
@@ -89,37 +88,56 @@ class Data extends BaseController
 
     public function isiAjuan()
     {
+        // dd($this->request->getPost());
+
         $data = [
             'kegiatanValue' => $this->request->getVar('kegiatan'),
             'geojson' => $this->request->getPost('geojson'),
+            'getOverlap' => $this->request->getPost('getOverlap'),
         ];
         session()->setFlashdata('data', $data);
         // echo '<pre>';
         // print_r($data);
         // die;
-        return redirect()->to('data/pengajuan');
+        return redirect()->to('/data/pengajuan');
     }
 
     public function tambahAjuan()
     {
         // dd($this->request->getVar());
+
+        $files = $this->request->getFiles();
+        // dd($files);
+        $uploadFiles = null;
+        if (!empty($files['filepond']) && count(array_filter($files['filepond'], function ($file) {
+            return $file->isValid() && !$file->hasMoved();
+        }))) {
+            $uploadFiles = [];
+            foreach ($files['filepond'] as $key => $file) {
+                if ($file->isValid() && !$file->hasMoved()) {
+                    $originalName = $file->getClientName();
+                    $uploadFiles[] = $originalName;
+                    $file->move('dokumen/upload-dokumen/', $originalName);
+                }
+            }
+        }
+
         $user = user_id();
         $data = [
             'nik' => $this->request->getVar('nik'),
+            'nib' => $this->request->getVar('nib'),
             'nama' => $this->request->getVar('nama'),
             'alamat' => $this->request->getVar('alamat'),
             'kontak' => $this->request->getVar('kontak'),
             'id_kegiatan' => $this->request->getVar('kegiatan'),
-            'id_sub' => $this->request->getVar('SubZona'),
-            'longitude' => $this->request->getVar('longitude'),
-            'latitude' => $this->request->getVar('latitude'),
-            'polygon' => $this->request->getVar('drawPolygon'),
+            'lokasi' => $this->request->getVar('drawFeatures'),
+            'uploadFiles' => $uploadFiles,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ];
-        $addIzin =  $this->izin->addIzin($data);
+        // dd($data);
+        $addPengajuan =  $this->izin->addPengajuan($data);
         $insert_id = $this->db->insertID();
-
         $stat_appv = 0;
         $status = [
             'id_perizinan' => $insert_id,
@@ -128,12 +146,13 @@ class Data extends BaseController
         ];
         $addStatus = $this->izin->addStatus($status);
 
-        if ($addIzin && $addStatus) {
+
+        if ($addPengajuan && $addStatus) {
             session()->setFlashdata('success', 'Data Berhasil ditambahkan.');
             return $this->response->redirect(site_url('/dashboard'));
         } else {
             session()->setFlashdata('error', 'Gagal menambahkan data.');
-            return $this->response->redirect(site_url('/dashboard'));
+            return $this->response->redirect(site_url('/map'));
         }
     }
 
@@ -169,14 +188,14 @@ class Data extends BaseController
             if (in_groups('User')) {
                 return $this->response->redirect(site_url('/dashboard'));
             } else {
-                return $this->response->redirect(site_url('/admin/data/data-permohonan'));
+                return $this->response->redirect(site_url('/admin/data/permohonan/disetujui/semua'));
             }
         } else {
             session()->setFlashdata('error', 'Gagal memperbarui data.');
             if (in_groups('User')) {
                 return $this->response->redirect(site_url('/dashboard'));
             } else {
-                return $this->response->redirect(site_url('/admin/data/data-permohonan'));
+                return $this->response->redirect(site_url('/admin/data/permohonan/disetujui/semua'));
             }
         }
     }
@@ -249,6 +268,7 @@ class Data extends BaseController
             'kode' => $this->request->getPost('kode'),
             'orde' => $this->request->getPost('orde'),
             'remark' => $this->request->getPost('remark'),
+            'geojsonFeature' => $this->request->getPost('geojsonFeature'),
         ];
 
         // echo '<pre>';
