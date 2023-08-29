@@ -11,7 +11,7 @@ class ModelIzin extends Model
     protected $primaryKey = 'id_perizinan';
     protected $returnType     = 'array';
 
-    protected $allowedFields = ['nik', 'nama', 'kontak', 'longitude', 'latitude', 'id_kegiatan', 'stat_appv', 'id_sub'];
+    protected $allowedFields = ['nik', 'nib', 'nama', 'kontak', 'alamat', 'lokasi', 'id_kegiatan', 'uploadFiles', 'created_at', 'updated_at'];
 
     function __construct()
     {
@@ -38,7 +38,7 @@ class ModelIzin extends Model
     }
 
 
-    function getIzin($id_perizinan = false)
+    function getIzin($id_perizinan = false, $status = "1")
     {
         if ($id_perizinan === false) {
             return $this->db->table('tbl_perizinan')->select('tbl_perizinan.*, tbl_status_appv.*, users.username, tbl_kegiatan.*')
@@ -46,7 +46,7 @@ class ModelIzin extends Model
                 ->join('tbl_status_appv', 'tbl_status_appv.id_perizinan = tbl_perizinan.id_perizinan', 'LEFT')
                 ->join('users', 'users.id = tbl_status_appv.user')
                 ->orderBy('updated_at', 'DESC')
-                ->getWhere(['stat_appv' => '1']);
+                ->getWhere(['stat_appv' => $status]);
         } else {
             return $this->db->table('tbl_perizinan')->select('tbl_perizinan.*, tbl_status_appv.*, users.username, tbl_kegiatan.*')
                 ->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan = tbl_perizinan.id_kegiatan', 'LEFT')
@@ -98,9 +98,9 @@ class ModelIzin extends Model
             ->getWhere(['user' => $userid]);
     }
 
-    function addIzin($addIzin)
+    function addPengajuan($addPengajuan)
     {
-        return  $this->db->table('tbl_perizinan')->insert($addIzin);
+        return  $this->db->table('tbl_perizinan')->insert($addPengajuan);
     }
 
     public function updateIzin($data, $id_perizinan)

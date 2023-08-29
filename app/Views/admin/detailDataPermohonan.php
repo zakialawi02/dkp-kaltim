@@ -49,7 +49,7 @@
                     <div class="alert alert-<?= ($tampilDataIzin->stat_appv == 0) ? 'warning' : 'secondary'; ?> d-flex align-items-center" role="alert">
                         <div>
                             <i class="bi <?= ($tampilDataIzin->stat_appv == 0) ? 'bi-exclamation-triangle' : 'bi-check2-circle'; ?> " style="font-size: x-large;"></i>
-                            <?= ($tampilDataIzin->stat_appv == 0) ? 'Data Permohanan Informasi Ruang Laut Oleh <u>' . $tampilDataIzin->nama . '</u> <b>Memerlukan Tindakan/Jawaban</b> Oleh Pihak Terkait' : 'Data Permohanan Informasi Ruang Laut Oleh <u>' . $tampilDataIzin->nama . '</u> <b>Telah Dibalas</b>'; ?>
+                            <?= ($tampilDataIzin->stat_appv == 0) ? 'Data Permohanan Informasi Ruang Laut Oleh <u>' . $tampilDataIzin->nama . '</u> <b>Memerlukan Tindakan/Jawaban</b> Oleh Admin' : 'Data Permohanan Informasi Ruang Laut Oleh <u>' . $tampilDataIzin->nama . '</u> <b>Telah Dibalas</b>'; ?>
                         </div>
                     </div>
 
@@ -60,6 +60,9 @@
                                 <h4 class="m-0">STATUS : <span class="badge bg-<?= ($tampilDataIzin->stat_appv == 0) ? 'warning' : (($tampilDataIzin->stat_appv == 1) ? 'success' : 'danger'); ?>"> <?= ($tampilDataIzin->stat_appv == 0) ? 'Menunggu Tindakan...' : (($tampilDataIzin->stat_appv == 1) ? 'Disetujui' : 'Tidak Disetujui'); ?> </span></h4>
                                 <?php if ($tampilDataIzin->stat_appv != 0) : ?>
                                     <p style="font-size: smaller;">Pada: <?= date('d M Y H:i:s', strtotime($tampilDataIzin->date_updated)); ?></p>
+                                <?php endif ?>
+                                <?php if ($tampilDataIzin->stat_appv == 1) : ?>
+                                    <p class="card-text"><a href="/dokumen/lampiran-balasan/<?= $tampilDataIzin->dokumen_lampiran; ?>" target="_blank" <?= $tampilDataIzin->dokumen_lampiran == null ? 'data-bs-toggle="tooltip" data-bs-title="Dokumen Belum Dikirim"' : ''; ?>><i class="bi bi-file-earmark-pdf-fill" style="color: #6697de;"></i> Lihat Dokumen Balasan</a></p>
                                 <?php endif ?>
                             </div>
 
@@ -81,7 +84,7 @@
                                         <tr>
                                             <td>NIB (Nomor Izin Berusaha)</td>
                                             <th>:</th>
-                                            <td> </td>
+                                            <td><?= $tampilDataIzin->nib; ?></td>
                                         </tr>
                                         <tr>
                                             <td>Alamat</td>
@@ -89,14 +92,19 @@
                                             <td><?= $tampilDataIzin->alamat; ?></td>
                                         </tr>
                                         <tr>
-                                            <td>Koordinat</td>
+                                            <td>Kontak</td>
                                             <th>:</th>
-                                            <td><?= $tampilDataIzin->latitude; ?>, <?= $tampilDataIzin->longitude; ?></td>
+                                            <td><?= $tampilDataIzin->kontak; ?></td>
                                         </tr>
                                         <tr>
                                             <td>Jenis Kegiatan</td>
                                             <th>:</th>
                                             <td><?= $tampilDataIzin->nama_kegiatan; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Wilayah Kegiatan</td>
+                                            <th>:</th>
+                                            <td>##</td>
                                         </tr>
                                         <tr>
                                             <td>Tanggal Pengajuan</td>
@@ -108,8 +116,20 @@
                             </div>
 
                             <h5>Berkas</h5>
-                            <div class="p-md-2">
-
+                            <div class="p-md-2 d-md-inline-flex gap-2">
+                                <?php if ($tampilDataIzin->uploadFiles != null) : ?>
+                                    <?php $uploadFiles = explode(",", $tampilDataIzin->uploadFiles); ?>
+                                    <?php foreach ($uploadFiles as $file) : ?>
+                                        <?php $file = trim($file, '()"'); ?>
+                                        <div class="card mb-3" style="max-width: 500px;">
+                                            <div class="card-body">
+                                                <p class="card-text"><a href="/dokumen/upload-dokumen/<?= $file; ?>" target="_blank"><?= $file; ?></a></p>
+                                            </div>
+                                        </div>
+                                    <?php endforeach ?>
+                                <?php else : ?>
+                                    <p class="form-text">Tidak ada berkas</p>
+                                <?php endif ?>
                             </div>
 
                         </div>
@@ -141,13 +161,13 @@
                                             <form action="/admin/kirimTindakan/<?= $tampilDataIzin->id_perizinan; ?>" method="post" enctype="multipart/form-data">
                                                 <div class="form-check mb-3">
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="reject" class="reject" value="2">
+                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="reject" class="reject" value="2" <?= $tampilDataIzin->stat_appv == 2 ? 'checked' : ''; ?>>
                                                         <label class="form-check-label" for="reject">
                                                             Tidak Disetujui
                                                         </label>
                                                     </div>
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="approve" class="approve" value="1">
+                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="approve" class="approve" value="1" <?= $tampilDataIzin->stat_appv == 1 ? 'checked' : ''; ?>>
                                                         <label class="form-check-label" for="approve">
                                                             Disetujui
                                                         </label>
@@ -159,7 +179,7 @@
                                                 </div>
                                                 <div class="mt-3 gap-2 d-flex justify-content-end ">
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                                    <button type="submit" class="btn btn-primary" disabled>Kiriman</button>
+                                                    <button type="submit" class="btn btn-primary">Kiriman</button>
                                                 </div>
                                             </form>
 
@@ -186,33 +206,28 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 
     <script>
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    </script>
+    <script>
         $(document).ready(function() {
             $("th").css("pointer-events", "none");
             $(".no-sort").css("pointer-events", "none");
         });
     </script>
     <script>
-        <?php if (in_groups('SuperAdmin') || in_groups('Admin')) : ?>
-            <?php if ($tampilDataIzin->stat_appv != 0) : ?>
-                $('.ambilTindakanJawaban').remove('.ambilTindakanJawaban');
-            <?php endif ?>
-        <?php elseif (in_groups('User')) : ?>
+        <?php if (in_groups('User')) : ?>
             $('.ambilTindakanJawaban').remove('.ambilTindakanJawaban');
         <?php else : ?>
-            $('.ambilTindakanJawaban').remove('.ambilTindakanJawaban');
+
         <?php endif ?>
     </script>
     <script>
-        $('input[type="radio"]').change(function(e) {
-            $('button[type="submit"]').removeAttr('disabled');
-        });
         $('#approve').click(function(e) {
-            $('#lampiranFile').attr('required', true);
             $('#lampiran').show();
         });
 
         $('#reject').click(function(e) {
-            $('#lampiranFile').removeAttr('required');
             $('#lampiran').hide();
         });
     </script>
@@ -235,6 +250,52 @@
         proj4.defs("EPSG:32750", "+proj=utm +zone=50 +south +ellps=WGS84 +datum=WGS84 +units=m +no_defs");
         proj4.defs("EPSG:23836", "+proj=tmerc +lat_0=0 +lon_0=112.5 +k=0.9999 +x_0=200000 +y_0=1500000 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
 
+        let geojson = <?= $tampilDataIzin->lokasi; ?>;
+        console.log(geojson);
+
+        // style vector geometry
+        const markerStyle = new ol.style.Style({
+            image: new ol.style.Icon({
+                anchor: [0.5, 1],
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'fraction',
+                opacity: 1,
+                src: '/leaflet/images/marker-icon.png'
+            })
+        });
+        const lineStyle = new ol.style.Style({
+            stroke: new ol.style.Stroke({
+                color: 'red',
+                width: 2,
+            }),
+        });
+        const polygonStyle = new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: 'rgba(255, 0, 0, 0.4)',
+            }),
+            stroke: new ol.style.Stroke({
+                color: 'red',
+                width: 2,
+            }),
+        });
+        var styleDraw;
+        if (geojson.geometry.type == "Point") {
+            styleDraw = markerStyle;
+        } else if (geojson.geometry.type == "LineString") {
+            styleDraw = lineStyle;
+        } else {
+            styleDraw = polygonStyle;
+        }
+        console.log(styleDraw);
+        let vectorSource = new ol.source.Vector({
+            features: new ol.format.GeoJSON().readFeatures(geojson, {
+                featureProjection: 'EPSG:3857', // Proyeksi EPSG:3857 (Web Mercator)
+            })
+        });
+        let vectorLayer = new ol.layer.Vector({
+            source: vectorSource,
+            style: styleDraw,
+        });
         const projection = new ol.proj.Projection({
             code: 'EPSG:32750',
             units: 'm',
@@ -305,6 +366,13 @@
             groupSelectStyle: 'children' // Can be 'children' [default], 'group' or 'none'
         });
         map.addControl(layerSwitcher);
+        map.addLayer(vectorLayer);
+        var extent = vectorLayer.getSource().getExtent();
+        map.getView().fit(extent, {
+            padding: [100, 100, 100, 100],
+            minResolution: map.getView().getResolutionForZoom(10),
+            duration: 1500,
+        });
     </script>
 
 </body>

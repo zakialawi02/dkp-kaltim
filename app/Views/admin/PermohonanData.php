@@ -21,16 +21,6 @@
     <!-- Template Main CSS File -->
     <link href="/css/StyleAdmin.css" rel="stylesheet" />
 
-    <!-- leaflet Component -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
-    <link href="/leaflet/L.Control.MousePosition.css" rel="stylesheet">
-    <link rel="stylesheet" href="//unpkg.com/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css" type="text/css">
-
-    <style>
-        #map {
-            height: 70vh;
-        }
-    </style>
 </head>
 
 <body class="sb-nav-fixed">
@@ -45,15 +35,10 @@
             <!-- MAIN CONTENT -->
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-2 mb-3">Data Perizinan</h1>
+                    <h1 class="mt-2 mb-3">Semua Data Disetujui</h1>
 
                     <div class="card mb-4">
                         <div class="card-body">
-
-                            <!-- <div class="m-1 mb-4 ">
-                                <a href="/admin/data/data-permohonan/tambah" class="btn btn-primary bi bi-plus" role="button">Tambah</a>
-                                <a href="/kafe/generatepdf" class="btn btn-primary bi bi-file-earmark-pdf-fill" target="_blank"> PDF</a>
-                            </div> -->
 
                             <table id="datatablesSimple" class="datatablesSimple">
                                 <thead>
@@ -167,74 +152,6 @@
         </script>
     <?php endif; ?>
 
-    <!-- Leafleat js Component -->
-    <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js" integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
-    <script src="https://unpkg.com/geojson-vt@3.2.0/geojson-vt.js"></script>
-    <script src="/leaflet/leaflet-geojson-vt.js"></script>
-    <script src="/leaflet/leaflet.ajax.min.js"></script>
-    <script src="/leaflet/leaflet.ajax.js"></script>
-    <script src="/leaflet/L.Control.MousePosition.js"></script>
-    <script src="//unpkg.com/leaflet-gesture-handling"></script>
-
-    <!-- Leafleat Setting js-->
-    <!-- initialize the map on the "map" div with a given center and zoom -->
-    <script>
-        // Base map
-        var peta1 = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiNjg2MzUzMyIsImEiOiJjbDh4NDExZW0wMXZsM3ZwODR1eDB0ajY0In0.6jHWxwN6YfLftuCFHaa1zw', {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-                '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-            id: 'mapbox/streets-v11',
-            tileSize: 512,
-            zoomOffset: -1
-        });
-
-        var peta2 = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiNjg2MzUzMyIsImEiOiJjbDh4NDExZW0wMXZsM3ZwODR1eDB0ajY0In0.6jHWxwN6YfLftuCFHaa1zw', {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-                '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-            id: 'mapbox/satellite-v9'
-        });
-
-        var peta3 = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        });
-
-        var peta4 = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiNjg2MzUzMyIsImEiOiJjbDh4NDExZW0wMXZsM3ZwODR1eDB0ajY0In0.6jHWxwN6YfLftuCFHaa1zw', {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-                '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-            id: 'mapbox/dark-v10'
-        });
-
-        // set frame view
-        <?php foreach ($tampilData as $D) : ?>
-            var map = L.map('map', {
-                center: [<?= $D->coordinat_wilayah; ?>],
-                zoom: <?= $D->zoom_view; ?>,
-                layers: [peta1],
-                attributionControl: false,
-                gestureHandling: true,
-            })
-        <?php endforeach ?>
-
-
-
-        // controller
-        var baseLayers = {
-            "Map": peta1,
-            "Satellite": peta2,
-            "OSM": peta3,
-        };
-
-        L.control.layers(baseLayers).addTo(map);
-        L.control.mousePosition().addTo(map);
-        L.control.scale().addTo(map);
-
-        <?php foreach ($tampilIzin as $K) : ?>
-            L.marker([<?= $K->latitude; ?>, <?= $K->longitude; ?>]).addTo(map).bindPopup("<b>Nama</b> : <?= $K->nama; ?></br><b>Alamat</b> : <?= $K->alamat; ?></br><a id='tombol-viewmap' href='/kafe/<?= $K->id_perizinan; ?>/detail' style='color:black;'>view</a>");
-        <?php endforeach ?>
-    </script>
 
 </body>
 

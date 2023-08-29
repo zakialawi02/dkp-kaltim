@@ -283,17 +283,54 @@ class Admin extends BaseController
 
 
     //  Data Pengajuan Informasi Ruang Laut  ====================================================================================
-    public function DataPerizinan()
+    public function DataPerizinanDisetujuiSemua()
     {
         $data = [
-            'title' => 'Data Pengajuan Informasi Ruang Laut',
+            'title' => 'Data Pengajuan Informasi',
             'tampilData' => $this->setting->tampilData()->getResult(),
             'tampilIzin' => $this->izin->getIzin()->getResult(),
         ];
-        // echo '<pre>';
-        // print_r($data['tampilKafe']);
-        // die;
         return view('admin/PermohonanData', $data);
+    }
+    public function DataPerizinanDisetujuiDenganLampiran()
+    {
+        $tampilIzin = $this->izin->getIzin()->getResult();
+        foreach ($tampilIzin as $dat) {
+            if ($dat->dokumen_lampiran != null) {
+                $datPermohonan[] = $dat;
+            }
+        }
+        $data = [
+            'title' => 'Data Pengajuan Informasi',
+            'tampilData' => $this->setting->tampilData()->getResult(),
+            'tampilIzin' => $datPermohonan,
+        ];
+        return view('admin/PermohonanData2', $data);
+    }
+    public function DataPerizinanDisetujuiTanpaLampiran()
+    {
+        $tampilIzin = $this->izin->getIzin()->getResult();
+        foreach ($tampilIzin as $dat) {
+            if ($dat->dokumen_lampiran == null) {
+                $datPermohonan[] = $dat;
+            }
+        }
+        $data = [
+            'title' => 'Data Pengajuan Informasi',
+            'tampilData' => $this->setting->tampilData()->getResult(),
+            'tampilIzin' => $datPermohonan,
+        ];
+        return view('admin/PermohonanData3', $data);
+    }
+    public function DataPerizinanTidakDisetujui()
+    {
+        $data = [
+            'title' => 'Data Pengajuan Informasi',
+            'tampilData' => $this->setting->tampilData()->getResult(),
+            'tampilIzin' => $this->izin->getIzin(false, 2)->getResult(),
+        ];
+        // dd($data);
+        return view('admin/PermohonanData4', $data);
     }
 
     public function editPerizinan($id_perizinan)
@@ -316,22 +353,22 @@ class Admin extends BaseController
 
 
     // Delete Data
-    public function delete_izin($id_perizinany)
+    public function delete_izin($id_perizinannya)
     {
-        $this->izin->delete(['id_perizinany' => $id_perizinany]);
+        $this->izin->delete(['id_perizinannya' => $id_perizinannya]);
         if ($this) {
             session()->setFlashdata('success', 'Data berhasil dihapus.');
             if (in_groups('User')) {
                 return $this->response->redirect(site_url('/dashboard'));
             } else {
-                return $this->response->redirect(site_url('/admin/data/data-permohonan'));
+                return $this->response->redirect(site_url('/admin/data/permohonan/disetujui/semua'));
             }
         } else {
             session()->setFlashdata('error', 'Gagal menghapus data.');
             if (in_groups('User')) {
                 return $this->response->redirect(site_url('/dashboard'));
             } else {
-                return $this->response->redirect(site_url('/admin/data/data-permohonan'));
+                return $this->response->redirect(site_url('/admin/data/permohonan/disetujui/semua'));
             }
         }
     }
@@ -476,7 +513,7 @@ class Admin extends BaseController
             }
         }
         $data = [
-            'title' => 'Detail Data Pengjuan Informasi',
+            'title' => 'Detail Data Pengajuan Informasi',
             'tampilData' => $this->setting->tampilData()->getResult(),
             'tampilDataIzin' => $permintaanId,
         ];
@@ -518,7 +555,6 @@ class Admin extends BaseController
                     'dokumen_lampiran' => $newName,
                     'date_updated' => date('Y-m-d H:i:s'),
                 ];
-
                 $this->izin->saveStatusAppv($data, $id_perizinan);
                 if ($this) {
                     session()->setFlashdata('success', 'Berhasil Menyimpan Tindakan.');
@@ -528,8 +564,18 @@ class Admin extends BaseController
                     return $this->response->redirect(site_url('/admin/pending'));
                 }
             } else {
-                session()->setFlashdata('error', 'Gagal Menyimpan Tindakan.');
-                return $this->response->redirect(site_url('/admin/pending'));
+                $data = [
+                    'stat_appv' => '1',
+                    'date_updated' => date('Y-m-d H:i:s'),
+                ];
+                $this->izin->saveStatusAppv($data, $id_perizinan);
+                if ($this) {
+                    session()->setFlashdata('success', 'Berhasil Menyimpan Tindakan.');
+                    return $this->response->redirect(site_url('/admin/pending'));
+                } else {
+                    session()->setFlashdata('error', 'Gagal Menyimpan Tindakan.');
+                    return $this->response->redirect(site_url('/admin/pending'));
+                }
             }
         } else {
             session()->setFlashdata('error', 'Gagal Menyimpan Tindakan.');

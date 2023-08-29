@@ -21,6 +21,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
@@ -51,7 +52,7 @@
     <section class="contact" id="contact">
 
         <div class="container">
-            <h4>Lengkapi Data Pengajuan Izin/Perizinan</h4>
+            <h4>Lengkapi Data Pengajuan Informasi</h4>
 
 
             <div class="row g-2">
@@ -60,17 +61,23 @@
                         <div class="card-body">
                             <form class="row g-3" action="/data/tambahAjuan" method="post" enctype="multipart/form-data">
                                 <?= csrf_field(); ?>
-                                <?php $datas = session()->getFlashdata('data'); ?>
-                                <?php $geojson = $datas['geojson'] ?>
-                                <?php $geojson = json_encode($geojson) ?>
+                                <?php
+                                $datas = session()->getFlashdata('data');
+                                $geojson = json_decode($datas['geojson']);
+                                $getOverlap = json_decode($datas['getOverlap']);
+                                // $propertiOverlap = $getOverlap[0]->properties;
+                                // dd($propertiOverlap);
+                                ?>
 
-                                <input type="hidden" class="form-control" id="drawPolygon" aria-describedby="textlHelp" name="drawPolygon">
+
+                                <input type="hidden" class="form-control" id="zona" aria-describedby="textlHelp" name="zona">
+                                <input type="hidden" class="form-control" id="drawFeatures" aria-describedby="textlHelp" name="drawFeatures">
 
                                 <h5>a. Identitas Pemohon</h5>
 
                                 <div class="form-group">
                                     <label class="form-label">NIB (Nomor Induk Berusaha)</label>
-                                    <input type="text" class="form-control" id="nik" aria-describedby="textlHelp" name="nik" required>
+                                    <input type="text" class="form-control" id="nib" aria-describedby="textlHelp" name="nib">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">NIK (Nomor Induk Kependudukan)</label>
@@ -94,11 +101,11 @@
 
                                 <div class="form-group">
                                     <label class="col-md-12 mb-2">Jenis Kegiatan</label>
-                                    <select class="form-select" id="pilihKegiatan" name="kegiatan" for="kegiatan" style="width: 100%;" required disabled="disable>
+                                    <select class="form-select" id="pilihKegiatan" name="kegiatan" style="width: 100%;" required>
                                         <option></option>
                                         <?php foreach ($jenisKegiatan as $K) : ?>
                                             <option value=" <?= $K->id_kegiatan ?>" <?= $K->id_kegiatan == $datas['kegiatanValue'] ? 'selected' : '' ?>><?= $K->nama_kegiatan ?></option>
-                                    <?php endforeach ?>
+                                        <?php endforeach ?>
                                     </select>
                                 </div>
 
@@ -115,12 +122,9 @@
 
                                 <h5>c. Upload Berkas</h5>
 
-                                <div class="input-group mb-3">
-                                    <label class="input-group-text" for="inputGroupFile01">Upload</label>
-                                    <input type="file" class="form-control" id="inputGroupFile01">
-                                </div>
+                                <input type="file" class="filepond" name="filepond[]" multiple />
 
-                                <button type="submit" class="btn btn-primary">Kirim</button>
+                                <button type="submit" class="btn btn-primary" onclick="kirim()">Kirim</button>
                             </form>
                         </div>
                     </div>
@@ -153,6 +157,7 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
 
     <!-- Template Javascript -->
     <script src="/assets/js/main.js"></script>
@@ -165,6 +170,18 @@
             });
         });
     </script>
+    <script>
+        // Get a file input reference
+        const input = document.querySelector('input[type="file"]');
+
+        // Create a FilePond instance
+        FilePond.create(input, {
+            storeAsFile: true,
+            allowMultiple: true,
+            credits: false,
+        });
+    </script>
+
 
     <!-- Open Layers Component -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"></script>
@@ -184,6 +201,52 @@
         proj4.defs("EPSG:32750", "+proj=utm +zone=50 +south +ellps=WGS84 +datum=WGS84 +units=m +no_defs");
         proj4.defs("EPSG:23836", "+proj=tmerc +lat_0=0 +lon_0=112.5 +k=0.9999 +x_0=200000 +y_0=1500000 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
 
+        let geojson = <?= json_encode($geojson); ?>;
+        console.log(geojson);
+
+        // style vector geometry
+        const markerStyle = new ol.style.Style({
+            image: new ol.style.Icon({
+                anchor: [0.5, 1],
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'fraction',
+                opacity: 1,
+                src: '/leaflet/images/marker-icon.png'
+            })
+        });
+        const lineStyle = new ol.style.Style({
+            stroke: new ol.style.Stroke({
+                color: 'red',
+                width: 2,
+            }),
+        });
+        const polygonStyle = new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: 'rgba(255, 0, 0, 0.4)',
+            }),
+            stroke: new ol.style.Stroke({
+                color: 'red',
+                width: 2,
+            }),
+        });
+        var styleDraw;
+        if (geojson.geometry.type == "Point") {
+            styleDraw = markerStyle;
+        } else if (geojson.geometry.type == "LineString") {
+            styleDraw = lineStyle;
+        } else {
+            styleDraw = polygonStyle;
+        }
+        console.log(styleDraw);
+        let vectorSource = new ol.source.Vector({
+            features: new ol.format.GeoJSON().readFeatures(geojson, {
+                featureProjection: 'EPSG:3857', // Proyeksi EPSG:3857 (Web Mercator)
+            })
+        });
+        let vectorLayer = new ol.layer.Vector({
+            source: vectorSource,
+            style: styleDraw,
+        });
         const projection = new ol.proj.Projection({
             code: 'EPSG:32750',
             units: 'm',
@@ -254,18 +317,22 @@
             groupSelectStyle: 'children' // Can be 'children' [default], 'group' or 'none'
         });
         map.addControl(layerSwitcher);
-
-        view.on('change', function() {
-            const zoomView = view.getZoom();
-            const centerCoordinate = view.getCenter();
-            const lonLatCenter = ol.proj.toLonLat(centerCoordinate);
-            $('#koordinatView').val(lonLatCenter[1] + ', ' + lonLatCenter[0])
-            $('#zoomView').val(zoomView.toFixed(1));
+        map.addLayer(vectorLayer);
+        var extent = vectorLayer.getSource().getExtent();
+        map.getView().fit(extent, {
+            padding: [100, 100, 100, 100],
+            minResolution: map.getView().getResolutionForZoom(13),
+            duration: 1500,
         });
-        const zoomInput = document.getElementById('zoomView');
-        zoomInput.addEventListener('input', function() {
-            this.value = this.value.replace(',', '.');
-        });
+    </script>
+    <script>
+        function kirim() {
+            $("#drawFeatures").val(JSON.stringify(geojson));
+            $("#pilihKegiatan").val($("#pilihKegiatan").val());
+        }
+        let zona = <?= json_encode($getOverlap); ?>;
+        zona = zona.properties;
+        console.log(zona);
     </script>
 
 </body>

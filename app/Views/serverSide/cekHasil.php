@@ -7,16 +7,16 @@ if ($objectID != null) {
     $orde = array_unique($orde);
     $remark = array_unique($remark);
 }
-$id = $objectID ?? "-";
+$id = $objectID ?? "";
 $kawasan = $kawasan ?? "Maaf, Tidak ada data / Tidak terdeteksi";
 $name = $name ?? "Maaf, Tidak ada data / Tidak terdeteksi";
 $kode = $kode  ?? "-";
 $orde = $orede  ?? "-";
 $remark = $remark ?? "-";
+// dd($geojsonFeature);
 ?>
 <p class="form-text text-muted">*Zona Yang Saling Tumpang Tindih Dengan Lokasi Geometry</p>
 <div class="hasilKonten">
-
     <div class="table-responsive">
         <table class="table align-middle">
             <tr>
@@ -40,7 +40,7 @@ $remark = $remark ?? "-";
             <tr>
                 <td class="thead">Kode</td>
                 <td class="tspace">:</td>
-                <td class="subzona">
+                <td class="kode">
                     <?php foreach ($kode as $val) : ?>
                         <?= $val; ?> <br>
                     <?php endforeach ?>
@@ -53,8 +53,8 @@ $remark = $remark ?? "-";
     <form class="row g-3" action="/data/isiAjuan" method="post" enctype="multipart/form-data">
         <?= csrf_field(); ?>
 
-        <input type="hidden" class="form-control" for="koordinat" id="koordinat" name="koordinat" value="">
         <input type="hidden" class="form-control" for="geojson" id="geojson" name="geojson" value="">
+        <input type="hidden" class="form-control" for="getOverlap" id="getOverlap" name="getOverlap" value="">
 
         <div class="form-group">
             <label class="col-md-12 mb-2">Jenis Kegiatan</label>
@@ -72,7 +72,12 @@ $remark = $remark ?? "-";
             <div class="" id="showKegiatan"> </div>
         </div>
 
-        <button type="submit" id="lanjutKirim" class="btn btn-primary">Lanjutkan</button>
+        <?php if (logged_in()) : ?>
+            <button type="submit" id="lanjutKirim" class="btn btn-primary lanjutKirim" onclick="kirim()">Lanjutkan</button>
+        <?php else : ?>
+            <p>Harap Login Untuk Bisa Melakukan Pengajuan Informasi Ruang Laut. <br>Belum Punya Akun? <a href="/register">Daftar Disini</a></p>
+            <button type="button" id="lanjutKirim" class="btn btn-primary" disabled>Lanjutkan</button>
+        <?php endif ?>
     </form>
 
 </div>
