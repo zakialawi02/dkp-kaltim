@@ -13,7 +13,7 @@ $name = $name ?? "Maaf, Tidak ada data / Tidak terdeteksi";
 $kode = $kode  ?? "-";
 $orde = $orede  ?? "-";
 $remark = $remark ?? "-";
-// dd($geojsonFeature);
+// dd($kawasan);
 ?>
 <p class="form-text text-muted">*Zona Yang Saling Tumpang Tindih Dengan Lokasi Geometry</p>
 <div class="hasilKonten">
@@ -23,27 +23,39 @@ $remark = $remark ?? "-";
                 <td class="thead">Nama Objek</td>
                 <td class="tspace">:</td>
                 <td class="kawasan">
-                    <?php foreach ($name as $val) : ?>
-                        <?= $val; ?> <br>
-                    <?php endforeach ?>
+                    <?php if ($id == null) : ?>
+                        <?= $name; ?>
+                    <?php else : ?>
+                        <?php foreach ($name as $val) : ?>
+                            <?= $val; ?> <br>
+                        <?php endforeach ?>
+                    <?php endif ?>
                 </td>
             </tr>
             <tr>
                 <td class="thead">Kawasan</td>
                 <td class="tspace">:</td>
                 <td class="zona">
-                    <?php foreach ($kawasan as $val) : ?>
-                        <?= $val; ?> <br>
-                    <?php endforeach ?>
+                    <?php if ($id == null) : ?>
+                        <?= $kawasan; ?>
+                    <?php else : ?>
+                        <?php foreach ($kawasan as $val) : ?>
+                            <?= $val; ?> <br>
+                        <?php endforeach ?>
+                    <?php endif ?>
                 </td>
             </tr>
             <tr>
                 <td class="thead">Kode</td>
                 <td class="tspace">:</td>
                 <td class="kode">
-                    <?php foreach ($kode as $val) : ?>
-                        <?= $val; ?> <br>
-                    <?php endforeach ?>
+                    <?php if ($id == null) : ?>
+                        <?= $kode; ?>
+                    <?php else : ?>
+                        <?php foreach ($kode as $val) : ?>
+                            <?= $val; ?> <br>
+                        <?php endforeach ?>
+                    <?php endif ?>
                 </td>
             </tr>
         </table>
@@ -69,7 +81,7 @@ $remark = $remark ?? "-";
 
         <div class="feedback">Keterangan:</div>
         <div class="info_status">
-            <div class="" id="showKegiatan"> </div>
+            <div class="" id="showKegiatan"> - </div>
         </div>
 
         <?php if (logged_in()) : ?>

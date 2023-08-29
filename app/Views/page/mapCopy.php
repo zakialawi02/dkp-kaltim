@@ -119,7 +119,7 @@
                             </div>
                             <div class="preview gap-2">
                                 <p>Preview:</p>
-                                <div class="previewMap" id="previewMap"><iframe src="/data/petaPreview" id="petaPreview" frameborder="0"></iframe></div>
+                                <div class="previewMap" id="previewMap"><iframe src="/data/petaPreview" id="petaPreview" frameborder="0" width="100%"></iframe></div>
                             </div>
                         </div>
                         <div class="col-sm-9 ">
@@ -1166,7 +1166,7 @@
                 },
                 dataType: "html",
             }).done(function(response) {
-                // console.log(response);
+                console.log(response);
                 $('#div_hasilCek').html(response);
             }).fail(function(error) {
                 console.error('Error:', error);

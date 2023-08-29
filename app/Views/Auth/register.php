@@ -44,8 +44,9 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="username"><?= lang('Auth.username') ?></label>
-                                <input type="text" class="form-control <?php if (session('errors.username')) : ?>is-invalid<?php endif ?>" name="username" placeholder="<?= lang('Auth.username') ?>" value="<?= old('username') ?>" aria-describedby="emailHelp">
+                                <label for="username"><?= lang('Auth.username') ?>/Username</label>
+                                <input type="text" class="form-control <?php if (session('errors.username')) : ?>is-invalid<?php endif ?>" name="username" id="username" placeholder="<?= lang('Auth.username') ?>" value="<?= old('username') ?>" aria-describedby="emailHelp">
+                                <p class="form-text usernameFail d-none" style="color: red; font-size: small;">Username Tidak Boleh Mengandung Spasi</p>
                             </div>
 
                             <div class="form-group">
@@ -65,7 +66,7 @@
                             </div>
 
                             <div class="col-md-12 text-center mb-3">
-                                <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm"><?= lang('Auth.register') ?></button>
+                                <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm kirim"><?= lang('Auth.register') ?></button>
                             </div>
 
                             <div class="col-md-12 ">
@@ -80,6 +81,22 @@
         </div>
     </div>
 
+
+    <script>
+        $("#username").keyup(function(e) {
+            let username = $("#username").val();
+            console.log(username);
+            if (username.indexOf(' ') !== -1) {
+                $(".usernameFail").removeClass('d-none');
+                $("#username").addClass('is-invalid');
+                $(".kirim").attr('disabled', true);
+            } else {
+                $(".usernameFail").addClass('d-none');
+                $("#username").removeClass('is-invalid');
+                $(".kirim").attr('disabled', false);
+            }
+        });
+    </script>
 </body>
 
 </html>
