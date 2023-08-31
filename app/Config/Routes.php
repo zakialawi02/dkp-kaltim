@@ -64,6 +64,7 @@ $routes->get('/admin/DataPerizinanTidakDisetujui', 'Admin::DataPerizinanTidakDis
 $routes->get('/admin/data/permohonan/tidak-disetujui/semua', 'Admin::DataPerizinanTidakDisetujui', ['filter' => 'role:SuperAdmin,Admin']);
 $routes->get('/data-permohonan/(:num)/detail', 'Data::detail/$1');
 $routes->get('/data-permohonan/(:num)/edit/', 'Admin::editPerizinan/$1', ['filter' => 'role:SuperAdmin,Admin,User']);
+
 $routes->get('/admin/kegiatan/', 'Admin::kegiatan', ['filter' => 'role:SuperAdmin,Admin']);
 $routes->get('/admin/kegiatan/tambah', 'Admin::tambahKegiatan', ['filter' => 'role:SuperAdmin,Admin']);
 $routes->get('/admin/data/zonasi/(:num)/edit/', 'Admin::editStatusZonasi/$1', ['filter' => 'role:SuperAdmin,Admin']);
@@ -75,6 +76,7 @@ $routes->delete('/admin/delete_izin/(:num)', 'Admin::delete_izin/$1', ['filter' 
 $routes->get('/user/manajemen', 'User::manajemen', ['filter' => 'role:SuperAdmin,Admin']);
 
 $routes->get('/map1', 'Data::mapCopy');
+
 
 
 /*

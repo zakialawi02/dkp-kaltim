@@ -1166,7 +1166,7 @@
                 },
                 dataType: "html",
             }).done(function(response) {
-                console.log(response);
+                // console.log(response);
                 $('#div_hasilCek').html(response);
             }).fail(function(error) {
                 console.error('Error:', error);

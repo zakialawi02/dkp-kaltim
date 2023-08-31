@@ -35,7 +35,7 @@
                         </div>
                     </div>
 
-                    <a class="nav-link collapsed" href="/admin/features" data-bs-toggle="collapse" data-bs-target="#collapsePending" aria-expanded="false" aria-controls="collapsePending">
+                    <a class="nav-link collapsed" href="/admin/pending" data-bs-toggle="collapse" data-bs-target="#collapsePending" aria-expanded="false" aria-controls="collapsePending">
                         <div class="sb-nav-link-icon"><i class="bi bi-hourglass-split"></i></div>
                         Data Masuk/Baru
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -45,6 +45,11 @@
                             <a class="nav-link" href="/admin/pending">Semua Data</a>
                         </div>
                     </div>
+
+                    <!-- <a class="nav-link" href="/admin/hide">
+                        <div class="sb-nav-link-icon"><i class="bi bi-gear"></i></div>
+                        Kesesuaian
+                    </a> -->
                 <?php endif ?>
 
                 <div class="sb-sidenav-menu-heading">Pengaturan</div>
