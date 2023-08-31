@@ -35,7 +35,7 @@
             <!-- MAIN CONTENT -->
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-2 mb-3">Semua Data Disetujui Tanpa Lampiran</h1>
+                    <h1 class="mt-2 mb-3">Semua Data Tidak Disetujui</h1>
 
                     <div class="card mb-4">
                         <div class="card-body">

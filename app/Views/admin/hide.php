@@ -40,40 +40,11 @@
                     <div class="card mb-4">
                         <div class="card-body">
 
-                            <!-- <a href="/admin/kegiatan/tambah" class="btn btn-primary m-1 mb-4 bi bi-plus" role="button">Tambah</a> -->
-
-                            <table id="datatablesSimple">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Nama Kegiatan</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php $i = 1 ?>
-                                    <?php foreach ($dataKegiatan as $K) : ?>
-                                        <tr>
-                                            <td><?= $i++; ?></td>
-                                            <td><?= $K->nama_kegiatan; ?></td>
-                                            <td>
-                                                <div class="d-inline-flex gap-1">
-                                                    <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                        <a href="/admin/kegiatan/edit/<?= $K->id_kegiatan; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
-                                                    </div>
-                                                    <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                        <form action="/admin/delete_kegiatan/<?= $K->id_kegiatan; ?>" method="post">
-                                                            <?= csrf_field(); ?>
-                                                            <input type="hidden" name="_method" value="DELETE">
-                                                            <button type="submit" class="asbn btn btn-danger bi bi-trash" onclick="return confirm('Yakin Hapus Data?')"></button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach ?>
-                                </tbody>
-                            </table>
+                            <a href="/admin/kegiatan/" class="btn btn-primary m-1 mb-4" role="button">Jenis Kegiatan</a>
+                            <a href="/admin/rencanaRuang/" class="btn btn-primary m-1 mb-4" role="button">Pola Ruang</a>
+                            <a href="/admin/jenisZona/" class="btn btn-primary m-1 mb-4" role="button">Zona</a>
+                            <a href="/admin/zonaKawasan/" class="btn btn-primary m-1 mb-4" role="button">Kawasan</a>
+                            <a href="/admin/statusKesesuaian/" class="btn btn-primary m-1 mb-4" role="button">Kesesuaian</a>
 
                         </div>
                     </div>

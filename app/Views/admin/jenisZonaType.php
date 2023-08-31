@@ -35,7 +35,7 @@
             <!-- MAIN CONTENT -->
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-2 mb-3">Data Jenis Kegiatan</h1>
+                    <h1 class="mt-2 mb-3">Data Jenis Zona</h1>
 
                     <div class="card mb-4">
                         <div class="card-body">
@@ -46,23 +46,23 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Nama Kegiatan</th>
+                                        <th>Nama Zona</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php $i = 1 ?>
-                                    <?php foreach ($dataKegiatan as $K) : ?>
+                                    <?php foreach ($dataZonaType as $Z) : ?>
                                         <tr>
                                             <td><?= $i++; ?></td>
-                                            <td><?= $K->nama_kegiatan; ?></td>
+                                            <td><?= $Z->nama_zona; ?></td>
                                             <td>
                                                 <div class="d-inline-flex gap-1">
                                                     <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                        <a href="/admin/kegiatan/edit/<?= $K->id_kegiatan; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
+                                                        <a href="/admin/kegiatan/edit/<?= $Z->id_zona; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
                                                     </div>
                                                     <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                        <form action="/admin/delete_kegiatan/<?= $K->id_kegiatan; ?>" method="post">
+                                                        <form action="/admin/delete_kegiatan/<?= $Z->id_zona; ?>" method="post">
                                                             <?= csrf_field(); ?>
                                                             <input type="hidden" name="_method" value="DELETE">
                                                             <button type="submit" class="asbn btn btn-danger bi bi-trash" onclick="return confirm('Yakin Hapus Data?')"></button>

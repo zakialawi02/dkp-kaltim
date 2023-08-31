@@ -10,9 +10,12 @@ use App\Models\ModelSetting;
 use App\Models\ModelAdministrasi;
 use App\Models\ModelGeojson;
 use App\Models\ModelIzin;
-use App\Models\ModelJenisKegiatan;
-use App\Models\ModelFoto;
 use App\Models\ModelUser;
+use App\Models\ModelJenisKegiatan;
+use App\Models\ModelRencanaRuang;
+use App\Models\ModelJenisZona;
+use App\Models\ModelZonaKawasan;
+use App\Models\ModelKesesuaianIzin;
 use Faker\Extension\Helper;
 use Mpdf\Tag\Br;
 
@@ -24,7 +27,10 @@ class Admin extends BaseController
     protected $ModelGeojson;
     protected $ModelIzin;
     protected $ModelJenisKegiatan;
-    protected $ModelFoto;
+    protected $ModelRencanaRuang;
+    protected $ModelJenisZona;
+    protected $ModelZonaKawasan;
+    protected $ModelKesesuaianIzin;
     public function __construct()
     {
         helper(['form', 'url']);
@@ -34,7 +40,10 @@ class Admin extends BaseController
         $this->FGeojson = new ModelGeojson();
         $this->izin = new ModelIzin();
         $this->kegiatan = new ModelJenisKegiatan();
-        $this->fotoKafe = new ModelFoto();
+        $this->ruang = new ModelRencanaRuang();
+        $this->zona = new ModelJenisZona();
+        $this->kawasan = new ModelZonaKawasan();
+        $this->kesesuaian = new ModelKesesuaianIzin();
     }
 
     public function index()
@@ -60,46 +69,6 @@ class Admin extends BaseController
             throw new PageNotFoundException();
         };
     }
-
-    public function tes()
-    {
-        $data = [
-            'title' => 'Tes',
-            'tampilKafe' => $this->kafe->callKafe()->getResult(),
-        ];
-        echo '<pre>';
-        print_r($data['tampilKafe']);
-        die;
-        return view('page/tes', $data);
-    }
-
-    public function tess($id_kafe)
-    {
-        $data = [
-            'title' => 'Tes',
-            'tampilKafe' => $this->kafe->getDump($id_kafe)->getResult(),
-        ];
-        echo '<pre>';
-        print_r($data['tampilKafe']);
-        die;
-        return view('page/tes', $data);
-    }
-
-    public function temp()
-    {
-        $data = [
-            'title' => 'TEMP',
-            'tampilKafe' => $this->kafe->getFiveKafe()->getResult(),
-        ];
-        echo '<pre>';
-        print_r($data['tampilKafe']);
-        die;
-
-        return view('admin/tempp', $data);
-    }
-
-
-
 
     // SETTING MAP VIEW  ===================================================================================
 
@@ -373,116 +342,7 @@ class Admin extends BaseController
         }
     }
 
-    public function kegiatan()
-    {
-        $data = [
-            'title' => 'Jenis Kegiatan',
-            'dataKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
-        ];
-        // echo '<pre>';
-        // print_r($data['dataKegiatan']);
-        // die;
-        return view('admin/jenisKegiatan', $data);
-    }
-    public function tambahKegiatan()
-    {
-        $data = [
-            'title' => 'Tambah Kegiatan',
-        ];
-        return view('admin/tambahKegiatan', $data);
-    }
-    public function tambah_kegiatan()
-    {
-        $data = [
-            'nama_kegiatan' => $this->request->getVar('nama_kegiatan'),
-        ];
-    }
-
-    public function zonasi()
-    {
-        $data = [
-            'title' => 'Jenis Zonasi Kegiatan',
-            'dataSubZona' => $this->kegiatan->getSubZona()->getResult(),
-        ];
-        // echo '<pre>';
-        // print_r($data['dataSubZona']);
-        // die;
-        return view('admin/subZonaKegiatan', $data);
-    }
-
-    public function statusZonasi()
-    {
-        $data = [
-            'title' => 'Status Zonasi',
-            'kegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
-            'zona' => $this->kegiatan->getSubZona()->getResult(),
-            'dataStatusZonasi' => $this->kegiatan->getStatusZonasi()->getResult(),
-        ];
-        // echo '<pre>';
-        // print_r($data['dataStatusZonasi']);
-        // die;
-        return view('admin/statusZonasi', $data);
-    }
-    public function editStatusZonasi($id_kegiatan)
-    {
-        $data = [
-            'title' => 'Edit Status Zonasi',
-            'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
-            'dataZonasi' => $this->kegiatan->getStatusZonasiGrouped($id_kegiatan)->getResult(),
-        ];
-        return view('admin/updateStatusZonasi', $data);
-    }
-    public function updateStatusZonasi($id_kegiatan)
-    {
-        $zona = $this->request->getPost('zona');
-        $status = $this->request->getPost('statusZonasi');
-        $dataZonasi = $this->kegiatan->getStatusZonasiGrouped($id_kegiatan)->getResult();
-        $i = 0;
-        foreach ($dataZonasi as $dataz) {
-            $id_sub = $dataz->id_sub;
-            $data = [
-                'id_kegiatan' => $id_kegiatan,
-                'id_sub' => $dataz->id_sub,
-                'status_zonasi' => $status[$i],
-            ];
-            $i++;
-            $this->kegiatan->updateZonasiStatus($id_kegiatan, $id_sub, $data);
-        }
-        if ($this->kegiatan) {
-            session()->setFlashdata('success', 'Data Berhasil diperbarui.');
-            return redirect()->to('/admin/statusZonasi');
-        } else {
-            session()->setFlashdata('error', 'Gagal memperbarui data.');
-            return redirect()->to('/admin/statusZonasi');
-        }
-    }
-
-
-    public function dumpAddStatusZonasi($id_kegiatan)
-    {
-        $kegiatan = $this->kegiatan->getJenisKegiatan($id_kegiatan)->getResult();
-        $kegiatan = $kegiatan[0]->id_kegiatan;
-        $zona = $this->kegiatan->getSubZona()->getResult();
-
-        foreach ($zona as $zona) {
-            $data = [
-                'id_kegiatan' => $kegiatan,
-                'id_sub' => $zona->id_sub,
-                'status_zonasi' => '3',
-            ];
-            $this->kegiatan->addZonasiStatus($data);
-            // if ($this) {
-            //     echo ("Sukses");
-            // }
-            echo '<pre>';
-            print_r($data);
-        }
-        return redirect()->to('/admin/statusZonasi');
-        die;
-    }
-
-
-    // Pending Data
+    // Pending Data/data baru masuk
     public function pending()
     {
         $data = [
@@ -495,7 +355,7 @@ class Admin extends BaseController
         return view('admin/pendingList', $data);
     }
 
-    // periksa data masuk
+    // periksa data/detail data
     public function periksaDataPermohonan($status, $id_perizinan, $nama)
     {
         $statusArray = ['menunggu-jawaban', 'telah-disetujui', 'tidak-disetujui'];
@@ -587,10 +447,83 @@ class Admin extends BaseController
     {
         $kegiatanId = $this->request->getPost('kegiatanId');
         $zonaKegiatan = $this->kegiatan->getZonaByKegiatanAjax($kegiatanId);
-
         return $this->response->setJSON($zonaKegiatan);
     }
 
+
+
+    // ?? //
+    public function hide()
+    {
+        $data = [
+            'title' => '##',
+        ];
+        return view('admin/hide', $data);
+    }
+    public function kegiatan()
+    {
+        $data = [
+            'title' => 'Jenis Kegiatan',
+            'dataKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
+        ];
+        return view('admin/jenisKegiatan', $data);
+    }
+    public function rencanaRuang()
+    {
+        $data = [
+            'title' => 'Jenis Rencana Pola Ruang',
+            'dataRencanaRuang' => $this->ruang->getRencanaRuang()->getResult(),
+        ];
+        return view('admin/jenisRencanaRuang', $data);
+    }
+    public function jenisZona()
+    {
+        $data = [
+            'title' => 'Jenis Zona Khusus',
+            'dataZonaType' => $this->zona->getZonaType()->getResult(),
+        ];
+        return view('admin/jenisZonaType', $data);
+    }
+    public function zonaKawasan()
+    {
+        $data = [
+            'title' => 'Kelompok Kawasan',
+            'dataKawasan' => $this->kawasan->getZonaKawasan()->getResult(),
+        ];
+        // dd($data['dataKawasan']);
+        return view('admin/jenisZonaKawasan', $data);
+    }
+    public function statusKesesuaian()
+    {
+        $data = [
+            'title' => 'Status Kesesuaian',
+            'dataKesesuaian' => $this->kesesuaian->getKesesuaian()->getResult(), //utama
+            'dataRencanaRuang' => $this->ruang->getRencanaRuang()->getResult(),
+            'dataZonaType' => $this->zona->getZonaType()->getResult(),
+            'dataKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
+        ];
+        // dd($data['dataKesesuaian']);
+        return view('admin/jenisKesesuaian', $data);
+    }
+    public function oneKesesuaian($id, $id_znkwsn = false)
+    {
+        $response = [
+            'status' => "success",
+            'dataKesesuaian' => $this->kesesuaian->getKesesuaian($id, $id_znkwsn)->getResult(), //utama
+        ];
+        // dd($data['dataKesesuaian']);
+        return $this->response->setJSON($response);
+    }
+
+
+    public function delete_kesesuaian($id)
+    {
+        $this->kesesuaian->delete(['id' => $id]);
+        $data = [
+            'dataKesesuaian' => $this->kesesuaian->getKesesuaian()->getResult(),
+        ];
+        return view('serverSide/tblKesesuaian', $data);
+    }
 
 
 
@@ -641,6 +574,8 @@ class Admin extends BaseController
         print_r($results);
         print_r($selectajax);
     }
+
+
 
 
     //  SCRAP KAB/KOT, KECAMATAN, KELURAHAN
