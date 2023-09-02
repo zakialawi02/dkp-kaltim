@@ -22,7 +22,7 @@ $remark = $remark ?? "-";
             <tr>
                 <td class="thead">Nama Objek</td>
                 <td class="tspace">:</td>
-                <td class="kawasan">
+                <td class="zona">
                     <?php if ($id == null) : ?>
                         <?= $name; ?>
                     <?php else : ?>
@@ -35,7 +35,7 @@ $remark = $remark ?? "-";
             <tr>
                 <td class="thead">Kawasan</td>
                 <td class="tspace">:</td>
-                <td class="zona">
+                <td class="kawasan">
                     <?php if ($id == null) : ?>
                         <?= $kawasan; ?>
                     <?php else : ?>
@@ -81,7 +81,7 @@ $remark = $remark ?? "-";
 
         <div class="feedback">Keterangan:</div>
         <div class="info_status">
-            <div class="" id="showKegiatan"> - </div>
+            <div class="info_status" id="showKegiatan"> - </div>
         </div>
 
         <?php if (logged_in()) : ?>
@@ -93,7 +93,6 @@ $remark = $remark ?? "-";
     </form>
 
 </div>
-
 
 
 <script>
