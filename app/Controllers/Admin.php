@@ -12,10 +12,6 @@ use App\Models\ModelGeojson;
 use App\Models\ModelIzin;
 use App\Models\ModelUser;
 use App\Models\ModelJenisKegiatan;
-use App\Models\ModelRencanaRuang;
-use App\Models\ModelJenisZona;
-use App\Models\ModelZonaKawasan;
-use App\Models\ModelKesesuaianIzin;
 use Faker\Extension\Helper;
 use Mpdf\Tag\Br;
 
@@ -27,10 +23,6 @@ class Admin extends BaseController
     protected $ModelGeojson;
     protected $ModelIzin;
     protected $ModelJenisKegiatan;
-    protected $ModelRencanaRuang;
-    protected $ModelJenisZona;
-    protected $ModelZonaKawasan;
-    protected $ModelKesesuaianIzin;
     public function __construct()
     {
         helper(['form', 'url']);
@@ -40,10 +32,6 @@ class Admin extends BaseController
         $this->FGeojson = new ModelGeojson();
         $this->izin = new ModelIzin();
         $this->kegiatan = new ModelJenisKegiatan();
-        $this->ruang = new ModelRencanaRuang();
-        $this->zona = new ModelJenisZona();
-        $this->kawasan = new ModelZonaKawasan();
-        $this->kesesuaian = new ModelKesesuaianIzin();
     }
 
     public function index()
@@ -259,6 +247,7 @@ class Admin extends BaseController
             'tampilData' => $this->setting->tampilData()->getResult(),
             'tampilIzin' => $this->izin->getIzin()->getResult(),
         ];
+        // dd($data['tampilIzin']);
         return view('admin/PermohonanData', $data);
     }
     public function DataPerizinanDisetujuiDenganLampiran()
@@ -468,62 +457,7 @@ class Admin extends BaseController
         ];
         return view('admin/jenisKegiatan', $data);
     }
-    public function rencanaRuang()
-    {
-        $data = [
-            'title' => 'Jenis Rencana Pola Ruang',
-            'dataRencanaRuang' => $this->ruang->getRencanaRuang()->getResult(),
-        ];
-        return view('admin/jenisRencanaRuang', $data);
-    }
-    public function jenisZona()
-    {
-        $data = [
-            'title' => 'Jenis Zona Khusus',
-            'dataZonaType' => $this->zona->getZonaType()->getResult(),
-        ];
-        return view('admin/jenisZonaType', $data);
-    }
-    public function zonaKawasan()
-    {
-        $data = [
-            'title' => 'Kelompok Kawasan',
-            'dataKawasan' => $this->kawasan->getZonaKawasan()->getResult(),
-        ];
-        // dd($data['dataKawasan']);
-        return view('admin/jenisZonaKawasan', $data);
-    }
-    public function statusKesesuaian()
-    {
-        $data = [
-            'title' => 'Status Kesesuaian',
-            'dataKesesuaian' => $this->kesesuaian->getKesesuaian()->getResult(), //utama
-            'dataRencanaRuang' => $this->ruang->getRencanaRuang()->getResult(),
-            'dataZonaType' => $this->zona->getZonaType()->getResult(),
-            'dataKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
-        ];
-        // dd($data['dataKesesuaian']);
-        return view('admin/jenisKesesuaian', $data);
-    }
-    public function oneKesesuaian($id, $id_znkwsn = false)
-    {
-        $response = [
-            'status' => "success",
-            'dataKesesuaian' => $this->kesesuaian->getKesesuaian($id, $id_znkwsn)->getResult(), //utama
-        ];
-        // dd($data['dataKesesuaian']);
-        return $this->response->setJSON($response);
-    }
 
-
-    public function delete_kesesuaian($id)
-    {
-        $this->kesesuaian->delete(['id' => $id]);
-        $data = [
-            'dataKesesuaian' => $this->kesesuaian->getKesesuaian()->getResult(),
-        ];
-        return view('serverSide/tblKesesuaian', $data);
-    }
 
 
 

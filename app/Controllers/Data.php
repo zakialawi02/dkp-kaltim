@@ -10,6 +10,8 @@ use App\Models\ModelGeojson;
 use App\Models\ModelSetting;
 use App\Models\ModelIzin;
 use App\Models\ModelJenisKegiatan;
+use App\Models\ModelKesesuaian;
+use App\Models\ModelNamaZona;
 use Faker\Extension\Helper;
 
 class Data extends BaseController
@@ -18,6 +20,8 @@ class Data extends BaseController
     protected $ModelSetting;
     protected $ModelIzin;
     protected $ModelJenisKegiatan;
+    protected $ModelKesesuaian;
+    protected $ModelNamaZona;
     public function __construct()
     {
         helper(['form', 'url']);
@@ -25,6 +29,8 @@ class Data extends BaseController
         $this->setting = new ModelSetting();
         $this->izin = new ModelIzin();
         $this->kegiatan = new ModelJenisKegiatan();
+        $this->kesesuaian = new ModelKesesuaian();
+        $this->zona = new ModelNamaZona();
     }
 
     public function index()
@@ -280,20 +286,44 @@ class Data extends BaseController
 
     public function cekStatus()
     {
+        // $valKegiatan = "";
+        // $getOverlapProperties = "";
         $valKegiatan = $this->request->getPost('kegiatanName');
+        $getOverlapProperties = $this->request->getPost('getOverlapProperties');
         $fecthKegiatan = $this->kegiatan->getJenisKegiatan($valKegiatan)->getResult();
-
+        $kode_kegiatan = $fecthKegiatan[0]->kode_kegiatan;
+        $namaZona = $getOverlapProperties['namaZona'][0];
+        $id_zona = $this->zona->whereZona($namaZona)->getResult();
+        $id_zona = $id_zona[0]->id_zona;
+        $kode_kawasan = $getOverlapProperties['kodeKawasan'][0];
+        // echo '<pre>';
+        // print_r($id_zona);
+        // die;
         $response = [
             'status' => 'Succes',
             'valKegiatan' => $valKegiatan,
-            'fecthKegiatan' => $fecthKegiatan,
-            'kegiatanName' => $fecthKegiatan[0],
-            'kodeKegiatan' => $fecthKegiatan[0]->kode_kegiatan,
+            'valZona' => $id_zona,
+            'nameKegiatan' => $fecthKegiatan[0]->nama_kegiatan,
+            'kodeKegiatan' => $kode_kegiatan,
+            'hasil' => $this->kesesuaian->searchKesesuaian($kode_kegiatan, $id_zona, $kode_kawasan)->getResult(),
         ];
-        // echo '<pre>';
-        // print_r($response);
-        // die;
-        // dd($data);
+        // dd($response);
         return $this->response->setJSON($response);
+    }
+
+
+    public function dumpp()
+    {
+        $kode_kegiatan = "K1";
+        $id_zona = 5;
+        $kode_kawasan = "KPU-W-02";
+        $dd = $this->kesesuaian->searchKesesuaian($kode_kegiatan, $id_zona, $kode_kawasan)->getResult();
+        dd($dd);
+    }
+    public function dumpz()
+    {
+        $cari = "Pencadangan/Indikasi Kawasan Konservasi";
+        $dd = $this->zona->whereZona($cari)->getResult();
+        dd($dd);
     }
 }

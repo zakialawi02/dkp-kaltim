@@ -33,6 +33,33 @@
     </div>
     <!-- Spinner End -->
 
+    <header>
+        <div class="logo"><img class="img-fluid navbar-logo me-2" src="/img/logo navbar.png" alt="DINAS KELAUTAN DAN PERIKANAN PROVINSI KALIMANTAN TIMUR" style="max-width: 12rem;"></div>
+        <nav>
+            <ul>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Cek Kesesuaian
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li id="modalAdd-button"><a class="dropdown-item">Masukkan Koordinat</a></li>
+                        <li id="modalAdd-button2"><a class="dropdown-item">Gambar Polygon</a></li>
+                    </ul>
+                </li>
+                <?php if (logged_in()) : ?>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a id="logout-btn">Log Out</a></li>
+                    <li><a id="spinners"><span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>Logout... </a></li>
+                <?php else : ?>
+                    <li><a id="login-btn" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a></li>
+                <?php endif ?>
+            </ul>
+        </nav>
+        <div class="menu-toggle">
+            <i class="bi bi-list"></i>
+        </div>
+    </header>
+
     <!-- ISI CONTENT -->
     <!-- spinner -->
     <div id="loading-spinner" class="spinner-container d-flex justify-content-center align-items-center position-fixed top-0 start-0 w-100 h-100 d-none">
@@ -469,6 +496,13 @@
     <!-- <script src="/assets/js/main.js"></script> -->
     <script>
         $(document).ready(function() {
+            $(".menu-toggle").click(function() {
+                $('nav').toggleClass('active');
+            })
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
             $("th").css("pointer-events", "none");
             $(".no-sort").css("pointer-events", "none");
         });
@@ -735,18 +769,62 @@
     </script>
     <script>
         function cek() {
-            var kegiatanName = $('#pilihKegiatan').val();
             $(".info_status").html('<img src="/img/loading.gif">');
+            let kegiatanName = $('#pilihKegiatan').val();
+            let getOverlap = overlappingFeatures;
+            objectID = getOverlap.map(function(feature) {
+                return feature.properties.OBJECTID;
+            });
+            kawasan = getOverlap.map(function(feature) {
+                return feature.properties.JNSRPR;
+            });
+            namaZona = getOverlap.map(function(feature) {
+                return feature.properties.NAMOBJ;
+            });
+            kodeKawasan = getOverlap.map(function(feature) {
+                return feature.properties.KODKWS;
+            });
+            if (objectID != null) {
+                objectID = Array.from(new Set(objectID));
+                namaZona = Array.from(new Set(namaZona));
+                kodeKawasan = Array.from(new Set(kodeKawasan));
+                kawasan = Array.from(new Set(kawasan));
+            } else {
+                objectID = "";
+                namaZona = "Maaf, Tidak ada data / Tidak terdeteksi";
+                kodeKawasan = "";
+                kawasan = "Maaf, Tidak ada data / Tidak terdeteksi";
+            }
+            let getOverlapProperties = {
+                objectID,
+                namaZona,
+                kodeKawasan,
+                kawasan
+            }
             $.ajax({
                     method: "POST",
                     url: "<?= base_url('/data/cekStatus'); ?>",
                     data: {
-                        kegiatanName
+                        kegiatanName,
+                        getOverlapProperties
                     },
                     dataType: "json",
                 })
                 .done(function(response) {
                     console.log(response);
+                    let data = response.hasil;
+                    data = response.hasil[0];
+                    if (data != null) {
+                        if (data.status == "diperbolehkan") {
+                            $(".info_status").html('<p class="boleh">Aktifitas diberbolehkan</p>');
+                        } else if (data.status == "diperbolehkan bersyarat") {
+                            $(".info_status").html('<p class="bolehBersyarat">Aktifitas diberbolehkan bersyarat</p>');
+                        } else {
+                            $(".info_status").html('<p class="tidakBoleh">Aktifitas tidak diberbolehkan</p>');
+                        }
+                    } else {
+                        $(".info_status").html('<p class="">No Data</p>');
+                    }
                 })
                 .fail(function(error) {
                     console.error('Error:', error);
@@ -960,8 +1038,10 @@
             'Zona_Pertambangan_Minyak_dan_Gas_Bumi',
             'Sistem_Jaringan_Energi',
             'Sistem_Jaringan_Telekomunikasi',
+            'Alur_Migrasi_Mamalia',
+            'Alur_Migrasi_Penyu',
         ];
-        const layersToShow = ['Zona_Perikanan_Tangkap', 'Sistem_Jaringan_Energi', 'Sistem_Jaringan_Telekomunikasi'];
+        const layersToShow = ['Zona_Perikanan_Tangkap', 'Sistem_Jaringan_Energi', 'Sistem_Jaringan_Telekomunikasi', 'Alur_Migrasi_Mamalia', 'Alur_Migrasi_Penyu'];
         // Loop untuk menambahkan setiap lapisan WMS ke dalam objek peta
         for (const layerName of RZWP3KLayerNames) {
             const wmsSource = new ol.source.TileWMS({
@@ -1167,9 +1247,9 @@
                 dataType: "html",
             }).done(function(response) {
                 // console.log(response);
-                $('#div_hasilCek').html(response);
+                $("#div_hasilCek").html(response);
             }).fail(function(error) {
-                console.error('Error:', error);
+                console.error("Error: ", error);
             });
         }
 
@@ -1247,7 +1327,9 @@
                     alert("Terjadi Kesalahan, Mohon Reload Browser");
                 }
             }
-            console.log(overlappingFeatures);
+            console.log(
+
+            );
             var overlappingID = overlappingFeatures.map(function(feature) {
                 return feature.properties.OBJECTID;
             });
