@@ -34,12 +34,19 @@ class ModelJenisKegiatan extends Model
         }
     }
 
-    public function getWhereKegiatan()
+    public function getJenisKegiatanbyKode($kode_kegiatan = false)
     {
-        return $this->db->table('tbl_kegiatan')
-            ->select('*')
-            ->orderBy('id_kegiatan', 'ASC')
-            ->Where(['kode_kegiatan' => "K1"])
-            ->get();
+        if ($kode_kegiatan === false) {
+            return $this->db->table('tbl_kegiatan')
+                ->select('*')
+                ->orderBy('kode_kegiatan', 'ASC')
+                ->get();
+        } else {
+            return $this->db->table('tbl_kegiatan')
+                ->select('*')
+                ->orderBy('kode_kegiatan', 'ASC')
+                ->Where(['tbl_kegiatan.kode_kegiatan' => $kode_kegiatan])
+                ->get();
+        }
     }
 }

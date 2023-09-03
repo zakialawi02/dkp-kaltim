@@ -100,7 +100,9 @@ class Data extends BaseController
             'kegiatanValue' => $this->request->getVar('kegiatan'),
             'geojson' => $this->request->getPost('geojson'),
             'getOverlap' => $this->request->getPost('getOverlap'),
+            'valZona' => $this->request->getPost('idZona'),
         ];
+        // dd($data);
         session()->setFlashdata('data', $data);
         // echo '<pre>';
         // print_r($data);
@@ -127,7 +129,6 @@ class Data extends BaseController
                 }
             }
         }
-
         $user = user_id();
         $data = [
             'nik' => $this->request->getVar('nik'),
@@ -135,7 +136,9 @@ class Data extends BaseController
             'nama' => $this->request->getVar('nama'),
             'alamat' => $this->request->getVar('alamat'),
             'kontak' => $this->request->getVar('kontak'),
-            'id_kegiatan' => $this->request->getVar('kegiatan'),
+            'id_kegiatan' => $this->request->getVar('idKegiatan'),
+            'kode_kawasan' => $this->request->getVar('kawasan'),
+            'id_zona' => $this->request->getVar('idZona'),
             'lokasi' => $this->request->getVar('drawFeatures'),
             'uploadFiles' => $uploadFiles,
             'created_at' => date('Y-m-d H:i:s'),
@@ -225,15 +228,6 @@ class Data extends BaseController
 
 
 
-
-    public function dump()
-    {
-        $data = $this->kegiatan->getStatusZonasi()->getResultArray();
-        echo "<pre>";
-        print_r($data);
-        die;
-    }
-
     public function petaPreview()
     {
         $data = [
@@ -286,27 +280,25 @@ class Data extends BaseController
 
     public function cekStatus()
     {
-        // $valKegiatan = "";
-        // $getOverlapProperties = "";
-        $valKegiatan = $this->request->getPost('kegiatanName');
         $getOverlapProperties = $this->request->getPost('getOverlapProperties');
+        $valKegiatan = $this->request->getPost('valKegiatan');
         $fecthKegiatan = $this->kegiatan->getJenisKegiatan($valKegiatan)->getResult();
-        $kode_kegiatan = $fecthKegiatan[0]->kode_kegiatan;
+        $KodeKegiatan = $fecthKegiatan[0]->kode_kegiatan;
         $namaZona = $getOverlapProperties['namaZona'][0];
         $id_zona = $this->zona->whereZona($namaZona)->getResult();
         $id_zona = $id_zona[0]->id_zona;
         $kode_kawasan = $getOverlapProperties['kodeKawasan'][0];
-        // echo '<pre>';
-        // print_r($id_zona);
-        // die;
         $response = [
             'status' => 'Succes',
-            'valKegiatan' => $valKegiatan,
+            'valueKegiatan' => $fecthKegiatan[0]->id_kegiatan,
+            'KodeKegiatan' => $KodeKegiatan,
             'valZona' => $id_zona,
             'nameKegiatan' => $fecthKegiatan[0]->nama_kegiatan,
-            'kodeKegiatan' => $kode_kegiatan,
-            'hasil' => $this->kesesuaian->searchKesesuaian($kode_kegiatan, $id_zona, $kode_kawasan)->getResult(),
+            'hasil' => $this->kesesuaian->searchKesesuaian($KodeKegiatan, $id_zona, $kode_kawasan)->getResult(),
         ];
+        // echo '<pre>';
+        // print_r($response);
+        // die;
         // dd($response);
         return $this->response->setJSON($response);
     }
@@ -323,7 +315,8 @@ class Data extends BaseController
     public function dumpz()
     {
         $cari = "Pencadangan/Indikasi Kawasan Konservasi";
-        $dd = $this->zona->whereZona($cari)->getResult();
+        $dd = $this->izin->getAllPermohonan()->getResult();
+        // $dd = $this->zona->whereZona($cari)->getResult();
         dd($dd);
     }
 }

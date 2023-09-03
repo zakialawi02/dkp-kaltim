@@ -253,6 +253,7 @@ class Admin extends BaseController
     public function DataPerizinanDisetujuiDenganLampiran()
     {
         $tampilIzin = $this->izin->getIzin()->getResult();
+        $datPermohonan = [];
         foreach ($tampilIzin as $dat) {
             if ($dat->dokumen_lampiran != null) {
                 $datPermohonan[] = $dat;
@@ -268,6 +269,7 @@ class Admin extends BaseController
     public function DataPerizinanDisetujuiTanpaLampiran()
     {
         $tampilIzin = $this->izin->getIzin()->getResult();
+        $datPermohonan = [];
         foreach ($tampilIzin as $dat) {
             if ($dat->dokumen_lampiran == null) {
                 $datPermohonan[] = $dat;
@@ -338,6 +340,7 @@ class Admin extends BaseController
             'title' => 'Pending List',
             'tampilDataIzin' => $this->izin->callPendingData()->getResult(),
         ];
+        // dd($data['tampilDataIzin']);
         // echo '<pre>';
         // print_r($data);
         // die;

@@ -75,6 +75,7 @@ $routes->delete('/admin/delete_izin/(:num)', 'Admin::delete_izin/$1', ['filter' 
 
 $routes->get('/user/manajemen', 'User::manajemen', ['filter' => 'role:SuperAdmin,Admin']);
 
+$routes->post('/data/cekStatus/', 'Data::cekStatus');
 $routes->get('/map1', 'Data::mapCopy');
 
 

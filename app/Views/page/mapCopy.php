@@ -770,7 +770,7 @@
     <script>
         function cek() {
             $(".info_status").html('<img src="/img/loading.gif">');
-            let kegiatanName = $('#pilihKegiatan').val();
+            let valKegiatan = $('#pilihKegiatan').val();
             let getOverlap = overlappingFeatures;
             objectID = getOverlap.map(function(feature) {
                 return feature.properties.OBJECTID;
@@ -803,9 +803,9 @@
             }
             $.ajax({
                     method: "POST",
-                    url: "<?= base_url('/data/cekStatus'); ?>",
+                    url: "/data/cekStatus",
                     data: {
-                        kegiatanName,
+                        valKegiatan,
                         getOverlapProperties
                     },
                     dataType: "json",
@@ -814,6 +814,9 @@
                     console.log(response);
                     let data = response.hasil;
                     data = response.hasil[0];
+                    let valZona = response.valZona;
+                    console.log(valZona);
+                    $("#idZona").val(valZona);
                     if (data != null) {
                         if (data.status == "diperbolehkan") {
                             $(".info_status").html('<p class="boleh">Aktifitas diberbolehkan</p>');
@@ -888,7 +891,7 @@
 
         const vectorSource = new ol.source.Vector();
         const KKPRLALLsource = new ol.source.TileWMS({
-            url: 'https://sipetarungkaltim.zakialawi.my.id/geoserver/KKPRL/wms',
+            url: 'https://simatalautkaltim.id/geoserver/KKPRL/wms',
             params: {
                 'LAYERS': 'KKPRL:KKPRL_RTRW_KALTIM_10_03_2023_AR_FIX',
                 'TILED': true
@@ -897,7 +900,7 @@
             crossOrigin: 'anonymous'
         });
         const RZWP3KALLsource = new ol.source.TileWMS({
-            url: 'https://sipetarungkaltim.zakialawi.my.id/geoserver/RZWP3K/wms',
+            url: 'https://simatalautkaltim.id/geoserver/RZWP3K/wms',
             params: {
                 'LAYERS': 'RZWP3K:RZ50K_AR_REVISIMAR_2021_FIX_29_Maret',
                 'TILED': true
@@ -1045,7 +1048,7 @@
         // Loop untuk menambahkan setiap lapisan WMS ke dalam objek peta
         for (const layerName of RZWP3KLayerNames) {
             const wmsSource = new ol.source.TileWMS({
-                url: 'https://sipetarungkaltim.zakialawi.my.id/geoserver/RZWP3K/wms?',
+                url: 'https://simatalautkaltim.id/geoserver/RZWP3K/wms?',
                 params: {
                     'LAYERS': `RZWP3K:${layerName}`,
                     'TILED': true,
@@ -1065,7 +1068,7 @@
 
         for (const layerName of KKPRLLayerNames) {
             const wmsSource = new ol.source.TileWMS({
-                url: 'https://sipetarungkaltim.zakialawi.my.id/geoserver/KKPRL/wms?',
+                url: 'https://simatalautkaltim.id/geoserver/KKPRL/wms?',
                 params: {
                     'LAYERS': `KKPRL:${layerName}`,
                     'TILED': true,
@@ -1223,7 +1226,7 @@
         // }
 
         function kirim() {
-            let valueKegiatan = $("#pilihKegiatan").val();
+            // let valueKegiatan = $("#pilihKegiatan").val();
             let geojson = geojsonFeature;
             let getOverlap = overlappingFeatures;
             $("#geojson").val(JSON.stringify(geojson));

@@ -22,14 +22,14 @@ class ModelIzin extends Model
     {
         if ($id_perizinan === false) {
             return $this->db->table('tbl_perizinan')->select('tbl_perizinan.*, tbl_status_appv.*, users.username, tbl_kegiatan.*')
-                ->join('tbl_kegiatan', 'tbl_kegiatan.kode_kegiatan = tbl_perizinan.kode_kegiatan', 'LEFT')
+                ->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan = tbl_perizinan.id_kegiatan', 'LEFT')
                 ->join('tbl_status_appv', 'tbl_status_appv.id_perizinan = tbl_perizinan.id_perizinan', 'LEFT')
                 ->join('users', 'users.id = tbl_status_appv.user')
                 ->orderBy('updated_at', 'DESC')
                 ->get();
         } else {
             return $this->db->table('tbl_perizinan')->select('tbl_perizinan.*, tbl_status_appv.*, users.username, tbl_kegiatan.*')
-                ->join('tbl_kegiatan', 'tbl_kegiatan.kode_kegiatan = tbl_perizinan.kode_kegiatan', 'LEFT')
+                ->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan = tbl_perizinan.id_kegiatan', 'LEFT')
                 ->join('tbl_status_appv', 'tbl_status_appv.id_perizinan = tbl_perizinan.id_perizinan', 'LEFT')
                 ->join('users', 'users.id = tbl_status_appv.user')
                 ->orderBy('updated_at', 'DESC')
@@ -42,14 +42,14 @@ class ModelIzin extends Model
     {
         if ($id_perizinan === false) {
             return $this->db->table('tbl_perizinan')->select('tbl_perizinan.*, tbl_status_appv.*, users.username, tbl_kegiatan.*')
-                ->join('tbl_kegiatan', 'tbl_kegiatan.kode_kegiatan = tbl_perizinan.kode_kegiatan', 'LEFT')
+                ->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan = tbl_perizinan.id_kegiatan', 'LEFT')
                 ->join('tbl_status_appv', 'tbl_status_appv.id_perizinan = tbl_perizinan.id_perizinan', 'LEFT')
                 ->join('users', 'users.id = tbl_status_appv.user')
                 ->orderBy('updated_at', 'DESC')
                 ->getWhere(['stat_appv' => $status]);
         } else {
             return $this->db->table('tbl_perizinan')->select('tbl_perizinan.*, tbl_status_appv.*, users.username, tbl_kegiatan.*')
-                ->join('tbl_kegiatan', 'tbl_kegiatan.kode_kegiatan = tbl_perizinan.kode_kegiatan', 'LEFT')
+                ->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan = tbl_perizinan.id_kegiatan', 'LEFT')
                 ->join('tbl_status_appv', 'tbl_status_appv.id_perizinan = tbl_perizinan.id_perizinan', 'LEFT')
                 ->join('users', 'users.id = tbl_status_appv.user')
                 ->orderBy('updated_at', 'DESC')
@@ -61,14 +61,14 @@ class ModelIzin extends Model
     {
         if ($id_perizinan === false) {
             return $this->db->table('tbl_perizinan')->select('tbl_perizinan.*, tbl_status_appv.*, users.username, tbl_kegiatan.*')
-                ->join('tbl_kegiatan', 'tbl_kegiatan.kode_kegiatan = tbl_perizinan.kode_kegiatan', 'LEFT')
+                ->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan = tbl_perizinan.id_kegiatan', 'LEFT')
                 ->join('tbl_status_appv', 'tbl_status_appv.id_perizinan = tbl_perizinan.id_perizinan', 'LEFT')
                 ->join('users', 'users.id = tbl_status_appv.user')
                 ->orderBy('updated_at', 'DESC')
                 ->getWhere(['stat_appv' => '0']);
         } else {
             return $this->db->table('tbl_perizinan')->select('tbl_perizinan.*, tbl_status_appv.*, users.username, tbl_kegiatan.*')
-                ->join('tbl_kegiatan', 'tbl_kegiatan.kode_kegiatan = tbl_perizinan.kode_kegiatan', 'LEFT')
+                ->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan = tbl_perizinan.id_kegiatan', 'LEFT')
                 ->join('tbl_status_appv', 'tbl_status_appv.id_perizinan = tbl_perizinan.id_perizinan', 'LEFT')
                 ->join('users', 'users.id = tbl_status_appv.user')
                 ->orderBy('updated_at', 'DESC')
@@ -79,7 +79,7 @@ class ModelIzin extends Model
     function getIzinFive()
     {
         $buidler = $this->db->table('tbl_perizinan')->select('tbl_perizinan.*, tbl_status_appv.*, tbl_kegiatan.*')
-            ->join('tbl_kegiatan', 'tbl_kegiatan.kode_kegiatan = tbl_perizinan.kode_kegiatan', 'LEFT')
+            ->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan = tbl_perizinan.id_kegiatan', 'LEFT')
             ->join('tbl_status_appv', 'tbl_status_appv.id_perizinan = tbl_perizinan.id_perizinan', 'LEFT')
             ->join('users', 'users.id = tbl_status_appv.user')
             ->limit(5)
@@ -91,7 +91,7 @@ class ModelIzin extends Model
     function userSubmitIzin($userid)
     {
         return $this->db->table('tbl_perizinan')->select('tbl_perizinan.*, tbl_status_appv.user, tbl_status_appv.stat_appv, tbl_status_appv.date_updated, tbl_kegiatan.*')
-            ->join('tbl_kegiatan', 'tbl_kegiatan.kode_kegiatan = tbl_perizinan.kode_kegiatan', 'LEFT')
+            ->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan = tbl_perizinan.id_kegiatan', 'LEFT')
             ->join('tbl_status_appv', 'tbl_status_appv.id_perizinan = tbl_perizinan.id_perizinan', 'LEFT')
             ->join('users', 'users.id = tbl_status_appv.user')
             ->orderBy('created_at', 'DESC')

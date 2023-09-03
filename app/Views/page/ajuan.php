@@ -65,12 +65,15 @@
                                 $datas = session()->getFlashdata('data');
                                 $geojson = json_decode($datas['geojson']);
                                 $getOverlap = json_decode($datas['getOverlap']);
+                                $valZona = json_decode($datas['valZona']);
                                 // $propertiOverlap = $getOverlap[0]->properties;
                                 // dd($propertiOverlap);
                                 ?>
 
 
-                                <input type="hidden" class="form-control" id="zona" aria-describedby="textlHelp" name="zona">
+                                <input type="hidden" class="form-control" id="kawasan" aria-describedby="textlHelp" name="kawasan" value="">
+                                <input type="hidden" class="form-control" id="idZona" aria-describedby="textlHelp" name="idZona" value="">
+                                <input type="hidden" class="form-control" id="idKegiatan" aria-describedby="textlHelp" name="idKegiatan" value="<?= $datas['kegiatanValue']; ?>">
                                 <input type="hidden" class="form-control" id="drawFeatures" aria-describedby="textlHelp" name="drawFeatures">
 
                                 <h5>a. Identitas Pemohon</h5>
@@ -101,7 +104,7 @@
 
                                 <div class="form-group">
                                     <label class="col-md-12 mb-2">Jenis Kegiatan</label>
-                                    <select class="form-select" id="pilihKegiatan" name="kegiatan" style="width: 100%;" required>
+                                    <select class="form-select" id="pilihKegiatan" name="kegiatan" style="width: 100%;" required disabled>
                                         <option></option>
                                         <?php foreach ($jenisKegiatan as $K) : ?>
                                             <option value=" <?= $K->id_kegiatan ?>" <?= $K->id_kegiatan == $datas['kegiatanValue'] ? 'selected' : '' ?>><?= $K->nama_kegiatan ?></option>
@@ -202,7 +205,7 @@
         proj4.defs("EPSG:23836", "+proj=tmerc +lat_0=0 +lon_0=112.5 +k=0.9999 +x_0=200000 +y_0=1500000 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
 
         let geojson = <?= json_encode($geojson); ?>;
-        console.log(geojson);
+        // console.log(geojson);
 
         // style vector geometry
         const markerStyle = new ol.style.Style({
@@ -237,7 +240,6 @@
         } else {
             styleDraw = polygonStyle;
         }
-        console.log(styleDraw);
         let vectorSource = new ol.source.Vector({
             features: new ol.format.GeoJSON().readFeatures(geojson, {
                 featureProjection: 'EPSG:3857', // Proyeksi EPSG:3857 (Web Mercator)
@@ -327,12 +329,19 @@
     </script>
     <script>
         function kirim() {
+            let idZona = <?= json_encode($valZona); ?>;
+            $("#idZona").val(idZona);
+            console.log(idZona);
             $("#drawFeatures").val(JSON.stringify(geojson));
             $("#pilihKegiatan").val($("#pilihKegiatan").val());
+            let zona = <?= json_encode($getOverlap); ?>;
+            var kawasan = zona.map(function(feature) {
+                return feature.properties.KODKWS;
+            });
+            kawasan = Array.from(new Set(kawasan));
+            $("#kawasan").val(kawasan);
+            console.log(kawasan);
         }
-        let zona = <?= json_encode($getOverlap); ?>;
-        zona = zona.properties;
-        console.log(zona);
     </script>
 
 </body>

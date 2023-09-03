@@ -67,6 +67,7 @@ $remark = $remark ?? "-";
 
         <input type="hidden" class="form-control" for="geojson" id="geojson" name="geojson" value="">
         <input type="hidden" class="form-control" for="getOverlap" id="getOverlap" name="getOverlap" value="">
+        <input type="hidden" class="form-control" for="idZona" id="idZona" name="idZona" value="">
 
         <div class="form-group">
             <label class="col-md-12 mb-2">Jenis Kegiatan</label>

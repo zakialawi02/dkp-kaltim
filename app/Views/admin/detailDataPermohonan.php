@@ -84,7 +84,8 @@
                                         <tr>
                                             <td>NIB (Nomor Izin Berusaha)</td>
                                             <th>:</th>
-                                            <td><?= ($tampilDataIzin->nib) == null ? '-' : '<?= $tampilDataIzin->nib; ?>'; ?></td>
+                                            <td><?= ($tampilDataIzin->nib != null) ? $tampilDataIzin->nib : '-'; ?>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Alamat</td>
