@@ -44,7 +44,7 @@
             <!-- MAIN CONTENT -->
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-2 mb-3">Data Perizinan Masuk</h1>
+                    <h1 class="mt-2 mb-3">Data Permohonan Masuk</h1>
 
                     <div class="card mb-4">
                         <div class="card-body">

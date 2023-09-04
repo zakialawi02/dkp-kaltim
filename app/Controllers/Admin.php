@@ -97,144 +97,144 @@ class Admin extends BaseController
     // GEOJSONDATA =======================================================================================
 
 
-    public function geojson()
-    {
-        $data = [
-            'title' => 'DATA FEATURES',
-            'tampilData' => $this->setting->tampilData()->getResult(),
-            'tampilGeojson' => $this->FGeojson->callGeojson()->getResult(),
-        ];
+    // public function geojson()
+    // {
+    //     $data = [
+    //         'title' => 'DATA FEATURES',
+    //         'tampilData' => $this->setting->tampilData()->getResult(),
+    //         'tampilGeojson' => $this->FGeojson->callGeojson()->getResult(),
+    //     ];
 
-        return view('admin/geojsonData', $data);
-    }
+    //     return view('admin/geojsonData', $data);
+    // }
 
-    public function editGeojson($id)
-    {
-        $data = [
-            'title' => 'DATA FEATURES',
-            'updateGeojson' => $this->FGeojson->callGeojson($id)->getRow(),
-        ];
+    // public function editGeojson($id)
+    // {
+    //     $data = [
+    //         'title' => 'DATA FEATURES',
+    //         'updateGeojson' => $this->FGeojson->callGeojson($id)->getRow(),
+    //     ];
 
-        return view('admin/updateGeojson', $data);
-    }
+    //     return view('admin/updateGeojson', $data);
+    // }
 
-    public function tambahGeojson()
-    {
-        $data = [
-            'title' => 'DATA FEATURES',
-            'tampilData' => $this->setting->tampilData()->getResult(),
+    // public function tambahGeojson()
+    // {
+    //     $data = [
+    //         'title' => 'DATA FEATURES',
+    //         'tampilData' => $this->setting->tampilData()->getResult(),
 
-        ];
+    //     ];
 
-        return view('admin/tambahGeojson', $data);
-    }
+    //     return view('admin/tambahGeojson', $data);
+    // }
 
-    // insert data
-    public function tambah_Geojson()
-    {
-        // dd($this->request->getVar());
-        // ambil file
-        $fileGeojson = $this->request->getFile('Fjson');
-        //generate random file name
-        $extension = $fileGeojson->getExtension();
-        $size = $fileGeojson->getSize();
-        $randomName = date('YmdHis') . '_' . $size . '.' . $extension;
-        $explode = explode('.', $randomName);
-        array_pop($explode);
-        $randomName = implode('.', $explode);
-        if ($extension != 'zip') {
-            $randomName = $randomName . ".geojson";
-        } else {
-            $randomName = $randomName . ".$extension";
-        }
-        // pindah file to hosting
-        $fileGeojson->move('geojson/', $randomName);
+    // // insert data
+    // public function tambah_Geojson()
+    // {
+    //     // dd($this->request->getVar());
+    //     // ambil file
+    //     $fileGeojson = $this->request->getFile('Fjson');
+    //     //generate random file name
+    //     $extension = $fileGeojson->getExtension();
+    //     $size = $fileGeojson->getSize();
+    //     $randomName = date('YmdHis') . '_' . $size . '.' . $extension;
+    //     $explode = explode('.', $randomName);
+    //     array_pop($explode);
+    //     $randomName = implode('.', $explode);
+    //     if ($extension != 'zip') {
+    //         $randomName = $randomName . ".geojson";
+    //     } else {
+    //         $randomName = $randomName . ".$extension";
+    //     }
+    //     // pindah file to hosting
+    //     $fileGeojson->move('geojson/', $randomName);
 
-        $data = [
-            'nama_features'  => $this->request->getVar('Nkec'),
-            'features'  => $randomName,
-            'warna'  => $this->request->getVar('Kwarna'),
-        ];
+    //     $data = [
+    //         'nama_features'  => $this->request->getVar('Nkec'),
+    //         'features'  => $randomName,
+    //         'warna'  => $this->request->getVar('Kwarna'),
+    //     ];
 
-        $addGeojson = $this->FGeojson->addGeojson($data);
+    //     $addGeojson = $this->FGeojson->addGeojson($data);
 
-        if ($addGeojson) {
-            session()->setFlashdata('success', 'Data Berhasil ditambahkan.');
-            return $this->response->redirect(site_url('/admin/features'));
-        } else {
-            session()->setFlashdata('error', 'Gagal menambahkan data.');
-            return $this->response->redirect(site_url('/admin/features'));
-        }
-    }
+    //     if ($addGeojson) {
+    //         session()->setFlashdata('success', 'Data Berhasil ditambahkan.');
+    //         return $this->response->redirect(site_url('/admin/features'));
+    //     } else {
+    //         session()->setFlashdata('error', 'Gagal menambahkan data.');
+    //         return $this->response->redirect(site_url('/admin/features'));
+    //     }
+    // }
 
-    // update data
-    public function update_Geojson()
-    {
-        // dd($this->request->getVar());
-        // ambil file name
-        $fileGeojson = $this->request->getFile('Fjson');
-        // cek file input
-        if ($fileGeojson->getError() !== 4) {
-            // Jika ada file baru
+    // // update data
+    // public function update_Geojson()
+    // {
+    //     // dd($this->request->getVar());
+    //     // ambil file name
+    //     $fileGeojson = $this->request->getFile('Fjson');
+    //     // cek file input
+    //     if ($fileGeojson->getError() !== 4) {
+    //         // Jika ada file baru
 
-            // hapus file lama
-            $file = $this->request->getVar('jsonLama');
-            unlink("geojson/" . $file);
-            // ambil file
-            $fileGeojson = $this->request->getFile('Fjson');
-            //generate random file name
-            $extension = $fileGeojson->getExtension();
-            $size = $fileGeojson->getSize();
-            $randomName = date('YmdHis') . '_' . $size . '.' . $extension;
-            $explode = explode('.', $randomName);
-            array_pop($explode);
-            $randomName = implode('.', $explode);
-            if ($extension != 'zip') {
-                $randomName = $randomName . ".geojson";
-            } else {
-                $randomName = $randomName . ".$extension";
-            }
-            // pindah file to hosting
-            $fileGeojson->move('geojson/', $randomName);
-        } else {
-            //    Jika tidak ada file baru
-            $randomName = $this->request->getPost('jsonLama');
-        }
+    //         // hapus file lama
+    //         $file = $this->request->getVar('jsonLama');
+    //         unlink("geojson/" . $file);
+    //         // ambil file
+    //         $fileGeojson = $this->request->getFile('Fjson');
+    //         //generate random file name
+    //         $extension = $fileGeojson->getExtension();
+    //         $size = $fileGeojson->getSize();
+    //         $randomName = date('YmdHis') . '_' . $size . '.' . $extension;
+    //         $explode = explode('.', $randomName);
+    //         array_pop($explode);
+    //         $randomName = implode('.', $explode);
+    //         if ($extension != 'zip') {
+    //             $randomName = $randomName . ".geojson";
+    //         } else {
+    //             $randomName = $randomName . ".$extension";
+    //         }
+    //         // pindah file to hosting
+    //         $fileGeojson->move('geojson/', $randomName);
+    //     } else {
+    //         //    Jika tidak ada file baru
+    //         $randomName = $this->request->getPost('jsonLama');
+    //     }
 
-        $id = $this->request->getVar('id');
-        $data = [
-            'nama_features'  => $this->request->getVar('Nkec'),
-            'warna'  => $this->request->getVar('Kwarna'),
-            'features'  => $randomName,
-        ];
+    //     $id = $this->request->getVar('id');
+    //     $data = [
+    //         'nama_features'  => $this->request->getVar('Nkec'),
+    //         'warna'  => $this->request->getVar('Kwarna'),
+    //         'features'  => $randomName,
+    //     ];
 
-        $this->FGeojson->updateGeojson($data, $id);
-        if ($this) {
-            session()->setFlashdata('success', 'Data Berhasil diperbarui.');
-            return $this->response->redirect(site_url('/admin/features'));
-        } else {
-            session()->setFlashdata('error', 'Gagal memperbarui data.');
-            return $this->response->redirect(site_url('/admin/features'));
-        }
-    }
+    //     $this->FGeojson->updateGeojson($data, $id);
+    //     if ($this) {
+    //         session()->setFlashdata('success', 'Data Berhasil diperbarui.');
+    //         return $this->response->redirect(site_url('/admin/features'));
+    //     } else {
+    //         session()->setFlashdata('error', 'Gagal memperbarui data.');
+    //         return $this->response->redirect(site_url('/admin/features'));
+    //     }
+    // }
 
-    // delete data
-    public function delete_Geojson($id)
-    {
+    // // delete data
+    // public function delete_Geojson($id)
+    // {
 
-        $data = $this->FGeojson->callGeojson($id)->getRow();
-        $file = $data->features;
-        unlink("geojson/" . $file);
+    //     $data = $this->FGeojson->callGeojson($id)->getRow();
+    //     $file = $data->features;
+    //     unlink("geojson/" . $file);
 
-        $this->FGeojson->delete(['id' => $id]);
-        if ($this) {
-            session()->setFlashdata('success', 'Data Berhasil dihapus.');
-            return $this->response->redirect(site_url('/admin/features'));
-        } else {
-            session()->setFlashdata('error', 'Gagal menghapus data.');
-            return $this->response->redirect(site_url('/admin/features'));
-        }
-    }
+    //     $this->FGeojson->delete(['id' => $id]);
+    //     if ($this) {
+    //         session()->setFlashdata('success', 'Data Berhasil dihapus.');
+    //         return $this->response->redirect(site_url('/admin/features'));
+    //     } else {
+    //         session()->setFlashdata('error', 'Gagal menghapus data.');
+    //         return $this->response->redirect(site_url('/admin/features'));
+    //     }
+    // }
 
 
 
@@ -293,45 +293,6 @@ class Admin extends BaseController
         return view('admin/PermohonanData4', $data);
     }
 
-    public function editPerizinan($id_perizinan)
-    {
-
-        $kegiatanId = $this->izin->getAllPermohonan($id_perizinan)->getRow();
-        if (empty($kegiatanId)) {
-            throw new PageNotFoundException();
-        }
-        $kegiatanId = $kegiatanId->id_kegiatan;
-        $data = [
-            'title' => 'Data Pengajuan Informasi Ruang Laut',
-            'tampilIzin' => $this->izin->getAllPermohonan($id_perizinan)->getRow(),
-            'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
-            'jenisZona' => $this->kegiatan->getZonaByKegiatanAjax($kegiatanId),
-        ];
-
-        return view('admin/updateIzin', $data);
-    }
-
-
-    // Delete Data
-    public function delete_izin($id_perizinannya)
-    {
-        $this->izin->delete(['id_perizinannya' => $id_perizinannya]);
-        if ($this) {
-            session()->setFlashdata('success', 'Data berhasil dihapus.');
-            if (in_groups('User')) {
-                return $this->response->redirect(site_url('/dashboard'));
-            } else {
-                return $this->response->redirect(site_url('/admin/data/permohonan/disetujui/semua'));
-            }
-        } else {
-            session()->setFlashdata('error', 'Gagal menghapus data.');
-            if (in_groups('User')) {
-                return $this->response->redirect(site_url('/dashboard'));
-            } else {
-                return $this->response->redirect(site_url('/admin/data/permohonan/disetujui/semua'));
-            }
-        }
-    }
 
     // Pending Data/data baru masuk
     public function pending()
@@ -414,6 +375,45 @@ class Admin extends BaseController
                 } else {
                     session()->setFlashdata('error', 'Gagal Menyimpan Tindakan.');
                     return $this->response->redirect(site_url('/admin/pending'));
+                }
+            } else {
+                $data = [
+                    'stat_appv' => '1',
+                    'date_updated' => date('Y-m-d H:i:s'),
+                ];
+                $this->izin->saveStatusAppv($data, $id_perizinan);
+                if ($this) {
+                    session()->setFlashdata('success', 'Berhasil Menyimpan Tindakan.');
+                    return $this->response->redirect(site_url('/admin/pending'));
+                } else {
+                    session()->setFlashdata('error', 'Gagal Menyimpan Tindakan.');
+                    return $this->response->redirect(site_url('/admin/pending'));
+                }
+            }
+        } else if (empty($stat_appv)) {
+            $infoData = $this->izin->getAllPermohonan($id_perizinan)->getRow();
+            $nik = $infoData->nik;
+            // ambil file
+            $fileLampiran = $this->request->getFile('lampiranFile');
+            if ($fileLampiran->isValid() && !$fileLampiran->hasMoved()) {
+                //generate random file name
+                $extension = $fileLampiran->getExtension();
+                $newName = date('YmdHis') . '_' . $nik . '.' . $extension;
+                // pindah file to hosting
+                $fileLampiran->move('dokumen/lampiran-balasan/', $newName);
+
+                $data = [
+                    'stat_appv' => '1',
+                    'dokumen_lampiran' => $newName,
+                    'date_updated' => date('Y-m-d H:i:s'),
+                ];
+                $this->izin->saveStatusAppv($data, $id_perizinan);
+                if ($this) {
+                    session()->setFlashdata('success', 'Berhasil Mengupload Dokumen.');
+                    return $this->response->redirect(site_url('/admin/data/permohonan/disetujui/'));
+                } else {
+                    session()->setFlashdata('error', 'Gagal Mengupload Dokumen.');
+                    return $this->response->redirect(site_url('/admin/data/permohonan/disetujui/'));
                 }
             } else {
                 $data = [

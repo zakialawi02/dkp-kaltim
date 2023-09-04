@@ -103,7 +103,7 @@ class ModelIzin extends Model
         return  $this->db->table('tbl_perizinan')->insert($addPengajuan);
     }
 
-    public function updateIzin($data, $id_perizinan)
+    public function updatePengajuan($data, $id_perizinan)
     {
         return $this->db->table('tbl_perizinan')->update($data, ['id_perizinan' => $id_perizinan]);
     }

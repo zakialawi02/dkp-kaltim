@@ -165,48 +165,100 @@ class Data extends BaseController
         }
     }
 
-    public function updateAjuan()
+    // public function updateAjuan()
+    // {
+    //     // dd($this->request->getVar());
+    //     $id_perizinan = $this->request->getPost('id');
+    //     $data = [
+    //         'nik' => $this->request->getVar('nik'),
+    //         'nama' => $this->request->getVar('nama'),
+    //         'alamat' => $this->request->getVar('alamat'),
+    //         'kontak' => $this->request->getVar('kontak'),
+    //         'id_kegiatan' => $this->request->getVar('kegiatan'),
+    //         'id_sub' => $this->request->getVar('SubZona'),
+    //         'longitude' => $this->request->getVar('longitude'),
+    //         'latitude' => $this->request->getVar('latitude'),
+    //         'polygon' => $this->request->getVar('drawPolygon'),
+    //         'created_at' => date('Y-m-d H:i:s'),
+    //         'updated_at' => date('Y-m-d H:i:s'),
+    //     ];
+    //     $updatePengajuan =  $this->izin->updatePengajuan($data, $id_perizinan);
+
+    //     if (in_groups('User')) {
+    //         $status = [
+    //             'stat_appv' => '0',
+    //             'date_updated' => date('Y-m-d H:i:s'),
+    //         ];
+    //         $this->izin->saveStatusAppv($status, $id_perizinan);
+    //     }
+
+    //     if ($updatePengajuan) {
+    //         session()->setFlashdata('success', 'Data Berhasil diperbarui.');
+    //         if (in_groups('User')) {
+    //             return $this->response->redirect(site_url('/dashboard'));
+    //         } else {
+    //             return $this->response->redirect(site_url('/admin/data/permohonan/disetujui/semua'));
+    //         }
+    //     } else {
+    //         session()->setFlashdata('error', 'Gagal memperbarui data.');
+    //         if (in_groups('User')) {
+    //             return $this->response->redirect(site_url('/dashboard'));
+    //         } else {
+    //             return $this->response->redirect(site_url('/admin/data/permohonan/disetujui/semua'));
+    //         }
+    //     }
+    // }
+
+    // Delete Data
+    public function delete_pengajuan($id_perizinannya)
     {
-        // dd($this->request->getVar());
-        $id_perizinan = $this->request->getPost('id');
-        $data = [
-            'nik' => $this->request->getVar('nik'),
-            'nama' => $this->request->getVar('nama'),
-            'alamat' => $this->request->getVar('alamat'),
-            'kontak' => $this->request->getVar('kontak'),
-            'id_kegiatan' => $this->request->getVar('kegiatan'),
-            'id_sub' => $this->request->getVar('SubZona'),
-            'longitude' => $this->request->getVar('longitude'),
-            'latitude' => $this->request->getVar('latitude'),
-            'polygon' => $this->request->getVar('drawPolygon'),
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        ];
-        $updateIzin =  $this->izin->updateIzin($data, $id_perizinan);
-
-        if (in_groups('User')) {
-            $status = [
-                'stat_appv' => '0',
-                'date_updated' => date('Y-m-d H:i:s'),
-            ];
-            $this->izin->saveStatusAppv($status, $id_perizinan);
+        $datas = $this->izin->getAllPermohonan($id_perizinannya)->getRow();
+        if (!empty($datas->uploadFiles)) {
+            $uploadFiles = explode(",", $datas->uploadFiles);
+            foreach ($uploadFiles as $file) {
+                $file = trim($file, '()"');
+                $file = 'dokumen/upload-dokumen/' . $file;
+                if (file_exists($file)) {
+                    // echo "Menghapus file: $file<br>";
+                    unlink($file);
+                }
+            }
         }
-
-        if ($updateIzin) {
-            session()->setFlashdata('success', 'Data Berhasil diperbarui.');
+        // die;
+        $this->izin->delete(['id_perizinannya' => $id_perizinannya]);
+        if ($this) {
+            session()->setFlashdata('success', 'Data berhasil dihapus.');
             if (in_groups('User')) {
                 return $this->response->redirect(site_url('/dashboard'));
             } else {
                 return $this->response->redirect(site_url('/admin/data/permohonan/disetujui/semua'));
             }
         } else {
-            session()->setFlashdata('error', 'Gagal memperbarui data.');
+            session()->setFlashdata('error', 'Gagal menghapus data.');
             if (in_groups('User')) {
                 return $this->response->redirect(site_url('/dashboard'));
             } else {
                 return $this->response->redirect(site_url('/admin/data/permohonan/disetujui/semua'));
             }
         }
+    }
+
+    public function editPengajuan($id_perizinan)
+    {
+
+        $kegiatanId = $this->izin->getAllPermohonan($id_perizinan)->getRow();
+        if (empty($kegiatanId)) {
+            throw new PageNotFoundException();
+        }
+        $kegiatanId = $kegiatanId->id_kegiatan;
+        $data = [
+            'title' => 'Data Pengajuan',
+            'tampilData' => $this->setting->tampilData()->getResult(),
+            'tampilIzin' => $this->izin->getAllPermohonan($id_perizinan)->getRow(),
+            'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
+        ];
+        // dd($data);
+        return view('admin/updatePengajuan', $data);
     }
 
     public function kontak()

@@ -371,7 +371,7 @@
         var extent = vectorLayer.getSource().getExtent();
         map.getView().fit(extent, {
             padding: [100, 100, 100, 100],
-            minResolution: map.getView().getResolutionForZoom(10),
+            minResolution: map.getView().getResolutionForZoom(12),
             duration: 1500,
         });
     </script>
