@@ -148,10 +148,10 @@
                                                                                 </td>
                                                                                 <td>
                                                                                     <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="edit data">
-                                                                                        <a href="/data-permohonan/<?= $pIzin->id_perizinan; ?>/edit/" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
+                                                                                        <a href="/data/permohonan/<?= $pIzin->id_perizinan; ?>/edit/" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
                                                                                     </div>
                                                                                     <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="hapus data">
-                                                                                        <form id="delete-form-<?= $pIzin->id_perizinan; ?>" action="/admin/delete_izin/<?= $pIzin->id_perizinan; ?>" method="post">
+                                                                                        <form id="delete-form-<?= $pIzin->id_perizinan; ?>" action="/data/delete_pengajuan/<?= $pIzin->id_perizinan; ?>" method="post">
                                                                                             <?= csrf_field(); ?>
                                                                                             <input type="hidden" name="_method" value="DELETE">
                                                                                             <button type="button" class="asbn btn btn-danger bi bi-trash delete-btn" data-id="<?= $pIzin->id_perizinan; ?>"></button>
@@ -215,10 +215,10 @@
                                                                                 </td>
                                                                                 <td>
                                                                                     <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="edit data">
-                                                                                        <a href="/data-permohonan/<?= $tIzin->id_perizinan; ?>/edit/" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
+                                                                                        <a href="/data/permohonan/<?= $tIzin->id_perizinan; ?>/edit/" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
                                                                                     </div>
                                                                                     <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="hapus data">
-                                                                                        <form id="delete-form-<?= $tIzin->id_perizinan; ?>" action="/admin/delete_izin/<?= $tIzin->id_perizinan; ?>" method="post">
+                                                                                        <form id="delete-form-<?= $tIzin->id_perizinan; ?>" action="/data/delete_pengajuan/<?= $tIzin->id_perizinan; ?>" method="post">
                                                                                             <?= csrf_field(); ?>
                                                                                             <input type="hidden" name="_method" value="DELETE">
                                                                                             <button type="button" class="asbn btn btn-danger bi bi-trash delete-btn" data-id="<?= $tIzin->id_perizinan; ?>"></button>
@@ -282,10 +282,10 @@
 
                                                                                 <td>
                                                                                     <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="edit data">
-                                                                                        <a href="/data-permohonan/<?= $sIzin->id_perizinan; ?>/edit/" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
+                                                                                        <a href="/data/permohonan/<?= $sIzin->id_perizinan; ?>/edit/" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
                                                                                     </div>
                                                                                     <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="hapus data">
-                                                                                        <form id="delete-form-<?= $sIzin->id_perizinan; ?>" action="/admin/delete_izin/<?= $sIzin->id_perizinan; ?>" method="post">
+                                                                                        <form id="delete-form-<?= $sIzin->id_perizinan; ?>" action="/data/delete_pengajuan/<?= $sIzin->id_perizinan; ?>" method="post">
                                                                                             <?= csrf_field(); ?>
                                                                                             <input type="hidden" name="_method" value="DELETE">
                                                                                             <button type="button" class="asbn btn btn-danger bi bi-trash delete-btn" data-id="<?= $sIzin->id_perizinan; ?>"></button>

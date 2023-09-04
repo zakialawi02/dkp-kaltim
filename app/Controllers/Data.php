@@ -100,7 +100,9 @@ class Data extends BaseController
             'kegiatanValue' => $this->request->getVar('kegiatan'),
             'geojson' => $this->request->getPost('geojson'),
             'getOverlap' => $this->request->getPost('getOverlap'),
+            'valZona' => $this->request->getPost('idZona'),
         ];
+        // dd($data);
         session()->setFlashdata('data', $data);
         // echo '<pre>';
         // print_r($data);
@@ -127,7 +129,6 @@ class Data extends BaseController
                 }
             }
         }
-
         $user = user_id();
         $data = [
             'nik' => $this->request->getVar('nik'),
@@ -135,7 +136,9 @@ class Data extends BaseController
             'nama' => $this->request->getVar('nama'),
             'alamat' => $this->request->getVar('alamat'),
             'kontak' => $this->request->getVar('kontak'),
-            'id_kegiatan' => $this->request->getVar('kegiatan'),
+            'id_kegiatan' => $this->request->getVar('idKegiatan'),
+            'kode_kawasan' => $this->request->getVar('kawasan'),
+            'id_zona' => $this->request->getVar('idZona'),
             'lokasi' => $this->request->getVar('drawFeatures'),
             'uploadFiles' => $uploadFiles,
             'created_at' => date('Y-m-d H:i:s'),
@@ -162,48 +165,100 @@ class Data extends BaseController
         }
     }
 
-    public function updateAjuan()
+    // public function updateAjuan()
+    // {
+    //     // dd($this->request->getVar());
+    //     $id_perizinan = $this->request->getPost('id');
+    //     $data = [
+    //         'nik' => $this->request->getVar('nik'),
+    //         'nama' => $this->request->getVar('nama'),
+    //         'alamat' => $this->request->getVar('alamat'),
+    //         'kontak' => $this->request->getVar('kontak'),
+    //         'id_kegiatan' => $this->request->getVar('kegiatan'),
+    //         'id_sub' => $this->request->getVar('SubZona'),
+    //         'longitude' => $this->request->getVar('longitude'),
+    //         'latitude' => $this->request->getVar('latitude'),
+    //         'polygon' => $this->request->getVar('drawPolygon'),
+    //         'created_at' => date('Y-m-d H:i:s'),
+    //         'updated_at' => date('Y-m-d H:i:s'),
+    //     ];
+    //     $updatePengajuan =  $this->izin->updatePengajuan($data, $id_perizinan);
+
+    //     if (in_groups('User')) {
+    //         $status = [
+    //             'stat_appv' => '0',
+    //             'date_updated' => date('Y-m-d H:i:s'),
+    //         ];
+    //         $this->izin->saveStatusAppv($status, $id_perizinan);
+    //     }
+
+    //     if ($updatePengajuan) {
+    //         session()->setFlashdata('success', 'Data Berhasil diperbarui.');
+    //         if (in_groups('User')) {
+    //             return $this->response->redirect(site_url('/dashboard'));
+    //         } else {
+    //             return $this->response->redirect(site_url('/admin/data/permohonan/disetujui/semua'));
+    //         }
+    //     } else {
+    //         session()->setFlashdata('error', 'Gagal memperbarui data.');
+    //         if (in_groups('User')) {
+    //             return $this->response->redirect(site_url('/dashboard'));
+    //         } else {
+    //             return $this->response->redirect(site_url('/admin/data/permohonan/disetujui/semua'));
+    //         }
+    //     }
+    // }
+
+    // Delete Data
+    public function delete_pengajuan($id_perizinannya)
     {
-        // dd($this->request->getVar());
-        $id_perizinan = $this->request->getPost('id');
-        $data = [
-            'nik' => $this->request->getVar('nik'),
-            'nama' => $this->request->getVar('nama'),
-            'alamat' => $this->request->getVar('alamat'),
-            'kontak' => $this->request->getVar('kontak'),
-            'id_kegiatan' => $this->request->getVar('kegiatan'),
-            'id_sub' => $this->request->getVar('SubZona'),
-            'longitude' => $this->request->getVar('longitude'),
-            'latitude' => $this->request->getVar('latitude'),
-            'polygon' => $this->request->getVar('drawPolygon'),
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        ];
-        $updateIzin =  $this->izin->updateIzin($data, $id_perizinan);
-
-        if (in_groups('User')) {
-            $status = [
-                'stat_appv' => '0',
-                'date_updated' => date('Y-m-d H:i:s'),
-            ];
-            $this->izin->saveStatusAppv($status, $id_perizinan);
+        $datas = $this->izin->getAllPermohonan($id_perizinannya)->getRow();
+        if (!empty($datas->uploadFiles)) {
+            $uploadFiles = explode(",", $datas->uploadFiles);
+            foreach ($uploadFiles as $file) {
+                $file = trim($file, '()"');
+                $file = 'dokumen/upload-dokumen/' . $file;
+                if (file_exists($file)) {
+                    // echo "Menghapus file: $file<br>";
+                    unlink($file);
+                }
+            }
         }
-
-        if ($updateIzin) {
-            session()->setFlashdata('success', 'Data Berhasil diperbarui.');
+        // die;
+        $this->izin->delete(['id_perizinannya' => $id_perizinannya]);
+        if ($this) {
+            session()->setFlashdata('success', 'Data berhasil dihapus.');
             if (in_groups('User')) {
                 return $this->response->redirect(site_url('/dashboard'));
             } else {
                 return $this->response->redirect(site_url('/admin/data/permohonan/disetujui/semua'));
             }
         } else {
-            session()->setFlashdata('error', 'Gagal memperbarui data.');
+            session()->setFlashdata('error', 'Gagal menghapus data.');
             if (in_groups('User')) {
                 return $this->response->redirect(site_url('/dashboard'));
             } else {
                 return $this->response->redirect(site_url('/admin/data/permohonan/disetujui/semua'));
             }
         }
+    }
+
+    public function editPengajuan($id_perizinan)
+    {
+
+        $kegiatanId = $this->izin->getAllPermohonan($id_perizinan)->getRow();
+        if (empty($kegiatanId)) {
+            throw new PageNotFoundException();
+        }
+        $kegiatanId = $kegiatanId->id_kegiatan;
+        $data = [
+            'title' => 'Data Pengajuan',
+            'tampilData' => $this->setting->tampilData()->getResult(),
+            'tampilIzin' => $this->izin->getAllPermohonan($id_perizinan)->getRow(),
+            'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
+        ];
+        // dd($data);
+        return view('admin/updatePengajuan', $data);
     }
 
     public function kontak()
@@ -224,15 +279,6 @@ class Data extends BaseController
     }
 
 
-
-
-    public function dump()
-    {
-        $data = $this->kegiatan->getStatusZonasi()->getResultArray();
-        echo "<pre>";
-        print_r($data);
-        die;
-    }
 
     public function petaPreview()
     {
@@ -286,27 +332,25 @@ class Data extends BaseController
 
     public function cekStatus()
     {
-        // $valKegiatan = "";
-        // $getOverlapProperties = "";
-        $valKegiatan = $this->request->getPost('kegiatanName');
         $getOverlapProperties = $this->request->getPost('getOverlapProperties');
+        $valKegiatan = $this->request->getPost('valKegiatan');
         $fecthKegiatan = $this->kegiatan->getJenisKegiatan($valKegiatan)->getResult();
-        $kode_kegiatan = $fecthKegiatan[0]->kode_kegiatan;
+        $KodeKegiatan = $fecthKegiatan[0]->kode_kegiatan;
         $namaZona = $getOverlapProperties['namaZona'][0];
         $id_zona = $this->zona->whereZona($namaZona)->getResult();
         $id_zona = $id_zona[0]->id_zona;
         $kode_kawasan = $getOverlapProperties['kodeKawasan'][0];
-        // echo '<pre>';
-        // print_r($id_zona);
-        // die;
         $response = [
             'status' => 'Succes',
-            'valKegiatan' => $valKegiatan,
+            'valueKegiatan' => $fecthKegiatan[0]->id_kegiatan,
+            'KodeKegiatan' => $KodeKegiatan,
             'valZona' => $id_zona,
             'nameKegiatan' => $fecthKegiatan[0]->nama_kegiatan,
-            'kodeKegiatan' => $kode_kegiatan,
-            'hasil' => $this->kesesuaian->searchKesesuaian($kode_kegiatan, $id_zona, $kode_kawasan)->getResult(),
+            'hasil' => $this->kesesuaian->searchKesesuaian($KodeKegiatan, $id_zona, $kode_kawasan)->getResult(),
         ];
+        // echo '<pre>';
+        // print_r($response);
+        // die;
         // dd($response);
         return $this->response->setJSON($response);
     }
@@ -323,7 +367,8 @@ class Data extends BaseController
     public function dumpz()
     {
         $cari = "Pencadangan/Indikasi Kawasan Konservasi";
-        $dd = $this->zona->whereZona($cari)->getResult();
+        $dd = $this->izin->getAllPermohonan()->getResult();
+        // $dd = $this->zona->whereZona($cari)->getResult();
         dd($dd);
     }
 }

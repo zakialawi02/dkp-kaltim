@@ -63,11 +63,37 @@
                                                 <div class="btn-group mr-2" role="group" aria-label="First group">
                                                     <a type="button" role="button" href="/admin/data/<?= ($Iz->stat_appv == '1') ? 'telah-disetujui' : 'tidak-disetujui'; ?>/lihat/<?= $Iz->id_perizinan; ?>/<?= $Iz->nama; ?>/" class="asbn btn btn-secondary bi bi-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Lihat" target="_blank"></a>
                                                 </div>
-                                                <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                    <a href="/data-perizinan/<?= $Iz->id_perizinan; ?>/edit/" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
+                                                <button type="button" class="asbn btn btn-primary bi bi-file-earmark-arrow-up" data-bs-toggle="modal" data-bs-target="#exampleModal"></button>
+
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Upload Lampiran</h1>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+
+                                                                <form action="/admin/kirimTindakan/<?= $Iz->id_perizinan; ?>" method="post" enctype="multipart/form-data">
+                                                                    <div class="mb-3" id="lampiran">
+                                                                        <label for="formFile" class="form-label">Lampirkan Dokumen</label>
+                                                                        <input class="form-control" name="lampiranFile" type="file" id="lampiranFile">
+                                                                    </div>
+                                                                    <div class="mt-3 gap-2 d-flex justify-content-end ">
+                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                                        <button type="submit" class="btn btn-primary">Kirim</button>
+                                                                    </div>
+                                                                </form>
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                    <form id="delete-form-<?= $Iz->id_perizinan; ?>" action="/admin/delete_izin/<?= $Iz->id_perizinan; ?>" method="post">
+                                                    <form id="delete-form-<?= $Iz->id_perizinan; ?>" action="/data/delete_pengajuan/<?= $Iz->id_perizinan; ?>" method="post">
                                                         <?= csrf_field(); ?>
                                                         <input type="hidden" name="_method" value="DELETE">
                                                         <button type="button" class="asbn btn btn-danger bi bi-trash delete-btn" data-id="<?= $Iz->id_perizinan; ?>"></button>

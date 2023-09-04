@@ -34,10 +34,12 @@
     <!-- Spinner End -->
 
     <header>
-        <div class="logo"><img class="img-fluid navbar-logo me-2" src="/img/logo navbar.png" alt="DINAS KELAUTAN DAN PERIKANAN PROVINSI KALIMANTAN TIMUR" style="max-width: 12rem;"></div>
+        <div class="logo"><a href="/"><img class="img-fluid navbar-logo me-2" src="/img/logo navbar.png" alt="DINAS KELAUTAN DAN PERIKANAN PROVINSI KALIMANTAN TIMUR" style="max-width: 12rem;"></a>
+        </div>
         <nav>
             <ul>
-                <li class="nav-item dropdown">
+                <li><a href="/" class=" bi bi-house-door-fill">Beranda</a></li>
+                <li class="nav-item dropdown ">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Cek Kesesuaian
                     </a>
@@ -47,11 +49,11 @@
                     </ul>
                 </li>
                 <?php if (logged_in()) : ?>
-                    <li><a href="/dashboard">Dashboard</a></li>
-                    <li><a id="logout-btn">Log Out</a></li>
+                    <li><a href="/dashboard"> Dashboard</a></li>
+                    <li><a id="logout-btn" class="bi bi-box-arrow-right"> Log Out</a></li>
                     <li><a id="spinners"><span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>Logout... </a></li>
                 <?php else : ?>
-                    <li><a id="login-btn" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a></li>
+                    <li><a id="login-btn" class="bi bi-box-arrow-in-right" data-bs-toggle="modal" data-bs-target="#loginModal"> Login</a></li>
                 <?php endif ?>
             </ul>
         </nav>
@@ -359,6 +361,13 @@
 
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked="true" autocomplete="off" name="czona_15" id="czona_15" value="kb" onclick="set_zona(15)"><span style="min-width: 50px; background-image: url('/leaflet/icon/jar minyak.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Jaringan Minyak dan Gas Bumi</label>
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked="true" autocomplete="off" name="czona_16" id="czona_16" value="kb" onclick="set_zona(16)"><span style="min-width: 50px; background-image: url('/leaflet/icon/jar telekom.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Jaringan Telekomunikasi</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_17" id="czona_17" value="kb" onclick="set_zona(17)"><span style="min-width: 50px; background-image: url('/leaflet/icon/'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Alur Mingrasi Mamalia Laut</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_18" id="czona_18" value="kb" onclick="set_zona(18)"><span style="min-width: 50px; background-image: url('/leaflet/icon/penyu.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Alur Mingrasi Penyu</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked="true" autocomplete="off" name="czona_19" id="czona_19" value="kb" onclick="set_zona(19)"><span style="min-width: 50px; background-image: url('/leaflet/icon/pelayaran.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Alur Pelayaran dan Perlintasan Internasional</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked="true" autocomplete="off" name="czona_20" id="czona_20" value="kb" onclick="set_zona(20)"><span style="min-width: 50px; background-image: url('/leaflet/icon/pelayaran3.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Alur Pelayaran dan Perlintasan Khusus</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_21" id="czona_21" value="kb" onclick="set_zona(21)"><span style="min-width: 50px; background-image: url('/leaflet/icon/pelayaran2.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Alur Pelayaran dan Perlintasan Nasional</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_22" id="czona_22" value="kb" onclick="set_zona(22)"><span style="min-width: 50px; background-image: url('/leaflet/icon/jar telekom.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Alur Pelayaran dan Perlintasan Regional</label>
+
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_0" id="czona_0" value="kb" onclick="set_zona(0)"><span style="min-width: 50px; background-image: url('/leaflet/icon/konservasi.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Kawasan Konservasi Lainnya</label>
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_1" id="czona_1" value="kb" onclick="set_zona(1)"><span style="min-width: 50px; background-image: url('/leaflet/icon/kkm.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Kawasan Konservasi Maritim</label>
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_2" id="czona_2" value="kb" onclick="set_zona(2)"><span style="min-width: 50px; background-image: url('/leaflet/icon/konservasi2.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Pencadangan/Indikasi Kawasan Konservasi</label>
@@ -770,7 +779,7 @@
     <script>
         function cek() {
             $(".info_status").html('<img src="/img/loading.gif">');
-            let kegiatanName = $('#pilihKegiatan').val();
+            let valKegiatan = $('#pilihKegiatan').val();
             let getOverlap = overlappingFeatures;
             objectID = getOverlap.map(function(feature) {
                 return feature.properties.OBJECTID;
@@ -803,9 +812,9 @@
             }
             $.ajax({
                     method: "POST",
-                    url: "<?= base_url('/data/cekStatus'); ?>",
+                    url: "/data/cekStatus",
                     data: {
-                        kegiatanName,
+                        valKegiatan,
                         getOverlapProperties
                     },
                     dataType: "json",
@@ -814,6 +823,9 @@
                     console.log(response);
                     let data = response.hasil;
                     data = response.hasil[0];
+                    let valZona = response.valZona;
+                    console.log(valZona);
+                    $("#idZona").val(valZona);
                     if (data != null) {
                         if (data.status == "diperbolehkan") {
                             $(".info_status").html('<p class="boleh">Aktifitas diberbolehkan</p>');
@@ -888,7 +900,7 @@
 
         const vectorSource = new ol.source.Vector();
         const KKPRLALLsource = new ol.source.TileWMS({
-            url: 'https://sipetarungkaltim.zakialawi.my.id/geoserver/KKPRL/wms',
+            url: 'https://simatalautkaltim.id/geoserver/KKPRL/wms',
             params: {
                 'LAYERS': 'KKPRL:KKPRL_RTRW_KALTIM_10_03_2023_AR_FIX',
                 'TILED': true
@@ -897,7 +909,7 @@
             crossOrigin: 'anonymous'
         });
         const RZWP3KALLsource = new ol.source.TileWMS({
-            url: 'https://sipetarungkaltim.zakialawi.my.id/geoserver/RZWP3K/wms',
+            url: 'https://simatalautkaltim.id/geoserver/RZWP3K/wms',
             params: {
                 'LAYERS': 'RZWP3K:RZ50K_AR_REVISIMAR_2021_FIX_29_Maret',
                 'TILED': true
@@ -1038,14 +1050,18 @@
             'Zona_Pertambangan_Minyak_dan_Gas_Bumi',
             'Sistem_Jaringan_Energi',
             'Sistem_Jaringan_Telekomunikasi',
-            'Alur_Migrasi_Mamalia',
+            'Alur_Migrasi_Mamalia_Laut',
             'Alur_Migrasi_Penyu',
+            'Alur_Pelayaran_dan_Perlintasan_Internasional',
+            'Alur_Pelayaran_dan_Perlintasan_Khusus',
+            'Alur_Pelayaran_dan_Perlintasan_Nasional',
+            'Alur_Pelayaran_dan_Perlintasan_Regional',
         ];
-        const layersToShow = ['Zona_Perikanan_Tangkap', 'Sistem_Jaringan_Energi', 'Sistem_Jaringan_Telekomunikasi', 'Alur_Migrasi_Mamalia', 'Alur_Migrasi_Penyu'];
+        const layersToShow = ['Zona_Perikanan_Tangkap', 'Sistem_Jaringan_Energi', 'Sistem_Jaringan_Telekomunikasi', 'Alur_Pelayaran_dan_Perlintasan_Internasional', 'Alur_Pelayaran_dan_Perlintasan_Khusus'];
         // Loop untuk menambahkan setiap lapisan WMS ke dalam objek peta
         for (const layerName of RZWP3KLayerNames) {
             const wmsSource = new ol.source.TileWMS({
-                url: 'https://sipetarungkaltim.zakialawi.my.id/geoserver/RZWP3K/wms?',
+                url: 'https://simatalautkaltim.id/geoserver/RZWP3K/wms?',
                 params: {
                     'LAYERS': `RZWP3K:${layerName}`,
                     'TILED': true,
@@ -1065,7 +1081,7 @@
 
         for (const layerName of KKPRLLayerNames) {
             const wmsSource = new ol.source.TileWMS({
-                url: 'https://sipetarungkaltim.zakialawi.my.id/geoserver/KKPRL/wms?',
+                url: 'https://simatalautkaltim.id/geoserver/KKPRL/wms?',
                 params: {
                     'LAYERS': `KKPRL:${layerName}`,
                     'TILED': true,
@@ -1223,7 +1239,7 @@
         // }
 
         function kirim() {
-            let valueKegiatan = $("#pilihKegiatan").val();
+            // let valueKegiatan = $("#pilihKegiatan").val();
             let geojson = geojsonFeature;
             let getOverlap = overlappingFeatures;
             $("#geojson").val(JSON.stringify(geojson));

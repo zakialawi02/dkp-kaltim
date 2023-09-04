@@ -84,7 +84,8 @@
                                         <tr>
                                             <td>NIB (Nomor Izin Berusaha)</td>
                                             <th>:</th>
-                                            <td><?= ($tampilDataIzin->nib) == null ? '-' : '<?= $tampilDataIzin->nib; ?>'; ?></td>
+                                            <td><?= ($tampilDataIzin->nib != null) ? $tampilDataIzin->nib : '-'; ?>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Alamat</td>
@@ -370,7 +371,7 @@
         var extent = vectorLayer.getSource().getExtent();
         map.getView().fit(extent, {
             padding: [100, 100, 100, 100],
-            minResolution: map.getView().getResolutionForZoom(10),
+            minResolution: map.getView().getResolutionForZoom(12),
             duration: 1500,
         });
     </script>

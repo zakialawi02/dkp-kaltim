@@ -64,10 +64,7 @@
                                                     <a type="button" role="button" href="/admin/data/<?= ($Iz->stat_appv == '1') ? 'telah-disetujui' : 'tidak-disetujui'; ?>/lihat/<?= $Iz->id_perizinan; ?>/<?= $Iz->nama; ?>/" class="asbn btn btn-secondary bi bi-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Lihat" target="_blank"></a>
                                                 </div>
                                                 <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                    <a href="/data-perizinan/<?= $Iz->id_perizinan; ?>/edit/" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
-                                                </div>
-                                                <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                    <form id="delete-form-<?= $Iz->id_perizinan; ?>" action="/admin/delete_izin/<?= $Iz->id_perizinan; ?>" method="post">
+                                                    <form id="delete-form-<?= $Iz->id_perizinan; ?>" action="/data/delete_pengajuan/<?= $Iz->id_perizinan; ?>" method="post">
                                                         <?= csrf_field(); ?>
                                                         <input type="hidden" name="_method" value="DELETE">
                                                         <button type="button" class="asbn btn btn-danger bi bi-trash delete-btn" data-id="<?= $Iz->id_perizinan; ?>"></button>

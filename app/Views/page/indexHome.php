@@ -74,7 +74,7 @@
             <center class="">
                 <p>...</p>
                 <br>
-                <button type="button" class="btn btn-primary">Lihat Dokumen</button>
+                <a href="/data/modul" class="btn btn-primary">Lihat Dokumen</a>
             </center>
 
         </div>
