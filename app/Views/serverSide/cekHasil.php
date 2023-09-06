@@ -88,7 +88,7 @@ $remark = $remark ?? "-";
         <?php if (logged_in()) : ?>
             <button type="submit" id="lanjutKirim" class="btn btn-primary lanjutKirim" onclick="kirim()">Lanjutkan</button>
         <?php else : ?>
-            <p>Harap Login Untuk Bisa Melakukan Pengajuan Informasi Ruang Laut. <br>Belum Punya Akun? <a href="/register">Daftar Disini</a></p>
+            <p class="fs-6">Harap Login Untuk Bisa Melakukan Pengajuan Informasi Ruang Laut. <br>Belum Punya Akun? <a href="/register">Daftar Disini</a></p>
             <button type="button" id="lanjutKirim" class="btn btn-primary" disabled>Lanjutkan</button>
         <?php endif ?>
     </form>

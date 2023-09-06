@@ -44,7 +44,7 @@
                             <div class="col-xl-4 p-3">
                                 <div class="card">
                                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center"> <img src="/img/user/<?= user()->user_image; ?>" alt="Profile" class="rounded-circle">
-                                        <h2 class="m-1 mt-2"><?= user()->full_name; ?></h2>
+                                        <h2 class="m-1 mt-2 text-center"><?= user()->full_name; ?></h2>
 
                                         <?php if (in_groups('Admin' && 'SuperAdmin')) : ?>
                                             <a class="badge bg-secondary"><?= user()->username; ?></a>
