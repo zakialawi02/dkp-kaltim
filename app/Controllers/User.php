@@ -17,14 +17,6 @@ class User extends BaseController
         $this->users = new ModelUser();
     }
 
-    public function dump()
-    {
-        $data = [
-            'users' => $this->users->getUsers()->getResult(),
-        ];
-        print_r($data);
-    }
-
     public function manajemen()
     {
         $data = [

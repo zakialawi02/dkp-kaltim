@@ -23,7 +23,7 @@ class ModelUser extends Model
         if ($id == false) {
             $db      = \Config\Database::connect();
             $builder = $db->table('users');
-            $builder->select('users.id as userid, username, email, active, group_id, name, created_at,  full_name, user_about');
+            $builder->select('users.id as userid, username, email, active, group_id, name, created_at,  full_name, user_about, user_image');
             $builder->join('auth_groups_users', 'auth_groups_users.user_id = users.id');
             $builder->join('auth_groups', 'auth_groups.id = auth_groups_users.group_id');
             $query = $builder->orderBy('group_id', 'ASC')->get();
@@ -31,10 +31,10 @@ class ModelUser extends Model
         } else {
             $db      = \Config\Database::connect();
             $builder = $db->table('users');
-            $builder->select('users.id as userid, username, email, active, group_id, name, created_at,  full_name, user_about, password_hash');
+            $builder->select('users.id as userid, username, email, active, group_id, name, created_at,  full_name, user_about, user_image, password_hash');
             $builder->join('auth_groups_users', 'auth_groups_users.user_id = users.id');
             $builder->join('auth_groups', 'auth_groups.id = auth_groups_users.group_id');
-            $query = $builder->Where(['id' => $id])->get();
+            $query = $builder->Where(['users.id' => $id])->get();
             return $query;
         }
     }

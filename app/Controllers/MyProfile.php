@@ -35,15 +35,29 @@ class MyProfile extends BaseController
     }
 
 
-    public function UpdateMyData()
+    public function UpdateMyData($id_user)
     {
-        $id = $this->request->getPost('id');
+        $datas = $this->users->getUsers($id_user)->getRow();
+        $datas = $datas->user_image;
+        $foto = $this->request->getFiles('filepond');
+        $foto = $foto['filepond'];
         $data = [
             'full_name' => $this->request->getVar('full_name'),
             'user_about' => $this->request->getPost('user_about'),
         ];
-
-        $this->setting->updateMyData($data, $id);
+        if ($foto->isValid() && !$foto->hasMoved()) {
+            $name = $foto->getRandomName();
+            $uploadFoto = $name;
+            if ($datas !== "admin.png" && $datas !== "user.jpg") {
+                $datas = 'img/user/' . $datas;
+                if (file_exists($datas)) {
+                    unlink($datas);
+                }
+            }
+            $foto->move('img/user/', $uploadFoto);
+            $data['user_image'] = $uploadFoto;
+        }
+        $this->setting->updateMyData($data, $id_user);
         if ($this) {
             session()->setFlashdata('success', 'Berhasil Memperbarui Data.');
             return $this->response->redirect(site_url('/MyProfile'));
