@@ -5,8 +5,9 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+    <meta content="Simata Laut, Sistem Informasi Tata Ruang Laut, Dinas Kelautan dan Perikanan" name="keywords">
+    <meta content="Aplikasi Simata Laut Kaltim (Sistem Informasi Tata Ruang Laut Kaltim) Dinas Kelautan dan Perikanan Provinsi Kalimantan Timur." name="description">
+
 
     <title><?= $title; ?></title>
     <!-- Favicon -->
@@ -38,22 +39,22 @@
         </div>
         <nav>
             <ul>
-                <li><a href="/" class=" bi bi-house-door-fill">Beranda</a></li>
+                <li><a href="/" class="nav-link bi bi-house-door-fill">Beranda</a></li>
                 <li class="nav-item dropdown ">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Cek Kesesuaian
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                        <li id="modalAdd-button"><a class="dropdown-item">Masukkan Koordinat</a></li>
-                        <li id="modalAdd-button2"><a class="dropdown-item">Gambar Polygon</a></li>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li id="modalAdd-button"><a class="dropdown-item nav-link">Masukkan Koordinat</a></li>
+                        <li id="modalAdd-button2"><a class="dropdown-item nav-link">Gambar Polygon</a></li>
                     </ul>
                 </li>
                 <?php if (logged_in()) : ?>
-                    <li><a href="/dashboard"> Dashboard</a></li>
-                    <li><a id="logout-btn" class="bi bi-box-arrow-right"> Log Out</a></li>
-                    <li><a id="spinners"><span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>Logout... </a></li>
+                    <li><a href="/dashboard" class="nav-link"> Dashboard</a></li>
+                    <li><a id="logout-btn" class="nav-link bi bi-box-arrow-right"> Log Out</a></li>
+                    <li><a id="spinners"><span class="nav-link spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>Logout... </a></li>
                 <?php else : ?>
-                    <li><a id="login-btn" class="bi bi-box-arrow-in-right" data-bs-toggle="modal" data-bs-target="#loginModal"> Login</a></li>
+                    <li><a id="login-btn" class="nav-link bi bi-box-arrow-in-right" data-bs-toggle="modal" data-bs-target="#loginModal"> Login</a></li>
                 <?php endif ?>
             </ul>
         </nav>
@@ -289,37 +290,6 @@
         </div>
     </div>
 
-    <div id="button-section-group" class="">
-        <div id="button-section" class="float-end m-1">
-            <div class="btn-group" role="group">
-                <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    Cek Kesesuaian
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                    <li id="modalAdd-button"><a class="dropdown-item" type="button" role="button">Masukkan Koordinat</a></li>
-                    <li id="modalAdd-button2"><a class="dropdown-item" type="button" role="button">Gambar Polygon</a></li>
-                </ul>
-            </div>
-            <?php if (logged_in()) : ?>
-                <a class="btn btn-primary" href="/dashboard" role="button">Dashboard</a>
-                <button type="button" id="logout-btn" class="btn btn-primary">Log Out</button>
-                <button id="spinners" class="btn btn-primary" type="button" disabled>
-                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>Logout... </button>
-            <?php else : ?>
-                <button type="button" id="login-btn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
-            <?php endif ?>
-        </div>
-        <!-- kolom cari -->
-        <!-- <div class="search-container float-end">
-            <form action="#" method="get">
-                <div class="input-group">
-                    <input type="text" id="cariMark" class="form-control input-cari" placeholder="Cari...">
-                    <span class="input-group-btn">
-                        <button type="button" role="button" class="btn btn-primary btn-cari"><i class="bi bi-search"></i></button>
-                    </span>
-                </div>
-            </form>
-        </div> -->
 
 
 
@@ -333,7 +303,8 @@
 
     </div>
     <div class="footer-map">
-        <p id="mouse-position"></p>
+        <p id="copyright"> © Dinas Kelautan Dan Perikanan Provinsi Kalimantan Timur </p>
+        <div id="mouse-position"></div>
     </div>
 
     <div class="sidepanel">
@@ -638,45 +609,6 @@
         }
     </script>
 
-    <?php if (in_groups('Admin' && 'SuperAdmin')) : ?>
-        <?php if (session()->getFlashdata('success')) : ?>
-            <script>
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success!',
-                    text: '<?= session()->getFlashdata('success'); ?>',
-                    timer: 5000,
-                    html: 'Data berhasil ditambahkan,  ' +
-                        '<a href="/dashboard">lihat dashboard</a> ',
-                });
-            </script>
-        <?php else : ?>
-            <script>
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success!',
-                    text: '<?= session()->getFlashdata('success'); ?>',
-                    timer: 5000,
-                    html: 'Menunggu verifikasi, lihat status data anda ' +
-                        '<a href="/dashboard">disini</a> ' +
-                        ' atau masuk ke dashboard',
-                });
-            </script>
-        <?php endif; ?>
-    <?php endif ?>
-
-
-    <?php if (session()->getFlashdata('error')) : ?>
-        <script>
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: '<?= session()->getFlashdata('error'); ?>',
-                timer: 1500,
-            });
-        </script>
-    <?php endif; ?>
-
     <!-- modalAdd and modalCekHasil-->
     <script>
         const modal = document.getElementById("modalAdd");
@@ -684,6 +616,7 @@
         // modaladd
         $('#modalAdd-button').click(function(e) {
             $('#modalAdd').show();
+            $('nav').toggleClass('active');
         });
 
         $('#close-button').click(function(e) {
@@ -699,6 +632,7 @@
         // modalCekHasil
         $('#modalAdd-button2').click(function(e) {
             startDrawing();
+            $('nav').toggleClass('active');
         });
 
         $('#close-button2').click(function(e) {
@@ -1616,6 +1550,7 @@
             // be placed within the map.
             className: 'custom-mouse-position',
             target: document.getElementById('mouse-position'),
+            undefinedHTML: '[Posisi Koordinat X,Y]'
         });
         map.addControl(mousePositionControl);
 

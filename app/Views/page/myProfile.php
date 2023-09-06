@@ -16,6 +16,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
+    <link href="https://unpkg.com/filepond-plugin-image-edit/dist/filepond-plugin-image-edit.css" rel="stylesheet" />
+    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
 
     <!-- Template Main CSS File -->
     <link href="/css/StyleAdmin.css" rel="stylesheet" />
@@ -44,7 +47,7 @@
                             <div class="col-xl-4 p-3">
                                 <div class="card">
                                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center"> <img src="/img/user/<?= user()->user_image; ?>" alt="Profile" class="rounded-circle">
-                                        <h2 class="m-1 mt-2"><?= user()->full_name; ?></h2>
+                                        <h2 class="m-1 mt-2 text-center"><?= user()->full_name; ?></h2>
 
                                         <?php if (in_groups('Admin' && 'SuperAdmin')) : ?>
                                             <a class="badge bg-secondary"><?= user()->username; ?></a>
@@ -110,9 +113,14 @@
 
                                             <div class="tab-pane fade pt-3" id="profile-edit-data">
                                                 <!-- Change my Data -->
-                                                <form action="/MyProfile/UpdateMyData" method="post" enctype="multipart/form-data" id="my-profile-form" autocomplete="off">
+                                                <form action="/MyProfile/UpdateMyData/<?= user()->id; ?>" method="post" enctype="multipart/form-data" id="my-profile-form" autocomplete="off">
 
-                                                    <input type="hidden" class="form-control" for="id" id="id" name="id" value="<?= user()->id; ?>">
+
+
+                                                    <div class="row mb-3 align-items-center ">
+                                                        <label for="Foto Profil" class="col-md-4 col-lg-3 col-form-label">Foto Profil</label>
+                                                        <input type="file" class="filepond" name="filepond" accept="image/*" />
+                                                    </div>
 
                                                     <div class="row mb-3">
                                                         <label for="username" class="col-md-4 col-lg-3 col-form-label">Username</label>
@@ -129,7 +137,7 @@
                                                     </div>
 
                                                     <div class="row mb-3">
-                                                        <label for="full_name" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
+                                                        <label for="full_name" class="col-md-4 col-lg-3 col-form-label">Nama Lengkap</label>
                                                         <div class="col-md-8 col-lg-9">
                                                             <input name="full_name" type="text" class="form-control" id="full_name" value="<?= user()->full_name; ?>">
                                                         </div>
@@ -221,8 +229,13 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://kit.fontawesome.com/816b3ace5c.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-edit/dist/filepond-plugin-image-edit.js"></script>
+    <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
     <script src="/js/scripts.js"></script>
 
     <?php if (session()->getFlashdata('success')) : ?>
@@ -246,6 +259,33 @@
             });
         </script>
     <?php endif; ?>
+
+    <script>
+        // Get a file input reference
+        const input = document.querySelector('input[type="file"]');
+        FilePond.registerPlugin(
+            FilePondPluginImageCrop,
+            FilePondPluginImagePreview,
+            FilePondPluginFileValidateType,
+            FilePondPluginFileValidateSize);
+        // Create a FilePond instance
+        FilePond.create(input, {
+            acceptedFileTypes: ['image/png', 'image/jpeg', 'image/jpg'],
+            maxFileSize: '2MB',
+            labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span>`,
+            storeAsFile: true,
+            allowMultiple: false,
+            credits: false,
+            labelMaxFileSize: 'Maximum {filesize}',
+            stylePanelLayout: 'compact circle',
+            imagePreviewHeight: 100,
+            imageCropAspectRatio: '1:1',
+            imageResizeTargetWidth: 200,
+            imageResizeTargetHeight: 200,
+            styleLoadIndicatorPosition: 'center bottom',
+
+        });
+    </script>
 
     <script>
         $(document).ready(function() {

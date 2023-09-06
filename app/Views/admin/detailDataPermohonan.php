@@ -62,7 +62,7 @@
                                     <p style="font-size: smaller;">Pada: <?= date('d M Y H:i:s', strtotime($tampilDataIzin->date_updated)); ?></p>
                                 <?php endif ?>
                                 <?php if ($tampilDataIzin->stat_appv == 1) : ?>
-                                    <p class="card-text"><a href="/dokumen/lampiran-balasan/<?= $tampilDataIzin->dokumen_lampiran; ?>" target="_blank" <?= $tampilDataIzin->dokumen_lampiran == null ? 'data-bs-toggle="tooltip" data-bs-title="Dokumen Belum Dikirim"' : 'data-bs-toggle="tooltip" data-bs-title="Lihat Dokumen"'; ?>><i class="bi bi-file-earmark-pdf-fill" style="color: #6697de;"></i> Lihat Dokumen Balasan</a></p>
+                                    <p class="card-text"><a <?= $tampilDataIzin->dokumen_lampiran == null ?  'href="#" data-bs-toggle="tooltip" data-bs-title="Dokumen Belum Dikirim"' : 'href="/dokumen/lampiran-balasan/' . $tampilDataIzin->dokumen_lampiran . '" data-bs-toggle="tooltip" data-bs-title="Lihat Dokumen" target="_blank"'; ?>><i class="bi bi-file-earmark-pdf-fill" style="color: #6697de;"></i> Lihat Dokumen Balasan</a></p>
                                 <?php endif ?>
                             </div>
 

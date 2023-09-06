@@ -6,8 +6,8 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <title><?= $title; ?></title>
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+    <meta content="Simata Laut (Sistem Informasi Tata Ruang Laut)" name="keywords">
+    <meta content="Aplikasi Simata Laut Kaltim (Sistem Informasi Tata Ruang Laut Kaltim) Dinas Kelautan dan Perikanan Provinsi Kalimantan Timur." name="description">
 
     <!-- Favicon -->
     <link href="img/favicon.png" rel="icon">
