@@ -6,7 +6,6 @@ use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\Validation\Exceptions\ValidationException;
 use CodeIgniter\Validation\Validation;
 use App\Controllers\BaseController;
-use App\Models\ModelGeojson;
 use App\Models\ModelSetting;
 use App\Models\ModelIzin;
 use App\Models\ModelJenisKegiatan;
@@ -16,7 +15,6 @@ use Faker\Extension\Helper;
 
 class Data extends BaseController
 {
-    protected $ModelGeojson;
     protected $ModelSetting;
     protected $ModelIzin;
     protected $ModelJenisKegiatan;
@@ -25,7 +23,6 @@ class Data extends BaseController
     public function __construct()
     {
         helper(['form', 'url']);
-        $this->FGeojson = new ModelGeojson();
         $this->setting = new ModelSetting();
         $this->izin = new ModelIzin();
         $this->kegiatan = new ModelJenisKegiatan();
@@ -49,32 +46,17 @@ class Data extends BaseController
         return view('page/modul', $data);
     }
 
-    public function map()
+    public function peta()
     {
         $data = [
             'title' => 'Cek Kesesuaian | Map Panel',
-            'tampilGeojson' => $this->FGeojson->callGeojson()->getResult(),
             'tampilData' => $this->setting->tampilData()->getResult(),
             'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
         ];
         // echo '<pre>';
         // print_r($data['tampilGeojson']);
         // die;
-        return view('page/mapCopy', $data);
-    }
-
-    public function mapCopy()
-    {
-        $data = [
-            'title' => 'Cek Kesesuaian | Map Panel',
-            'tampilGeojson' => $this->FGeojson->callGeojson()->getResult(),
-            'tampilData' => $this->setting->tampilData()->getResult(),
-            'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
-        ];
-        // echo '<pre>';
-        // print_r($data['tampilGeojson']);
-        // die;
-        return view('page/map', $data);
+        return view('page/petaCekKesesuaian', $data);
     }
 
     public function pengajuan()
@@ -95,7 +77,6 @@ class Data extends BaseController
     public function isiAjuan()
     {
         // dd($this->request->getPost());
-
         $data = [
             'kegiatanValue' => $this->request->getVar('kegiatan'),
             'geojson' => $this->request->getPost('geojson'),
@@ -113,7 +94,6 @@ class Data extends BaseController
     public function tambahAjuan()
     {
         // dd($this->request->getVar());
-
         $files = $this->request->getFiles();
         // dd($files);
         $uploadFiles = null;
@@ -161,7 +141,7 @@ class Data extends BaseController
             return $this->response->redirect(site_url('/dashboard'));
         } else {
             session()->setFlashdata('error', 'Gagal menambahkan data.');
-            return $this->response->redirect(site_url('/map'));
+            return $this->response->redirect(site_url('/peta'));
         }
     }
 
@@ -278,8 +258,6 @@ class Data extends BaseController
         return view('page/noAccess', $data);
     }
 
-
-
     public function petaPreview()
     {
         $data = [
@@ -290,25 +268,7 @@ class Data extends BaseController
 
 
 
-    // AJAX/SERVER SIDE
-    // public function cekData()
-    // {
-    //     $url = $this->request->getVar('ue');
-    //     $response = file_get_contents($url);
-    //     if ($response !== false) {
-    //         $jsonData = json_decode($response, true);
-    //     } else {
-    //         echo "Gagal mengambil data dari URL.";
-    //     }
-    //     $data = [
-    //         'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
-    //         'lon' => $this->request->getVar('lon'),
-    //         'lat' => $this->request->getVar('lat'),
-    //         'url' => $jsonData,
-    //     ];
-    //     // dd($data);
-    //     return view('serverSide/cekHasil', $data);
-    // }
+    // AJAX/SERVER SIDE 
 
     public function cekData()
     {
