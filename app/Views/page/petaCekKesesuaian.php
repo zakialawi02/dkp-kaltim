@@ -1745,7 +1745,7 @@
         const measure = new ol.layer.Vector({
             source: measureSource,
             style: function(feature) {
-                return styleFunction(feature, measureType);
+                return styleFunction(feature, "checked");
             },
         });
         map.addLayer(measure);
@@ -1764,7 +1764,7 @@
                 source: measureSource,
                 type: drawType,
                 style: function(feature) {
-                    return styleFunction(feature, measureType, drawType, tip);
+                    return styleFunction(feature, "checked", drawType, tip);
                 },
             });
             draw.on('drawstart', function() {
