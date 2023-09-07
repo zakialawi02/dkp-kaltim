@@ -302,11 +302,11 @@ class Data extends BaseController
         $kode_kawasan = $getOverlapProperties['kodeKawasan'][0];
         $response = [
             'status' => 'Succes',
-            'valueKegiatan' => $fecthKegiatan[0]->id_kegiatan,
+            'valueKegiatan' => $valKegiatan,
             'KodeKegiatan' => $KodeKegiatan,
             'valZona' => $id_zona,
             'nameKegiatan' => $fecthKegiatan[0]->nama_kegiatan,
-            'hasil' => $this->kesesuaian->searchKesesuaian($KodeKegiatan, $id_zona, $kode_kawasan)->getResult(),
+            'hasil' => $this->kesesuaian->searchKesesuaian($KodeKegiatan, $id_zona, $kode_kawasan)->getResultArray(),
         ];
         // echo '<pre>';
         // print_r($response);
