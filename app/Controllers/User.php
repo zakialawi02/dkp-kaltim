@@ -75,10 +75,10 @@ class User extends BaseController
 
         if ($addUser && $insertUser) {
             session()->setFlashdata('success', 'User baru berhasil ditambahkan.');
-            return $this->response->redirect(site_url('/user/manajemen'));
+            return $this->response->redirect(site_url('/user/kelola'));
         } else {
             session()->setFlashdata('error', 'User baru gagal ditambahkan.');
-            return $this->response->redirect(site_url('/user/manajemen'));
+            return $this->response->redirect(site_url('/user/kelola'));
         }
     }
 
@@ -132,10 +132,10 @@ class User extends BaseController
 
         if ($updateUser && $insertUser) {
             session()->setFlashdata('success', 'Data Berhasil diperbarui.');
-            return $this->response->redirect(site_url('/user/manajemen'));
+            return $this->response->redirect(site_url('/user/kelola'));
         } else {
             session()->setFlashdata('error', 'Gagal memperbarui data.');
-            return $this->response->redirect(site_url('/user/manajemen'));
+            return $this->response->redirect(site_url('/user/kelola'));
         }
     }
 
@@ -146,10 +146,10 @@ class User extends BaseController
         $this->users->deleteUser($id);
         if ($this) {
             session()->setFlashdata('success', 'User berhasil dihapus.');
-            return $this->response->redirect(site_url('/user/manajemen'));
+            return $this->response->redirect(site_url('/user/kelola'));
         } else {
             session()->setFlashdata('error', 'Gagal menghapus user.');
-            return $this->response->redirect(site_url('/user/manajemen'));
+            return $this->response->redirect(site_url('/user/kelola'));
         }
     }
 }

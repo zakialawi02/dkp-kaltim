@@ -175,7 +175,7 @@ $countAllTolak = count($allDataTolak);
                                                     </tbody>
                                                 </table>
 
-                                                <a type="button" class="btn btn-primary" href="/admin/pending">Lihat Lebih Banyak</a>
+                                                <a type="button" class="btn btn-primary" href="/admin/data/permohonan/masuk">Lihat Lebih Banyak</a>
                                             </div>
 
                                         </div>
@@ -256,7 +256,7 @@ $countAllTolak = count($allDataTolak);
                                             </center>
 
                                         </div>
-                                        <a type="button" class="btn btn-primary" href="/user/manajemen">Lihat Lebih Banyak</a>
+                                        <a type="button" class="btn btn-primary" href="/user/kelola">Lihat Lebih Banyak</a>
 
                                     </div>
 
