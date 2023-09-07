@@ -71,7 +71,7 @@
                 anchorXUnits: 'fraction',
                 anchorYUnits: 'fraction',
                 opacity: 1,
-                src: '/leaflet/images/marker-icon.png'
+                src: '/mapSystem/images/marker-icon.png'
             })
         });
         const lineStyle = new ol.style.Style({
