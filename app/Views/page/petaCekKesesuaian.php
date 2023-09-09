@@ -333,12 +333,11 @@
 
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked="true" autocomplete="off" name="czona_15" id="czona_15" value="kb" onclick="set_zona(15)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/jar minyak.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Jaringan Minyak dan Gas Bumi</label>
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked="true" autocomplete="off" name="czona_16" id="czona_16" value="kb" onclick="set_zona(16)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/jar telekom.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Jaringan Telekomunikasi</label>
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_17" id="czona_17" value="kb" onclick="set_zona(17)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Alur Mingrasi Mamalia Laut</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_17" id="czona_17" value="kb" onclick="set_zona(17)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/mamaliaa.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Alur Mingrasi Mamalia Laut</label>
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_18" id="czona_18" value="kb" onclick="set_zona(18)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/penyu.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Alur Mingrasi Penyu</label>
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked="true" autocomplete="off" name="czona_19" id="czona_19" value="kb" onclick="set_zona(19)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/pelayaran.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Alur Pelayaran dan Perlintasan Internasional</label>
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked="true" autocomplete="off" name="czona_20" id="czona_20" value="kb" onclick="set_zona(20)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/pelayaran3.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Alur Pelayaran dan Perlintasan Khusus</label>
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_21" id="czona_21" value="kb" onclick="set_zona(21)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/pelayaran2.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Alur Pelayaran dan Perlintasan Nasional</label>
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_22" id="czona_22" value="kb" onclick="set_zona(22)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/jar telekom.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Alur Pelayaran dan Perlintasan Regional</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked="true" autocomplete="off" name="czona_19" id="czona_19" value="kb" onclick="set_zona(19)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/pelayaran3.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Alur Pelayaran Umum dan Perlintasan</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked="true" autocomplete="off" name="czona_20" id="czona_20" value="kb" onclick="set_zona(20)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/lintas.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Lintas Penyeberangan Antar Provinsi</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked="true" autocomplete="off" name="czona_21" id="czona_21" value="kb" onclick="set_zona(21)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/lintas2.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Lintas Penyeberangan Antar Kabupaten/Kota dalam Provinsi</label>
 
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_0" id="czona_0" value="kb" onclick="set_zona(0)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/konservasi.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Kawasan Konservasi Lainnya</label>
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_1" id="czona_1" value="kb" onclick="set_zona(1)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/kkm.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Kawasan Konservasi Maritim</label>
@@ -763,10 +762,13 @@
                     $("#idZona").val(valZona);
                     if (data != null) {
                         if (data.status == "diperbolehkan") {
+                            $('#lanjutKirim').prop('disabled', false);
                             $(".info_status").html('<p class="boleh">Aktifitas diberbolehkan</p>');
                         } else if (data.status == "diperbolehkan bersyarat") {
+                            $('#lanjutKirim').prop('disabled', false);
                             $(".info_status").html('<p class="bolehBersyarat">Aktifitas diberbolehkan bersyarat</p>');
                         } else {
+                            $('#lanjutKirim').prop('disabled', true);
                             $(".info_status").html('<p class="tidakBoleh">Aktifitas tidak diberbolehkan</p>');
                         }
                     } else {
@@ -862,7 +864,7 @@
         // BaseMap
         const osmBaseMap = new ol.layer.Tile({
             source: new ol.source.OSM(),
-            // crossOrigin: 'anonymous',
+            crossOrigin: 'anonymous',
             visible: false,
         });
 
@@ -874,7 +876,7 @@
         const bingAerialBaseMap = new ol.layer.Tile({
             preload: Infinity,
             source: sourceBingMaps,
-            // crossOrigin: 'anonymous',
+            crossOrigin: 'anonymous',
             visible: true,
         });
 
@@ -885,7 +887,7 @@
         });
         const mapboxBaseMap = new ol.layer.Tile({
             source: mapboxSource,
-            // crossOrigin: 'anonymous',
+            crossOrigin: 'anonymous',
             visible: false,
         });
 
@@ -987,12 +989,11 @@
             'Sistem_Jaringan_Telekomunikasi',
             'Alur_Migrasi_Mamalia_Laut',
             'Alur_Migrasi_Penyu',
-            'Alur_Pelayaran_dan_Perlintasan_Internasional',
-            'Alur_Pelayaran_dan_Perlintasan_Khusus',
-            'Alur_Pelayaran_dan_Perlintasan_Nasional',
-            'Alur_Pelayaran_dan_Perlintasan_Regional',
+            'Alur_Pelayaran_Umum_dan_Perlintasan',
+            'Lintas_Penyeberangan_Antarprovinsi',
+            'Lintas_Penyeberangan_Antarkabupaten_Kota_dalam_Provinsi',
         ];
-        const layersToShow = ['Zona_Perikanan_Tangkap', 'Sistem_Jaringan_Energi', 'Sistem_Jaringan_Telekomunikasi', 'Alur_Pelayaran_dan_Perlintasan_Internasional', 'Alur_Pelayaran_dan_Perlintasan_Khusus'];
+        const layersToShow = ['Zona_Perikanan_Tangkap', 'Sistem_Jaringan_Energi', 'Sistem_Jaringan_Telekomunikasi', 'Alur_Pelayaran_Umum_dan_Perlintasan', 'Lintas_Penyeberangan_Antarprovinsi', 'Lintas_Penyeberangan_Antarkabupaten_Kota_dalam_Provinsi'];
         // Loop untuk menambahkan setiap lapisan WMS ke dalam objek peta
         for (const layerName of RZWP3KLayerNames) {
             const wmsSource = new ol.source.TileWMS({
@@ -1003,7 +1004,7 @@
                     'FORMAT': 'image/png',
                 },
                 serverType: 'geoserver',
-                // crossOrigin: 'anonymous',
+                crossOrigin: 'anonymous',
             });
             var wms_layer = new ol.layer.Tile({
                 source: wmsSource,
@@ -1023,7 +1024,7 @@
                     'FORMAT': 'image/png',
                 },
                 serverType: 'geoserver',
-                // crossOrigin: 'anonymous',
+                crossOrigin: 'anonymous',
             });
             var wms_layer = new ol.layer.Tile({
                 source: wmsSource,

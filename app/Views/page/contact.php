@@ -60,7 +60,10 @@
                         <span class="icon"><i class="bi bi-geo-alt"></i></span>
                         <span class="content">
                             <h3>Address</h3>
-                            <span>Indonesia</span>
+                            <span>Jalan Kesuma Bangsa, Dadi Mulya,
+                                Samarinda, Kota Samarinda, Kalimantan
+                                Timur No. 1, Kode Pos : 75242
+                                Kalimantan Timur</span>
                         </span>
                     </div>
 
@@ -68,7 +71,7 @@
                         <span class="icon"><i class="bi bi-envelope"></i></span>
                         <span class="content">
                             <h3>Email</h3>
-                            <span>mail@mail.com</span>
+                            <span>sungramdkpkaltim@gmail.com</span>
                         </span>
                     </div>
 

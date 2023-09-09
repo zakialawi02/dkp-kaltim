@@ -87,7 +87,7 @@
                                             </div>
                                             <div class="mb-1"></div>
 
-                                            <h5>b. Pengajuan Izin</h5>
+                                            <h5>b. Pengajuan Informasi Ruang Laut</h5>
 
                                             <div class="form-group">
                                                 <label class="col-md-12 mb-2">Jenis Kegiatan</label>

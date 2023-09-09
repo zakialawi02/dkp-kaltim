@@ -54,7 +54,11 @@
                 <div class="row g-5 align-items-center">
                     <div class="hero-content">
                         <h1>Selamat Datang</h1>
-                        <p>Selamat Datang di Aplikasi Simata Laut Kaltim (Sistem Informasi Tata Ruang Laut Kaltim) Dinas Kelautan dan Perikanan Provinsi Kalimantan Timur.</p>
+                        <p>Di Aplikasi Sistem Informasi Tata Ruang Laut Kaltim (Simata Laut Kaltim) Dinas Kelautan dan Perikanan Provinsi Kalimantan Timur.</p>
+                    </div>
+                    <div class="d-flex justify-content-center gap-2">
+                        <a href="/peta" class="btn btn-primary">Cek Kesesuaian Lokasi</a>
+                        <a href="https://oss.go.id/" class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Via OSS">Ajukan Perizinan Usaha</a>
                     </div>
                 </div>
             </div>
@@ -63,7 +67,7 @@
 
     <!-- Header End -->
 
-    <!-- About Segment -->
+    <!-- Modul Segment -->
     <section class="modul pt-5" id="modul" style="min-height: 20vh;">
         <div class="container p-5 ">
 
@@ -72,7 +76,7 @@
             </center>
 
             <center class="">
-                <p>...</p>
+                <p>Modul ini adalah koleksi sumber daya untuk membantu anda menjelajahi tata ruang laut di Provinsi Kalimantan Timur. Temukan peraturan, panduan, dan dokumen penting lainnya.</p>
                 <br>
                 <a href="/data/modul" class="btn btn-primary">Lihat Dokumen</a>
             </center>
@@ -90,7 +94,7 @@
             </center>
 
             <center class="">
-                <p>Aplikasi Simata Laut Kaltim (Sistem Informasi Tata Ruang Laut Kaltim ) merupakan aplikasi yang dapat digunakan oleh masyarakat umum untuk memberikan akses Informasi Kesesuaian Kegiatan Pemanfaatan Ruang Laut di wilayah pesisir dan laut Provinsi Kalimantan Timur.</p>
+                <p>Aplikasi Simata Laut Kaltim (Sistem Informasi Tata Ruang Laut Kaltim) merupakan aplikasi yang dapat digunakan oleh masyarakat umum untuk memberikan akses Informasi Kesesuaian Kegiatan Pemanfaatan Ruang Laut di wilayah pesisir dan laut Provinsi Kalimantan Timur.</p>
             </center>
 
         </div>
@@ -112,7 +116,7 @@
                     <div class="card-body">
                         <center>
                             <h5 class="card-title">Cek Kesesuaian</h5>
-                            <p class="card-text">Melihat kesesuaian pengajuan kegiatan dan wilayah.</p>
+                            <p class="card-text">Melihat Kesesuaian Kegiatan Pemanfaatan Ruang Laut.</p>
                         </center>
                     </div>
                 </div>
@@ -130,7 +134,7 @@
                     <div class="card-body">
                         <center>
                             <h5 class="card-title">Lihat Status Ajuan</h5>
-                            <p class="card-text">Pemohon dapat melihat status pengajuan terkait penolakan maupun penerimaan izin.</p>
+                            <p class="card-text">Pemohon dapat melihat status pengajuan Informasi Kesesuaian Ruang Laut.</p>
                         </center>
                     </div>
                 </div>
@@ -153,6 +157,12 @@
     <!-- Template Javascript -->
     <script src="assets/js/main.js"></script>
 
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
 
 </body>
 

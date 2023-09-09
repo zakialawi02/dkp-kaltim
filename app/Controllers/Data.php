@@ -71,7 +71,7 @@ class Data extends BaseController
 
             return view('page/ajuan', $data);
         }
-        return redirect()->to('map');
+        return redirect()->to('/peta');
     }
 
     public function isiAjuan()
