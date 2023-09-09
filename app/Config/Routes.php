@@ -65,7 +65,7 @@ $routes->delete('/data/delete_pengajuan/(:num)', 'Data::delete_pengajuan/$1', ['
 
 $routes->get('/user/kelola', 'User::manajemen', ['filter' => 'role:SuperAdmin,Admin']);
 
-$routes->post('/data/cekStatus/', 'Data::cekStatus');
+$routes->post('/data/cekStatus', 'Data::cekStatus');
 
 
 

@@ -78,32 +78,33 @@
 
                                 <h5>a. Identitas Pemohon</h5>
 
+                                <p class="m-0 p-0"><span style="color: red;">*</span> <span class="form-text">Wajib di isi</span> </p>
                                 <div class="form-group">
                                     <label class="form-label">NIB (Nomor Induk Berusaha)</label>
                                     <input type="text" class="form-control" id="nib" aria-describedby="textlHelp" name="nib">
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">NIK (Nomor Induk Kependudukan)</label>
+                                    <label class="form-label">NIK (Nomor Induk Kependudukan) <span style="color: red;">*</span></label>
                                     <input type="text" class="form-control" id="nik" aria-describedby="textlHelp" name="nik" required>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Nama</label>
+                                    <label class="form-label">Nama <span style="color: red;">*</span></label>
                                     <input type="text" class="form-control" id="nama" aria-describedby="textlHelp" name="nama" required>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Alamat</label>
+                                    <label class="form-label">Alamat <span style="color: red;">*</span></label>
                                     <input type="text" class="form-control" id="alamat" aria-describedby="textlHelp" name="alamat" required>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">No. Telp/HP</label>
+                                    <label class="form-label">No. Telp/HP <span style="color: red;">*</span></label>
                                     <input type="text" class="form-control" id="kontak" aria-describedby="textlHelp" name="kontak" required>
                                 </div>
                                 <div class="mb-1"></div>
 
-                                <h5>b. Pengajuan Izin</h5>
+                                <h5>b. Pengajuan Informasi Ruang Laut</h5>
 
                                 <div class="form-group">
-                                    <label class="col-md-12 mb-2">Jenis Kegiatan</label>
+                                    <label class="col-md-12 mb-2">Jenis Kegiatan <span style="color: red;">*</span></label>
                                     <select class="form-select" id="pilihKegiatan" name="kegiatan" style="width: 100%;" required disabled>
                                         <option></option>
                                         <?php foreach ($jenisKegiatan as $K) : ?>
@@ -113,7 +114,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-md-12 mb-2" for="SubZona">Zona Tercakup</label>
+                                    <label class="col-md-12 mb-2" for="SubZona">Zona</label>
 
                                 </div>
 

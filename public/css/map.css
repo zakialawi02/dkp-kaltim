@@ -300,7 +300,7 @@ label {
 p.boleh {
     font-size: small;
     display: block;
-    background-color: #38a838;
+    background-color: #66ff66;
     width: 7rem;
     padding: 0.1rem 0.2rem 0.1rem 0.8rem;
     margin-left: 5px;
@@ -311,7 +311,7 @@ p.boleh {
 p.bolehBersyarat {
     font-size: small;
     display: block;
-    background-color: rgb(236, 249, 58);
+    background-color: #ffff66;
     width: 11rem;
     padding: 0.1rem 0.2rem 0.1rem 0.8rem;
     margin-left: 5px;
@@ -322,7 +322,7 @@ p.bolehBersyarat {
 p.tidakBoleh {
     font-size: small;
     display: block;
-    background-color: rgb(239, 24, 24);
+    background-color: #ff6666;
     width: 10rem;
     padding: 0.1rem 0.2rem 0.1rem 0.8rem;
     margin-left: 5px;
