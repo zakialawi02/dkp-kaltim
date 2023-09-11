@@ -22,14 +22,16 @@ class ModelKesesuaian extends Model
                 ->select('tbl_kesesuaian.*, tbl_kegiatan.*, tbl_zona.*')
                 ->join('tbl_kegiatan', 'tbl_kegiatan.kode_kegiatan = tbl_kesesuaian.kode_kegiatan', 'LEFT')
                 ->join('tbl_zona', 'tbl_zona.id_zona = tbl_kesesuaian.id_zona', 'LEFT')
-                ->orderBy('id_kesesuaian', 'ASC')
+                ->orderBy('tbl_kesesuaian.id_zona', 'ASC')
+                ->orderBy('tbl_kegiatan.id_kegiatan', 'ASC')
                 ->get();
         } else {
             return $this->db->table('tbl_kesesuaian')
                 ->select('tbl_kesesuaian.*, tbl_kegiatan.*, tbl_zona.*')
                 ->join('tbl_kegiatan', 'tbl_kegiatan.kode_kegiatan = tbl_kesesuaian.kode_kegiatan', 'LEFT')
                 ->join('tbl_zona', 'tbl_zona.id_zona = tbl_kesesuaian.id_zona', 'LEFT')
-                ->orderBy('id_kesesuaian', 'ASC')
+                ->orderBy('tbl_kesesuaian.id_zona', 'ASC')
+                ->orderBy('tbl_kegiatan.id_kegiatan', 'ASC')
                 ->Where(['tbl_kesesuaian.id_kesesuaian' => $id_kesesuaian])
                 ->get();
         }

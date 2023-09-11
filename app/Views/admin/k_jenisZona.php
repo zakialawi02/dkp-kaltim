@@ -16,6 +16,7 @@
     <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <link href=" https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css " rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <!-- Template Main CSS File -->
     <link href="/css/StyleAdmin.css" rel="stylesheet" />
@@ -73,7 +74,7 @@
             <!-- MAIN CONTENT -->
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-2 mb-3">Data Jenis Kegiatan</h1>
+                    <h1 class="mt-2 mb-3">Data Jenis Zona</h1>
 
                     <div class="card mb-4">
                         <div class="card-body">
@@ -85,28 +86,72 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Nama Kegiatan</th>
+                                            <th>Nama Zona</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php $i = 1 ?>
-                                        <?php foreach ($dataKegiatan as $K) : ?>
+                                        <?php foreach ($dataZona as $Z) : ?>
                                             <tr>
                                                 <td><?= $i++; ?></td>
-                                                <td><?= $K->nama_kegiatan; ?></td>
+                                                <td><?= $Z->nama_zona; ?></td>
                                                 <td>
                                                     <div class="d-inline-flex gap-1">
                                                         <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                            <a href="/admin/kegiatan/edit/<?= $K->id_kegiatan; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
+                                                            <a href="/admin/zona/edit/<?= $Z->id_zona; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
                                                         </div>
-                                                        <!-- <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                            <form action="/admin/delete_kegiatan/<?= $K->id_kegiatan; ?>" method="post">
-                                                                <?= csrf_field(); ?>
-                                                                <input type="hidden" name="_method" value="DELETE">
-                                                                <button type="submit" class="asbn btn btn-danger bi bi-trash" onclick="return confirm('Yakin Hapus Data?')"></button>
-                                                            </form>
-                                                        </div> -->
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach ?>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="card mb-4">
+                        <div class="card-body">
+
+                            <div class="row mb-2">
+                                <div class="col-md-6 mb-2">
+                                    <label class="col-md-12 mb-2">Filter Berdasarkan: <span style="color: red;"></label>
+                                    <select class="form-select" id="pilihZona" name="zona" style="width: 100%;">
+                                        <option></option>
+                                        <?php $firstZona = reset($dataZona); ?>
+                                        <?php foreach ($dataZona as $Z) : ?>
+                                            <option value=" <?= $Z->id_zona ?>"><?= $Z->nama_zona ?></option>
+                                        <?php endforeach ?>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="table-content overflow-auto" id="table-content-byZona">
+                                <h6 class="pt-2 pb-2">Zona: semua zona</h6>
+                                <table id="datatablesSimples" class="table table-striped row-border hover" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Nama Zona</th>
+                                            <th>Kawasan</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php $i = 1 ?>
+                                        <?php foreach ($dataKawasan as $K) : ?>
+                                            <tr>
+                                                <td><?= $i++; ?></td>
+                                                <td><?= $K->nama_zona; ?></td>
+                                                <td><?= $K->kode_kawasan; ?></td>
+                                                <td>
+                                                    <div class="d-inline-flex gap-1">
+                                                        <div class="btn-group mr-2" role="group" aria-label="First group">
+                                                            <a href="/admin/zona/edit/<?= $K->id_znkwsn; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
+                                                        </div>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -133,9 +178,37 @@
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/816b3ace5c.js" crossorigin="anonymous"></script>
     <script src=" https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js "></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="/js/scripts.js"></script>
 
     <script>
         new DataTable('#datatablesSimple');
+        new DataTable('#datatablesSimples');
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#pilihZona").select2({
+                placeholder: "Pilih Berdasarkan Zona",
+                allowClear: true
+            });
+        });
+    </script>
+    <script>
+        $("#pilihZona").change(function(e) {
+            e.preventDefault();
+            let zona = $("#pilihZona").val();
+            console.log(zona);
+            $.ajax({
+                type: "POST",
+                url: `/admin/kawasanByZona/${zona}`,
+                data: zona,
+                dataType: "html",
+            }).done(function(response) {
+                $("#table-content-byZona").html(response);
+            }).fail(function(error) {
+                console.error('Error:', error);
+            });
+        });
     </script>
 
     <?php if (session()->getFlashdata('success')) : ?>

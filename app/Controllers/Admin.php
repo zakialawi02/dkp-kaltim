@@ -10,7 +10,9 @@ use App\Models\ModelSetting;
 use App\Models\ModelIzin;
 use App\Models\ModelUser;
 use App\Models\ModelJenisKegiatan;
+use App\Models\ModelKesesuaian;
 use App\Models\ModelNamaZona;
+use App\Models\ModelZonaKawasan;
 use Faker\Extension\Helper;
 use Mpdf\Tag\Br;
 
@@ -20,6 +22,9 @@ class Admin extends BaseController
     protected $ModelUser;
     protected $ModelIzin;
     protected $ModelJenisKegiatan;
+    protected $ModelNamaZona;
+    protected $ModelZonaKawasan;
+    protected $ModelKesesuaian;
     public function __construct()
     {
         helper(['form', 'url']);
@@ -28,6 +33,8 @@ class Admin extends BaseController
         $this->izin = new ModelIzin();
         $this->kegiatan = new ModelJenisKegiatan();
         $this->zona = new ModelNamaZona();
+        $this->kawasan = new ModelZonaKawasan();
+        $this->kesesuaian = new ModelKesesuaian();
     }
 
     public function index()
@@ -271,5 +278,40 @@ class Admin extends BaseController
             session()->setFlashdata('error', 'Gagal Menyimpan Tindakan.');
             return $this->response->redirect(site_url('/admin/data/permohonan/masuk'));
         }
+    }
+
+
+    public function kegiatan()
+    {
+        $data = [
+            'title' => 'Data Kegiatan',
+            'dataKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
+        ];
+        return view('admin/k_jenisKegiatan', $data);
+    }
+    public function zona()
+    {
+        $data = [
+            'title' => 'Data Zona',
+            'dataZona' => $this->zona->getZona()->getResult(),
+            'dataKawasan' => $this->kawasan->getKawasan()->getResult(),
+        ];
+        return view('admin/k_jenisZona', $data);
+    }
+    public function kesesuaian()
+    {
+        $data = [
+            'title' => 'Data Kesesuaian',
+            'dataKesesuaian' => $this->kesesuaian->getKesesuaian()->getResult(),
+        ];
+        // dd($data['dataKesesuaian']);
+        return view('admin/k_kesesuaian', $data);
+    }
+    public function kawasanByZona($id_zona)
+    {
+        $data = [
+            'dataKawasan' => $this->kawasan->getZKawasan($id_zona)->getResult(),
+        ];
+        return view('serverSide/tblKawasanByZona', $data);
     }
 }
