@@ -105,7 +105,19 @@
                                         <tr>
                                             <td>Wilayah Kegiatan</td>
                                             <th>:</th>
-                                            <td>##</td>
+                                            <td>
+                                                <?php
+                                                if (!empty($tampilDataIzin->id_zona)) {
+                                                    $zoneName = explode(",", $tampilDataIzin->id_zona);
+                                                    $zoneName = array_unique($zoneName);
+                                                    foreach ($tampilZona as $value) {
+                                                        if (in_array($value->id_zona, $zoneName)) {
+                                                            echo "<span>" . $value->nama_zona . "</span>"  . "<br>";
+                                                        }
+                                                    }
+                                                }
+                                                ?>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Tanggal Pengajuan</td>

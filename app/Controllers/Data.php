@@ -11,6 +11,7 @@ use App\Models\ModelIzin;
 use App\Models\ModelJenisKegiatan;
 use App\Models\ModelKesesuaian;
 use App\Models\ModelNamaZona;
+use App\Models\ModelZonaKawasan;
 use Faker\Extension\Helper;
 
 class Data extends BaseController
@@ -20,6 +21,7 @@ class Data extends BaseController
     protected $ModelJenisKegiatan;
     protected $ModelKesesuaian;
     protected $ModelNamaZona;
+    protected $ModelZonaKawasan;
     public function __construct()
     {
         helper(['form', 'url']);
@@ -28,6 +30,7 @@ class Data extends BaseController
         $this->kegiatan = new ModelJenisKegiatan();
         $this->kesesuaian = new ModelKesesuaian();
         $this->zona = new ModelNamaZona();
+        $this->kawasan = new ModelZonaKawasan();
     }
 
     public function index()
@@ -65,7 +68,6 @@ class Data extends BaseController
         if ($session != null) {
             $data = [
                 'title' => 'Pengajuan Informasi',
-                'tampilData' => $this->setting->tampilData()->getResult(),
                 'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
             ];
 
@@ -269,7 +271,6 @@ class Data extends BaseController
 
 
     // AJAX/SERVER SIDE 
-
     public function cekData()
     {
         $data = [
@@ -292,22 +293,48 @@ class Data extends BaseController
 
     public function cekStatus()
     {
+        $result = [];
         $getOverlapProperties = $this->request->getPost('getOverlapProperties');
         $valKegiatan = $this->request->getPost('valKegiatan');
         $fecthKegiatan = $this->kegiatan->getJenisKegiatan($valKegiatan)->getResult();
         $KodeKegiatan = $fecthKegiatan[0]->kode_kegiatan;
-        $namaZona = $getOverlapProperties['namaZona'][0];
-        $id_zona = $this->zona->whereZona($namaZona)->getResult();
-        $id_zona = $id_zona[0]->id_zona;
-        $kode_kawasan = $getOverlapProperties['kodeKawasan'][0];
-        $response = [
-            'status' => 'Succes',
-            'valueKegiatan' => $valKegiatan,
-            'KodeKegiatan' => $KodeKegiatan,
-            'valZona' => $id_zona,
-            'nameKegiatan' => $fecthKegiatan[0]->nama_kegiatan,
-            'hasil' => $this->kesesuaian->searchKesesuaian($KodeKegiatan, $id_zona, $kode_kawasan)->getResultArray(),
-        ];
+
+        if (!empty($getOverlapProperties[0])) {
+            $selectedKegiatan = $this->selectKegiatan($KodeKegiatan);
+            $namaZona = array_map(function ($feature) {
+                return $feature['namaZona'];
+            }, $getOverlapProperties);
+            $id_zona = array_map(function ($feature) {
+                return $this->zona->searchZona($feature)->getResult()[0];
+            }, $namaZona);
+            $kode_kawasan = array_map(function ($feature) {
+                return $feature['kodeKawasan'];
+            }, $getOverlapProperties);
+
+            foreach ($selectedKegiatan as $value) {
+                if (in_array($value->kawasan, $kode_kawasan) && in_array($value->nama_zona, $namaZona)) {
+                    $result[] = $value;
+                }
+            }
+            $response = [
+                'status' => 'Succes',
+                'valueKegiatan' => $valKegiatan,
+                'KodeKegiatan' => $KodeKegiatan,
+                'valZona' => $id_zona,
+                'nameKegiatan' => $fecthKegiatan[0]->nama_kegiatan,
+                'hasil' => $result,
+            ];
+        } else {
+            $result;
+            $response = [
+                'status' => 'Succes',
+                'valueKegiatan' => $valKegiatan,
+                'KodeKegiatan' => $KodeKegiatan,
+                'valZona' => [],
+                'nameKegiatan' => $fecthKegiatan[0]->nama_kegiatan,
+                'hasil' => $result,
+            ];
+        }
         // echo '<pre>';
         // print_r($response);
         // die;
@@ -315,20 +342,121 @@ class Data extends BaseController
         return $this->response->setJSON($response);
     }
 
-
-    public function dumpp()
+    private function selectKegiatan($kode_kegiatan)
     {
-        $kode_kegiatan = "K1";
-        $id_zona = 5;
-        $kode_kawasan = "KPU-W-02";
+        $result = $this->kesesuaian->selectedByKegiatan($kode_kegiatan)->getResult();
+        return $result;
+    }
+
+
+    public function dump()
+    {
+        $kode_kegiatan = "K32";
+        $id_zona = ["6"];
+        $kode_kawasan = ["KPU-PL-06"];
+        // $id_zona = ["2"];
+        // $kode_kawasan = ["KK-P3K-ZPT-14"];
+        $sub = "Zona Inti";
+
         $dd = $this->kesesuaian->searchKesesuaian($kode_kegiatan, $id_zona, $kode_kawasan)->getResult();
+        // echo '<pre>';
+        // print_r($dd);
+        // die;
         dd($dd);
     }
-    public function dumpz()
+    public function dumpp()
     {
-        $cari = "Pencadangan/Indikasi Kawasan Konservasi";
-        $dd = $this->izin->getAllPermohonan()->getResult();
-        // $dd = $this->zona->whereZona($cari)->getResult();
+        $kode_kegiatan = "K164";
+        // $id_zona = ["5"];
+        // $kode_kawasan = ["KPU-W-02"];
+        $id_zona = ["2", "6"];
+        $kode_kawasan = ["KK-P3K-ZPT-14", "KPU-PL-15", "KPU-PL-10"];
+
+        $selectedKegiatan = $this->selectKegiatan($kode_kegiatan);
+        dd($selectedKegiatan);
+        for ($i = 0; $i < count($id_zona); $i++) {
+            foreach ($kode_kawasan as $value) {
+                $ddt = $this->kesesuaian->searchKesesuaian($kode_kegiatan, $id_zona[$i], $value)->getResult();
+                if (!empty($ddt)) {
+                    echo $id_zona[$i] . "<br>";
+                    $dd[] = $ddt[0];
+                }
+            }
+        }
+        foreach ($dd as $row) {
+            if (!empty($row->sub_zona)) {
+                echo "konservasi";
+            }
+        }
+        echo '<pre>';
+        // print_r($dd);
+        // die;
+        dd($dd);
+    }
+    // public function dumpp()
+    // {
+    //     $kode_kegiatan = "K1";
+    //     // $id_zona = ["5"];
+    //     // $kode_kawasan = ["KPU-W-02"];
+    //     $id_zona = ["5", "2", "6"];
+    //     $kode_kawasan = ["KPU-W-02", "KPU-W-11", "KK-P3K-ZPT-14", "KPU-PL-15"];
+    //     $dd = [];
+
+    //     $zone = [1, 2, 3, 4];
+    //     foreach ($zone as $val) {
+    //         $dd[] = $this->kawasan->getZKawasan($val)->getResult();
+    //     }
+    //     $dd = array_merge(...$dd);
+    //     foreach ($dd as $row) {
+    //         $code[] = $row->kode_kawasan;
+    //     }
+
+    //     for ($i = 0; $i < count($id_zona); $i++) {
+    //         if (in_array($id_zona[$i], $zone)) {
+    //             for ($ii = 0; $ii < count($kode_kawasan); $ii++) {
+    //                 $kode_kawasan[$ii];
+    //                 if (in_array($kode_kawasan[$ii], $code)) {
+    //                     echo $kode_kawasan[$ii];
+    //                 }
+    //             }
+    //             echo "ada konservasi" . "<br>";
+    //         } else {
+    //             foreach ($kode_kawasan as $value) {
+    //                 echo $id_zona[$i] . "<br>";
+    //                 $ddt = $this->kesesuaian->searchKesesuaian($kode_kegiatan, $id_zona[$i], $value)->getResult();
+    //                 if (!empty($ddt)) {
+    //                     $dd[] = $ddt;
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     echo '<pre>';
+    //     // print_r($dd);
+    //     die;
+    //     dd($dd);
+    // }
+    public function dumpkeg()
+    {
+        $valKegiatan = "138";
+        $fecthKegiatan = $this->kegiatan->getJenisKegiatan($valKegiatan)->getResult();
+        dd($fecthKegiatan);
+    }
+    public function dumpzon()
+    {
+        $namaZona = 'zona pariwisata';
+        $id_zona = $this->zona->searchZona($namaZona)->getResult();
+        dd($id_zona);
+    }
+    public function dumpkwsn()
+    {
+        $zone = [1, 2, 3, 4];
+        foreach ($zone as $val) {
+            $dd[] = $this->kawasan->getZKawasan($val)->getResult();
+        }
+        $dd = array_merge(...$dd);
+        foreach ($dd as $row) {
+            $kwsn[] = $row->kode_kawasan;
+        }
         dd($dd);
     }
 }

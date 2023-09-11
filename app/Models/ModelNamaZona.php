@@ -40,4 +40,13 @@ class ModelNamaZona extends Model
             ->Where(['tbl_zona.nama_zona' => $params])
             ->get();
     }
+
+    public function searchZona($key = false)
+    {
+        return $this->db->table('tbl_zona')
+            ->select('*')
+            ->orderBy('id_zona', 'ASC')
+            ->like(['tbl_zona.nama_zona' => $key])
+            ->get();
+    }
 }
