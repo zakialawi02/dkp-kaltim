@@ -52,7 +52,7 @@
                 <?php if (logged_in()) : ?>
                     <li><a href="/dashboard" class="nav-link"> Dashboard</a></li>
                     <li><a id="logout-btn" class="nav-link bi bi-box-arrow-right"> Log Out</a></li>
-                    <li><a id="spinners"><span class="nav-link spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>Logout... </a></li>
+                    <li><a id="spinners" class="nav-link"><span class="nav-link spinner-grow spinner-grow-sm" role="status" aria-hidden="true">Logout...</span></a></li>
                 <?php else : ?>
                     <li><a id="login-btn" class="nav-link bi bi-box-arrow-in-right" data-bs-toggle="modal" data-bs-target="#loginModal"> Login</a></li>
                 <?php endif ?>
@@ -297,7 +297,7 @@
 
 
     <div id="ruler-button" class="ol-control">
-        <button><i class="bi bi-rulers"></i></button>
+        <button><i class="bi bi-rulers" title="Ukur Area"></i></button>
     </div>
     <div class="map" id="map">
         <div id="measurement-tip"></div>
@@ -347,10 +347,10 @@
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_5" id="czona_5" value="kb" onclick="set_zona(5)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/industri2.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Industri</label>
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_6" id="czona_6" value="kb" onclick="set_zona(6)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/wisata.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Pariwisata</label>
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_7" id="czona_7" value="kb" onclick="set_zona(7)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/pelabuhan.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Pelabuhan Perikanan</label>
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_8" id="czona_8" value="kb" onclick="set_zona(8)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/pelabuhan2.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Pelabuhan Umum</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked="true" autocomplete="off" name="czona_8" id="czona_8" value="kb" onclick="set_zona(8)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/pelabuhan2.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Pelabuhan Umum</label>
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_9" id="czona_9" value="kb" onclick="set_zona(9)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/dagangan.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Perdagangan Barang dan/atau Jasa</label>
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_10" id="czona_10" value="kb" onclick="set_zona(10)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/budidayalaut.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Perikanan Budi Daya</label>
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked="true" autocomplete="off" name="czona_11" id="czona_11" value="kb" onclick="set_zona(11)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/tangkap.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Perikanan Tangkap</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_11" id="czona_11" value="kb" onclick="set_zona(11)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/tangkap.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Perikanan Tangkap</label>
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_12" id="czona_12" value="kb" onclick="set_zona(12)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/permukiman.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Permukiman</label>
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_13" id="czona_13" value="kb" onclick="set_zona(13)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/pertahanan.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Pertahanan dan Keamanan</label>
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_14" id="czona_14" value="kb" onclick="set_zona(14)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/zona tambangan.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Pertambangan Minyak dan Gas Bumi</label>
@@ -715,63 +715,99 @@
             $(".info_status").html('<img src="/img/loading.gif">');
             let valKegiatan = $('#pilihKegiatan').val();
             let getOverlap = overlappingFeatures;
+            // console.log(getOverlap);
+            // let properties = getOverlap.map(function(feature) {
+            //     return feature.properties;
+            // });
             objectID = getOverlap.map(function(feature) {
                 return feature.properties.OBJECTID;
             });
-            kawasan = getOverlap.map(function(feature) {
-                return feature.properties.JNSRPR;
-            });
-            namaZona = getOverlap.map(function(feature) {
-                return feature.properties.NAMOBJ;
-            });
-            kodeKawasan = getOverlap.map(function(feature) {
-                return feature.properties.KODKWS;
-            });
-            if (objectID != null) {
-                objectID = Array.from(new Set(objectID));
-                namaZona = Array.from(new Set(namaZona));
-                kodeKawasan = Array.from(new Set(kodeKawasan));
-                kawasan = Array.from(new Set(kawasan));
+            getOverlapProperties = [];
+            if (objectID.length === 0) {
+                getOverlapProperties = [
+                    objectID = "",
+                    namaZona = "Maaf, Tidak ada data / Tidak terdeteksi",
+                    subZona = "",
+                    kodeKawasan = "",
+                    kawasan = "Maaf, Tidak ada data / Tidak terdeteksi",
+                ];
             } else {
-                objectID = "";
-                namaZona = "Maaf, Tidak ada data / Tidak terdeteksi";
-                kodeKawasan = "";
-                kawasan = "Maaf, Tidak ada data / Tidak terdeteksi";
+                for (let index = 0; index < getOverlap.length; index++) {
+                    const objectID = getOverlap[index].properties.OBJECTID;
+                    const namaZona = getOverlap[index].properties.NAMOBJ;
+                    const subZona = getOverlap[index].properties.SUBZONA2;
+                    const kodeKawasan = getOverlap[index].properties.KODKWS;
+                    const kawasan = getOverlap[index].properties.JNSRPR;
+                    const newObj = {
+                        objectID: objectID,
+                        namaZona: namaZona,
+                        subZona: subZona,
+                        kodeKawasan: kodeKawasan,
+                        kawasan: kawasan
+                    };
+                    getOverlapProperties[index] = newObj;
+                }
+                // console.log(getOverlapProperties);
+                const uniqueObjectsID = [];
+                let temp = [];
+                for (let index = 0; index < getOverlapProperties.length; index++) {
+                    const data = getOverlapProperties[index];
+                    const cek = data.objectID;
+                    if (!temp.includes(cek)) {
+                        uniqueObjectsID.push(data);
+                        temp.push(cek);
+                    }
+                }
+                // console.log(uniqueObjectsID);
+                getOverlapProperties = [];
+                let temp1 = [];
+                let temp2 = [];
+                for (let index = 0; index < uniqueObjectsID.length; index++) {
+                    const data = uniqueObjectsID[index];
+                    const cek1 = data.namaZona;
+                    const cek2 = data.kodeKawasan;
+                    if (!temp1.includes(cek1) || !temp2.includes(cek2)) {
+                        getOverlapProperties.push(data);
+                        temp1.push(cek1);
+                        temp2.push(cek2);
+                    }
+                }
             }
-            let getOverlapProperties = {
-                objectID,
-                namaZona,
-                kodeKawasan,
-                kawasan
-            }
+            console.log(getOverlapProperties);
             $.ajax({
                     method: "POST",
                     url: "/data/cekStatus",
                     data: {
                         valKegiatan,
-                        getOverlapProperties
+                        getOverlapProperties,
                     },
                     dataType: "json",
                 })
                 .done(function(response) {
                     console.log(response);
-                    let data = response.hasil;
-                    data = response.hasil[0];
+                    let hasil = response.hasil;
                     let valZona = response.valZona;
+                    valZona = valZona.map(function(item) {
+                        return item.id_zona;
+                    });
                     console.log(valZona);
                     $("#idZona").val(valZona);
-                    if (data != null) {
-                        if (data.status == "diperbolehkan") {
-                            $('#lanjutKirim').prop('disabled', false);
-                            $(".info_status").html('<p class="boleh">Aktifitas diberbolehkan</p>');
-                        } else if (data.status == "diperbolehkan bersyarat") {
-                            $('#lanjutKirim').prop('disabled', false);
-                            $(".info_status").html('<p class="bolehBersyarat">Aktifitas diberbolehkan bersyarat</p>');
-                        } else {
+                    if (hasil.length !== 0) {
+                        let diperbolehkan = hasil.filter(item => item.status === 'diperbolehkan');
+                        let diperbolehkanBersyarat = hasil.filter(item => item.status === 'diperbolehkan bersyarat');
+                        let tidakDiperbolehkan = hasil.filter(item => item.status === 'tidak diperbolehkan');
+                        if (tidakDiperbolehkan.length !== 0) {
                             $('#lanjutKirim').prop('disabled', true);
-                            $(".info_status").html('<p class="tidakBoleh">Aktifitas tidak diberbolehkan</p>');
+                            $(".info_status").html('<p class="tidakBoleh">Aktivitas yang tidak diperbolehkan</p>');
+                        } else if (diperbolehkanBersyarat.length !== 0) {
+                            $('#lanjutKirim').prop('disabled', false);
+                            $(".info_status").html('<p class="bolehBersyarat">Aktifitas diperbolehkan setelah memperoleh izin</p>');
+                        } else {
+                            $('#lanjutKirim').prop('disabled', false);
+                            $(".info_status").html('<p class="boleh">Aktifitas yang diperbolehkan</p>');
                         }
                     } else {
+                        $('#lanjutKirim').prop('disabled', false);
                         $(".info_status").html('<p class="">No Data</p>');
                     }
                 })
@@ -830,7 +866,8 @@
         var coordinates;
         var jsonCoordinates;
         var geojsonFeature;
-        var overlappingFeatures
+        var overlappingFeatures;
+        let getOverlapProperties;
         const KKPRL_Layer = [];
         const RZWP3K_Layer = [];
 
@@ -993,7 +1030,7 @@
             'Lintas_Penyeberangan_Antarprovinsi',
             'Lintas_Penyeberangan_Antarkabupaten_Kota_dalam_Provinsi',
         ];
-        const layersToShow = ['Zona_Perikanan_Tangkap', 'Sistem_Jaringan_Energi', 'Sistem_Jaringan_Telekomunikasi', 'Alur_Pelayaran_Umum_dan_Perlintasan', 'Lintas_Penyeberangan_Antarprovinsi', 'Lintas_Penyeberangan_Antarkabupaten_Kota_dalam_Provinsi'];
+        const layersToShow = ['Zona_Pelabuhan_Umum', 'Sistem_Jaringan_Energi', 'Sistem_Jaringan_Telekomunikasi', 'Alur_Pelayaran_Umum_dan_Perlintasan', 'Lintas_Penyeberangan_Antarprovinsi', 'Lintas_Penyeberangan_Antarkabupaten_Kota_dalam_Provinsi'];
         // Loop untuk menambahkan setiap lapisan WMS ke dalam objek peta
         for (const layerName of RZWP3KLayerNames) {
             const wmsSource = new ol.source.TileWMS({
@@ -1175,9 +1212,8 @@
         // }
 
         function kirim() {
-            // let valueKegiatan = $("#pilihKegiatan").val();
             let geojson = geojsonFeature;
-            let getOverlap = overlappingFeatures;
+            let getOverlap = getOverlapProperties;
             $("#geojson").val(JSON.stringify(geojson));
             $("#getOverlap").val(JSON.stringify(getOverlap));
         }
@@ -1229,7 +1265,7 @@
                         }
                     });
                 } catch (error) {
-                    alert("Terjadi Kesalahan, Mohon Reload Browser");
+                    alert("Terjadi kesalahan, mohon ulangi atau reload browser anda");
                 }
             } else if (type == "line") {
                 try {
@@ -1252,7 +1288,7 @@
                         }
                     });
                 } catch (error) {
-                    alert("Terjadi Kesalahan, Mohon Reload Browser");
+                    alert("Terjadi kesalahan, mohon ulangi atau reload browser anda");
                 }
             } else { //polygon
                 try {
@@ -1263,7 +1299,7 @@
                         // console.log(geojsonFeature);
                         var shapefilePoly = turf.polygon(shapefileGeoJSON.geometry.coordinates);
                         // console.log(shapefilePoly);
-                        var overlap = turf.booleanOverlap(geojsonFeature, shapefilePoly);
+                        var overlap = turf.booleanIntersects(geojsonFeature, shapefilePoly);
                         var within = turf.booleanWithin(geojsonFeature, shapefilePoly);
                         if (overlap || within) {
                             console.log('Overlap detected!');
@@ -1276,7 +1312,7 @@
                         }
                     });
                 } catch (error) {
-                    alert("Terjadi Kesalahan, Mohon Reload Browser");
+                    alert("Terjadi kesalahan, mohon ulangi atau reload browser anda");
                 }
             }
             console.log(
@@ -1499,7 +1535,7 @@
             var worker = cw({
                 data: wfunc
             }, 2);
-            worker.data(cw.makeUrl('/geojson/KKPRL_RTRW_KALTIM_10_03_2023_AR_FIX_EXPLODE.zip')).then(function(data) {
+            worker.data(cw.makeUrl('/geojson/KKPRL_joinTableWithRZWPCopy.zip')).then(function(data) {
                 geoshp = data;
                 console.log("Var Global:", data);
             }, function(a) {

@@ -10,6 +10,7 @@ use App\Models\ModelSetting;
 use App\Models\ModelIzin;
 use App\Models\ModelUser;
 use App\Models\ModelJenisKegiatan;
+use App\Models\ModelNamaZona;
 use Faker\Extension\Helper;
 use Mpdf\Tag\Br;
 
@@ -26,6 +27,7 @@ class Admin extends BaseController
         $this->user = new ModelUser();
         $this->izin = new ModelIzin();
         $this->kegiatan = new ModelJenisKegiatan();
+        $this->zona = new ModelNamaZona();
     }
 
     public function index()
@@ -163,6 +165,7 @@ class Admin extends BaseController
         $data = [
             'title' => 'Detail Data Pengajuan Informasi',
             'tampilData' => $this->setting->tampilData()->getResult(),
+            'tampilZona' => $this->zona->getZona()->getResult(),
             'tampilDataIzin' => $permintaanId,
         ];
 

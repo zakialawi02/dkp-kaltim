@@ -58,4 +58,16 @@ class ModelKesesuaian extends Model
                 ]);
         }
     }
+
+    public function selectedByKegiatan($kode_kegiatan)
+    {
+        return $this->db->table('tbl_kesesuaian')
+            ->select('tbl_kesesuaian.*, tbl_kegiatan.*, tbl_zona.*, tbl_zona_kawasan.kode_kawasan as kawasan')
+            ->join('tbl_kegiatan', 'tbl_kegiatan.kode_kegiatan = tbl_kesesuaian.kode_kegiatan', 'LEFT')
+            ->join('tbl_zona_kawasan', 'tbl_zona_kawasan.id_zona = tbl_kesesuaian.id_zona', 'LEFT')
+            ->join('tbl_zona', 'tbl_zona.id_zona = tbl_kesesuaian.id_zona', 'LEFT')
+            ->getWhere([
+                'tbl_kesesuaian.kode_kegiatan' => $kode_kegiatan,
+            ]);
+    }
 }

@@ -65,7 +65,14 @@
                                 $datas = session()->getFlashdata('data');
                                 $geojson = json_decode($datas['geojson']);
                                 $getOverlap = json_decode($datas['getOverlap']);
-                                $valZona = json_decode($datas['valZona']);
+                                $valZona = $datas['valZona'];
+                                if (!empty($valZona)) {
+                                    $zoneName = array_map(function ($prop) {
+                                        return $prop->namaZona;
+                                    }, $getOverlap);
+                                    $zoneName = array_unique(($zoneName));
+                                }
+
                                 // $propertiOverlap = $getOverlap[0]->properties;
                                 // dd($propertiOverlap);
                                 ?>
@@ -115,7 +122,15 @@
 
                                 <div class="form-group">
                                     <label class="col-md-12 mb-2" for="SubZona">Zona</label>
-
+                                    <?php
+                                    if (!empty($zoneName)) {
+                                        foreach ($zoneName as $row) {
+                                            echo "<span>" . $row . "</span>"  . "<br>";
+                                        }
+                                    } else {
+                                        echo "<span>-</span>";
+                                    }
+                                    ?>
                                 </div>
 
                                 <div class="feedback">Keterangan Kesesuaian:</div>
@@ -194,14 +209,6 @@
     <script src="https://unpkg.com/ol-layerswitcher@4.1.1"></script>
 
     <script type="text/javascript">
-        <?php foreach ($tampilData as $D) : ?>
-            <?php $koordinat = $D->coordinat_wilayah ?>
-            <?php $zoomView = $D->zoom_view ?>
-            <?php $splitKoordinat = explode(', ', $koordinat) ?>
-            <?php $lon = $splitKoordinat[0] ?>
-            <?php $lat = $splitKoordinat[1] ?>
-        <?php endforeach ?>
-
         proj4.defs("EPSG:32750", "+proj=utm +zone=50 +south +ellps=WGS84 +datum=WGS84 +units=m +no_defs");
         proj4.defs("EPSG:23836", "+proj=tmerc +lat_0=0 +lon_0=112.5 +k=0.9999 +x_0=200000 +y_0=1500000 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
 
@@ -296,8 +303,8 @@
 
         // Init To Canvas/View
         const view = new ol.View({
-            center: ol.proj.fromLonLat([<?= $lat; ?>, <?= $lon; ?>]),
-            zoom: <?= $zoomView; ?>,
+            center: ol.proj.fromLonLat([117.040, -1.175]),
+            zoom: 12,
             Projection: projection
         });
         const map = new ol.Map({
@@ -335,11 +342,10 @@
             console.log(idZona);
             $("#drawFeatures").val(JSON.stringify(geojson));
             $("#pilihKegiatan").val($("#pilihKegiatan").val());
-            let zona = <?= json_encode($getOverlap); ?>;
-            var kawasan = zona.map(function(feature) {
-                return feature.properties.KODKWS;
+            let kawasan = <?= json_encode($getOverlap); ?>;
+            kawasan = kawasan.map(function(properties) {
+                return properties.kodeKawasan;
             });
-            kawasan = Array.from(new Set(kawasan));
             $("#kawasan").val(kawasan);
             console.log(kawasan);
         }

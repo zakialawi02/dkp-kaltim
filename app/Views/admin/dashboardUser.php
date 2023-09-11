@@ -54,8 +54,9 @@
 
                             <div class="col-xl-4 p-3">
                                 <div class="card">
-                                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center"> <img src="/img/user/<?= user()->user_image; ?>" alt="Profile" class="rounded-circle">
-                                        <h2 class="m-1 mt-2"><?= user()->full_name; ?></h2>
+                                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                                        <img src="/img/user/<?= user()->user_image; ?>" alt="Profile" class="rounded-circle">
+                                        <h2 class="m-1 mt-2 text-center"><?= user()->full_name; ?></h2>
 
                                         <?php if (in_groups('Admin' && 'SuperAdmin')) : ?>
                                             <a class="badge bg-secondary"><?= user()->username; ?></a>
@@ -241,7 +242,7 @@
                                                 <div class="accordion-item">
                                                     <h2 class="accordion-header" id="headingThree">
                                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                            Tidak Disetujui<span class="badge bg-danger m-1"><?= $totalTolak; ?></span> &nbsp;<span type="button" class="bi bi-info-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Data akan terhapus dalam 7 hari"></span>
+                                                            Tidak Disetujui<span class="badge bg-danger m-1"><?= $totalTolak; ?></span> &nbsp;<span type="button" class="bi bi-info-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Permohonan anda tidak disetujui"></span>
                                                         </button>
                                                     </h2>
                                                     <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
