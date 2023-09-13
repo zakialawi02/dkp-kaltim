@@ -23,7 +23,7 @@
                     <a class="nav-link collapsed" href="/admin/data/permohonan/disetujui/semua" data-bs-toggle="collapse" data-bs-target="#collapseKafe" aria-expanded="false" aria-controls="collapseKafe">
                         <div class="sb-nav-link-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
                         Informasi Ruang Laut
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        <div class="sb-sidenav-collapse-arrow"><i class="bi bi-caret-down-fill"></i></div>
                     </a>
                     <div class="collapse" id="collapseKafe" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <div class="sb-sidenav-menu-nested nav">
@@ -38,7 +38,7 @@
                     <a class="nav-link collapsed" href="/admin/data/permohonan/masuk" data-bs-toggle="collapse" data-bs-target="#collapsePending" aria-expanded="false" aria-controls="collapsePending">
                         <div class="sb-nav-link-icon"><i class="bi bi-hourglass-split"></i></div>
                         Data Masuk/Baru
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        <div class="sb-sidenav-collapse-arrow"><i class="bi bi-caret-down-fill"></i></div>
                     </a>
                     <div class="collapse" id="collapsePending" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <div class="sb-sidenav-menu-nested nav">
@@ -53,6 +53,21 @@
                 <?php endif ?>
 
                 <div class="sb-sidenav-menu-heading">Pengaturan</div>
+
+                <?php if (in_groups('SuperAdmin')) : ?>
+                    <a class="nav-link" href="/admin/kegiatan">
+                        <div class="sb-nav-link-icon"><i class="bi bi-collection"></i></div>
+                        Data Kegiatan
+                    </a>
+                    <a class="nav-link" href="/admin/zona">
+                        <div class="sb-nav-link-icon"><i class="bi bi-collection"></i></div>
+                        Data Zona
+                    </a>
+                    <a class="nav-link" href="/admin/kesesuaian">
+                        <div class="sb-nav-link-icon"><i class="bi bi-collection"></i></div>
+                        Data Kesesuaian
+                    </a>
+                <?php endif ?>
 
                 <?php if (in_groups('SuperAdmin') || in_groups('Admin')) : ?>
                     <a class="nav-link" href="/user/kelola">

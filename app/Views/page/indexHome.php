@@ -58,7 +58,7 @@
                     </div>
                     <div class="d-flex justify-content-center gap-2">
                         <a href="/peta" class="btn btn-primary">Cek Kesesuaian Lokasi</a>
-                        <a href="https://oss.go.id/" class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Via OSS">Ajukan Perizinan Usaha</a>
+                        <a href="https://oss.go.id/" class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Via OSS" target="_blank">Ajukan Perizinan Usaha</a>
                     </div>
                 </div>
             </div>
@@ -107,7 +107,7 @@
             <div class="mt-5 p-2"></div>
             <center>
                 <h2>Ajukan Permohonan</h2>
-                <p>Anda dapat mengajukan permohonan izin secara mandiri dengan sistem daring (online)</p>
+                <p>Anda dapat mengajukan permohonan informasi ruang laut secara mandiri dengan sistem daring (online)</p>
             </center>
 
             <div class="d-flex flex-wrap gap-4 align-content-center justify-content-center mt-3 pt-2">

@@ -44,7 +44,7 @@
             <!-- MAIN CONTENT -->
             <main>
                 <div class="container-fluid px-4">
-                    <h3 class="mt-3 mb-3">Data Pengjuan Informasi</h3>
+                    <h3 class="mt-3 mb-3">Data Pengajuan Informasi</h3>
 
                     <div class="alert alert-<?= ($tampilDataIzin->stat_appv == 0) ? 'warning' : 'secondary'; ?> d-flex align-items-center" role="alert">
                         <div>
@@ -236,13 +236,17 @@
         <?php endif ?>
     </script>
     <script>
-        $('#approve').click(function(e) {
+        <?php if ($tampilDataIzin->stat_appv != 0) : ?>
             $('#lampiran').show();
-        });
+        <?php else : ?>
+            $('#approve').click(function(e) {
+                $('#lampiran').show();
+            });
 
-        $('#reject').click(function(e) {
-            $('#lampiran').hide();
-        });
+            $('#reject').click(function(e) {
+                $('#lampiran').hide();
+            });
+        <?php endif ?>
     </script>
 
     <!-- Open Layers Component -->

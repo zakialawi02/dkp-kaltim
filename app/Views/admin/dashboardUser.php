@@ -16,7 +16,6 @@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <link href=" https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css " rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
 
     <!-- Template Main CSS File -->
     <link href="/css/StyleAdmin.css" rel="stylesheet" />
@@ -215,9 +214,6 @@
                                                                                 <td><?= date('d M Y H:i:s', strtotime($tIzin->date_updated)); ?></td>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="edit data">
-                                                                                        <a href="/data/permohonan/<?= $tIzin->id_perizinan; ?>/edit/" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
-                                                                                    </div>
                                                                                     <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="hapus data">
                                                                                         <form id="delete-form-<?= $tIzin->id_perizinan; ?>" action="/data/delete_pengajuan/<?= $tIzin->id_perizinan; ?>" method="post">
                                                                                             <?= csrf_field(); ?>
@@ -255,7 +251,7 @@
                                                 <div class="accordion-item">
                                                     <h2 class="accordion-header" id="headingThree">
                                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                            Tidak Disetujui<span class="badge bg-danger m-1"><?= $totalTolak; ?></span> &nbsp;<span type="button" class="bi bi-info-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Data akan terhapus dalam 7 hari"></span>
+                                                            Tidak Disetujui<span class="badge bg-danger m-1"><?= $totalTolak; ?></span> &nbsp;<span type="button" class="bi bi-info-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Permohonan anda tidak disetujui"></span>
                                                         </button>
                                                     </h2>
                                                     <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
@@ -331,9 +327,8 @@
     <script src="https://kit.fontawesome.com/816b3ace5c.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="/js/datatables-simple-demo.js"></script>
-    <script src="/js/scripts.js"></script>
     <script src=" https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js "></script>
-    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    <script src="/js/scripts.js"></script>
 
     <script>
         $(document).ready(function() {

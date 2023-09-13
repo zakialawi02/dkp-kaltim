@@ -22,40 +22,50 @@ class ModelKesesuaian extends Model
                 ->select('tbl_kesesuaian.*, tbl_kegiatan.*, tbl_zona.*')
                 ->join('tbl_kegiatan', 'tbl_kegiatan.kode_kegiatan = tbl_kesesuaian.kode_kegiatan', 'LEFT')
                 ->join('tbl_zona', 'tbl_zona.id_zona = tbl_kesesuaian.id_zona', 'LEFT')
-                ->orderBy('id_kesesuaian', 'ASC')
+                ->orderBy('tbl_kesesuaian.id_zona', 'ASC')
+                ->orderBy('tbl_kegiatan.id_kegiatan', 'ASC')
                 ->get();
         } else {
             return $this->db->table('tbl_kesesuaian')
                 ->select('tbl_kesesuaian.*, tbl_kegiatan.*, tbl_zona.*')
                 ->join('tbl_kegiatan', 'tbl_kegiatan.kode_kegiatan = tbl_kesesuaian.kode_kegiatan', 'LEFT')
                 ->join('tbl_zona', 'tbl_zona.id_zona = tbl_kesesuaian.id_zona', 'LEFT')
-                ->orderBy('id_kesesuaian', 'ASC')
+                ->orderBy('tbl_kesesuaian.id_zona', 'ASC')
+                ->orderBy('tbl_kegiatan.id_kegiatan', 'ASC')
                 ->Where(['tbl_kesesuaian.id_kesesuaian' => $id_kesesuaian])
                 ->get();
         }
     }
 
-    public function searchKesesuaian($kode_kegiatan = false, $id_zona = false, $kode_kawasan = false)
+    public function searchKesesuaian($kode_kegiatan = "", $id_zona = "", $kode_kawasan = "", $sub_zona = "")
     {
-        if ($kode_kegiatan == false && $id_zona == false && $kode_kawasan == false) {
-            return $this->db->table('tbl_kesesuaian')
-                ->select('tbl_kesesuaian.*, tbl_kegiatan.*, tbl_zona.*, tbl_zona_kawasan.kode_kawasan as kawasan')
-                ->join('tbl_kegiatan', 'tbl_kegiatan.kode_kegiatan = tbl_kesesuaian.kode_kegiatan', 'LEFT')
-                ->join('tbl_zona', 'tbl_zona.id_zona = tbl_kesesuaian.id_zona', 'LEFT')
-                ->join('tbl_zona_kawasan', 'tbl_zona_kawasan.id_zona = tbl_kesesuaian.id_zona', 'LEFT')
-                ->orderBy('id_kesesuaian', 'ASC')
-                ->get();
-        } else {
-            return $this->db->table('tbl_kesesuaian')
-                ->select('tbl_kesesuaian.*, tbl_kegiatan.*, tbl_zona.*, tbl_zona_kawasan.kode_kawasan as kawasan')
-                ->join('tbl_kegiatan', 'tbl_kegiatan.kode_kegiatan = tbl_kesesuaian.kode_kegiatan', 'LEFT')
-                ->join('tbl_zona_kawasan', 'tbl_zona_kawasan.id_zona = tbl_kesesuaian.id_zona', 'LEFT')
-                ->join('tbl_zona', 'tbl_zona.id_zona = tbl_kesesuaian.id_zona', 'LEFT')
+        $query = $this->db->table('tbl_kesesuaian')
+            ->select('tbl_kesesuaian.*, tbl_kegiatan.*, tbl_zona.*, tbl_zona_kawasan.kode_kawasan as kawasan')
+            ->join('tbl_kegiatan', 'tbl_kegiatan.kode_kegiatan = tbl_kesesuaian.kode_kegiatan', 'LEFT')
+            ->join('tbl_zona', 'tbl_zona.id_zona = tbl_kesesuaian.id_zona', 'LEFT')
+            ->join('tbl_zona_kawasan', 'tbl_zona_kawasan.id_zona = tbl_kesesuaian.id_zona', 'LEFT');
+
+        if (!empty($kode_kegiatan) && !empty($id_zona) && !empty($kode_kawasan) && !empty($sub_zona)) {
+            return $query->orderBy('tbl_kesesuaian.id_zona', 'ASC')
+                ->orderBy('tbl_kegiatan.id_kegiatan', 'ASC')
                 ->getWhere([
                     'tbl_kesesuaian.kode_kegiatan' => $kode_kegiatan,
-                    'tbl_zona_kawasan.kode_kawasan' => $kode_kawasan,
                     'tbl_kesesuaian.id_zona' => $id_zona,
+                    'kode_kawasan' => $kode_kawasan,
+                    'sub_zona' => $sub_zona,
                 ]);
+        } else if (!empty($kode_kegiatan) && !empty($id_zona) && !empty($kode_kawasan)) {
+            return $query->orderBy('tbl_kesesuaian.id_zona', 'ASC')
+                ->orderBy('tbl_kegiatan.id_kegiatan', 'ASC')
+                ->getWhere([
+                    'tbl_kesesuaian.kode_kegiatan' => $kode_kegiatan,
+                    'tbl_kesesuaian.id_zona' => $id_zona,
+                    'kode_kawasan' => $kode_kawasan,
+                ]);
+        } else {
+            return $query->orderBy('tbl_kesesuaian.id_zona', 'ASC')
+                ->orderBy('tbl_kegiatan.id_kegiatan', 'ASC')
+                ->get();
         }
     }
 

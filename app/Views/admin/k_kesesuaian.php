@@ -73,7 +73,7 @@
             <!-- MAIN CONTENT -->
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-2 mb-3">Data Jenis Kegiatan</h1>
+                    <h1 class="mt-2 mb-3">Data Kesesuaian</h1>
 
                     <div class="card mb-4">
                         <div class="card-body">
@@ -85,23 +85,42 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
+                                            <th>Zona</th>
+                                            <th>Sub Zona</th>
+                                            <th>Kode Kegiatan</th>
                                             <th>Nama Kegiatan</th>
+                                            <th>Status Kesesuaian</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php $i = 1 ?>
-                                        <?php foreach ($dataKegiatan as $K) : ?>
-                                            <tr>
+                                        <?php
+                                        $prevKodeKegiatan = null; // Inisialisasi kode_kegiatan sebelumnya
+                                        $prevIdZona = null; // Inisialisasi id_zona sebelumnya
+                                        $prevSubZona = null; // Inisialisasi sub_zona sebelumnya
+                                        ?>
+                                        <?php foreach ($dataKesesuaian as $K) : ?>
+                                            <?php
+                                            $bold = '';
+                                            if ($prevKodeKegiatan === $K->kode_kegiatan && $prevIdZona === $K->id_zona && $prevSubZona === $K->sub_zona) {
+                                                $bold = 'font-weight:bold; background-color:red;';
+                                            }
+                                            ?>
+                                            <tr style="<?= $bold ?>">
                                                 <td><?= $i++; ?></td>
+                                                <td><?= $K->nama_zona; ?></td>
+                                                <td><?= $K->sub_zona ?? "-"; ?></td>
+                                                <td><?= $K->kode_kegiatan; ?></td>
                                                 <td><?= $K->nama_kegiatan; ?></td>
+                                                <td style="color: <?= ($K->status == "diperbolehkan") ? 'green' : (($K->status == "diperbolehkan bersyarat") ? 'brown' : 'red'); ?>;"><?= $K->status; ?></td>
                                                 <td>
                                                     <div class="d-inline-flex gap-1">
                                                         <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                            <a href="/admin/kegiatan/edit/<?= $K->id_kegiatan; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
+                                                            <a href="/admin/kegiatan/edit/<?= $K->id_zona; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
                                                         </div>
                                                         <!-- <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                            <form action="/admin/delete_kegiatan/<?= $K->id_kegiatan; ?>" method="post">
+                                                            <form action="/admin/delete_kegiatan/<?= $K->id_zona; ?>" method="post">
                                                                 <?= csrf_field(); ?>
                                                                 <input type="hidden" name="_method" value="DELETE">
                                                                 <button type="submit" class="asbn btn btn-danger bi bi-trash" onclick="return confirm('Yakin Hapus Data?')"></button>
@@ -110,6 +129,11 @@
                                                     </div>
                                                 </td>
                                             </tr>
+                                            <?php
+                                            $prevKodeKegiatan = $K->kode_kegiatan; // Simpan kode_kegiatan saat ini
+                                            $prevIdZona = $K->id_zona; // Simpan id_zona saat ini
+                                            $prevSubZona = $K->sub_zona; // Simpan sub_zona saat ini
+                                            ?>
                                         <?php endforeach ?>
                                     </tbody>
                                 </table>

@@ -34,9 +34,9 @@ $countAllTolak = count($allDataTolak);
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="Simata Laut, Sistem Informasi Tata Ruang Laut, Dinas Kelautan dan Perikanan" name="keywords">
+    <meta content="Aplikasi Simata Laut Kaltim (Sistem Informasi Tata Ruang Laut Kaltim) Dinas Kelautan dan Perikanan Provinsi Kalimantan Timur." name="description">
 
     <title><?= $title; ?></title>
     <!-- Favicons -->
@@ -281,11 +281,9 @@ $countAllTolak = count($allDataTolak);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="/js/datatables-simple-demo.js"></script>
-    <script src="/js/scripts.js"></script>
     <script src=" https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js "></script>
-
+    <script src="/js/scripts.js"></script>
     <script>
         $(document).ready(function() {
             $("th").css("pointer-events", "none");
