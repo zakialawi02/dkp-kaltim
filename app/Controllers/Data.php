@@ -54,7 +54,6 @@ class Data extends BaseController
         $data = [
             'title' => 'Cek Kesesuaian | Map Panel',
             'tampilData' => $this->setting->tampilData()->getResult(),
-            'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
         ];
         // echo '<pre>';
         // print_r($data['tampilGeojson']);
@@ -147,49 +146,46 @@ class Data extends BaseController
         }
     }
 
-    // public function updateAjuan()
-    // {
-    //     // dd($this->request->getVar());
-    //     $id_perizinan = $this->request->getPost('id');
-    //     $data = [
-    //         'nik' => $this->request->getVar('nik'),
-    //         'nama' => $this->request->getVar('nama'),
-    //         'alamat' => $this->request->getVar('alamat'),
-    //         'kontak' => $this->request->getVar('kontak'),
-    //         'id_kegiatan' => $this->request->getVar('kegiatan'),
-    //         'id_sub' => $this->request->getVar('SubZona'),
-    //         'longitude' => $this->request->getVar('longitude'),
-    //         'latitude' => $this->request->getVar('latitude'),
-    //         'polygon' => $this->request->getVar('drawPolygon'),
-    //         'created_at' => date('Y-m-d H:i:s'),
-    //         'updated_at' => date('Y-m-d H:i:s'),
-    //     ];
-    //     $updatePengajuan =  $this->izin->updatePengajuan($data, $id_perizinan);
+    public function updateAjuan($id_perizinan)
+    {
+        // dd($this->request->getVar());
+        $data = [
+            'nik' => $this->request->getVar('nik'),
+            'nib' => $this->request->getVar('nib'),
+            'nama' => $this->request->getVar('nama'),
+            'alamat' => $this->request->getVar('alamat'),
+            'kontak' => $this->request->getVar('kontak'),
+            'id_kegiatan' => $this->request->getVar('kegiatan'),
+            // 'uploadFiles' => $uploadFiles,
+            'updated_at' => date('Y-m-d H:i:s'),
+        ];
+        // dd($data);
+        $updatePengajuan =  $this->izin->updatePengajuan($data, $id_perizinan);
 
-    //     if (in_groups('User')) {
-    //         $status = [
-    //             'stat_appv' => '0',
-    //             'date_updated' => date('Y-m-d H:i:s'),
-    //         ];
-    //         $this->izin->saveStatusAppv($status, $id_perizinan);
-    //     }
+        if (in_groups('User')) {
+            $status = [
+                'stat_appv' => '0',
+                'date_updated' => date('Y-m-d H:i:s'),
+            ];
+            $this->izin->saveStatusAppv($status, $id_perizinan);
+        }
 
-    //     if ($updatePengajuan) {
-    //         session()->setFlashdata('success', 'Data Berhasil diperbarui.');
-    //         if (in_groups('User')) {
-    //             return $this->response->redirect(site_url('/dashboard'));
-    //         } else {
-    //             return $this->response->redirect(site_url('/admin/data/permohonan/disetujui/semua'));
-    //         }
-    //     } else {
-    //         session()->setFlashdata('error', 'Gagal memperbarui data.');
-    //         if (in_groups('User')) {
-    //             return $this->response->redirect(site_url('/dashboard'));
-    //         } else {
-    //             return $this->response->redirect(site_url('/admin/data/permohonan/disetujui/semua'));
-    //         }
-    //     }
-    // }
+        if ($updatePengajuan) {
+            session()->setFlashdata('success', 'Data Berhasil diperbarui.');
+            if (in_groups('User')) {
+                return $this->response->redirect(site_url('/dashboard'));
+            } else {
+                return $this->response->redirect(site_url('/admin/data/permohonan/disetujui/semua'));
+            }
+        } else {
+            session()->setFlashdata('error', 'Gagal memperbarui data.');
+            if (in_groups('User')) {
+                return $this->response->redirect(site_url('/dashboard'));
+            } else {
+                return $this->response->redirect(site_url('/admin/data/permohonan/disetujui/semua'));
+            }
+        }
+    }
 
     // Delete Data
     public function delete_pengajuan($id_perizinannya)
@@ -227,7 +223,6 @@ class Data extends BaseController
 
     public function editPengajuan($id_perizinan)
     {
-
         $kegiatanId = $this->izin->getAllPermohonan($id_perizinan)->getRow();
         if (empty($kegiatanId)) {
             throw new PageNotFoundException();
@@ -237,6 +232,7 @@ class Data extends BaseController
             'title' => 'Data Pengajuan',
             'tampilData' => $this->setting->tampilData()->getResult(),
             'tampilIzin' => $this->izin->getAllPermohonan($id_perizinan)->getRow(),
+            'tampilZona' => $this->zona->getZona()->getResult(),
             'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
         ];
         // dd($data);
@@ -293,6 +289,12 @@ class Data extends BaseController
 
     public function cekStatus()
     {
+        $kkp3k = ['KKP3K-01', 'KKP3K-02', 'KKP3K-02', 'KKP3K-03', 'KKP3K-04', 'KKP3K-05', 'KKP3K-06', 'KKP3K-07', 'KKP3K-08', 'KKP3K-09', 'KKP3K-10', 'KKP3K-11', 'KKP3K-12', 'KKP3K-13', 'KKP3K-14', 'KKP3K-15', 'KKP3K-16', 'KKP3K-17', 'KKP3K-18', 'KKP3K-20', 'KKP3K-21', 'KKP3K-22', 'KKP3K-23', 'KKP3K-24', 'KKP3K-25', 'KKP3K-27', 'KKP3K-30', 'TWAL-01', 'SML-01'];
+        $kkp3kzi = ['KK-P3K-ZI-01', 'KK-P3K-ZI-02', 'KK-P3K-ZI-03', 'KK-P3K-ZI-04', 'KK-P3K-ZI-05', 'KK-P3K-ZI-06'];
+        $kkp3kzl = ['KK-P3K-ZL-01', 'KK-P3K-ZL-02', 'KK-P3K-ZL-03', 'KK-P3K-ZL-04', 'KK-P3K-ZL-05', 'KK-P3K-ZL-06'];
+        $kkp3kzpt = ['KK-P3K-ZPT-01', 'KK-P3K-ZPT-02', 'KK-P3K-ZPT-03', 'KK-P3K-ZPT-04', 'KK-P3K-ZPT-05', 'KK-P3K-ZPT-06', 'KK-P3K-ZPT-07', 'KK-P3K-ZPT-08', 'KK-P3K-ZPT-09', 'KK-P3K-ZPT-10', 'KK-P3K-ZPT-11', 'KK-P3K-ZPT-12', 'KK-P3K-ZPT-13', 'KK-P3K-ZPT-14', 'KK-P3K-ZPT-15', 'KK-P3K-ZPT-16', 'KK-P3K-ZPT-17', 'KK-P3K-ZPT-18', 'KK-P3K-ZPT-19', 'KK-P3K-ZPT-20', 'KK-P3K-ZPT-21'];
+        $kkp = ['KKP-01', 'KKP-02', 'KKP-06', 'KKP-03', 'KKP-04', 'KKP-05'];
+        $kkm = ['KKM-01', 'KKM-02'];
         $result = [];
         $getOverlapProperties = $this->request->getPost('getOverlapProperties');
         $valKegiatan = $this->request->getPost('valKegiatan');
@@ -300,22 +302,57 @@ class Data extends BaseController
         $KodeKegiatan = $fecthKegiatan[0]->kode_kegiatan;
 
         if (!empty($getOverlapProperties[0])) {
-            $selectedKegiatan = $this->selectKegiatan($KodeKegiatan);
+            // Mapping nilai yang perlu diganti
+            $replacementName = [
+                "Zona Inti" => "Inti",
+                "Zona Pemanfaatan Terbatas" => "ZPT",
+                "Zona Lainnya" => "Lainnya",
+                "KKM" => "Inti",
+                "KKP3K" => "Inti",
+            ];
+            // Loop untuk mengganti nilai berdasarkan list
+            foreach ($getOverlapProperties as $item) {
+                $oldValue = $item['subZona'];
+                $newValue = $replacementName[$oldValue] ?? null;
+                $item['subZona'] = $newValue;
+                $OverlapProperties[] = $item;
+            }
+            // cek ada kawasan konservasi tidak
+            foreach ($OverlapProperties as $item) {
+                if ($item['kawasan'] == "Kawasan Konservasi") {
+                    $isKonservasi[] = $item;
+                } else {
+                    $isntKonservasi[] = $item;
+                }
+            }
             $namaZona = array_map(function ($feature) {
                 return $feature['namaZona'];
-            }, $getOverlapProperties);
+            }, $OverlapProperties);
+            $subZona = array_map(function ($feature) {
+                return $feature['subZona'];
+            }, $OverlapProperties);
             $id_zona = array_map(function ($feature) {
-                return $this->zona->searchZona($feature)->getResult()[0];
+                return $this->zona->searchZona($feature)->getResult()[0]->id_zona;
             }, $namaZona);
             $kode_kawasan = array_map(function ($feature) {
                 return $feature['kodeKawasan'];
-            }, $getOverlapProperties);
-
-            foreach ($selectedKegiatan as $value) {
-                if (in_array($value->kawasan, $kode_kawasan) && in_array($value->nama_zona, $namaZona)) {
-                    $result[] = $value;
+            }, $OverlapProperties);
+            // filter data/cek data
+            // if (!empty($isKonservasi)) {
+            for ($i = 0; $i < count($OverlapProperties); $i++) {
+                $getResult[] = $this->kesesuaian->searchKesesuaian($KodeKegiatan, $id_zona[$i], $kode_kawasan[$i], $subZona[$i])->getResult();
+            }
+            // } else {
+            //     for ($i = 0; $i < count($OverlapProperties); $i++) {
+            //         $getResult[] = $this->kesesuaian->searchKesesuaian($KodeKegiatan, $id_zona[$i], $kode_kawasan[$i])->getResult();
+            //     }
+            // }
+            foreach ($getResult as $subArray) {
+                foreach ($subArray as $item) {
+                    $result[] =  $item;
                 }
             }
+
             $response = [
                 'status' => 'Succes',
                 'valueKegiatan' => $valKegiatan,
@@ -336,9 +373,9 @@ class Data extends BaseController
             ];
         }
         // echo '<pre>';
+        // print_r($OverlapProperties);
         // print_r($response);
         // die;
-        // dd($response);
         return $this->response->setJSON($response);
     }
 
@@ -351,48 +388,18 @@ class Data extends BaseController
 
     public function dump()
     {
-        $kode_kegiatan = "K32";
-        $id_zona = ["6"];
-        $kode_kawasan = ["KPU-PL-06"];
+        $kode_kegiatan = "K48";
         // $id_zona = ["2"];
-        // $kode_kawasan = ["KK-P3K-ZPT-14"];
-        $sub = "Zona Inti";
+        // $kode_kawasan = ["KK-P3K-ZL-03"];
+        // $sub = ["Inti"];
+        $id_zona = ["6"];
+        $kode_kawasan = ["KPU-PL-15"];
+        $sub = [];
 
-        $dd = $this->kesesuaian->searchKesesuaian($kode_kegiatan, $id_zona, $kode_kawasan)->getResult();
-        // echo '<pre>';
-        // print_r($dd);
-        // die;
+        $dd = $this->kesesuaian->searchKesesuaian($kode_kegiatan, $id_zona, $kode_kawasan, $sub)->getResult();
         dd($dd);
     }
-    public function dumpp()
-    {
-        $kode_kegiatan = "K164";
-        // $id_zona = ["5"];
-        // $kode_kawasan = ["KPU-W-02"];
-        $id_zona = ["2", "6"];
-        $kode_kawasan = ["KK-P3K-ZPT-14", "KPU-PL-15", "KPU-PL-10"];
 
-        $selectedKegiatan = $this->selectKegiatan($kode_kegiatan);
-        dd($selectedKegiatan);
-        for ($i = 0; $i < count($id_zona); $i++) {
-            foreach ($kode_kawasan as $value) {
-                $ddt = $this->kesesuaian->searchKesesuaian($kode_kegiatan, $id_zona[$i], $value)->getResult();
-                if (!empty($ddt)) {
-                    echo $id_zona[$i] . "<br>";
-                    $dd[] = $ddt[0];
-                }
-            }
-        }
-        foreach ($dd as $row) {
-            if (!empty($row->sub_zona)) {
-                echo "konservasi";
-            }
-        }
-        echo '<pre>';
-        // print_r($dd);
-        // die;
-        dd($dd);
-    }
     // public function dumpp()
     // {
     //     $kode_kegiatan = "K1";

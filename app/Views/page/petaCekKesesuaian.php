@@ -774,6 +774,7 @@
                 }
             }
             console.log(getOverlapProperties);
+            $('#lanjutKirim').prop('disabled', true);
             $.ajax({
                     method: "POST",
                     url: "/data/cekStatus",
@@ -787,10 +788,10 @@
                     console.log(response);
                     let hasil = response.hasil;
                     let valZona = response.valZona;
-                    valZona = valZona.map(function(item) {
-                        return item.id_zona;
-                    });
-                    console.log(valZona);
+                    // valZona = valZona.map(function(item) {
+                    //     return item.id_zona;
+                    // });
+                    // console.log(valZona);
                     $("#idZona").val(valZona);
                     if (hasil.length !== 0) {
                         let diperbolehkan = hasil.filter(item => item.status === 'diperbolehkan');
@@ -901,7 +902,7 @@
         // BaseMap
         const osmBaseMap = new ol.layer.Tile({
             source: new ol.source.OSM(),
-            crossOrigin: 'anonymous',
+            // crossOrigin: 'anonymous',
             visible: false,
         });
 
@@ -913,7 +914,7 @@
         const bingAerialBaseMap = new ol.layer.Tile({
             preload: Infinity,
             source: sourceBingMaps,
-            crossOrigin: 'anonymous',
+            // crossOrigin: 'anonymous',
             visible: true,
         });
 
@@ -924,7 +925,7 @@
         });
         const mapboxBaseMap = new ol.layer.Tile({
             source: mapboxSource,
-            crossOrigin: 'anonymous',
+            // crossOrigin: 'anonymous',
             visible: false,
         });
 
@@ -1041,7 +1042,7 @@
                     'FORMAT': 'image/png',
                 },
                 serverType: 'geoserver',
-                crossOrigin: 'anonymous',
+                // crossOrigin: 'anonymous',
             });
             var wms_layer = new ol.layer.Tile({
                 source: wmsSource,
@@ -1061,7 +1062,7 @@
                     'FORMAT': 'image/png',
                 },
                 serverType: 'geoserver',
-                crossOrigin: 'anonymous',
+                // crossOrigin: 'anonymous',
             });
             var wms_layer = new ol.layer.Tile({
                 source: wmsSource,
@@ -1139,23 +1140,23 @@
         });
 
         // Fungsi check all/uncheck (show/hide all) layer wms
-        function centang(cons) {
-            if (cons == 1) {
+        function centang(cond) {
+            if (cond == 1) {
                 for (var i = 0; i < KKPRL_Layer.length; i++) {
                     $('#czona_' + i).prop('checked', true);
                     KKPRL_Layer[i].setVisible(true);
                 }
-            } else if (cons == 0) {
+            } else if (cond == 0) {
                 for (var i = 0; i < KKPRL_Layer.length; i++) {
                     $('#czona_' + i).prop('checked', false);
                     KKPRL_Layer[i].setVisible(false);
                 }
-            } else if (cons == 3) {
+            } else if (cond == 3) {
                 for (var i = 0; i < RZWP3K_Layer.length; i++) {
                     $('#clahan_' + i).prop('checked', true);
                     RZWP3K_Layer[i].setVisible(true);
                 }
-            } else if (cons == 2) {
+            } else if (cond == 2) {
                 for (var i = 0; i < RZWP3K_Layer.length; i++) {
                     $('#clahan_' + i).prop('checked', false);
                     RZWP3K_Layer[i].setVisible(false);
@@ -1218,7 +1219,7 @@
             $("#getOverlap").val(JSON.stringify(getOverlap));
         }
 
-        function cekHasil(id, kawasan, name, kode, orde, remark, geojson) {
+        function cekHasil(id, kawasan, name, kode, orde, remark) {
             var act = "/data/cekData";
             $.ajax({
                 url: act,
@@ -1241,7 +1242,7 @@
             });
         }
 
-        function prosesDetectInput(drawn, type = "polygon", geojson) {
+        function prosesDetectInput(drawn, type = "polygon") {
             modalLoading();
             overlappingFeatures = [];
             if (type == "point") {
@@ -1315,9 +1316,7 @@
                     alert("Terjadi kesalahan, mohon ulangi atau reload browser anda");
                 }
             }
-            console.log(
 
-            );
             var overlappingID = overlappingFeatures.map(function(feature) {
                 return feature.properties.OBJECTID;
             });
@@ -1336,7 +1335,7 @@
             var overlappingRemark = overlappingFeatures.map(function(feature) {
                 return feature.properties.REMARK;
             });
-            cekHasil(overlappingID, overlappingKawasan, overlappingObject, overlappingKode, overlappingOrde, overlappingRemark, geojson);
+            cekHasil(overlappingID, overlappingKawasan, overlappingObject, overlappingKode, overlappingOrde, overlappingRemark);
         }
 
         // klik lanjut

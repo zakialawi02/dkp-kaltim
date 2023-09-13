@@ -214,9 +214,6 @@
                                                                                 <td><?= date('d M Y H:i:s', strtotime($tIzin->date_updated)); ?></td>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="edit data">
-                                                                                        <a href="/data/permohonan/<?= $tIzin->id_perizinan; ?>/edit/" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
-                                                                                    </div>
                                                                                     <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="hapus data">
                                                                                         <form id="delete-form-<?= $tIzin->id_perizinan; ?>" action="/data/delete_pengajuan/<?= $tIzin->id_perizinan; ?>" method="post">
                                                                                             <?= csrf_field(); ?>
@@ -254,7 +251,7 @@
                                                 <div class="accordion-item">
                                                     <h2 class="accordion-header" id="headingThree">
                                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                            Tidak Disetujui<span class="badge bg-danger m-1"><?= $totalTolak; ?></span> &nbsp;<span type="button" class="bi bi-info-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Data akan terhapus dalam 7 hari"></span>
+                                                            Tidak Disetujui<span class="badge bg-danger m-1"><?= $totalTolak; ?></span> &nbsp;<span type="button" class="bi bi-info-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Permohonan anda tidak disetujui"></span>
                                                         </button>
                                                     </h2>
                                                     <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
