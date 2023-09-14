@@ -31,7 +31,7 @@ class EmailResetter extends BaseResetter implements ResetterInterface
             ->setMailType('html')
             ->send();
 
-        if (! $sent) {
+        if (!$sent) {
             $this->error = lang('Auth.errorEmailSent', [$user->email]);
 
             return false;

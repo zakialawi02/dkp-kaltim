@@ -466,4 +466,23 @@ class Data extends BaseController
         }
         dd($dd);
     }
+
+    // public function sendEmails()
+    // {
+    //     $email = \Config\Services::email();
+
+    //     $to = 'treyl7358@student.vvc.edu';
+    //     $subject = 'Subject of the Email';
+    //     $message = 'Hello, this is the email message content.';
+
+    //     $email->setTo($to);
+    //     $email->setSubject($subject);
+    //     $email->setMessage($message);
+
+    //     if ($email->send()) {
+    //         echo 'Email successfully sent';
+    //     } else {
+    //         echo 'Email sending failed: ' . $email->printDebugger(['headers']);
+    //     }
+    // }
 }

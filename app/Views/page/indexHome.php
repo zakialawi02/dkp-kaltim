@@ -23,10 +23,6 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
-    <!-- Libraries Stylesheet -->
-    <link href="assets/lib/animate/animate.min.css" rel="stylesheet">
-    <link href="assets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
     <!-- Customized Bootstrap Stylesheet -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
 

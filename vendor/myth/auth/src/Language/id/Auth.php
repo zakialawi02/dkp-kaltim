@@ -16,7 +16,7 @@ return [
 
     // Registration
     'registerDisabled' => 'Maaf, akun pengguna baru tidak diperbolehkan untuk saat ini.',
-    'registerSuccess'  => 'Selamat bergabung! Harap masuk dengan kredensial baru Anda.',
+    'registerSuccess'  => 'Selamat bergabung! Harap masuk dengan kredensial yang telah didaftarkan.',
     'registerCLI'      => 'Pengguna baru dibuat: {0}, #{1}',
 
     // Activation
@@ -90,7 +90,7 @@ return [
     'signIn'                    => 'Masuk',
     'alreadyRegistered'         => 'Sudah terdaftar?',
     'weNeverShare'              => 'Kami tidak akan pernah membagi email Anda dengan orang lain.',
-    'resetYourPassword'         => 'Mereset password Anda',
+    'resetYourPassword'         => 'Reset password Anda',
     'enterCodeEmailPassword'    => 'Masukkan kode yang Anda terima melalui email, alamat email Anda, dan kata sandi baru Anda.',
     'token'                     => 'Token',
     'newPassword'               => 'kata sandi baru',
