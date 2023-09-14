@@ -84,10 +84,12 @@ class ModelUser extends Model
     {
         $db      = \Config\Database::connect();
         $builder = $db->table('users');
-        $builder->select('users.id as userid, username, email, group_id, name, created_at,  full_name');
+        $builder->select('users.id as userid, username, email, active, group_id, name, created_at,  full_name, user_about, user_image');
         $builder->join('auth_groups_users', 'auth_groups_users.user_id = users.id');
         $builder->join('auth_groups', 'auth_groups.id = auth_groups_users.group_id');
-        $query = $builder->where("created_at BETWEEN CURRENT_TIMESTAMP - INTERVAL '30 day' AND CURRENT_TIMESTAMP")->orderBy('created_at', 'DESC')->limit(5)->get();
+        $thirtyDaysAgo = date('Y-m-d H:i:s', strtotime('-30 days'));
+        $builder->where('created_at >=', $thirtyDaysAgo);
+        $query = $builder->orderBy('created_at', 'DESC')->orderBy('created_at', 'ASC')->limit(5)->get();
 
         return $query;
     }

@@ -9,7 +9,9 @@
     <!-- Favicon -->
     <link href="/img/favicon.png" rel="icon">
 
+    <link href="/css/map.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -21,7 +23,10 @@
 </head>
 
 <body>
-    <div class="container">
+    <!-- NAVBAR HEADER -->
+    <?= $this->include('Auth/_header'); ?>
+
+    <div class="container pt-4">
         <div class="row">
             <div class="col-md-5 mx-auto">
                 <div id="second">
@@ -38,30 +43,32 @@
                         <form action="<?= url_to('register') ?>" method="post">
                             <?= csrf_field() ?>
 
+                            <p class=""> <span style="color: red;">*</span> <span style="font-size: small; color: grey;">Wajib di isi</span> </p>
+
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Full Name</label>
-                                <input type="text" name="full_name" class="form-control" aria-describedby="emailHelp" placeholder="Enter Full Name" value="<?= old('full_name') ?>">
+                                <label for="exampleInputEmail1">Nama Lengkap <span style="color: red;">*</span></label>
+                                <input type="text" name="full_name" class="form-control" aria-describedby="emailHelp" placeholder="Enter Full Name" value="<?= old('full_name') ?>" required>
                             </div>
 
                             <div class="form-group">
-                                <label for="username"><?= lang('Auth.username') ?>/Username</label>
+                                <label for="username"><?= lang('Auth.username') ?>/Username <span style="color: red;">*</span></label>
                                 <input type="text" class="form-control <?php if (session('errors.username')) : ?>is-invalid<?php endif ?>" name="username" id="username" placeholder="<?= lang('Auth.username') ?>" value="<?= old('username') ?>" aria-describedby="emailHelp">
                                 <p class="form-text usernameFail d-none" style="color: red; font-size: small;">Username Tidak Boleh Mengandung Spasi</p>
                             </div>
 
                             <div class="form-group">
-                                <label for="email"><?= lang('Auth.email') ?></label>
+                                <label for="email"><?= lang('Auth.email') ?> <span style="color: red;">*</span></label>
                                 <input type="email" name="email" class="form-control <?php if (session('errors.email')) : ?>is-invalid<?php endif ?>" id="email" aria-describedby="emailHelp" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>">
                                 <small id="emailHelp" class="form-text text-muted"><?= lang('Auth.weNeverShare') ?></small>
                             </div>
 
                             <div class="form-group">
-                                <label for="password"><?= lang('Auth.password') ?></label>
+                                <label for="password"><?= lang('Auth.password') ?> <span style="color: red;">*</span></label>
                                 <input type="password" name="password" class="form-control <?php if (session('errors.password')) : ?>is-invalid<?php endif ?>" placeholder="<?= lang('Auth.password') ?>" autocomplete="off">
                             </div>
 
                             <div class="form-group">
-                                <label for="pass_confirm">Ulangi Password</label>
+                                <label for="pass_confirm">Ulangi Password <span style="color: red;">*</span></label>
                                 <input type="password" name="pass_confirm" class="form-control <?php if (session('errors.pass_confirm')) : ?>is-invalid<?php endif ?>" placeholder="<?= lang('Auth.repeatPassword') ?>" autocomplete="off">
                             </div>
 

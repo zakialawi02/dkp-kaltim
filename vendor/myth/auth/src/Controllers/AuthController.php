@@ -151,7 +151,7 @@ class AuthController extends Controller
 
         // Validate basics first since some password rules rely on these fields
         $rules = config('Validation')->registrationRules ?? [
-            'username' => 'required|alpha_numeric_space|min_length[3]|max_length[30]|is_unique[users.username]',
+            'username' => 'required|alpha_numeric_punct|min_length[3]|max_length[30]|is_unique[users.username]',
             'email'    => 'required|valid_email|is_unique[users.email]',
         ];
 
@@ -168,10 +168,13 @@ class AuthController extends Controller
         if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
-
+        $full_name = $this->request->getPost('full_name');
         // Save the user
         $allowedPostFields = array_merge(['password'], $this->config->validFields, $this->config->personalFields);
-        $user              = new User($this->request->getPost($allowedPostFields));
+        $userData = $this->request->getPost($allowedPostFields);
+        $userData['full_name'] = $full_name;
+
+        $user = new User($userData);
 
         $this->config->requireActivation === null ? $user->activate() : $user->generateActivateHash();
 
@@ -267,18 +270,16 @@ class AuthController extends Controller
      */
     public function resetPassword()
     {
-        $data = [
-            'title' => 'Reset Password',
-        ];
         if ($this->config->activeResetter === null) {
             return redirect()->route('login')->with('error', lang('Auth.forgotDisabled'));
         }
 
         $token = $this->request->getGet('token');
 
-        return $this->_render($this->config->views['reset'], $data, [
+        return $this->_render($this->config->views['reset'], [
             'config' => $this->config,
             'token'  => $token,
+            'title' => 'Reset Password'
         ]);
     }
 
