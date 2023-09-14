@@ -28,52 +28,53 @@
                     <div class="myform form ">
                         <div class="logo mb-3">
                             <div class="col-md-12 text-center">
-                                <h1><?= lang('Auth.register') ?></h1>
+                                <h1><?= lang('Auth.resetYourPassword') ?></h1>
                             </div>
 
                             <?= view('Myth\Auth\Views\_message_block') ?>
 
                         </div>
 
-                        <form action="<?= url_to('register') ?>" method="post">
+                        <p><?= lang('Auth.enterCodeEmailPassword') ?></p>
+
+                        <form action="<?= url_to('reset-password') ?>" method="post">
                             <?= csrf_field() ?>
 
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Full Name</label>
-                                <input type="text" name="full_name" class="form-control" aria-describedby="emailHelp" placeholder="Enter Full Name" value="<?= old('full_name') ?>">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="username"><?= lang('Auth.username') ?>/Username</label>
-                                <input type="text" class="form-control <?php if (session('errors.username')) : ?>is-invalid<?php endif ?>" name="username" id="username" placeholder="<?= lang('Auth.username') ?>" value="<?= old('username') ?>" aria-describedby="emailHelp">
-                                <p class="form-text usernameFail d-none" style="color: red; font-size: small;">Username Tidak Boleh Mengandung Spasi</p>
+                                <label for="token"><?= lang('Auth.token') ?></label>
+                                <input type="text" class="form-control <?php if (session('errors.token')) : ?>is-invalid<?php endif ?>" name="token" placeholder="<?= lang('Auth.token') ?>" value="<?= old('token', $token ?? '') ?>">
+                                <div class="invalid-feedback">
+                                    <?= session('errors.token') ?>
+                                </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="email"><?= lang('Auth.email') ?></label>
-                                <input type="email" name="email" class="form-control <?php if (session('errors.email')) : ?>is-invalid<?php endif ?>" id="email" aria-describedby="emailHelp" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>">
-                                <small id="emailHelp" class="form-text text-muted"><?= lang('Auth.weNeverShare') ?></small>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="password"><?= lang('Auth.password') ?></label>
-                                <input type="password" name="password" class="form-control <?php if (session('errors.password')) : ?>is-invalid<?php endif ?>" placeholder="<?= lang('Auth.password') ?>" autocomplete="off">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="pass_confirm">Ulangi Password</label>
-                                <input type="password" name="pass_confirm" class="form-control <?php if (session('errors.pass_confirm')) : ?>is-invalid<?php endif ?>" placeholder="<?= lang('Auth.repeatPassword') ?>" autocomplete="off">
-                            </div>
-
-                            <div class="col-md-12 text-center mb-3">
-                                <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm kirim"><?= lang('Auth.register') ?></button>
-                            </div>
-
-                            <div class="col-md-12 ">
-                                <div class="form-group">
-                                    <p class="text-center">Sudah terdaftar? <a href="<?= url_to('login') ?>"><?= lang('Auth.signIn') ?></a></p>
+                                <input type="email" class="form-control <?php if (session('errors.email')) : ?>is-invalid<?php endif ?>" name="email" aria-describedby="emailHelp" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>">
+                                <div class="invalid-feedback">
+                                    <?= session('errors.email') ?>
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <label for="password"><?= lang('Auth.newPassword') ?></label>
+                                <input type="password" class="form-control <?php if (session('errors.password')) : ?>is-invalid<?php endif ?>" name="password">
+                                <div class="invalid-feedback">
+                                    <?= session('errors.password') ?>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="pass_confirm"><?= lang('Auth.newPasswordRepeat') ?></label>
+                                <input type="password" class="form-control <?php if (session('errors.pass_confirm')) : ?>is-invalid<?php endif ?>" name="pass_confirm">
+                                <div class="invalid-feedback">
+                                    <?= session('errors.pass_confirm') ?>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <button type="submit" class="btn btn-primary btn-block"><?= lang('Auth.resetPassword') ?></button>
                     </div>
                     </form>
                 </div>

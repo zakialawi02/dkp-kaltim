@@ -6,6 +6,16 @@ use CodeIgniter\Config\BaseConfig;
 
 class Email extends BaseConfig
 {
+    public function __construct()
+    {
+        $this->fromEmail = $_ENV['FROM_MAIL'];
+        $this->protocol = $_ENV['PROTOCOL_MAIL'];
+        $this->SMTPHost = $_ENV['SMTP_HOST'];
+        $this->SMTPUser = $_ENV['SMTP_USER'];
+        $this->SMTPPass = $_ENV['SMTP_PASS'];
+        $this->SMTPPort = $_ENV['SMTP_PORT'];
+        $this->SMTPCrypto = $_ENV['SMTP_CRYPTO'];
+    }
     /**
      * @var string
      */
@@ -14,7 +24,7 @@ class Email extends BaseConfig
     /**
      * @var string
      */
-    public $fromName;
+    public $fromName = 'SIMATA LAUT';
 
     /**
      * @var string
@@ -33,7 +43,7 @@ class Email extends BaseConfig
      *
      * @var string
      */
-    public $protocol = 'smtp';
+    public $protocol;
 
     /**
      * The server path to Sendmail.
@@ -47,7 +57,7 @@ class Email extends BaseConfig
      *
      * @var string
      */
-    public $SMTPHost = 'smtp.gmail.com';
+    public $SMTPHost;
 
     /**
      * SMTP Username
@@ -68,14 +78,14 @@ class Email extends BaseConfig
      *
      * @var int
      */
-    public $SMTPPort = 465;
+    public $SMTPPort;
 
     /**
      * SMTP Timeout (in seconds)
      *
      * @var int
      */
-    public $SMTPTimeout = 5;
+    public $SMTPTimeout = 60;
 
     /**
      * Enable persistent SMTP connections
@@ -89,7 +99,7 @@ class Email extends BaseConfig
      *
      * @var string
      */
-    public $SMTPCrypto = 'ssl';
+    public $SMTPCrypto;
 
     /**
      * Enable word-wrap
@@ -110,14 +120,14 @@ class Email extends BaseConfig
      *
      * @var string
      */
-    public $mailType = 'text';
+    public $mailType = 'html';
 
     /**
      * Character set (utf-8, iso-8859-1, etc.)
      *
      * @var string
      */
-    public $charset = 'UTF-8';
+    public $charset = 'iso-8859-1';
 
     /**
      * Whether to validate the email address

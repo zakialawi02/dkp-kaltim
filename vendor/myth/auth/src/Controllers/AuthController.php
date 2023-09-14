@@ -267,13 +267,16 @@ class AuthController extends Controller
      */
     public function resetPassword()
     {
+        $data = [
+            'title' => 'Reset Password',
+        ];
         if ($this->config->activeResetter === null) {
             return redirect()->route('login')->with('error', lang('Auth.forgotDisabled'));
         }
 
         $token = $this->request->getGet('token');
 
-        return $this->_render($this->config->views['reset'], [
+        return $this->_render($this->config->views['reset'], $data, [
             'config' => $this->config,
             'token'  => $token,
         ]);
