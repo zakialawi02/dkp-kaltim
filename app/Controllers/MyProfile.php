@@ -48,13 +48,17 @@ class MyProfile extends BaseController
         if ($foto->isValid() && !$foto->hasMoved()) {
             $name = $foto->getRandomName();
             $uploadFoto = $name;
-            if ($datas !== "admin.png" && $datas !== "user.jpg") {
-                $datas = 'img/user/' . $datas;
-                if (file_exists($datas)) {
-                    unlink($datas);
-                }
-            }
-            $foto->move('img/user/', $uploadFoto);
+            // if ($datas !== "admin.png" && $datas !== "user.jpg") {
+            //     $datas = 'img/user/' . $datas;
+            //     if (file_exists($datas)) {
+            //         unlink($datas);
+            //     }
+            // }
+            // Image manipulation(compress)
+            $image = \Config\Services::image()
+                ->withFile($foto)
+                ->fit(1000, 1000, 'center')
+                ->save(FCPATH . '/img/user/' . $uploadFoto);
             $data['user_image'] = $uploadFoto;
         }
         $this->setting->updateMyData($data, $id_user);

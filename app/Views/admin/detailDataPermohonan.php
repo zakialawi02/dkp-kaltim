@@ -135,7 +135,7 @@
                                     <?php foreach ($uploadFiles as $file) : ?>
                                         <?php $file = trim($file, '()"'); ?>
                                         <div class="card mb-3" style="max-width: 500px;">
-                                            <div class="card-body">
+                                            <div class="card-body file">
                                                 <p class="card-text"><a href="/dokumen/upload-dokumen/<?= $file; ?>" target="_blank"><?= $file; ?></a></p>
                                             </div>
                                         </div>

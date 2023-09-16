@@ -13395,6 +13395,13 @@ table.datatablesSimple td {
     justify-content: center;
 }
 
+.card-body.file p {
+    max-width: 20em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 /*--------------------------------------------------------------
   # #####
   --------------------------------------------------------------*/
