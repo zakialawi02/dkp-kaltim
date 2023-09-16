@@ -83,6 +83,7 @@ class Data extends BaseController
             'geojson' => $this->request->getPost('geojson'),
             'getOverlap' => $this->request->getPost('getOverlap'),
             'valZona' => $this->request->getPost('idZona'),
+            'hasilStatus' => $this->request->getPost('hasilStatus'),
         ];
         // dd($data);
         session()->setFlashdata('data', $data);
@@ -105,7 +106,10 @@ class Data extends BaseController
             foreach ($files['filepond'] as $key => $file) {
                 if ($file->isValid() && !$file->hasMoved()) {
                     $originalName = $file->getClientName();
-                    $uploadFiles[] = $originalName;
+                    $pathInfo = pathinfo($originalName);
+                    $fileName = $pathInfo['filename'];
+                    $fileExt = $file->guessExtension();
+                    $uploadFiles[] = $fileName . "_" . uniqid() . "." . $fileExt;
                     $file->move('dokumen/upload-dokumen/', $originalName);
                 }
             }

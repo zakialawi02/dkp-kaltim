@@ -793,6 +793,7 @@
                     // });
                     // console.log(valZona);
                     $("#idZona").val(valZona);
+                    $("#hasilStatus").val(JSON.stringify(hasil));
                     if (hasil.length !== 0) {
                         let diperbolehkan = hasil.filter(item => item.status === 'diperbolehkan');
                         let diperbolehkanBersyarat = hasil.filter(item => item.status === 'diperbolehkan bersyarat');
@@ -869,6 +870,7 @@
         var geojsonFeature;
         var overlappingFeatures;
         let getOverlapProperties;
+        let hasilStatus;
         const KKPRL_Layer = [];
         const RZWP3K_Layer = [];
 

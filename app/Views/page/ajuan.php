@@ -66,6 +66,7 @@
                                 $geojson = json_decode($datas['geojson']);
                                 $getOverlap = json_decode($datas['getOverlap']);
                                 $valZona = $datas['valZona'];
+                                $hasil = ($datas['hasilStatus']);
                                 if (!empty($valZona)) {
                                     $zoneName = array_map(function ($prop) {
                                         return $prop->namaZona;
@@ -88,11 +89,11 @@
                                 <p class="m-0 p-0"><span style="color: red;">*</span> <span class="form-text">Wajib di isi</span> </p>
                                 <div class="form-group">
                                     <label class="form-label">NIB (Nomor Induk Berusaha)</label>
-                                    <input type="text" class="form-control" id="nib" aria-describedby="textlHelp" name="nib">
+                                    <input type="text" class="form-control" id="nib" aria-describedby="textlHelp" name="nib" maxlength="14" pattern="[0-9]*" title="Format berupa angka">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">NIK (Nomor Induk Kependudukan) <span style="color: red;">*</span></label>
-                                    <input type="text" class="form-control" id="nik" aria-describedby="textlHelp" name="nik" required>
+                                    <input type="text" class="form-control" id="nik" aria-describedby="textlHelp" name="nik" maxlength="16" pattern="[0-9]*" title="Format berupa angka" required>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Nama <span style="color: red;">*</span></label>
@@ -104,7 +105,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">No. Telp/HP <span style="color: red;">*</span></label>
-                                    <input type="text" class="form-control" id="kontak" aria-describedby="textlHelp" name="kontak" required>
+                                    <input type="text" class="form-control" id="kontak" aria-describedby="textlHelp" name="kontak" pattern="^\+?[0-9]+$" title="Format No. Telp/HP tidak sesuai" maxlength="15" required>
                                 </div>
                                 <div class="mb-1"></div>
 
