@@ -120,7 +120,7 @@
 
                                                     <div class="row mb-3 align-items-center ">
                                                         <label for="Foto Profil" class="col-md-4 col-lg-3 col-form-label">Foto Profil</label>
-                                                        <input type="file" class="filepond" name="filepond" accept="image/*" />
+                                                        <input type="file" class="filepond" name="filepond" accept="image/*" title="Ukuran file maksimal 2MB" />
                                                     </div>
 
                                                     <div class="row mb-3">
@@ -273,7 +273,7 @@
         FilePond.create(input, {
             acceptedFileTypes: ['image/png', 'image/jpeg', 'image/jpg'],
             maxFileSize: '2MB',
-            labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span>`,
+            labelIdle: `Tarik & Taruh Gambar Disini Atau <span class="filepond--label-action">Browse</span>`,
             storeAsFile: true,
             allowMultiple: false,
             credits: false,
@@ -284,8 +284,11 @@
             imageResizeTargetWidth: 200,
             imageResizeTargetHeight: 200,
             styleLoadIndicatorPosition: 'center bottom',
-
-        });
+            onerror: (error) => {
+                alert('Ukuran gambar maksimal 2MB');
+                input.value = '';
+            }
+        })
     </script>
 
     <script>

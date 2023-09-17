@@ -73,9 +73,6 @@
                                     }, $getOverlap);
                                     $zoneName = array_unique(($zoneName));
                                 }
-
-                                // $propertiOverlap = $getOverlap[0]->properties;
-                                // dd($propertiOverlap);
                                 ?>
 
 
@@ -135,8 +132,8 @@
                                 </div>
 
                                 <div class="feedback">Keterangan Kesesuaian:</div>
-                                <div class="info">
-                                    <div class="feedback" id="showKegiatan"> </div>
+                                <div class="info_status">
+                                    <div class="info_status" id="showKegiatan"> - </div>
                                 </div>
 
 
@@ -335,6 +332,18 @@
             minResolution: map.getView().getResolutionForZoom(13),
             duration: 1500,
         });
+    </script>
+    <script>
+        let hasil = <?= $hasil; ?>;
+        if (hasil == "tidak diperbolehkan") {
+            $(".info_status").html('<p class="tidakBoleh">Aktivitas yang tidak diperbolehkan</p>');
+        } else if (hasil == "diperbolehkan bersyarat") {
+            $(".info_status").html('<p class="bolehBersyarat">Aktifitas diperbolehkan setelah memperoleh izin</p>');
+        } else if (hasil == "diperbolehkan") {
+            $(".info_status").html('<p class="boleh">Aktifitas yang diperbolehkan</p>');
+        } else {
+            $(".info_status").html('<p class="">No Data</p>');
+        }
     </script>
     <script>
         function kirim() {
