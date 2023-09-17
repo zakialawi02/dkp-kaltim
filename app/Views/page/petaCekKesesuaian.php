@@ -331,13 +331,13 @@
                                 <button class="btn btn-outline-dark xs-btn" onclick="centang(0)">Sembunyikan Semua</button>
                                 <br><br>
 
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked="true" autocomplete="off" name="czona_15" id="czona_15" value="kb" onclick="set_zona(15)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/jar minyak.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Jaringan Minyak dan Gas Bumi</label>
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked="true" autocomplete="off" name="czona_16" id="czona_16" value="kb" onclick="set_zona(16)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/jar telekom.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Jaringan Telekomunikasi</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked autocomplete="off" name="czona_15" id="czona_15" value="kb" onclick="set_zona(15)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/jar minyak.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Jaringan Minyak dan Gas Bumi</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked autocomplete="off" name="czona_16" id="czona_16" value="kb" onclick="set_zona(16)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/jar telekom.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Jaringan Telekomunikasi</label>
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_17" id="czona_17" value="kb" onclick="set_zona(17)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/mamaliaa.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Alur Mingrasi Mamalia Laut</label>
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_18" id="czona_18" value="kb" onclick="set_zona(18)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/penyu.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Alur Mingrasi Penyu</label>
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked="true" autocomplete="off" name="czona_19" id="czona_19" value="kb" onclick="set_zona(19)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/pelayaran3.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Alur Pelayaran Umum dan Perlintasan</label>
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked="true" autocomplete="off" name="czona_20" id="czona_20" value="kb" onclick="set_zona(20)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/lintas.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Lintas Penyeberangan Antar Provinsi</label>
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked="true" autocomplete="off" name="czona_21" id="czona_21" value="kb" onclick="set_zona(21)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/lintas2.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Lintas Penyeberangan Antar Kabupaten/Kota dalam Provinsi</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked autocomplete="off" name="czona_19" id="czona_19" value="kb" onclick="set_zona(19)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/pelayaran3.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Alur Pelayaran Umum dan Perlintasan</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked autocomplete="off" name="czona_20" id="czona_20" value="kb" onclick="set_zona(20)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/lintas.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Lintas Penyeberangan Antar Provinsi</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked autocomplete="off" name="czona_21" id="czona_21" value="kb" onclick="set_zona(21)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/lintas2.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Lintas Penyeberangan Antar Kabupaten/Kota dalam Provinsi</label>
 
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_0" id="czona_0" value="kb" onclick="set_zona(0)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/konservasi.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Kawasan Konservasi Lainnya</label>
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_1" id="czona_1" value="kb" onclick="set_zona(1)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/kkm.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Kawasan Konservasi Maritim</label>
@@ -347,7 +347,7 @@
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_5" id="czona_5" value="kb" onclick="set_zona(5)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/industri2.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Industri</label>
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_6" id="czona_6" value="kb" onclick="set_zona(6)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/wisata.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Pariwisata</label>
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_7" id="czona_7" value="kb" onclick="set_zona(7)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/pelabuhan.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Pelabuhan Perikanan</label>
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked="true" autocomplete="off" name="czona_8" id="czona_8" value="kb" onclick="set_zona(8)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/pelabuhan2.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Pelabuhan Umum</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked autocomplete="off" name="czona_8" id="czona_8" value="kb" onclick="set_zona(8)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/pelabuhan2.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Pelabuhan Umum</label>
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_9" id="czona_9" value="kb" onclick="set_zona(9)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/dagangan.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Perdagangan Barang dan/atau Jasa</label>
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_10" id="czona_10" value="kb" onclick="set_zona(10)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/budidayalaut.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Perikanan Budi Daya</label>
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_11" id="czona_11" value="kb" onclick="set_zona(11)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/tangkap.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Perikanan Tangkap</label>
@@ -793,7 +793,7 @@
                     // });
                     // console.log(valZona);
                     $("#idZona").val(valZona);
-                    $("#hasilStatus").val(JSON.stringify(hasil));
+
                     if (hasil.length !== 0) {
                         let diperbolehkan = hasil.filter(item => item.status === 'diperbolehkan');
                         let diperbolehkanBersyarat = hasil.filter(item => item.status === 'diperbolehkan bersyarat');
@@ -801,17 +801,28 @@
                         if (tidakDiperbolehkan.length !== 0) {
                             $('#lanjutKirim').prop('disabled', true);
                             $(".info_status").html('<p class="tidakBoleh">Aktivitas yang tidak diperbolehkan</p>');
+                            hasilStatus = "tidak diperbolehkan";
                         } else if (diperbolehkanBersyarat.length !== 0) {
                             $('#lanjutKirim').prop('disabled', false);
                             $(".info_status").html('<p class="bolehBersyarat">Aktifitas diperbolehkan setelah memperoleh izin</p>');
+                            hasilStatus = "diperbolehkan bersyarat";
                         } else {
                             $('#lanjutKirim').prop('disabled', false);
                             $(".info_status").html('<p class="boleh">Aktifitas yang diperbolehkan</p>');
+                            hasilStatus = "diperbolehkan";
                         }
                     } else {
-                        $('#lanjutKirim').prop('disabled', false);
-                        $(".info_status").html('<p class="">No Data</p>');
+                        if (valZona == "") {
+                            $('#lanjutKirim').prop('disabled', false);
+                            $(".info_status").html('<p class="">Diluar Zona KKPRL Kalimantan Timur</p>');
+                            hasilStatus = "Diluar Zona KKPRL Kalimantan Timur";
+                        } else {
+                            $('#lanjutKirim').prop('disabled', false);
+                            $(".info_status").html('<p class="">No Data</p>');
+                            hasilStatus = "No Data";
+                        }
                     }
+                    $("#hasilStatus").val(JSON.stringify(hasilStatus));
                 })
                 .fail(function(error) {
                     console.error('Error:', error);
@@ -937,18 +948,21 @@
             bingAerialBaseMap.setVisible(true);
             osmBaseMap.setVisible(false);
             mapboxBaseMap.setVisible(false);
+            localStorage.setItem('lastCheckedMap', 'bing_aerial');
         }
 
         function set_osm() {
             bingAerialBaseMap.setVisible(false);
             osmBaseMap.setVisible(true);
             mapboxBaseMap.setVisible(false);
+            localStorage.setItem('lastCheckedMap', 'osm');
         }
 
         function set_mapbox_road() {
             bingAerialBaseMap.setVisible(false);
             osmBaseMap.setVisible(false);
             mapboxBaseMap.setVisible(true);
+            localStorage.setItem('lastCheckedMap', 'mapbox_road');
         }
 
         // Init To Canvas/View
@@ -1086,7 +1100,24 @@
         map.addControl(overviewMapControl);
         map.addControl(attribution);
 
-        set_osm();
+        function restoreLastCheckedMap() {
+            const lastCheckedMap = localStorage.getItem('lastCheckedMap');
+            if (lastCheckedMap === 'osm') {
+                $('#radio2').prop('checked', true);
+                set_osm();
+            } else if (lastCheckedMap === 'bing_aerial') {
+                $('#radio1').prop('checked', true);
+                set_bing_aerial();
+            } else if (lastCheckedMap === 'mapbox_road') {
+                $('#radio3').prop('checked', true);
+                set_mapbox_road();
+            } else {
+                $('#radio2').prop('checked', true);
+                set_osm();
+            }
+        }
+        restoreLastCheckedMap();
+
 
 
         // Fungsi untuk menyembunyikan atau menampilkan lapisan WMS (per checkbox)
@@ -1109,6 +1140,7 @@
             const layerName = RZWP3KLayerNames[index];
             const visibility = checkbox.checked;
             toggleWMSLayer(layerName, visibility);
+            localStorage.setItem(`clahan_${index}`, checkbox.checked);
         }
 
         function set_zona(index) {
@@ -1116,7 +1148,55 @@
             const layerName = KKPRLLayerNames[index];
             const visibility = checkbox.checked;
             toggleWMSLayer(layerName, visibility);
+            localStorage.setItem(`czona_${index}`, checkbox.checked);
         }
+        // fungsi untuk record kondisi checked layer ke localstorage
+        function saveCheckedStatus() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"][name^="czona_"]');
+            const checkboxes2 = document.querySelectorAll('input[type="checkbox"][name^="clahan_"]');
+            checkboxes.forEach((checkbox) => {
+                const index = checkbox.getAttribute('name').replace('czona_', '');
+                const index2 = checkbox.getAttribute('name').replace('clahan_', '');
+                const checked = checkbox.checked;
+                const checked2 = checkbox.checked;
+                localStorage.setItem(`czona_${index}`, checked);
+                localStorage.setItem(`clahan_${index}`, checked);
+            });
+        }
+
+        // Fungsi untuk mengambil status checked dari local storage
+        function restore_czona(index = "") {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"][name^="czona_"]');
+            checkboxes.forEach((checkbox) => {
+                const index = checkbox.getAttribute('name').replace('czona_', '');
+                const checked = localStorage.getItem(`czona_${index}`) === 'true';
+                checkbox.checked = checked;
+                const layerName = KKPRLLayerNames[index];
+                toggleWMSLayer(layerName, checked);
+            });
+        }
+
+        function restore_clahan() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"][name^="clahan_"]');
+            checkboxes.forEach((checkbox) => {
+                const index = checkbox.getAttribute('name').replace('clahan_', '');
+                const checked = localStorage.getItem(`clahan_${index}`) === 'true';
+                checkbox.checked = checked;
+                const layerName = RZWP3KLayerNames[index];
+                toggleWMSLayer(layerName, checked);
+            });
+        }
+        // Fungsi untuk inisialisasi komunikasi localstorage
+        function initializeCheckboxes() {
+            if (localStorage.getItem('layer_initialized') !== 'true') {
+                saveCheckedStatus();
+                localStorage.setItem('layer_initialized', 'true');
+            } else {
+                restore_czona();
+                restore_clahan();
+            }
+        }
+        initializeCheckboxes();
 
         // Fungsi untuk mengubah transparansi lapisan WMS
         function updateWMSTransparency(opacity, wms) {
@@ -1147,21 +1227,25 @@
                 for (var i = 0; i < KKPRL_Layer.length; i++) {
                     $('#czona_' + i).prop('checked', true);
                     KKPRL_Layer[i].setVisible(true);
+                    set_zona(i)
                 }
             } else if (cond == 0) {
                 for (var i = 0; i < KKPRL_Layer.length; i++) {
                     $('#czona_' + i).prop('checked', false);
                     KKPRL_Layer[i].setVisible(false);
+                    set_zona(i)
                 }
             } else if (cond == 3) {
                 for (var i = 0; i < RZWP3K_Layer.length; i++) {
                     $('#clahan_' + i).prop('checked', true);
                     RZWP3K_Layer[i].setVisible(true);
+                    set_subzona(i)
                 }
             } else if (cond == 2) {
                 for (var i = 0; i < RZWP3K_Layer.length; i++) {
                     $('#clahan_' + i).prop('checked', false);
                     RZWP3K_Layer[i].setVisible(false);
+                    set_subzona(i)
                 }
             }
         }

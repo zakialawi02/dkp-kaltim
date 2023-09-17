@@ -48,12 +48,12 @@ class MyProfile extends BaseController
         if ($foto->isValid() && !$foto->hasMoved()) {
             $name = $foto->getRandomName();
             $uploadFoto = $name;
-            // if ($datas !== "admin.png" && $datas !== "user.jpg") {
-            //     $datas = 'img/user/' . $datas;
-            //     if (file_exists($datas)) {
-            //         unlink($datas);
-            //     }
-            // }
+            if ($datas !== "admin.jpg" && $datas !== "user.jpg") {
+                $datas = 'img/user/' . $datas;
+                if (file_exists($datas)) {
+                    unlink($datas);
+                }
+            }
             // Image manipulation(compress)
             $image = \Config\Services::image()
                 ->withFile($foto)
