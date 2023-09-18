@@ -47,7 +47,7 @@
 
                             <div class="form-group">
                                 <label for="token"><?= lang('Auth.token') ?></label>
-                                <input type="text" class="form-control <?php if (session('errors.token')) : ?>is-invalid<?php endif ?>" name="token" placeholder="<?= lang('Auth.token') ?>" value="<?= old('token', $token ?? '') ?>">
+                                <input type="text" id="token" class="form-control <?php if (session('errors.token')) : ?>is-invalid<?php endif ?>" name="token" placeholder="<?= lang('Auth.token') ?>" value="<?= old('token', $token ?? '') ?>" required>
                                 <div class="invalid-feedback">
                                     <?= session('errors.token') ?>
                                 </div>
@@ -56,22 +56,23 @@
                             <div class="form-group">
                                 <label for="email"><?= lang('Auth.email') ?></label>
                                 <input type="email" class="form-control <?php if (session('errors.email')) : ?>is-invalid<?php endif ?>" name="email" aria-describedby="emailHelp" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>">
-                                <div class="invalid-feedback">
+                                <div class="invalid-feedback" required>
                                     <?= session('errors.email') ?>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="password"><?= lang('Auth.newPassword') ?></label>
-                                <input type="password" class="form-control <?php if (session('errors.password')) : ?>is-invalid<?php endif ?>" name="password">
-                                <div class="invalid-feedback">
+                                <input type="password" id="password" class="form-control <?php if (session('errors.password')) : ?>is-invalid<?php endif ?>" name="password">
+                                <div class="invalid-feedback" required>
                                     <?= session('errors.password') ?>
                                 </div>
+                                <div id="passwordHelp" class="form-text" style="color: red;font-size: small;"></div>
                             </div>
 
                             <div class="form-group">
                                 <label for="pass_confirm"><?= lang('Auth.newPasswordRepeat') ?></label>
-                                <input type="password" class="form-control <?php if (session('errors.pass_confirm')) : ?>is-invalid<?php endif ?>" name="pass_confirm">
+                                <input type="password" id="pass_confirm" name="pass_confirm" class="form-control <?php if (session('errors.pass_confirm')) : ?>is-invalid<?php endif ?>" required>
                                 <div class="invalid-feedback">
                                     <?= session('errors.pass_confirm') ?>
                                 </div>
@@ -79,7 +80,7 @@
 
                             <br>
 
-                            <button type="submit" class="btn btn-primary btn-block"><?= lang('Auth.resetPassword') ?></button>
+                            <button type="submit" class="btn btn-primary btn-block kirim"><?= lang('Auth.resetPassword') ?></button>
                     </div>
                     </form>
                 </div>
@@ -88,21 +89,7 @@
     </div>
 
 
-    <script>
-        $("#username").keyup(function(e) {
-            let username = $("#username").val();
-            console.log(username);
-            if (username.indexOf(' ') !== -1) {
-                $(".usernameFail").removeClass('d-none');
-                $("#username").addClass('is-invalid');
-                $(".kirim").attr('disabled', true);
-            } else {
-                $(".usernameFail").addClass('d-none');
-                $("#username").removeClass('is-invalid');
-                $(".kirim").attr('disabled', false);
-            }
-        });
-    </script>
+    <script src="/js/action=1.js"></script>
 </body>
 
 </html>

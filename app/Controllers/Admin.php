@@ -294,14 +294,23 @@ class Admin extends BaseController
         $data = [
             'title' => 'Data Zona',
             'dataZona' => $this->zona->getZona()->getResult(),
-            'dataKawasan' => $this->kawasan->getKawasan()->getResult(),
         ];
         return view('admin/k_jenisZona', $data);
+    }
+    public function kawasan()
+    {
+        $data = [
+            'title' => 'Data Kawasan',
+            'dataZona' => $this->zona->getZona()->getResult(),
+            'dataKawasan' => $this->kawasan->getKawasan()->getResult(),
+        ];
+        return view('admin/k_kawasan', $data);
     }
     public function kesesuaian()
     {
         $data = [
             'title' => 'Data Kesesuaian',
+            'dataZona' => $this->zona->getZona()->getResult(),
             'dataKesesuaian' => $this->kesesuaian->getKesesuaian()->getResult(),
         ];
         // dd($data['dataKesesuaian']);

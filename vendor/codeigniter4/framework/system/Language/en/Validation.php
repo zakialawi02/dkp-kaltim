@@ -22,7 +22,7 @@ return [
     'alpha'                 => 'The {field} field may only contain alphabetical characters.',
     'alpha_dash'            => 'The {field} field may only contain alphanumeric, underscore, and dash characters.',
     'alpha_numeric'         => 'The {field} field may only contain alphanumeric characters.',
-    'alpha_numeric_punct'   => 'The {field} field may contain only alphanumeric characters, spaces, and  ~ ! # $ % & * - _ + = | : . characters.',
+    'alpha_numeric_punct'   => 'The {field} field may contain only alphanumeric characters, spaces, and  symbol.',
     'alpha_numeric_space'   => 'The {field} field may only contain alphanumeric and space characters.',
     'alpha_space'           => 'The {field} field may only contain alphabetical characters and spaces.',
     'decimal'               => 'The {field} field must contain a decimal number.',

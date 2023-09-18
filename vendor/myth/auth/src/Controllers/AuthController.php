@@ -151,7 +151,7 @@ class AuthController extends Controller
 
         // Validate basics first since some password rules rely on these fields
         $rules = config('Validation')->registrationRules ?? [
-            'username' => 'required|alpha_numeric_punct|min_length[3]|max_length[30]|is_unique[users.username]',
+            'username' => 'required|alpha_numeric|min_length[3]|max_length[30]|is_unique[users.username]',
             'email'    => 'required|valid_email|is_unique[users.email]',
         ];
 
@@ -161,7 +161,13 @@ class AuthController extends Controller
 
         // Validate passwords since they can only be validated properly here
         $rules = [
-            'password'     => 'required|strong_password',
+            'password'     => [
+                'label' => 'Password',
+                'rules' => 'required|alpha_numeric_punct|strong_password',
+                'errors' => [
+                    'alpha_numeric_punct' => 'Kata sandi harus memiliki kombinasi huruf dan angka.',
+                ],
+            ],
             'pass_confirm' => 'required|matches[password]',
         ];
 

@@ -74,7 +74,7 @@
             <!-- MAIN CONTENT -->
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-2 mb-3">Data Kesesuaian</h1>
+                    <h1 class="mt-2 mb-3">Data Cakupan Kawasan</h1>
 
                     <div class="card mb-4">
                         <div class="card-body">
@@ -92,61 +92,32 @@
                                 </div>
                             </div>
 
-
-                            <div class="table-content overflow-auto">
-                                <table id="datatablesSimple" class="table table-striped row-border hover" style="width: 100%;">
+                            <div class="table-content overflow-auto" id="table-content-byZona">
+                                <h6 class="pt-2 pb-2">Zona: semua zona</h6>
+                                <table id="datatablesSimples" class="table table-striped row-border hover" style="width: 100%;">
                                     <thead>
                                         <tr>
                                             <th>#</th>
+                                            <th>Kawasan</th>
                                             <th>Zona</th>
-                                            <th>Sub Zona</th>
-                                            <th>Kode Kegiatan</th>
-                                            <th>Nama Kegiatan</th>
-                                            <th>Status Kesesuaian</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php $i = 1 ?>
-                                        <?php
-                                        $prevKodeKegiatan = null; // Inisialisasi kode_kegiatan sebelumnya
-                                        $prevIdZona = null; // Inisialisasi id_zona sebelumnya
-                                        $prevSubZona = null; // Inisialisasi sub_zona sebelumnya
-                                        ?>
-                                        <?php foreach ($dataKesesuaian as $K) : ?>
-                                            <?php
-                                            $bold = '';
-                                            if ($prevKodeKegiatan === $K->kode_kegiatan && $prevIdZona === $K->id_zona && $prevSubZona === $K->sub_zona) {
-                                                $bold = 'font-weight:bold; background-color:red;';
-                                            }
-                                            ?>
-                                            <tr style="<?= $bold ?>">
+                                        <?php foreach ($dataKawasan as $K) : ?>
+                                            <tr>
                                                 <td><?= $i++; ?></td>
+                                                <td><?= $K->kode_kawasan; ?></td>
                                                 <td><?= $K->nama_zona; ?></td>
-                                                <td><?= $K->sub_zona ?? "-"; ?></td>
-                                                <td><?= $K->kode_kegiatan; ?></td>
-                                                <td><?= $K->nama_kegiatan; ?></td>
-                                                <td style="color: <?= ($K->status == "diperbolehkan") ? 'green' : (($K->status == "diperbolehkan bersyarat") ? 'brown' : 'red'); ?>;"><?= $K->status; ?></td>
                                                 <td>
                                                     <div class="d-inline-flex gap-1">
                                                         <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                            <a href="/admin/kegiatan/edit/<?= $K->id_zona; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
+                                                            <a href="/admin/zona/edit/<?= $K->id_znkwsn; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
                                                         </div>
-                                                        <!-- <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                            <form action="/admin/delete_kegiatan/<?= $K->id_zona; ?>" method="post">
-                                                                <?= csrf_field(); ?>
-                                                                <input type="hidden" name="_method" value="DELETE">
-                                                                <button type="submit" class="asbn btn btn-danger bi bi-trash" onclick="return confirm('Yakin Hapus Data?')"></button>
-                                                            </form>
-                                                        </div> -->
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <?php
-                                            $prevKodeKegiatan = $K->kode_kegiatan; // Simpan kode_kegiatan saat ini
-                                            $prevIdZona = $K->id_zona; // Simpan id_zona saat ini
-                                            $prevSubZona = $K->sub_zona; // Simpan sub_zona saat ini
-                                            ?>
                                         <?php endforeach ?>
                                     </tbody>
                                 </table>
@@ -174,13 +145,30 @@
     <script src="/js/scripts.js"></script>
 
     <script>
-        new DataTable('#datatablesSimple');
+        new DataTable('#datatablesSimples');
     </script>
     <script>
         $(document).ready(function() {
             $("#pilihZona").select2({
                 placeholder: "Pilih Berdasarkan Zona",
                 allowClear: true
+            });
+        });
+    </script>
+    <script>
+        $("#pilihZona").change(function(e) {
+            e.preventDefault();
+            let zona = $("#pilihZona").val();
+            console.log(zona);
+            $.ajax({
+                type: "POST",
+                url: `/admin/kawasanByZona/${zona}`,
+                data: zona,
+                dataType: "html",
+            }).done(function(response) {
+                $("#table-content-byZona").html(response);
+            }).fail(function(error) {
+                console.error('Error:', error);
             });
         });
     </script>
