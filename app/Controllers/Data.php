@@ -390,6 +390,14 @@ class Data extends BaseController
     }
 
 
+    public function ss()
+    {
+        $id_kesesuaian = "111";
+        $kode_kawasan = "KKP3K-02";
+        $dd = $this->kesesuaian->getKesesuaian($id_kesesuaian, $kode_kawasan)->getResultArray();
+        dd($dd);
+    }
+
     public function dump()
     {
         $kode_kegiatan = "K48";

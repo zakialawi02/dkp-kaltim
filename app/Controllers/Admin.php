@@ -311,6 +311,7 @@ class Admin extends BaseController
         $data = [
             'title' => 'Data Kesesuaian',
             'dataZona' => $this->zona->getZona()->getResult(),
+            'dataKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
             'dataKesesuaian' => $this->kesesuaian->getKesesuaian()->getResult(),
         ];
         // dd($data['dataKesesuaian']);
@@ -322,5 +323,24 @@ class Admin extends BaseController
             'dataKawasan' => $this->kawasan->getZKawasan($id_zona)->getResult(),
         ];
         return view('serverSide/tblKawasanByZona', $data);
+    }
+    public function kesesuaianByZona($id_zona)
+    {
+        $data = [
+            'dataKesesuaian' => $this->kesesuaian->getKesesuaianByZona($id_zona)->getResult(),
+        ];
+        // echo "<pre>";
+        // print_r($data);
+        // die;
+        return view('serverSide/tblKesesuaianByZona', $data);
+    }
+
+    public function dataKesesuaian($id_kesesuaian, $kode_kawasan)
+    {
+        $response = $this->kesesuaian->getKesesuaian($id_kesesuaian, $kode_kawasan)->getResultArray();
+        echo "<pre>";
+        print_r($response);
+        die;
+        return $this->response->setJSON($response);
     }
 }

@@ -56,6 +56,11 @@
             background: rgb(52, 93, 167) !important;
         }
 
+        .select2-dropdown,
+        .select2-search {
+            z-index: 2000;
+        }
+
         /* #hasilKesesuaian {
             overflow-x: auto;
         } */
@@ -73,6 +78,62 @@
 
             <!-- MAIN CONTENT -->
             <main>
+
+
+                <!-- MODAL EDIT/UPDATE -->
+                <div class="modal fade" id="modalEdit" tabindex="-1" aria-labelledby="modalEditLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalEditLabel">Edit</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="tempatEdit">
+                                    <input type="hidden" id="id_kesesuaian" value="">
+                                    <input type="hidden" id="id_znkwsn" value="">
+                                    <div class="mb-3">
+                                        <label for="editZona" class="form-label">Zona</label>
+                                        <select class="form-select select2" name="editZona" id="editZona" style="width: 100%;" required>
+                                            <option></option>
+                                            <?php foreach ($dataZona as $Z) : ?>
+                                                <option value="<?= $Z->id_zona; ?>"><?= $Z->nama_zona; ?></option>
+                                            <?php endforeach ?>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editKawasan" class="form-label">Kawasan</label>
+                                        <input class="form-control form-control-sm" type="text" placeholder="kode kawasan" aria-label=".form-control-sm" name="editKawasan" id="editKawasan" value="" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editKegiatan" class="form-label">Jenis Kegiatan</label>
+                                        <select class="form-select select2" name="editKegiatan" id="editKegiatan" style="width: 100%;" required>
+                                            <option> </option>
+                                            <?php foreach ($dataKegiatan as $kg) : ?>
+                                                <option value="<?= $kg->kode_kegiatan; ?>"><?= $kg->id_kegiatan; ?>. <?= $kg->nama_kegiatan; ?></option>
+                                            <?php endforeach ?>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editStatus" class="form-label">Statu Kesesuaian</label>
+                                        <?php $status_enum = ['diperbolehkan', 'diperbolehkan bersyarat', 'tidak diperbolehkan'] ?>
+                                        <select class="form-select form-select-sm" name="editStatus" id="editStatus" required>
+                                            <?php foreach ($status_enum as $S) : ?>
+                                                <option value="<?= $S; ?>"><?= $S; ?></option>
+                                            <?php endforeach ?>
+                                        </select>
+                                    </div>
+                                    <p class="form-text d-none notempty" style="color: red;"><i>Pola Ruang, Kawasan, Kegiatan</i> Tidak Boleh Kosong</p>
+                                    <button type="button" role="button" class="btn btn-primary" id="updatekan">Simpan</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
                 <div class="container-fluid px-4">
                     <h1 class="mt-2 mb-3">Data Kesesuaian</h1>
 
@@ -93,7 +154,8 @@
                             </div>
 
 
-                            <div class="table-content overflow-auto">
+                            <div class="table-content overflow-auto" id="table-content-byZona">
+                                <h6 class="pt-2 pb-2">Zona: semua zona</h6>
                                 <table id="datatablesSimple" class="table table-striped row-border hover" style="width: 100%;">
                                     <thead>
                                         <tr>
@@ -130,15 +192,15 @@
                                                 <td>
                                                     <div class="d-inline-flex gap-1">
                                                         <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                            <a href="/admin/kegiatan/edit/<?= $K->id_zona; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
-                                                        </div>
-                                                        <!-- <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                            <form action="/admin/delete_kegiatan/<?= $K->id_zona; ?>" method="post">
-                                                                <?= csrf_field(); ?>
-                                                                <input type="hidden" name="_method" value="DELETE">
-                                                                <button type="submit" class="asbn btn btn-danger bi bi-trash" onclick="return confirm('Yakin Hapus Data?')"></button>
+                                                            <form action="/admin/" method="post">
+                                                                <button type="button" class="asbn btn btn-primary bi bi-pencil-square" data-bs-toggle="modal" data-bs-target="#modalEdit" onclick="editkan(<?= $K->id_kesesuaian; ?>)"></button>
                                                             </form>
-                                                        </div> -->
+                                                        </div>
+                                                        <div class="btn-group mr-2" role="group" aria-label="First group">
+                                                            <form action="/admin/" method="post">
+                                                                <button type="button" class="asbn btn btn-danger bi bi-trash"></button>
+                                                            </form>
+                                                        </div>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -177,9 +239,46 @@
         new DataTable('#datatablesSimple');
     </script>
     <script>
+        function editkan(id_kesesuaian, kode_kawasan) {
+            console.log(id_kesesuaian);
+            console.log(kode_kawasan);
+            $.ajax({
+                type: "method",
+                url: `/admin/dataKesesuaian/${id_kesesuaian}/${kode_kawasan}`,
+                dataType: "json",
+                success: function(response) {
+                    console.log(response);
+                }
+            });
+        }
+    </script>
+    <script>
+        $("#pilihZona").change(function(e) {
+            e.preventDefault();
+            let zona = $("#pilihZona").val();
+            console.log(zona);
+            $.ajax({
+                type: "POST",
+                url: `/admin/kesesuaianByZona/${zona}`,
+                data: zona,
+                dataType: "html",
+            }).done(function(response) {
+                $("#table-content-byZona").html(response);
+            }).fail(function(error) {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+    <script>
         $(document).ready(function() {
-            $("#pilihZona").select2({
-                placeholder: "Pilih Berdasarkan Zona",
+            $("#editKegiatan").select2({
+                placeholder: "Pilih Kegiatan",
+                allowClear: true
+            });
+        });
+        $(document).ready(function() {
+            $("#editZona").select2({
+                placeholder: "Pilih Zona",
                 allowClear: true
             });
         });
