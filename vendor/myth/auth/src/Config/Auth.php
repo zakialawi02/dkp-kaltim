@@ -229,7 +229,7 @@ class Auth extends BaseConfig
      *
      * @var int
      */
-    public $rememberLength = 30 * DAY;
+    public $rememberLength = 10 * DAY;
 
     /**
      * --------------------------------------------------------------------

@@ -72,6 +72,11 @@
                     </div>
                     <div class="collapse" id="collapseKesesuai" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <div class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="/admin/kawasan">Data Kawasan</a>
+                        </div>
+                    </div>
+                    <div class="collapse" id="collapseKesesuai" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <div class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="/admin/kesesuaian"> Data Kesesuaian</a>
                         </div>
                     </div>

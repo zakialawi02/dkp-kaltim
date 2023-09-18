@@ -44,7 +44,7 @@ return [
     // Passwords
     'errorPasswordLength'       => 'Sandi harus terdiri dari setidaknya {0, number} karakter.',
     'suggestPasswordLength'     => 'Lewati frasa - hingga 255 karakter - buat kata sandi yang lebih aman dan mudah diingat.',
-    'errorPasswordCommon'       => 'Kata sandi tidak boleh menjadi kata sandi yang umum.',
+    'errorPasswordCommon'       => 'Kata sandi terlalu umum atau mudah.',
     'suggestPasswordCommon'     => 'Kata sandi diperiksa terhadap lebih dari 65 ribu kata sandi atau kata sandi yang umum digunakan yang telah bocor melalui peretasan.',
     'errorPasswordPersonal'     => 'Kata sandi tidak boleh berisi informasi pribadi yang di-hash.',
     'suggestPasswordPersonal'   => 'Variasi pada alamat email atau nama pengguna Anda tidak boleh digunakan untuk kata sandi.',

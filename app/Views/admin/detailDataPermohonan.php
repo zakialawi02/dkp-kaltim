@@ -232,8 +232,9 @@
     <script>
         <?php if (in_groups('User')) : ?>
             $('.ambilTindakanJawaban').remove('.ambilTindakanJawaban');
-        <?php else : ?>
-
+        <?php endif ?>
+        <?php if (!empty($tampilDataIzin->dokumen_lampiran)) : ?>
+            $('.ambilTindakanJawaban').remove('.ambilTindakanJawaban');
         <?php endif ?>
     </script>
     <script>

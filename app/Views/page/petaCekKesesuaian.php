@@ -402,27 +402,27 @@
 
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_12" id="clahan_12" value="kb" onclick="set_subzona(12)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/kabel.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Pipa Minyak dan Gas</label>
 
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_14" id="clahan_14" value="kb" onclick="set_subzona(14)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/wisata.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Taman Wisata Alam Bawah Laut</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_13" id="clahan_13" value="kb" onclick="set_subzona(13)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/wisata.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Taman Wisata Alam Bawah Laut</label>
 
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_15" id="clahan_15" value="kb" onclick="set_subzona(15)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/wkopp.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Wilayah Kerja dan Wilayah Pengoperasian Pelabuhan Perikanan (WKOPP)</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_14" id="clahan_14" value="kb" onclick="set_subzona(14)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/wkopp.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Wilayah Kerja dan Wilayah Pengoperasian Pelabuhan Perikanan (WKOPP)</label>
 
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_16" id="clahan_16" value="kb" onclick="set_subzona(16)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/wisata.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Wisata Alam Bawah Laut</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_15" id="clahan_15" value="kb" onclick="set_subzona(15)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/wisata.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Wisata Alam Bawah Laut</label>
 
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_17" id="clahan_17" value="kb" onclick="set_subzona(17)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/wisata.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Wisata Pantai/Pesisir dan Pulau-Pulau Kecil</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_16" id="clahan_16" value="kb" onclick="set_subzona(16)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/wisata.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Wisata Pantai/Pesisir dan Pulau-Pulau Kecil</label>
 
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_18" id="clahan_18" value="kb" onclick="set_subzona(18)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/bandarudara.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Bandar Udara</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_17" id="clahan_17" value="kb" onclick="set_subzona(17)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/bandarudara.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Bandar Udara</label>
 
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_19" id="clahan_19" value="kb" onclick="set_subzona(19)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/industri.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Industri</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_18" id="clahan_18" value="kb" onclick="set_subzona(18)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/industri.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Industri</label>
 
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_20" id="clahan_20" value="kb" onclick="set_subzona(20)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/Zona_Inti.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Inti</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_19" id="clahan_19" value="kb" onclick="set_subzona(19)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/Zona_Inti.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Inti</label>
 
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_21" id="clahan_21" value="kb" onclick="set_subzona(21)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/dagangan2.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Jasa/Perdagangan</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_20" id="clahan_20" value="kb" onclick="set_subzona(20)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/dagangan2.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Jasa/Perdagangan</label>
 
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_22" id="clahan_22" value="kb" onclick="set_subzona(22)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/Zona Lainnya.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Lainnya</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_21" id="clahan_21" value="kb" onclick="set_subzona(21)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/Zona Lainnya.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Lainnya</label>
 
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_23" id="clahan_23" value="kb" onclick="set_subzona(23)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/Zona Pemanfaatan Terbatas.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Pemanfaatan Terbatas</label>
 
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_24" id="clahan_24" value="kb" onclick="set_subzona(24)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/polred.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Pertahanan dan Keamanan</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="clahan_22" id="clahan_22" value="kb" onclick="set_subzona(22)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/polred.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Zona Pertahanan dan Keamanan</label>
 
 
 
@@ -1156,11 +1156,13 @@
             const checkboxes2 = document.querySelectorAll('input[type="checkbox"][name^="clahan_"]');
             checkboxes.forEach((checkbox) => {
                 const index = checkbox.getAttribute('name').replace('czona_', '');
-                const index2 = checkbox.getAttribute('name').replace('clahan_', '');
                 const checked = checkbox.checked;
-                const checked2 = checkbox.checked;
                 localStorage.setItem(`czona_${index}`, checked);
-                localStorage.setItem(`clahan_${index}`, checked);
+            });
+            checkboxes2.forEach((checkbox) => {
+                const index2 = checkbox.getAttribute('name').replace('clahan_', '');
+                const checked2 = checkbox.checked;
+                localStorage.setItem(`clahan_${index2}`, checked2);
             });
         }
 
@@ -1566,8 +1568,6 @@
                 });
                 vectorSource.addFeature(polygonFeature);
                 map.removeInteraction(drawInteraction);
-
-
                 jsonCoordinates = drawnFeature.getGeometry();
                 jsonCoordinates.transform('EPSG:3857', 'EPSG:4326');
                 jsonCoordinates = jsonCoordinates.getCoordinates();
@@ -1583,35 +1583,6 @@
 
 
         let geoshp;
-        // // Membaca dan memproses file shapefile
-        // // shp('<?= base_url('/geojson/KKPRL_RTRW.zip'); ?> ').then(function(geojson) {
-        // shp('http://localhost:8080/geojson/KKPRL_RTRW.zip').then(function(data) {
-        //     geoshp = data;
-        //     console.log(geoshp);
-        //     addTogeoshp(geoshp);
-
-        //     var format = new ol.format.GeoJSON();
-        //     var features = format.readFeatures(geoshp);
-        //     features.forEach(function(feature) {
-        //         feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
-        //     });
-
-        //     var vectorSource = new ol.source.Vector({
-        //         features: features
-        //     });
-        //     var vectorLayer = new ol.layer.Vector({
-        //         source: vectorSource,
-        //         style: polygonStyle
-        //     });
-        //     map.addLayer(vectorLayer);
-        // }).catch(function(error) {
-        //     console.error("Error processing shapefile:", error);
-        // });
-
-        // function addTogeoshp(data) {
-        //     console.log("Var Global:", data);
-        // }
-
         try {
             var wfunc = function(base, cb) {
                 importScripts('https://unpkg.com/shpjs@latest/dist/shp.js');

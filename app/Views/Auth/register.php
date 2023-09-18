@@ -59,17 +59,19 @@
                             <div class="form-group">
                                 <label for="email"><?= lang('Auth.email') ?> <span style="color: red;">*</span></label>
                                 <input type="email" name="email" class="form-control <?php if (session('errors.email')) : ?>is-invalid<?php endif ?>" id="email" aria-describedby="emailHelp" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>">
-                                <small id="emailHelp" class="form-text text-muted"><?= lang('Auth.weNeverShare') ?></small>
+                                <!-- <small id="emailHelp" class="form-text text-muted"><?= lang('Auth.weNeverShare') ?></small> -->
+                                <small id="emailHelp" class="form-text text-muted">Gunakan email yang valid untuk konfirmasi aktivasi akun</small>
                             </div>
 
                             <div class="form-group">
                                 <label for="password"><?= lang('Auth.password') ?> <span style="color: red;">*</span></label>
-                                <input type="password" name="password" class="form-control <?php if (session('errors.password')) : ?>is-invalid<?php endif ?>" placeholder="<?= lang('Auth.password') ?>" autocomplete="off">
+                                <input type="password" id="password" name="password" class="form-control <?php if (session('errors.password')) : ?>is-invalid<?php endif ?>" placeholder="<?= lang('Auth.password') ?>" autocomplete="off">
+                                <div id="passwordHelp" class="form-text" style="color: red;font-size: small;"></div>
                             </div>
 
                             <div class="form-group">
-                                <label for="pass_confirm">Ulangi Password <span style="color: red;">*</span></label>
-                                <input type="password" name="pass_confirm" class="form-control <?php if (session('errors.pass_confirm')) : ?>is-invalid<?php endif ?>" placeholder="<?= lang('Auth.repeatPassword') ?>" autocomplete="off">
+                                <label for="pass_confirm">Ulangi Kata sandi <span style="color: red;">*</span></label>
+                                <input type="password" id="pass_confirm" name="pass_confirm" class="form-control <?php if (session('errors.pass_confirm')) : ?>is-invalid<?php endif ?>" placeholder="<?= lang('Auth.repeatPassword') ?>" autocomplete="off" required>
                             </div>
 
                             <div class="col-md-12 text-center mb-3">
@@ -88,22 +90,7 @@
         </div>
     </div>
 
-
-    <script>
-        $("#username").keyup(function(e) {
-            let username = $("#username").val();
-            console.log(username);
-            if (username.indexOf(' ') !== -1) {
-                $(".usernameFail").removeClass('d-none');
-                $("#username").addClass('is-invalid');
-                $(".kirim").attr('disabled', true);
-            } else {
-                $(".usernameFail").addClass('d-none');
-                $("#username").removeClass('is-invalid');
-                $(".kirim").attr('disabled', false);
-            }
-        });
-    </script>
+    <script src="/js/action=1.js"></script>
 </body>
 
 </html>

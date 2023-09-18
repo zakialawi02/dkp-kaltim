@@ -76,7 +76,7 @@ class FormatRules
             return false;
         }
 
-        return preg_match('/\A[A-Z0-9 ~!#$%\&\*\-_+=|:.]+\z/i', $str) === 1;
+        return preg_match('/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9 ~!#$%\&\*\-_+=|:.]+$/', $str) === 1;
     }
 
     /**
@@ -278,7 +278,7 @@ class FormatRules
         }
 
         return filter_var($ip, FILTER_VALIDATE_IP, $option) !== false
-            || (! ctype_print($ip) && filter_var(inet_ntop($ip), FILTER_VALIDATE_IP, $option) !== false);
+            || (!ctype_print($ip) && filter_var(inet_ntop($ip), FILTER_VALIDATE_IP, $option) !== false);
     }
 
     /**
@@ -294,7 +294,7 @@ class FormatRules
         }
 
         if (preg_match('/\A(?:([^:]*)\:)?\/\/(.+)\z/', $str, $matches)) {
-            if (! in_array($matches[1], ['http', 'https'], true)) {
+            if (!in_array($matches[1], ['http', 'https'], true)) {
                 return false;
             }
 

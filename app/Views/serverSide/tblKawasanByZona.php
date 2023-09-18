@@ -4,6 +4,7 @@
         <tr>
             <th>#</th>
             <th>Kawasan</th>
+            <th>Zona</th>
             <th>Aksi</th>
         </tr>
     </thead>
@@ -13,6 +14,7 @@
             <tr>
                 <td><?= $i++; ?></td>
                 <td><?= $K->kode_kawasan; ?></td>
+                <td><?= $K->nama_zona; ?></td>
                 <td>
                     <div class="d-inline-flex gap-1">
                         <div class="btn-group mr-2" role="group" aria-label="First group">

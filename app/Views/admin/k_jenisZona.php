@@ -112,57 +112,6 @@
                         </div>
                     </div>
 
-
-                    <div class="card mb-4">
-                        <div class="card-body">
-
-                            <div class="row mb-2">
-                                <div class="col-md-6 mb-2">
-                                    <label class="col-md-12 mb-2">Filter Berdasarkan: <span style="color: red;"></label>
-                                    <select class="form-select" id="pilihZona" name="zona" style="width: 100%;">
-                                        <option></option>
-                                        <?php $firstZona = reset($dataZona); ?>
-                                        <?php foreach ($dataZona as $Z) : ?>
-                                            <option value=" <?= $Z->id_zona ?>"><?= $Z->nama_zona ?></option>
-                                        <?php endforeach ?>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="table-content overflow-auto" id="table-content-byZona">
-                                <h6 class="pt-2 pb-2">Zona: semua zona</h6>
-                                <table id="datatablesSimples" class="table table-striped row-border hover" style="width: 100%;">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Nama Zona</th>
-                                            <th>Kawasan</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php $i = 1 ?>
-                                        <?php foreach ($dataKawasan as $K) : ?>
-                                            <tr>
-                                                <td><?= $i++; ?></td>
-                                                <td><?= $K->nama_zona; ?></td>
-                                                <td><?= $K->kode_kawasan; ?></td>
-                                                <td>
-                                                    <div class="d-inline-flex gap-1">
-                                                        <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                            <a href="/admin/zona/edit/<?= $K->id_znkwsn; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        <?php endforeach ?>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                        </div>
-                    </div>
-
                 </div>
             </main><!-- End #main -->
 
@@ -190,23 +139,6 @@
             $("#pilihZona").select2({
                 placeholder: "Pilih Berdasarkan Zona",
                 allowClear: true
-            });
-        });
-    </script>
-    <script>
-        $("#pilihZona").change(function(e) {
-            e.preventDefault();
-            let zona = $("#pilihZona").val();
-            console.log(zona);
-            $.ajax({
-                type: "POST",
-                url: `/admin/kawasanByZona/${zona}`,
-                data: zona,
-                dataType: "html",
-            }).done(function(response) {
-                $("#table-content-byZona").html(response);
-            }).fail(function(error) {
-                console.error('Error:', error);
             });
         });
     </script>
