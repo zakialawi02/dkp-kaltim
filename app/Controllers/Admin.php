@@ -306,21 +306,71 @@ class Admin extends BaseController
         ];
         return view('admin/k_kawasan', $data);
     }
-    public function kesesuaian()
-    {
-        $data = [
-            'title' => 'Data Kesesuaian',
-            'dataZona' => $this->zona->getZona()->getResult(),
-            'dataKesesuaian' => $this->kesesuaian->getKesesuaian()->getResult(),
-        ];
-        // dd($data['dataKesesuaian']);
-        return view('admin/k_kesesuaian', $data);
-    }
     public function kawasanByZona($id_zona)
     {
         $data = [
             'dataKawasan' => $this->kawasan->getZKawasan($id_zona)->getResult(),
         ];
         return view('serverSide/tblKawasanByZona', $data);
+    }
+    public function kesesuaian()
+    {
+        $id_zona = $this->request->getGet('zona');
+        $data = [
+            'title' => 'Data Kesesuaian',
+            'zona' => $id_zona,
+            'dataZona' => $this->zona->getZona()->getResult(),
+            'dataKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
+        ];
+        if (!empty($id_zona)) {
+            $data['dataKesesuaian'] = $this->kesesuaian->getKesesuaianByZona($id_zona)->getResult();
+        } else {
+            $data['dataKesesuaian'] = $this->kesesuaian->getKesesuaianByZona()->getResult();
+        }
+        // dd($data['dataKesesuaian']);
+        return view('admin/k_kesesuaian', $data);
+    }
+    public function kesesuaianByZona()
+    {
+        $id_zona = $this->request->getGet('zona');
+        if (!empty($id_zona)) {
+            $data = [
+                'dataKesesuaian' => $this->kesesuaian->getKesesuaianByZona($id_zona)->getResult(), 'zona' => $id_zona,
+            ];
+        } else {
+            $data = [
+                'dataKesesuaian' => $this->kesesuaian->getKesesuaianByZona()->getResult(), 'zona' => $id_zona,
+            ];
+        }
+        return view('serverSide/tblKesesuaianByZona', $data);
+    }
+
+    public function dataKesesuaian($id_kesesuaian, $kode_kawasan)
+    {
+        $response = $this->kesesuaian->getKesesuaian($id_kesesuaian, $kode_kawasan)->getResultArray();
+        echo "<pre>";
+        print_r($response);
+        die;
+        return $this->response->setJSON($response);
+    }
+
+    public function tambahAturanKesesuaian()
+    {
+        $data = [
+            'id_zona' => $this->request->getPost('tambahZona'),
+            'kode_kegiatan' => $this->request->getPost('tambahKegiatan'),
+            'sub_zona' => $this->request->getPost('tambahSubZona'),
+            'status' => $this->request->getPost('tambahStatus'),
+        ];
+        $this->kesesuaian->save($data);
+        return $this->response->setJSON('ok');
+    }
+    public function delete_kesesuaian($id_kesesuaian)
+    {
+        $this->kesesuaian->delete(['id_kes$id_kesesuaian' => $id_kesesuaian]);
+        $data = [
+            'dataKesesuaian' => $this->kesesuaian->getKesesuaian()->getResult(),
+        ];
+        // return view('serverSide/tblKesesuaianByZona', $data);
     }
 }

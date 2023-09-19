@@ -62,11 +62,55 @@ class ModelKesesuaian extends Model
                     'tbl_kesesuaian.id_zona' => $id_zona,
                     'kode_kawasan' => $kode_kawasan,
                 ]);
+        } else if (!empty($kode_kegiatan) && !empty($kode_kawasan) && !empty($sub_zona)) {
+            return $query->orderBy('tbl_kesesuaian.id_zona', 'ASC')
+                ->orderBy('tbl_kesesuaian.id_zona', 'ASC')
+                ->getWhere([
+                    'tbl_kesesuaian.kode_kegiatan' => $kode_kegiatan,
+                    'tbl_kesesuaian.id_zona' => $id_zona,
+                    'kode_kawasan' => $kode_kawasan,
+                ]);
         } else {
             return $query->orderBy('tbl_kesesuaian.id_zona', 'ASC')
                 ->orderBy('tbl_kegiatan.id_kegiatan', 'ASC')
                 ->get();
         }
+    }
+
+    public function getKesesuaianByZona($id_zona = false)
+    {
+        if ($id_zona === false) {
+            return $this->db->table('tbl_kesesuaian')
+                ->select('tbl_kesesuaian.*, tbl_kegiatan.*, tbl_zona.*')
+                ->join('tbl_kegiatan', 'tbl_kegiatan.kode_kegiatan = tbl_kesesuaian.kode_kegiatan', 'LEFT')
+                ->join('tbl_zona', 'tbl_zona.id_zona = tbl_kesesuaian.id_zona', 'LEFT')
+                ->orderBy('tbl_kesesuaian.id_zona', 'ASC')
+                ->orderBy('tbl_kegiatan.id_kegiatan', 'ASC')
+                ->get();
+        } else {
+            return $this->db->table('tbl_kesesuaian')
+                ->select('tbl_kesesuaian.*, tbl_kegiatan.*, tbl_zona.*')
+                ->join('tbl_kegiatan', 'tbl_kegiatan.kode_kegiatan = tbl_kesesuaian.kode_kegiatan', 'LEFT')
+                ->join('tbl_zona', 'tbl_zona.id_zona = tbl_kesesuaian.id_zona', 'LEFT')
+                ->orderBy('tbl_kesesuaian.id_zona', 'ASC')
+                ->orderBy('tbl_kegiatan.id_kegiatan', 'ASC')
+                ->Where(['tbl_kesesuaian.id_zona' => $id_zona])
+                ->get();
+        }
+    }
+
+    public function getKesesuaianByKawasan($id_zona)
+    {
+        return $query = $this->db->table('tbl_kesesuaian')
+            ->select('tbl_kesesuaian.*, tbl_kegiatan.*, tbl_zona.*, tbl_zona_kawasan.kode_kawasan as kawasan')
+            ->join('tbl_kegiatan', 'tbl_kegiatan.kode_kegiatan = tbl_kesesuaian.kode_kegiatan', 'LEFT')
+            ->join('tbl_zona', 'tbl_zona.id_zona = tbl_kesesuaian.id_zona', 'LEFT')
+            ->join('tbl_zona_kawasan', 'tbl_zona_kawasan.id_zona = tbl_kesesuaian.id_zona', 'LEFT')
+            ->orderBy('tbl_kesesuaian.id_zona', 'ASC')
+            ->orderBy('tbl_kegiatan.id_kegiatan', 'ASC')
+            ->getWhere([
+                'tbl_kesesuaian.id_zona' => $id_zona,
+            ]);
     }
 
     public function selectedByKegiatan($kode_kegiatan)
