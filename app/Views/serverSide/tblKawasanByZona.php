@@ -1,4 +1,3 @@
-<h6 class="pt-2 pb-2">Zona: <?= $dataKawasan[0]->nama_zona ?? "-"; ?></h6>
 <table id="datatablesSimples" class="table table-striped row-border hover" style="width: 100%;">
     <thead>
         <tr>
@@ -18,7 +17,14 @@
                 <td>
                     <div class="d-inline-flex gap-1">
                         <div class="btn-group mr-2" role="group" aria-label="First group">
-                            <a href="/admin/zona/edit/<?= $K->id_znkwsn; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
+                            <form action="/admin/" method="post">
+                                <button type="button" class="asbn btn btn-primary bi bi-pencil-square" data-bs-toggle="modal" data-bs-target="#modalEdit" onclick="editkan(<?= $K->id_znkwsn; ?>)"></button>
+                            </form>
+                        </div>
+                        <div class="btn-group mr-2" role="group" aria-label="First group">
+                            <form action="/admin/" method="post">
+                                <button type="button" class="asbn btn btn-danger bi bi-trash" onclick="hapuskan(<?= $K->id_znkwsn; ?>)"></button>
+                            </form>
                         </div>
                     </div>
                 </td>

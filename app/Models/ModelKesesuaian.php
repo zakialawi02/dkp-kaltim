@@ -13,7 +13,7 @@ class ModelKesesuaian extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['status', 'id_zona', 'kode_kegiatan'];
+    protected $allowedFields    = ['status', 'id_zona', 'kode_kegiatan', 'sub_zona'];
 
     public function getKesesuaian($id_kesesuaian = false)
     {

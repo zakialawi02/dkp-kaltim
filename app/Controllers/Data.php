@@ -140,7 +140,6 @@ class Data extends BaseController
         ];
         $addStatus = $this->izin->addStatus($status);
 
-
         if ($addPengajuan && $addStatus) {
             session()->setFlashdata('success', 'Data Berhasil ditambahkan.');
             return $this->response->redirect(site_url('/dashboard'));
@@ -275,13 +274,13 @@ class Data extends BaseController
     {
         $data = [
             'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
-            'objectID' => $this->request->getPost('id'),
-            'kawasan' => $this->request->getPost('kawasan'),
-            'objectName' => $this->request->getPost('name'),
-            'kode' => $this->request->getPost('kode'),
-            'orde' => $this->request->getPost('orde'),
-            'remark' => $this->request->getPost('remark'),
-            'geojsonFeature' => $this->request->getPost('geojsonFeature'),
+            'objectID' => $this->request->getVar('id'),
+            'kawasan' => $this->request->getVar('kawasan'),
+            'objectName' => $this->request->getVar('name'),
+            'kode' => $this->request->getVar('kode'),
+            'orde' => $this->request->getVar('orde'),
+            'remark' => $this->request->getVar('remark'),
+            'geojsonFeature' => $this->request->getVar('geojsonFeature'),
         ];
 
         // echo '<pre>';
@@ -293,15 +292,9 @@ class Data extends BaseController
 
     public function cekStatus()
     {
-        $kkp3k = ['KKP3K-01', 'KKP3K-02', 'KKP3K-02', 'KKP3K-03', 'KKP3K-04', 'KKP3K-05', 'KKP3K-06', 'KKP3K-07', 'KKP3K-08', 'KKP3K-09', 'KKP3K-10', 'KKP3K-11', 'KKP3K-12', 'KKP3K-13', 'KKP3K-14', 'KKP3K-15', 'KKP3K-16', 'KKP3K-17', 'KKP3K-18', 'KKP3K-20', 'KKP3K-21', 'KKP3K-22', 'KKP3K-23', 'KKP3K-24', 'KKP3K-25', 'KKP3K-27', 'KKP3K-30', 'TWAL-01', 'SML-01'];
-        $kkp3kzi = ['KK-P3K-ZI-01', 'KK-P3K-ZI-02', 'KK-P3K-ZI-03', 'KK-P3K-ZI-04', 'KK-P3K-ZI-05', 'KK-P3K-ZI-06'];
-        $kkp3kzl = ['KK-P3K-ZL-01', 'KK-P3K-ZL-02', 'KK-P3K-ZL-03', 'KK-P3K-ZL-04', 'KK-P3K-ZL-05', 'KK-P3K-ZL-06'];
-        $kkp3kzpt = ['KK-P3K-ZPT-01', 'KK-P3K-ZPT-02', 'KK-P3K-ZPT-03', 'KK-P3K-ZPT-04', 'KK-P3K-ZPT-05', 'KK-P3K-ZPT-06', 'KK-P3K-ZPT-07', 'KK-P3K-ZPT-08', 'KK-P3K-ZPT-09', 'KK-P3K-ZPT-10', 'KK-P3K-ZPT-11', 'KK-P3K-ZPT-12', 'KK-P3K-ZPT-13', 'KK-P3K-ZPT-14', 'KK-P3K-ZPT-15', 'KK-P3K-ZPT-16', 'KK-P3K-ZPT-17', 'KK-P3K-ZPT-18', 'KK-P3K-ZPT-19', 'KK-P3K-ZPT-20', 'KK-P3K-ZPT-21'];
-        $kkp = ['KKP-01', 'KKP-02', 'KKP-06', 'KKP-03', 'KKP-04', 'KKP-05'];
-        $kkm = ['KKM-01', 'KKM-02'];
         $result = [];
-        $getOverlapProperties = $this->request->getPost('getOverlapProperties');
-        $valKegiatan = $this->request->getPost('valKegiatan');
+        $getOverlapProperties = $this->request->getVar('getOverlapProperties');
+        $valKegiatan = $this->request->getVar('valKegiatan');
         $fecthKegiatan = $this->kegiatan->getJenisKegiatan($valKegiatan)->getResult();
         $KodeKegiatan = $fecthKegiatan[0]->kode_kegiatan;
 
@@ -311,8 +304,8 @@ class Data extends BaseController
                 "Zona Inti" => "Inti",
                 "Zona Pemanfaatan Terbatas" => "ZPT",
                 "Zona Lainnya" => "Lainnya",
-                "KKM" => "Inti",
-                "KKP3K" => "Inti",
+                "KKM" => "Lainnya",
+                "KKP3K" => "Lainnya",
             ];
             // Loop untuk mengganti nilai berdasarkan list
             foreach ($getOverlapProperties as $item) {
@@ -412,48 +405,14 @@ class Data extends BaseController
         dd($dd);
     }
 
-    // public function dumpp()
-    // {
-    //     $kode_kegiatan = "K1";
-    //     // $id_zona = ["5"];
-    //     // $kode_kawasan = ["KPU-W-02"];
-    //     $id_zona = ["5", "2", "6"];
-    //     $kode_kawasan = ["KPU-W-02", "KPU-W-11", "KK-P3K-ZPT-14", "KPU-PL-15"];
-    //     $dd = [];
 
-    //     $zone = [1, 2, 3, 4];
-    //     foreach ($zone as $val) {
-    //         $dd[] = $this->kawasan->getZKawasan($val)->getResult();
-    //     }
-    //     $dd = array_merge(...$dd);
-    //     foreach ($dd as $row) {
-    //         $code[] = $row->kode_kawasan;
-    //     }
-
-    //     for ($i = 0; $i < count($id_zona); $i++) {
-    //         if (in_array($id_zona[$i], $zone)) {
-    //             for ($ii = 0; $ii < count($kode_kawasan); $ii++) {
-    //                 $kode_kawasan[$ii];
-    //                 if (in_array($kode_kawasan[$ii], $code)) {
-    //                     echo $kode_kawasan[$ii];
-    //                 }
-    //             }
-    //             echo "ada konservasi" . "<br>";
-    //         } else {
-    //             foreach ($kode_kawasan as $value) {
-    //                 echo $id_zona[$i] . "<br>";
-    //                 $ddt = $this->kesesuaian->searchKesesuaian($kode_kegiatan, $id_zona[$i], $value)->getResult();
-    //                 if (!empty($ddt)) {
-    //                     $dd[] = $ddt;
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     echo '<pre>';
-    //     // print_r($dd);
-    //     die;
-    //     dd($dd);
-    // }
+    public function dumpp()
+    {
+        $id_zona = "15";
+        $kode_kawasan = "KPU-TB-77";
+        $dd = $this->kawasan->cekDuplikat($id_zona, $kode_kawasan)->getResult();
+        dd($dd);
+    }
     public function dumpkeg()
     {
         $valKegiatan = "138";
