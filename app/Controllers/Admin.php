@@ -297,13 +297,21 @@ class Admin extends BaseController
         ];
         return view('admin/k_jenisZona', $data);
     }
+
+
     public function kawasan()
     {
+        $id_zona = $this->request->getGet('zona');
         $data = [
             'title' => 'Data Kawasan',
+            'zona' => $id_zona,
             'dataZona' => $this->zona->getZona()->getResult(),
-            'dataKawasan' => $this->kawasan->getKawasan()->getResult(),
         ];
+        if (!empty($id_zona)) {
+            $data['dataKawasan'] = $this->kawasan->getZKawasan($id_zona)->getResult();
+        } else {
+            $data['dataKawasan'] = $this->kawasan->getZKawasan()->getResult();
+        }
         return view('admin/k_kawasan', $data);
     }
     public function kawasanByZona($id_zona)
@@ -313,6 +321,29 @@ class Admin extends BaseController
         ];
         return view('serverSide/tblKawasanByZona', $data);
     }
+    public function tambahKawasan()
+    {
+        $data = [
+            'id_zona' => $this->request->getPost('tambahZona'),
+            'kode_kawasan' => $this->request->getPost('tambahKawasan'),
+        ];
+        $cek = $this->kawasan->cekDuplikat($data['id_zona'], $data['kode_kawasan'])->getRow();
+        if (!empty($cek)) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Data sudah ada dalam database.']);
+        }
+        $this->kawasan->save($data);
+        return $this->response->setJSON(['status' => 'success', 'message' => 'Data berhasil ditambahkan.']);
+    }
+    public function delete_kawasan($id_znkwsn)
+    {
+        $this->kawasan->delete(['id_kes$id_znkwsn' => $id_znkwsn]);
+        $data = [
+            'dataKawasan' => $this->kawasan->getZKawasan()->getResult(),
+        ];
+        return $this->response->setJSON('success');
+    }
+
+
     public function kesesuaian()
     {
         $id_zona = $this->request->getGet('zona');
@@ -327,7 +358,6 @@ class Admin extends BaseController
         } else {
             $data['dataKesesuaian'] = $this->kesesuaian->getKesesuaianByZona()->getResult();
         }
-        // dd($data['dataKesesuaian']);
         return view('admin/k_kesesuaian', $data);
     }
     public function kesesuaianByZona()
@@ -344,16 +374,11 @@ class Admin extends BaseController
         }
         return view('serverSide/tblKesesuaianByZona', $data);
     }
-
-    public function dataKesesuaian($id_kesesuaian, $kode_kawasan)
+    public function dataKesesuaian($id_kesesuaian)
     {
-        $response = $this->kesesuaian->getKesesuaian($id_kesesuaian, $kode_kawasan)->getResultArray();
-        echo "<pre>";
-        print_r($response);
-        die;
+        $response = $this->kesesuaian->getKesesuaian($id_kesesuaian)->getResult();
         return $this->response->setJSON($response);
     }
-
     public function tambahAturanKesesuaian()
     {
         $data = [
@@ -363,14 +388,26 @@ class Admin extends BaseController
             'status' => $this->request->getPost('tambahStatus'),
         ];
         $this->kesesuaian->save($data);
-        return $this->response->setJSON('ok');
+        return $this->response->setJSON('success');
+    }
+    public function updateAturanKesesuaian($id_kesesuaian)
+    {
+        $data = [
+            'id_kesesuaian' => $id_kesesuaian,
+            'id_zona' => $this->request->getPost('editZona'),
+            'kode_kegiatan' => $this->request->getPost('editKegiatan'),
+            'sub_zona' => $this->request->getPost('editSubZona'),
+            'status' => $this->request->getPost('editStatus'),
+        ];
+        $this->kesesuaian->save($data);
+        return $this->response->setJSON('success');
     }
     public function delete_kesesuaian($id_kesesuaian)
     {
-        $this->kesesuaian->delete(['id_kes$id_kesesuaian' => $id_kesesuaian]);
+        $this->kesesuaian->delete(['id_kesesuaian' => $id_kesesuaian]);
         $data = [
             'dataKesesuaian' => $this->kesesuaian->getKesesuaian()->getResult(),
         ];
-        // return view('serverSide/tblKesesuaianByZona', $data);
+        return $this->response->setJSON('success');
     }
 }

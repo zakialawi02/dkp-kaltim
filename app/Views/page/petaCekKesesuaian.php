@@ -1264,7 +1264,7 @@
             var act = "/data/cekData";
             $.ajax({
                 url: act,
-                method: "POST",
+                method: "GET",
                 data: {
                     id,
                     kawasan,

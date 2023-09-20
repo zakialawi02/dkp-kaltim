@@ -80,44 +80,60 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
+                                <div class="load-data text-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
                                 <div class="tempatEdit">
-                                    <input type="hidden" id="id_kesesuaian" value="">
-                                    <div class="mb-3">
-                                        <label for="editZona" class="form-label">Zona</label>
-                                        <select class="form-select select2" name="editZona" id="editZona" style="width: 100%;" required>
-                                            <option></option>
-                                            <?php foreach ($dataZona as $Z) : ?>
-                                                <option value="<?= $Z->id_zona; ?>"><?= $Z->nama_zona; ?></option>
-                                            <?php endforeach ?>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="editKawasan" class="form-label">Kawasan</label>
-                                        <input class="form-control form-control-sm" type="text" placeholder="kode kawasan" aria-label=".form-control-sm" name="editKawasan" id="editKawasan" value="" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="editKegiatan" class="form-label">Jenis Kegiatan</label>
-                                        <select class="form-select select2" name="editKegiatan" id="editKegiatan" style="width: 100%;" required>
-                                            <option> </option>
-                                            <?php foreach ($dataKegiatan as $kg) : ?>
-                                                <option value="<?= $kg->kode_kegiatan; ?>"><?= $kg->id_kegiatan; ?>. <?= $kg->nama_kegiatan; ?></option>
-                                            <?php endforeach ?>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="editStatus" class="form-label">Status Kesesuaian</label>
-                                        <?php $status_enum = ['diperbolehkan', 'diperbolehkan bersyarat', 'tidak diperbolehkan'] ?>
-                                        <select class="form-select form-select-sm" name="editStatus" id="editStatus" required>
-                                            <?php foreach ($status_enum as $S) : ?>
-                                                <option value="<?= $S; ?>"><?= $S; ?></option>
-                                            <?php endforeach ?>
-                                        </select>
-                                    </div>
-                                    <p class="form-text d-none notempty" style="color: red;"><i>Pola Ruang, Kawasan, Kegiatan</i> Tidak Boleh Kosong</p>
-                                    <button type="button" role="button" class="btn btn-primary" id="updatekan">Simpan</button>
+                                    <form id="editForm" method="post">
+                                        <?php csrf_field() ?>
+                                        <input type="hidden" id="id_kesesuaian" value="">
+                                        <div class="mb-3">
+                                            <label for="editZona" class="form-label">Zona</label>
+                                            <select class="form-select select2" name="editZona" id="editZona" style="width: 100%;" required>
+                                                <option></option>
+                                                <?php foreach ($dataZona as $Z) : ?>
+                                                    <option value="<?= $Z->id_zona; ?>"><?= $Z->nama_zona; ?></option>
+                                                <?php endforeach ?>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3 editSubZona">
+                                            <label for="editSubZona" class="form-label">Sub Zona</label>
+                                            <select class="form-select form-select-sm" name="editSubZona" id="editSubZona" style="width: 100%;">
+                                                <option value="Inti">Zona Inti</option>
+                                                <option value="ZPT">Zona Pemanfaatan Terbatas</option>
+                                                <option value="Lainnya">Zona Lainnya</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editKegiatan" class="form-label">Jenis Kegiatan</label>
+                                            <select class="form-select select2" name="editKegiatan" id="editKegiatan" style="width: 100%;" required>
+                                                <option> </option>
+                                                <?php foreach ($dataKegiatan as $kg) : ?>
+                                                    <option value="<?= $kg->kode_kegiatan; ?>"><?= $kg->id_kegiatan; ?>. <?= $kg->nama_kegiatan; ?></option>
+                                                <?php endforeach ?>
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="editStatus" class="form-label">Status Kesesuaian</label>
+                                            <?php $status_enum = ['diperbolehkan', 'diperbolehkan bersyarat', 'tidak diperbolehkan'] ?>
+                                            <select class="form-select form-select-sm" name="editStatus" id="editStatus" required>
+                                                <?php foreach ($status_enum as $S) : ?>
+                                                    <option value="<?= $S; ?>"><?= $S; ?></option>
+                                                <?php endforeach ?>
+                                            </select>
+                                        </div>
+                                        <div class="form-text" id="textHelp" style="color: red;"></div>
+                                        <div class="p-1 text-end">
+                                            <button type="button" role="button" class="btn btn-primary" id="updatekan">Simpan</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -130,7 +146,7 @@
                     <div class="card mb-4">
                         <div class="card-body">
 
-                            <form action="/admin/tambahAturanKesesuaian" method="post">
+                            <form id="tambahForm" method="post">
                                 <?php csrf_field() ?>
                                 <div class="row">
                                     <div class="col-md-10">
@@ -151,9 +167,9 @@
                                                     <div class="mb-3">
                                                         <label for="tambahSubZona" class="form-label">Sub Zona</label>
                                                         <select class="form-select form-select-sm" name="tambahSubZona" id="tambahSubZona" style="width: 100%;">
-                                                            <option value="Zona Inti">Zona Inti</option>
-                                                            <option value="Zona Pemanfaatan Terbatas">Zona Pemanfaatan Terbatas</option>
-                                                            <option value="Zona Lainnya">Zona Lainnya</option>
+                                                            <option value="Inti">Zona Inti</option>
+                                                            <option value="ZPT">Zona Pemanfaatan Terbatas</option>
+                                                            <option value="Lainnya">Zona Lainnya</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -184,6 +200,7 @@
                                             </div>
 
                                         </div>
+                                        <div class="form-text" id="textHelp" style="color: red;"></div>
                                     </div>
                                     <div class="col-md-2 align-self-center">
                                         <div class="col-auto">
@@ -226,7 +243,6 @@
                                             <th>#</th>
                                             <th>Zona</th>
                                             <th>Sub Zona</th>
-                                            <th>Kode Kegiatan</th>
                                             <th>Nama Kegiatan</th>
                                             <th>Status Kesesuaian</th>
                                             <th>Aksi</th>
@@ -250,7 +266,6 @@
                                                 <td><?= $i++; ?></td>
                                                 <td><?= $K->nama_zona; ?></td>
                                                 <td><?= $K->sub_zona ?? "-"; ?></td>
-                                                <td><?= $K->kode_kegiatan; ?></td>
                                                 <td><?= $K->nama_kegiatan; ?></td>
                                                 <td style="color: <?= ($K->status == "diperbolehkan") ? 'green' : (($K->status == "diperbolehkan bersyarat") ? 'brown' : 'red'); ?>;"><?= $K->status; ?></td>
                                                 <td>
@@ -326,7 +341,6 @@
             $.ajax({
                 type: "GET",
                 url: `/admin/kesesuaianByZona?zona=${zona}`,
-                data: zona,
                 dataType: "html",
             }).done(function(response) {
                 $("h6[class='pt-2 pb-2']").text($("#pilihZona").find(":selected").text());
@@ -335,15 +349,15 @@
                 console.error('Error:', error);
             });
         }
+        $("#pilihZona").select2({
+            placeholder: "Pilih Kegiatan",
+            allowClear: true
+        });
         $("#tambahZona").select2({
             placeholder: "Pilih Zona",
             allowClear: true
         });
         $("#tambahKegiatan").select2({
-            placeholder: "Pilih Kegiatan",
-            allowClear: true
-        });
-        $("#pilihZona").select2({
             placeholder: "Pilih Kegiatan",
             allowClear: true
         });
@@ -357,25 +371,54 @@
             dropdownParent: $("#modalEdit"),
             allowClear: true
         });
+        let subzona;
+        let strictZone = ["Kawasan Konservasi Lainnya", "Taman", "Kawasan Konservasi Maritim", "Pencadangan/Indikasi Kawasan Konservasi"];
         $("#tambahZona").change(function() {
             let valueZona = $("#tambahZona").find(":selected").text();
-            let strictZone = ["Kawasan Konservasi Lainnya", "Taman", "Kawasan Konservasi Maritim", "Pencadangan/Indikasi Kawasan Konservasi"];
             if (strictZone.includes(valueZona)) {
                 $(".tambahSubZona").removeClass("d-none");
                 $("#tambahSubZona").prop("required", true);
+                subzona = true;
             } else {
                 $(".tambahSubZona").addClass("d-none");
                 $("#tambahSubZona").prop("required", false);
-                $("#tambahSubZona").val("");
+                subzona = false;
+            }
+        });
+        $("#editZona").change(function() {
+            let valueZona = $("#editZona").find(":selected").text();
+            if (strictZone.includes(valueZona)) {
+                $(".editSubZona").removeClass("d-none");
+                $("#editSubZona").prop("required", true);
+                subzona = true;
+            } else {
+                $(".editSubZona").addClass("d-none");
+                $("#editSubZona").prop("required", false);
+                subzona = false;
             }
         });
 
         $("#tambahkan").click(function(e) {
             e.preventDefault();
+            $("#tambahForm #textHelp").html("");
             let tambahZona = $("#tambahZona").val();
-            let tambahSubZona = $("#tambahSubZona").val();
+            let tambahSubZona = null;
+            if (subzona) {
+                tambahSubZona = $("#tambahSubZona").val();
+            }
             let tambahKegiatan = $("#tambahKegiatan").val();
             let tambahStatus = $("#tambahStatus").val();
+            let isValid = true;
+            $("#tambahForm select[required]").each(function() {
+                if ($(this).val() == "" || $(this).val() == null) {
+                    isValid = false;
+                    return;
+                }
+            });
+            if (!isValid) {
+                $("#tambahForm #textHelp").html("Harap isi semua kolom yang ada");
+                return;
+            }
             $.ajax({
                 method: "POST",
                 url: `/admin/tambahAturanKesesuaian`,
@@ -387,11 +430,11 @@
                 },
                 dataType: "html",
             }).done(function(response) {
+                loadTabelKesesuaian();
                 ToastSuccess.fire({
                     icon: 'success',
                     title: 'Berhasil Menambahkan Data'
                 })
-                loadTabelKesesuaian();
             }).fail(function(error) {
                 console.error('Error:', error);
                 ToastSuccess.fire({
@@ -400,17 +443,76 @@
                 })
             });
         });
-
-        function editkan(id_kesesuaian, kode_kawasan) {
-            console.log(id_kesesuaian);
-            console.log(kode_kawasan);
-            $.ajax({
-                type: "json",
-                url: `/admin/dataKesesuaian/${id_kesesuaian}/${kode_kawasan}`,
-                dataType: "json",
-                success: function(response) {
-                    console.log(response);
+        $("#updatekan").click(function(e) {
+            $("#editForm #textHelp").html("");
+            e.preventDefault();
+            let editZona = $("#editZona").val();
+            let editSubZona = null;
+            if (subzona) {
+                editSubZona = $("#editSubZona").val();
+            }
+            let editKegiatan = $("#editKegiatan").val();
+            let editStatus = $("#editStatus").val();
+            let isValid = true;
+            $("#editForm select[required]").each(function() {
+                if ($(this).val() == "" || $(this).val() == null) {
+                    isValid = false;
+                    return false;
                 }
+            });
+            if (!isValid) {
+                $("#editForm  #textHelp").html("Harap isi semua kolom yang ada");
+                return;
+            }
+            const url = $("#editForm").attr("action");
+            $.ajax({
+                method: "POST",
+                url: url,
+                data: {
+                    editZona,
+                    editSubZona,
+                    editKegiatan,
+                    editStatus
+                },
+                dataType: "html",
+            }).done(function(response) {
+                ToastSuccess.fire({
+                    icon: 'success',
+                    title: 'Berhasil Memperbarui Data'
+                })
+                $("#modalEdit").modal("hide");
+                $(".modal-backdrop").modal("hide");
+                loadTabelKesesuaian();
+            }).fail(function(error) {
+                console.error('Error:', error);
+                ToastSuccess.fire({
+                    icon: 'error',
+                    title: 'Gagal Memperbarui Data'
+                });
+                $("#modalEdit").modal("hide");
+                $(".modal-backdrop").modal("hide");
+            });
+        });
+
+        function editkan(id_kesesuaian) {
+            $(".load-data").removeClass("d-none");
+            $(".tempatEdit").addClass("d-none");
+            $.ajax({
+                method: "GET",
+                url: `/admin/dataKesesuaian/${id_kesesuaian}`,
+                dataType: "json",
+            }).done(function(response) {
+                $(".load-data").addClass("d-none");
+                $(".tempatEdit").removeClass("d-none");
+                let data = response[0];
+                const url = `/admin/updateAturanKesesuaian/${data.id_kesesuaian}`
+                $("#editForm").attr("action", url);
+                $("#editZona").val(data.id_zona).trigger('change');
+                $("#editSubZona").val(data.sub_zona);
+                $("#editKegiatan").val(data.kode_kegiatan).trigger('change');
+                $("#editStatus").val(data.status);
+            }).fail(function(error) {
+                console.error('Error:', error);
             });
         }
 
@@ -435,11 +537,11 @@
                         },
                         dataType: "html",
                     }).done(function(response) {
+                        loadTabelKesesuaian();
                         ToastSuccess.fire({
                             icon: 'success',
                             title: 'Berhasil Menghapus Data'
                         })
-                        loadTabelKesesuaian();
                     }).fail(function(error) {
                         console.error('Error:', error);
                         ToastSuccess.fire({
@@ -451,29 +553,6 @@
             })
         }
     </script>
-
-    <?php if (session()->getFlashdata('success')) : ?>
-        <script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Success!',
-                text: '<?= session()->getFlashdata('success'); ?>',
-                timer: 1500,
-            });
-        </script>
-    <?php endif; ?>
-
-    <?php if (session()->getFlashdata('error')) : ?>
-        <script>
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: '<?= session()->getFlashdata('error'); ?>',
-                timer: 1500,
-            });
-        </script>
-    <?php endif; ?>
-
 
 
 </body>
