@@ -131,12 +131,10 @@
                             <h5>Berkas</h5>
                             <div class="p-md-2 d-md-inline-flex gap-2">
                                 <?php if ($tampilDataIzin->uploadFiles != null) : ?>
-                                    <?php $uploadFiles = explode(",", $tampilDataIzin->uploadFiles); ?>
-                                    <?php foreach ($uploadFiles as $file) : ?>
-                                        <?php $file = trim($file, '()"'); ?>
+                                    <?php foreach ($tampilDataIzin->uploadFiles as $file) : ?>
                                         <div class="card mb-3" style="max-width: 500px;">
                                             <div class="card-body file">
-                                                <p class="card-text"><a href="/dokumen/upload-dokumen/<?= $file; ?>" target="_blank"><?= $file; ?></a></p>
+                                                <p class="card-text"><a href="/dokumen/upload-dokumen/<?= $file->uploadFiles; ?>" target="_blank"><?= $file->uploadFiles; ?></a></p>
                                             </div>
                                         </div>
                                     <?php endforeach ?>

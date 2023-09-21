@@ -259,7 +259,7 @@
                                             <?php
                                             $bold = '';
                                             if ($prevKodeKegiatan === $K->kode_kegiatan && $prevIdZona === $K->id_zona && $prevSubZona === $K->sub_zona) {
-                                                $bold = 'font-weight:bold; background-color:red;';
+                                                $bold = 'font-weight:bold; background-color:orange;';
                                             }
                                             ?>
                                             <tr style="<?= $bold ?>">
@@ -343,7 +343,7 @@
                 url: `/admin/kesesuaianByZona?zona=${zona}`,
                 dataType: "html",
             }).done(function(response) {
-                $("h6[class='pt-2 pb-2']").text($("#pilihZona").find(":selected").text());
+                $("h6[class='pt-2 pb-2']").text("Zona: " + $("#pilihZona").find(":selected").text());
                 $("#table-content-byZona").html(response);
             }).fail(function(error) {
                 console.error('Error:', error);

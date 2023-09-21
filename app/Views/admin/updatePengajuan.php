@@ -67,6 +67,11 @@
             font-weight: 700;
             border-radius: 12px;
         }
+
+        .filepond {
+            width: 100% !important;
+            height: auto;
+        }
     </style>
 </head>
 
@@ -157,16 +162,7 @@
 
                                             <h5>c. Upload Berkas</h5>
 
-                                            <?php if ($tampilIzin->uploadFiles != null) : ?>
-                                                <?php $uploadFiles = explode(",", $tampilIzin->uploadFiles); ?>
-                                                <?php foreach ($uploadFiles as $file) : ?>
-                                                    <?php $file = trim($file, '()"'); ?>
-
-                                                <?php endforeach ?>
-                                                <input type="file" class="filepond" name="filepond[]" value="<?= $file; ?>" multiple />
-                                            <?php else : ?>
-                                                <input type="file" class="filepond" name="filepond[]" value="" multiple />
-                                            <?php endif ?>
+                                            <input type="file" class="filepond" name="filepond[]" value="" multiple data-dokumenUp="<?= $tampilIzin->id_perizinan; ?>" />
 
 
                                             <button type="submit" id="lanjutKirim" class="btn btn-primary lanjutKirim" onclick="kirim()">Perbarui</button>
@@ -234,15 +230,62 @@
         });
     </script>
     <script>
+        const files = [];
+        const loadUploaded = <?= json_encode($tampilIzin->files) ?>;
+        loadUploaded.forEach(function(file) {
+            const source = file.source;
+            const options = file.options;
+            files.push({
+                source: source,
+                options: options
+            });
+        });
         // Get a file input reference
         const input = document.querySelector('input[type="file"]');
-
+        const dokumenUp = input.getAttribute('data-dokumenUp');
         // Create a FilePond instance
-        FilePond.create(input, {
-            storeAsFile: true,
+        const pond = FilePond.create(input, {
             allowMultiple: true,
-            credits: false,
+            allowProcess: true,
+            withCredentials: true,
+            server: {
+                process: {
+                    url: `/data/uploadDoc?dokumenUp=${dokumenUp}`,
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '<?= csrf_hash() ?>'
+                    }
+                },
+                revert: (FileId, load, error) => {
+                    const data = JSON.parse(FileId);
+                    deleteFile(data.file);
+                    error('Error terjadi saat delete file');
+                    load();
+                },
+                headers: {
+                    'X-CSRF-TOKEN': '<?= csrf_hash() ?>'
+                },
+                load: {
+                    url: '/dokumen/upload-dokumen/',
+                    method: 'GET',
+                    headers: {
+                        'X-CSRF-TOKEN': '<?= csrf_hash() ?>'
+                    }
+                },
+                fetch: null,
+            },
+            files: files
         });
+
+        function deleteFile(nameFile) {
+            $.ajax({
+                url: '/data/revertDoc',
+                type: "POST",
+                data: {
+                    fileName: nameFile
+                }
+            });
+        }
     </script>
 
     <!-- Open Layers Component -->
@@ -406,7 +449,7 @@
             }, 2);
             worker.data(cw.makeUrl('/geojson/KKPRL_joinTableWithRZWPCopy.zip')).then(function(data) {
                 geoshp = data;
-                console.log("Var Global:", data);
+                // console.log("Var Global:", data);
                 prosesDetectInput(drawn, drawnType)
             }, function(a) {
                 console.log(a)
@@ -419,7 +462,7 @@
 
         function prosesDetectInput(drawn, type = "polygon") {
             overlappingFeatures = [];
-            console.log(geoshp);
+            // console.log(geoshp);
             if (type == "point") {
                 try {
                     geoshp.features.forEach(function(layer) {
@@ -510,17 +553,14 @@
             var overlappingRemark = overlappingFeatures.map(function(feature) {
                 return feature.properties.REMARK;
             });
-            console.log(overlappingFeatures);
+            // console.log(overlappingFeatures);
         }
 
         function cek() {
             $(".info_status").html('<img src="/img/loading.gif">');
             let valKegiatan = $('#pilihKegiatan').val();
             let getOverlap = overlappingFeatures;
-            console.log(getOverlap);
-            // let properties = getOverlap.map(function(feature) {
-            //     return feature.properties;
-            // });
+            // console.log(getOverlap);
             objectID = getOverlap.map(function(feature) {
                 return feature.properties.OBJECTID;
             });
@@ -575,7 +615,7 @@
                     }
                 }
             }
-            console.log(getOverlapProperties);
+            // console.log(getOverlapProperties);
             $('#lanjutKirim').prop('disabled', true);
             $.ajax({
                     method: "POST",
@@ -587,7 +627,7 @@
                     dataType: "json",
                 })
                 .done(function(response) {
-                    console.log(response);
+                    // console.log(response);
                     let hasil = response.hasil;
                     let valZona = response.valZona;
                     // valZona = valZona.map(function(item) {

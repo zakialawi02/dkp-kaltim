@@ -11,6 +11,7 @@ use App\Models\ModelIzin;
 use App\Models\ModelJenisKegiatan;
 use App\Models\ModelKesesuaian;
 use App\Models\ModelNamaZona;
+use App\Models\ModelUpload;
 use App\Models\ModelZonaKawasan;
 use Faker\Extension\Helper;
 
@@ -18,6 +19,7 @@ class Data extends BaseController
 {
     protected $ModelSetting;
     protected $ModelIzin;
+    protected $ModelUpload;
     protected $ModelJenisKegiatan;
     protected $ModelKesesuaian;
     protected $ModelNamaZona;
@@ -27,6 +29,7 @@ class Data extends BaseController
         helper(['form', 'url']);
         $this->setting = new ModelSetting();
         $this->izin = new ModelIzin();
+        $this->uploadFiles = new ModelUpload();
         $this->kegiatan = new ModelJenisKegiatan();
         $this->kesesuaian = new ModelKesesuaian();
         $this->zona = new ModelNamaZona();
@@ -93,27 +96,10 @@ class Data extends BaseController
         return redirect()->to('/data/pengajuan');
     }
 
+    // TAMBAH DATA PERMOHONAN
     public function tambahAjuan()
     {
         // dd($this->request->getVar());
-        $files = $this->request->getFiles();
-        // dd($files);
-        $uploadFiles = null;
-        if (!empty($files['filepond']) && count(array_filter($files['filepond'], function ($file) {
-            return $file->isValid() && !$file->hasMoved();
-        }))) {
-            $uploadFiles = [];
-            foreach ($files['filepond'] as $key => $file) {
-                if ($file->isValid() && !$file->hasMoved()) {
-                    $originalName = $file->getClientName();
-                    $pathInfo = pathinfo($originalName);
-                    $fileName = $pathInfo['filename'];
-                    $fileExt = $file->guessExtension();
-                    $uploadFiles[] = $fileName . "_" . uniqid() . "." . $fileExt;
-                    $file->move('dokumen/upload-dokumen/', $originalName);
-                }
-            }
-        }
         $user = user_id();
         $data = [
             'nik' => $this->request->getVar('nik'),
@@ -125,7 +111,6 @@ class Data extends BaseController
             'kode_kawasan' => $this->request->getVar('kawasan'),
             'id_zona' => $this->request->getVar('idZona'),
             'lokasi' => $this->request->getVar('drawFeatures'),
-            'uploadFiles' => $uploadFiles,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ];
@@ -140,6 +125,27 @@ class Data extends BaseController
         ];
         $addStatus = $this->izin->addStatus($status);
 
+        $files = $this->request->getFiles();
+        if (!empty($files['filepond']) && count(array_filter($files['filepond'], function ($file) {
+            return $file->isValid() && !$file->hasMoved();
+        }))) {
+            foreach ($files['filepond'] as $key => $file) {
+                if ($file->isValid() && !$file->hasMoved()) {
+                    $originalName = $file->getClientName();
+                    $pathInfo = pathinfo($originalName);
+                    $fileName = $pathInfo['filename'];
+                    $fileExt = $file->guessExtension();
+                    $uploadFiles = $fileName . "_" . uniqid() . "." . $fileExt;
+                    $dataF = [
+                        'id_perizinan' => $insert_id,
+                        'file' => $uploadFiles,
+                    ];
+                    $this->uploadFiles->save($dataF);
+                    $file->move('dokumen/upload-dokumen/', $uploadFiles);
+                }
+            }
+        }
+
         if ($addPengajuan && $addStatus) {
             session()->setFlashdata('success', 'Data Berhasil ditambahkan.');
             return $this->response->redirect(site_url('/dashboard'));
@@ -148,7 +154,7 @@ class Data extends BaseController
             return $this->response->redirect(site_url('/peta'));
         }
     }
-
+    // UPDATE DATA PERMOHONAN
     public function updateAjuan($id_perizinan)
     {
         // dd($this->request->getVar());
@@ -189,20 +195,22 @@ class Data extends BaseController
             }
         }
     }
-
-    // Delete Data
+    // DELETE DATA PERMOHONAN
     public function delete_pengajuan($id_perizinannya)
     {
-        $datas = $this->izin->getAllPermohonan($id_perizinannya)->getRow();
-        if (!empty($datas->uploadFiles)) {
-            $uploadFiles = explode(",", $datas->uploadFiles);
-            foreach ($uploadFiles as $file) {
-                $file = trim($file, '()"');
-                $file = 'dokumen/upload-dokumen/' . $file;
+        $data = (object) ((array)$this->izin->getAllPermohonan($id_perizinannya)->getRow()  + ['uploadFiles' => $this->uploadFiles->getFiles($id_perizinannya)->getResult()]);
+        if (!empty($data->uploadFiles)) {
+            foreach ($data->uploadFiles as $file) {
+                $file = 'dokumen/upload-dokumen/' . $file->uploadFiles;
                 if (file_exists($file)) {
-                    // echo "Menghapus file: $file<br>";
                     unlink($file);
                 }
+            }
+        }
+        if (!empty($data->dokumen_lampiran)) {
+            $file = 'dokumen/lampiran-balasan/' . $data->dokumen_lampiran;
+            if (file_exists($file)) {
+                unlink($file);
             }
         }
         // die;
@@ -223,18 +231,17 @@ class Data extends BaseController
             }
         }
     }
-
+    // HALAMAN EDIT PERMOHONAN
     public function editPengajuan($id_perizinan)
     {
-        $kegiatanId = $this->izin->getAllPermohonan($id_perizinan)->getRow();
-        if (empty($kegiatanId)) {
+        $dataId = $this->izin->getAllPermohonan($id_perizinan)->getRow();
+        if (empty($dataId)) {
             throw new PageNotFoundException();
         }
-        $kegiatanId = $kegiatanId->id_kegiatan;
         $data = [
             'title' => 'Data Pengajuan',
             'tampilData' => $this->setting->tampilData()->getResult(),
-            'tampilIzin' => $this->izin->getAllPermohonan($id_perizinan)->getRow(),
+            'tampilIzin' => (object) ((array)$this->izin->getAllPermohonan($id_perizinan)->getRow()  + ['uploadFiles' => $this->uploadFiles->getFiles($id_perizinan)->getResult(), 'files' => $this->loadDoc($id_perizinan)]),
             'tampilZona' => $this->zona->getZona()->getResult(),
             'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
         ];
@@ -382,6 +389,69 @@ class Data extends BaseController
         return $result;
     }
 
+
+
+    public function uploadDoc()
+    {
+        $files = $this->request->getFiles();
+        if (!empty($files['filepond']) && count(array_filter($files['filepond'], function ($file) {
+            return $file->isValid() && !$file->hasMoved();
+        }))) {
+            foreach ($files['filepond'] as $key => $file) {
+                if ($file->isValid() && !$file->hasMoved()) {
+                    $originalName = $file->getClientName();
+                    $pathInfo = pathinfo($originalName);
+                    $fileName = $pathInfo['filename'];
+                    $fileExt = $file->guessExtension();
+                    $uploadFiles = $fileName . "_" . uniqid() . "." . $fileExt;
+                    $dataF = [
+                        'id_perizinan' => $this->request->getGet('dokumenUp'),
+                        'file' => $uploadFiles,
+                    ];
+                    $this->uploadFiles->save($dataF);
+                    $insert_id = $this->db->insertID();
+                    $file->move('dokumen/upload-dokumen/', $uploadFiles);
+                }
+            }
+        }
+        return $this->response->setJSON(['success' => true, 'file' => $insert_id . ' ' . $uploadFiles,]);
+    }
+    public function revertDoc()
+    {
+        $fileName = $this->request->getVar('fileName');
+        if (preg_match('/^(\d+)\s(.+)/', $fileName, $matches)) {
+            $fileId = $matches[1];
+            $fileName = $matches[2];
+        } else {
+            return $this->response->setJSON(['error' => true]);
+        }
+        $file = 'dokumen/upload-dokumen/' . $fileName;
+        if (file_exists($file)) {
+            unlink($file);
+        }
+        $this->uploadFiles->delete($fileId);
+        return $this->response->setJSON(['success' => true]);
+    }
+    private function loadDoc($id_perizinan)
+    {
+        $fileInfo = $this->uploadFiles->getFiles($id_perizinan)->getResult();
+        $fileNames = [];
+        foreach ($fileInfo as $info) {
+            $fileNames[] = $info->uploadFiles;
+        }
+        $files = [];
+        foreach ($fileNames as $fileName) {
+            $filePath = 'dokumen/upload-dokumen/' . $fileName;
+            $files[] = [
+                'source' => $fileName,
+                'options' => [
+                    'type' => 'local',
+                ],
+            ];
+        }
+        // $result = $this->response->setJSON(['files' => $files]);
+        return $files;
+    }
 
     public function ss()
     {

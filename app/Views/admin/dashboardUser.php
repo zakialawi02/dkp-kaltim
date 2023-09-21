@@ -210,7 +210,7 @@
                                                                                 <td scope="row"><?= date('d M Y H:i:s', strtotime($tIzin->created_at)); ?></td>
                                                                                 <td><?= $tIzin->nik; ?></td>
                                                                                 <td><?= $tIzin->nama; ?></td>
-                                                                                <td><?= $pIzin->nama_kegiatan ?>
+                                                                                <td><?= $tIzin->nama_kegiatan ?>
                                                                                 <td><?= date('d M Y H:i:s', strtotime($tIzin->date_updated)); ?></td>
                                                                                 </td>
                                                                                 <td>

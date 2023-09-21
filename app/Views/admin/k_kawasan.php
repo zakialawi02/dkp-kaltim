@@ -132,14 +132,14 @@
                                 </div>
                             </div>
 
+                            <?php foreach ($dataZona as $Z) : ?>
+                                <?php if ($Z->id_zona == $zona) : ?>
+                                    <?php $nama_zona = $Z->nama_zona ?>
+                                    <?php break; ?>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                            <h6 class="pt-2 pb-2">Zona: <?= $nama_zona ?? 'Semua Zona' ?></h6>
                             <div class="table-content overflow-auto" id="table-content-byZona">
-                                <?php foreach ($dataZona as $Z) : ?>
-                                    <?php if ($Z->id_zona == $zona) : ?>
-                                        <?php $nama_zona = $Z->nama_zona ?>
-                                        <?php break; ?>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                                <h6 class="pt-2 pb-2">Zona: <?= $nama_zona ?? 'Semua Zona' ?></h6>
                                 <table id="datatablesSimples" class="table table-striped row-border hover" style="width: 100%;">
                                     <thead>
                                         <tr>
@@ -239,7 +239,7 @@
                 url: `/admin/kawasanByZona/${zona}`,
                 dataType: "html",
             }).done(function(response) {
-                $("h6[class='pt-2 pb-2']").text($("#pilihZona").find(":selected").text());
+                $("h6[class='pt-2 pb-2']").text("Zona: " + $("#pilihZona").find(":selected").text());
                 $("#table-content-byZona").html(response);
             }).fail(function(error) {
                 console.error('Error:', error);

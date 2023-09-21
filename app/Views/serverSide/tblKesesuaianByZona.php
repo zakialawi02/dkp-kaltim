@@ -20,7 +20,7 @@
             <?php
             $bold = '';
             if ($prevKodeKegiatan === $K->kode_kegiatan && $prevIdZona === $K->id_zona && $prevSubZona === $K->sub_zona) {
-                $bold = 'font-weight:bold; background-color:red;';
+                $bold = 'font-weight:bold; background-color:orange;';
             }
             ?>
             <tr style="<?= $bold ?>">

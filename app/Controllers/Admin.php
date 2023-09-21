@@ -12,6 +12,7 @@ use App\Models\ModelUser;
 use App\Models\ModelJenisKegiatan;
 use App\Models\ModelKesesuaian;
 use App\Models\ModelNamaZona;
+use App\Models\ModelUpload;
 use App\Models\ModelZonaKawasan;
 use Faker\Extension\Helper;
 use Mpdf\Tag\Br;
@@ -21,6 +22,7 @@ class Admin extends BaseController
     protected $ModelSetting;
     protected $ModelUser;
     protected $ModelIzin;
+    protected $ModelUpload;
     protected $ModelJenisKegiatan;
     protected $ModelNamaZona;
     protected $ModelZonaKawasan;
@@ -31,6 +33,7 @@ class Admin extends BaseController
         $this->setting = new ModelSetting();
         $this->user = new ModelUser();
         $this->izin = new ModelIzin();
+        $this->uploadFiles = new ModelUpload();
         $this->kegiatan = new ModelJenisKegiatan();
         $this->zona = new ModelNamaZona();
         $this->kawasan = new ModelZonaKawasan();
@@ -55,6 +58,7 @@ class Admin extends BaseController
                 'userid' => $userid,
                 'userSubmitPermohonan' => $this->izin->userSubmitIzin($userid)->getResult(),
             ];
+            // dd($data['userSubmitPermohonan']);
             return view('admin/dashboardUser', $data);
         } else {
             throw new PageNotFoundException();
@@ -169,13 +173,14 @@ class Admin extends BaseController
                 throw new PageNotFoundException();
             }
         }
+        $uploadFiles = $this->uploadFiles->getFiles($id_perizinan)->getResult();
         $data = [
             'title' => 'Detail Data Pengajuan Informasi',
             'tampilData' => $this->setting->tampilData()->getResult(),
             'tampilZona' => $this->zona->getZona()->getResult(),
-            'tampilDataIzin' => $permintaanId,
+            'tampilDataIzin' => (object) ((array) $permintaanId + ['uploadFiles' => $uploadFiles]),
         ];
-
+        // dd($data['tampilDataIzin']);
         return view('admin/detailDataPermohonan', $data);
     }
 
