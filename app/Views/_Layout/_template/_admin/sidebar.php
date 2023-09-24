@@ -80,13 +80,13 @@
                             <a class="nav-link" href="/admin/kesesuaian"> Data Kesesuaian</a>
                         </div>
                     </div>
-                <?php endif ?>
-
-                <?php if (in_groups('SuperAdmin') || in_groups('Admin')) : ?>
                     <a class="nav-link" href="/user/kelola">
                         <div class="sb-nav-link-icon"><i class="bi bi-person-lines-fill"></i></div>
                         Kelola Pengguna
                     </a>
+                <?php endif ?>
+
+                <?php if (in_groups('SuperAdmin') || in_groups('Admin')) : ?>
                     <a class="nav-link" href="/admin/setting">
                         <div class="sb-nav-link-icon"><i class="bi bi-sliders"></i></div>
                         Peta

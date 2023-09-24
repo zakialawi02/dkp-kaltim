@@ -87,7 +87,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Nama Zona</th>
-                                            <th>Aksi</th>
+                                            <!-- <th>Aksi</th> -->
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -96,13 +96,13 @@
                                             <tr>
                                                 <td><?= $i++; ?></td>
                                                 <td><?= $Z->nama_zona; ?></td>
-                                                <td>
+                                                <!-- <td>
                                                     <div class="d-inline-flex gap-1">
                                                         <div class="btn-group mr-2" role="group" aria-label="First group">
                                                             <a href="/admin/zona/edit/<?= $Z->id_zona; ?>" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
                                                         </div>
                                                     </div>
-                                                </td>
+                                                </td> -->
                                             </tr>
                                         <?php endforeach ?>
                                     </tbody>

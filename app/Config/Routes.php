@@ -65,12 +65,18 @@ $routes->get('/admin/data/permohonan/tidak-disetujui/semua', 'Admin::DataTidakDi
 
 
 $routes->get('/admin/kegiatan/', 'Admin::kegiatan', ['filter' => 'role:SuperAdmin']);
+$routes->get('/admin/dataKegiatan/(:num)', 'Admin::dataKegiatan/$1', ['filter' => 'role:SuperAdmin']);
+$routes->post('/admin/tambahKegiatan', 'Admin::tambahKegiatan', ['filter' => 'role:SuperAdmin']);
+$routes->post('/admin/updatekegiatan/(:num)', 'Admin::updatekegiatan/$1', ['filter' => 'role:SuperAdmin']);
+$routes->delete('/admin/delete_kegiatan/(:num)', 'Admin::delete_kegiatan/$1', ['filter' => 'role:SuperAdmin']);
 
 $routes->get('/admin/zona/', 'Admin::zona', ['filter' => 'role:SuperAdmin']);
 
 $routes->get('/admin/kawasan/', 'Admin::kawasan', ['filter' => 'role:SuperAdmin']);
 $routes->get('/admin/kawasanByZona/(:num)', 'Admin::kawasanByZona/$1', ['filter' => 'role:SuperAdmin']);
+$routes->get('/admin/dataKawasan/(:num)', 'Admin::dataKawasan/$1', ['filter' => 'role:SuperAdmin']);
 $routes->post('/admin/tambahKawasan', 'Admin::tambahKawasan', ['filter' => 'role:SuperAdmin']);
+$routes->post('/admin/updateKawsan/(:num)', 'Admin::updateKawsan/$1', ['filter' => 'role:SuperAdmin']);
 $routes->delete('/admin/delete_kawasan/(:num)', 'Admin::delete_kawasan/$1', ['filter' => 'role:SuperAdmin']);
 
 $routes->get('/admin/kesesuaian/', 'Admin::kesesuaian', ['filter' => 'role:SuperAdmin']);

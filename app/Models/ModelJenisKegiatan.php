@@ -49,4 +49,12 @@ class ModelJenisKegiatan extends Model
                 ->get();
         }
     }
+
+    public function cekDuplikat($kode_kegiatan)
+    {
+        return $this->db->table('tbl_kegiatan')
+            ->select('tbl_kegiatan.*')
+            ->Where(['tbl_kegiatan.kode_kegiatan' => $kode_kegiatan])
+            ->get();
+    }
 }

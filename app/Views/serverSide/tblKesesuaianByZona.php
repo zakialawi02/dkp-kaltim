@@ -4,6 +4,7 @@
             <th>#</th>
             <th>Zona</th>
             <th>Sub Zona</th>
+            <th>Kode Kegiatan</th>
             <th>Nama Kegiatan</th>
             <th>Status Kesesuaian</th>
             <th>Aksi</th>
@@ -26,7 +27,8 @@
             <tr style="<?= $bold ?>">
                 <td><?= $i++; ?></td>
                 <td><?= $K->nama_zona; ?></td>
-                <td><?= $K->sub_zona ?? "-"; ?></td>
+                <td><?= (empty($K->sub_zona)) ? "-" : "$K->sub_zona"; ?></td>
+                <td><?= $K->kode_kegiatan; ?></td>
                 <td><?= $K->nama_kegiatan; ?></td>
                 <td style="color: <?= ($K->status == "diperbolehkan") ? 'green' : (($K->status == "diperbolehkan bersyarat") ? 'brown' : 'red'); ?>;"><?= $K->status; ?></td>
                 <td>

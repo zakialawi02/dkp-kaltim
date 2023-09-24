@@ -73,6 +73,48 @@
 
             <!-- MAIN CONTENT -->
             <main>
+
+
+                <!-- MODAL EDIT/UPDATE -->
+                <div class="modal fade" id="modalEdit" aria-labelledby="modalEditLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalEditLabel">Edit</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="tempatEdit">
+                                    <form id="editForm" method="post">
+                                        <?php csrf_field() ?>
+
+                                        <div class="mb-3">
+                                            <label for="editKawasan" class="form-label">Kode Kawasan (Kawasan)</label>
+                                            <input type="text" class="form-control form-control-sm" id="editKawasan" name="editKawasan" placeholder="Kode Kawasan" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editZona" class="form-label">Zona</label>
+                                            <select class="form-select select2" name="editZona" id="editZona" style="width: 100%;" required>
+                                                <option></option>
+                                                <?php foreach ($dataZona as $Z) : ?>
+                                                    <option value="<?= $Z->id_zona; ?>"><?= $Z->nama_zona; ?></option>
+                                                <?php endforeach ?>
+                                            </select>
+                                        </div>
+                                        <div class="form-text" id="textHelp" style="color: red;"></div>
+                                        <div class="p-1 text-end">
+                                            <button type="button" role="button" class="btn btn-primary" id="updatekan">Simpan</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
                 <div class="container-fluid px-4">
                     <h1 class="mt-2 mb-3">Data Cakupan Kawasan</h1>
 
@@ -154,8 +196,8 @@
                                         <?php foreach ($dataKawasan as $K) : ?>
                                             <tr>
                                                 <td><?= $i++; ?></td>
-                                                <td><?= $K->kode_kawasan; ?></td>
-                                                <td><?= $K->nama_zona; ?></td>
+                                                <td><?= esc($K->kode_kawasan); ?></td>
+                                                <td><?= esc($K->nama_zona); ?></td>
                                                 <td>
                                                     <div class="d-inline-flex gap-1">
                                                         <div class="btn-group mr-2" role="group" aria-label="First group">
@@ -192,7 +234,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/816b3ace5c.js" crossorigin="anonymous"></script>
     <script src=" https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js "></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="/js/scripts.js"></script>
@@ -228,6 +269,11 @@
         });
         $("#tambahZona").select2({
             placeholder: "Pilih Zona",
+            allowClear: true
+        });
+        $("#editZona").select2({
+            placeholder: "Pilih Zona",
+            dropdownParent: $("#modalEdit"),
             allowClear: true
         });
 
@@ -288,6 +334,75 @@
                     icon: 'error',
                     title: 'Gagal Menambahkan Data'
                 })
+            });
+        });
+
+        function editkan(id_znkwsn) {
+            $(".load-data").removeClass("d-none");
+            $(".tempatEdit").addClass("d-none");
+            $.ajax({
+                method: "GET",
+                url: `/admin/dataKawasan/${id_znkwsn}`,
+                dataType: "json",
+            }).done(function(response) {
+                $(".load-data").addClass("d-none");
+                $(".tempatEdit").removeClass("d-none");
+                let data = response[0];
+                const url = `/admin/updateKawsan/${data.id_znkwsn}`
+                $("#editForm").attr("action", url);
+                $("#editZona").val(data.id_zona).trigger('change');
+                $("#editKawasan").val(data.kode_kawasan);
+            }).fail(function(error) {
+                console.error('Error:', error);
+            });
+        }
+        $("#updatekan").click(function(e) {
+            $("#editForm #textHelp").html("");
+            e.preventDefault();
+            let editZona = $("#editZona").val();
+            let editKawasan = $("#editKawasan").val();
+            editKawasan = editKawasan.toUpperCase().replace(/\s+/g, '');
+            $("#editKawasan ").val(editKawasan);
+            let isValid = true;
+            $("#editForm select[required], #editForm input[required]").each(function() {
+                if ($(this).val() == "") {
+                    isValid = false;
+                    return;
+                }
+            });
+            if (!isValid) {
+                $("#editForm #textHelp").html("Harap isi semua kolom yang ada");
+                return;
+            }
+            const url = $("#editForm").attr("action");
+            $.ajax({
+                method: "POST",
+                url: url,
+                data: {
+                    editZona,
+                    editKawasan,
+                },
+                dataType: "json",
+            }).done(function(response) {
+                const status = response.status;
+                const message = response.message;
+                ToastSuccess.fire({
+                    icon: status,
+                    title: message,
+                })
+                if (status !== "error") {
+                    $("#modalEdit").modal("hide");
+                    $(".modal-backdrop").modal("hide");
+                    loadTabelKawasan();
+                }
+            }).fail(function(error) {
+                console.error('Error:', error);
+                ToastSuccess.fire({
+                    icon: 'error',
+                    title: 'Gagal Memperbarui Data'
+                });
+                $("#modalEdit").modal("hide");
+                $(".modal-backdrop").modal("hide");
             });
         });
 
