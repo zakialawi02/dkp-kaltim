@@ -165,10 +165,10 @@ $countAllTolak = count($allDataTolak);
                                                         <?php foreach ($allDataBaru as $baru) : ?>
                                                             <tr>
                                                                 <td><?= date('d M Y', strtotime($baru->created_at)); ?></td>
-                                                                <td><?= $baru->nik; ?></td>
-                                                                <td><?= $baru->nama; ?></td>
-                                                                <td><?= $baru->alamat; ?></td>
-                                                                <td><?= $baru->kontak; ?></td>
+                                                                <td><?= esc($baru->nik); ?></td>
+                                                                <td><?= esc($baru->nama); ?></td>
+                                                                <td><?= esc($baru->alamat); ?></td>
+                                                                <td><?= esc($baru->kontak); ?></td>
                                                                 <td><a type="button" role="button" href="/admin/data/<?= ($baru->stat_appv == '0') ? 'menunggu-jawaban' : ''; ?>/lihat/<?= $baru->id_perizinan; ?>/<?= $baru->nama; ?>/" class="asbn btn btn-info bi bi-binoculars" data-bs-toggle="tooltip" data-bs-placement="top" title="Periksa" target="_blank"></a></td>
                                                             </tr>
                                                         <?php endforeach ?>
@@ -202,9 +202,9 @@ $countAllTolak = count($allDataTolak);
                                                         <?php foreach ($allDataTerjawab as $jawab) : ?>
                                                             <tr>
                                                                 <td><?= date('d M Y', strtotime($jawab->date_updated)); ?></td>
-                                                                <td><?= $jawab->nik; ?></td>
-                                                                <td><?= $jawab->nama; ?></td>
-                                                                <td><?= $jawab->alamat; ?></td>
+                                                                <td><?= esc($jawab->nik); ?></td>
+                                                                <td><?= esc($jawab->nama); ?></td>
+                                                                <td><?= esc($jawab->alamat); ?></td>
                                                                 <td><span class="badge bg-<?= ($jawab->stat_appv == '1') ? 'success' : 'danger'; ?>"> <?= ($jawab->stat_appv == '1') ? 'Disetujui' : 'Tidak Disetujui'; ?> </span></td>
                                                                 <td><a type="button" role="button" href="/admin/data/<?= ($jawab->stat_appv == '1') ? 'telah-disetujui' : 'tidak-disetujui'; ?>/lihat/<?= $jawab->id_perizinan; ?>/<?= $jawab->nama; ?>/" class="asbn btn btn-secondary bi bi-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Lihat" target="_blank"></a></td>
                                                             </tr>
@@ -244,7 +244,7 @@ $countAllTolak = count($allDataTolak);
                                                 <tbody>
                                                     <?php foreach ($userMonth as $newUs) : ?>
                                                         <tr>
-                                                            <td><?= $newUs->username; ?></td>
+                                                            <td><?= esc($newUs->username); ?></td>
                                                             <td> <?= date('d M Y', strtotime($newUs->created_at)); ?></td>
                                                             <td><span class="badge bg-<?= ($newUs->name == 'Admin' or $newUs->name == 'SuperAdmin') ? 'info' : 'secondary'; ?>"> <?= $newUs->name; ?> </span></td>
                                                         </tr>

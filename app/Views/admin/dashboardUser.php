@@ -142,9 +142,9 @@
                                                                         <?php foreach ($pendingIzin as $pIzin) : ?>
                                                                             <tr class="">
                                                                                 <td scope="row"><?= date('d M Y H:i:s', strtotime($pIzin->created_at)); ?></td>
-                                                                                <td><?= $pIzin->nik; ?></td>
-                                                                                <td><?= $pIzin->nama; ?></td>
-                                                                                <td><?= $pIzin->nama_kegiatan ?>
+                                                                                <td><?= esc($pIzin->nik); ?></td>
+                                                                                <td><?= esc($pIzin->nama); ?></td>
+                                                                                <td><?= esc($pIzin->nama_kegiatan) ?>
                                                                                 </td>
                                                                                 <td>
                                                                                     <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="edit data">
@@ -208,9 +208,9 @@
                                                                         <?php foreach ($terimaIzin as $tIzin) : ?>
                                                                             <tr class="">
                                                                                 <td scope="row"><?= date('d M Y H:i:s', strtotime($tIzin->created_at)); ?></td>
-                                                                                <td><?= $tIzin->nik; ?></td>
-                                                                                <td><?= $tIzin->nama; ?></td>
-                                                                                <td><?= $pIzin->nama_kegiatan ?>
+                                                                                <td><?= esc($tIzin->nik); ?></td>
+                                                                                <td><?= esc($tIzin->nama); ?></td>
+                                                                                <td><?= esc($tIzin->nama_kegiatan) ?>
                                                                                 <td><?= date('d M Y H:i:s', strtotime($tIzin->date_updated)); ?></td>
                                                                                 </td>
                                                                                 <td>
@@ -272,9 +272,9 @@
                                                                         <?php foreach ($tolakIzin as $sIzin) : ?>
                                                                             <tr class="">
                                                                                 <td scope="row"><?= date('d M Y H:i:s', strtotime($sIzin->created_at)); ?></td>
-                                                                                <td><?= $sIzin->nik; ?></td>
-                                                                                <td><?= $sIzin->nama; ?></td>
-                                                                                <td><?= $sIzin->nama_kegiatan ?></td>
+                                                                                <td><?= esc($sIzin->nik); ?></td>
+                                                                                <td><?= esc($sIzin->nama); ?></td>
+                                                                                <td><?= esc($sIzin->nama_kegiatan) ?></td>
                                                                                 <td><?= date('d M Y H:i:s', strtotime($sIzin->date_updated)); ?></td>
 
                                                                                 <td>

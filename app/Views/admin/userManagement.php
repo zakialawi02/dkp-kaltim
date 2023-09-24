@@ -115,10 +115,10 @@
                                     <?php foreach ($users as $user) : ?>
                                         <tr>
                                             <th scope="row"><?= $i++; ?></th>
-                                            <td><?= $user->username; ?></td>
+                                            <td><?= esc($user->username); ?></td>
                                             <td><?= date('d M Y', strtotime($user->created_at)); ?></td>
-                                            <td><?= $user->full_name; ?></td>
-                                            <td><?= $user->email; ?></td>
+                                            <td><?= esc($user->full_name); ?></td>
+                                            <td><?= esc($user->email); ?></td>
                                             <td><span class="badge bg-<?= ($user->name == 'Admin' or $user->name == 'SuperAdmin') ? 'info' : 'secondary'; ?>"> <?= $user->name; ?> </span></td>
                                             <td><span class="badge bg-<?= ($user->active == '0') ? 'danger' : 'success'; ?>"> <?= ($user->active == '0') ? 'inactive' : 'active'; ?> </span></td>
                                             <td>
@@ -146,7 +146,7 @@
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <label for="full_name" class="col-form-label">Full Name</label>
-                                                                        <input type="text" class="form-control " name="full_name" id="full_name" value="<?= $user->full_name ?>">
+                                                                        <input type="text" class="form-control " name="full_name" id="full_name" value="<?= esc($user->full_name) ?>">
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <label for="email" class="col-form-label">Email</label>

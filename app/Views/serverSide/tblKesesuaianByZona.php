@@ -4,6 +4,7 @@
             <th>#</th>
             <th>Zona</th>
             <th>Sub Zona</th>
+            <th>Kode Kegiatan</th>
             <th>Nama Kegiatan</th>
             <th>Status Kesesuaian</th>
             <th>Aksi</th>
@@ -20,15 +21,16 @@
             <?php
             $bold = '';
             if ($prevKodeKegiatan === $K->kode_kegiatan && $prevIdZona === $K->id_zona && $prevSubZona === $K->sub_zona) {
-                $bold = 'font-weight:bold; background-color:red;';
+                $bold = 'font-weight:bold; background-color:orange;';
             }
             ?>
             <tr style="<?= $bold ?>">
                 <td><?= $i++; ?></td>
-                <td><?= $K->nama_zona; ?></td>
-                <td><?= $K->sub_zona ?? "-"; ?></td>
-                <td><?= $K->nama_kegiatan; ?></td>
-                <td style="color: <?= ($K->status == "diperbolehkan") ? 'green' : (($K->status == "diperbolehkan bersyarat") ? 'brown' : 'red'); ?>;"><?= $K->status; ?></td>
+                <td><?= esc($K->nama_zona); ?></td>
+                <td><?= (empty($K->sub_zona)) ? "-" : esc($K->sub_zona); ?></td>
+                <td><?= esc($K->kode_kegiatan); ?></td>
+                <td><?= esc($K->nama_kegiatan); ?></td>
+                <td style="color: <?= ($K->status == "diperbolehkan") ? 'green' : (($K->status == "diperbolehkan bersyarat") ? 'brown' : 'red'); ?>;"><?= esc($K->status); ?></td>
                 <td>
                     <div class="d-inline-flex gap-1">
                         <div class="btn-group mr-2" role="group" aria-label="First group">

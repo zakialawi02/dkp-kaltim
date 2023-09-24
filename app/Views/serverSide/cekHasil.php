@@ -27,7 +27,7 @@ $remark = $remark ?? "-";
                         <?= $name; ?>
                     <?php else : ?>
                         <?php foreach ($name as $val) : ?>
-                            <?= $val; ?> <br>
+                            <?= esc($val); ?> <br>
                         <?php endforeach ?>
                     <?php endif ?>
                 </td>
@@ -37,10 +37,10 @@ $remark = $remark ?? "-";
                 <td class="tspace">:</td>
                 <td class="kawasan">
                     <?php if ($id == null) : ?>
-                        <?= $kawasan; ?>
+                        <?= esc($kawasan); ?>
                     <?php else : ?>
                         <?php foreach ($kawasan as $val) : ?>
-                            <?= $val; ?> <br>
+                            <?= esc($val); ?> <br>
                         <?php endforeach ?>
                     <?php endif ?>
                 </td>
@@ -50,10 +50,10 @@ $remark = $remark ?? "-";
                 <td class="tspace">:</td>
                 <td class="kode">
                     <?php if ($id == null) : ?>
-                        <?= $kode; ?>
+                        <?= esc($kode); ?>
                     <?php else : ?>
                         <?php foreach ($kode as $val) : ?>
-                            <?= $val; ?> <br>
+                            <?= esc($val); ?> <br>
                         <?php endforeach ?>
                     <?php endif ?>
                 </td>
@@ -75,7 +75,7 @@ $remark = $remark ?? "-";
             <select class="form-select" id="pilihKegiatan" name="kegiatan" for="kegiatan" style="width: 100%;" onchange="cek()" required>
                 <option></option>
                 <?php foreach ($jenisKegiatan as $K) : ?>
-                    <option value="<?= $K->id_kegiatan; ?>"><?= $K->nama_kegiatan; ?></option>
+                    <option value="<?= $K->id_kegiatan; ?>"><?= esc($K->nama_kegiatan); ?></option>
                 <?php endforeach ?>
             </select>
         </div>

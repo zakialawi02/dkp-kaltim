@@ -12,6 +12,7 @@ use App\Models\ModelUser;
 use App\Models\ModelJenisKegiatan;
 use App\Models\ModelKesesuaian;
 use App\Models\ModelNamaZona;
+use App\Models\ModelUpload;
 use App\Models\ModelZonaKawasan;
 use Faker\Extension\Helper;
 use Mpdf\Tag\Br;
@@ -21,6 +22,7 @@ class Admin extends BaseController
     protected $ModelSetting;
     protected $ModelUser;
     protected $ModelIzin;
+    protected $ModelUpload;
     protected $ModelJenisKegiatan;
     protected $ModelNamaZona;
     protected $ModelZonaKawasan;
@@ -31,6 +33,7 @@ class Admin extends BaseController
         $this->setting = new ModelSetting();
         $this->user = new ModelUser();
         $this->izin = new ModelIzin();
+        $this->uploadFiles = new ModelUpload();
         $this->kegiatan = new ModelJenisKegiatan();
         $this->zona = new ModelNamaZona();
         $this->kawasan = new ModelZonaKawasan();
@@ -55,6 +58,7 @@ class Admin extends BaseController
                 'userid' => $userid,
                 'userSubmitPermohonan' => $this->izin->userSubmitIzin($userid)->getResult(),
             ];
+            // dd($data['userSubmitPermohonan']);
             return view('admin/dashboardUser', $data);
         } else {
             throw new PageNotFoundException();
@@ -169,13 +173,14 @@ class Admin extends BaseController
                 throw new PageNotFoundException();
             }
         }
+        $uploadFiles = $this->uploadFiles->getFiles($id_perizinan)->getResult();
         $data = [
             'title' => 'Detail Data Pengajuan Informasi',
             'tampilData' => $this->setting->tampilData()->getResult(),
             'tampilZona' => $this->zona->getZona()->getResult(),
-            'tampilDataIzin' => $permintaanId,
+            'tampilDataIzin' => (object) ((array) $permintaanId + ['uploadFiles' => $uploadFiles]),
         ];
-
+        // dd($data['tampilDataIzin']);
         return view('admin/detailDataPermohonan', $data);
     }
 
@@ -289,6 +294,52 @@ class Admin extends BaseController
         ];
         return view('admin/k_jenisKegiatan', $data);
     }
+    public function loadKegiatan()
+    {
+        $data = [
+            'dataKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
+        ];
+        return view('serverSide/tblKegiatan', $data);
+    }
+    public function dataKegiatan($id_kegiatan)
+    {
+        $response = $this->kegiatan->getJenisKegiatan($id_kegiatan)->getResult();
+        return $this->response->setJSON($response);
+    }
+    public function tambahKegiatan()
+    {
+        $data = [
+            'nama_kegiatan' => $this->request->getPost('tambahKegiatan'),
+            'kode_kegiatan' => $this->request->getPost('tambahKKegiatan'),
+        ];
+        $cek = $this->kegiatan->cekDuplikat($data['kode_kegiatan'])->getRow();
+        if (!empty($cek)) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Gagal! Indikasi Duplikasi Data']);
+        }
+        $this->kegiatan->save($data);
+        return $this->response->setJSON(['status' => 'success', 'message' => 'Data berhasil ditambahkan.']);
+    }
+    public function updatekegiatan($id_kegiatan)
+    {
+        $data = [
+            'id_kegiatan' => $id_kegiatan,
+            'nama_kegiatan' => $this->request->getPost('editKegiatan'),
+            'kode_kegiatan' => $this->request->getPost('editKKegiatan'),
+        ];
+        $cek = $this->kegiatan->cekDuplikat($data['kode_kegiatan'])->getRow();
+        if (!empty($cek)) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Gagal! Indikasi Duplikasi Data']);
+        }
+        $this->kegiatan->save($data);
+        return $this->response->setJSON(['status' => 'success', 'message' => 'Data berhasil diperbarui.']);
+    }
+    public function delete_kegiatan($id_kegiatan)
+    {
+        $this->kegiatan->delete(['id_kegiatan' => $id_kegiatan]);
+        return $this->response->setJSON('success');
+    }
+
+
     public function zona()
     {
         $data = [
@@ -321,6 +372,11 @@ class Admin extends BaseController
         ];
         return view('serverSide/tblKawasanByZona', $data);
     }
+    public function dataKawasan($id_znkwsn)
+    {
+        $response = $this->kawasan->getKawasan($id_znkwsn)->getResult();
+        return $this->response->setJSON($response);
+    }
     public function tambahKawasan()
     {
         $data = [
@@ -329,14 +385,28 @@ class Admin extends BaseController
         ];
         $cek = $this->kawasan->cekDuplikat($data['id_zona'], $data['kode_kawasan'])->getRow();
         if (!empty($cek)) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Data sudah ada dalam database.']);
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Gagal! Data sudah ada dalam database.']);
         }
         $this->kawasan->save($data);
         return $this->response->setJSON(['status' => 'success', 'message' => 'Data berhasil ditambahkan.']);
     }
+    public function updateKawsan($id_znkwsn)
+    {
+        $data = [
+            'id_znkwsn' => $id_znkwsn,
+            'id_zona' => $this->request->getPost('editZona'),
+            'kode_kawasan' => $this->request->getPost('editKawasan'),
+        ];
+        $cek = $this->kawasan->cekDuplikat($data['id_zona'], $data['kode_kawasan'])->getRow();
+        if (!empty($cek)) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Gagal! Data sudah ada dalam database.']);
+        }
+        $this->kawasan->save($data);
+        return $this->response->setJSON(['status' => 'success', 'message' => 'Data berhasil diperbarui.']);
+    }
     public function delete_kawasan($id_znkwsn)
     {
-        $this->kawasan->delete(['id_kes$id_znkwsn' => $id_znkwsn]);
+        $this->kawasan->delete(['id_znkwsn' => $id_znkwsn]);
         $data = [
             'dataKawasan' => $this->kawasan->getZKawasan()->getResult(),
         ];

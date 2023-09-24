@@ -258,6 +258,7 @@
             </div>
             <div class="modal-footer">
                 <div class="p-2">
+                    <button type="button" class="btn btn-primary m-2 d-none" id="next_step_byFile">Lanjut</button>
                     <button type="button" class="btn btn-primary m-2" id="next_step">Lanjut</button>
                 </div>
             </div>
@@ -332,7 +333,7 @@
 
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked autocomplete="off" name="czona_15" id="czona_15" value="kb" onclick="set_zona(15)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/jar minyak.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Jaringan Minyak dan Gas Bumi</label>
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked autocomplete="off" name="czona_16" id="czona_16" value="kb" onclick="set_zona(16)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/jar telekom.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Jaringan Telekomunikasi</label>
-                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_17" id="czona_17" value="kb" onclick="set_zona(17)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/mamaliaa.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Alur Mingrasi Mamalia Laut</label>
+                                <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_17" id="czona_17" value="kb" onclick="set_zona(17)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/mamaliaa.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Alur Migrasi Mamalia Laut</label>
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" autocomplete="off" name="czona_18" id="czona_18" value="kb" onclick="set_zona(18)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/penyu.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Alur Mingrasi Penyu</label>
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked autocomplete="off" name="czona_19" id="czona_19" value="kb" onclick="set_zona(19)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/pelayaran3.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Alur Pelayaran Umum dan Perlintasan</label>
                                 <label class="symbology" style="margin-left: 0px"><input type="checkbox" style="transform: scale(1.4); margin-right: 6px; color: blue;" checked autocomplete="off" name="czona_20" id="czona_20" value="kb" onclick="set_zona(20)"><span style="min-width: 50px; background-image: url('/mapSystem/icon/lintas.png'); ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Lintas Penyeberangan Antar Provinsi</label>
@@ -496,21 +497,27 @@
             $(".dms-input").prop("disabled", true);
             $('.form_isi_koordinat').addClass('d-none');
             $('.inputByFile').removeClass('d-none');
+            $('#next_step_byFile').removeClass('d-none');
+            $('#next_step').addClass('d-none');
         });
         $("#rd_dd").click(function() {
             $(".dd-input").prop("disabled", false);
             $(".dms-input").prop("disabled", true);
             $('.form_isi_koordinat').removeClass('d-none');
             $('.inputByFile').addClass('d-none');
+            $('#next_step_byFile').addClass('d-none');
+            $('#next_step').removeClass('d-none');
         });
         $("#rd_dms").click(function() {
             $(".dd-input").prop("disabled", true);
             $(".dms-input").prop("disabled", false);
             $('.form_isi_koordinat').removeClass('d-none');
             $('.inputByFile').addClass('d-none');
+            $('#next_step_byFile').addClass('d-none');
+            $('#next_step').removeClass('d-none');
         });
 
-        var counterK = 1;
+        let counterK = 1;
         const newKoordinatInput = `
             <div class="form_sep ini_koordinat" id="isi_koordinat">
                                 <div class="form-group pb-3">
@@ -664,6 +671,7 @@
         });
     </script>
     <script>
+        // Cek kesesuaian dengan jenis kegiatan yang dipilih
         function cek() {
             $(".info_status").html('<img src="/img/loading.gif">');
             let valKegiatan = $('#pilihKegiatan').val();
@@ -726,7 +734,7 @@
                     }
                 }
             }
-            console.log(getOverlapProperties);
+            // console.log(getOverlapProperties);
             $('#lanjutKirim').prop('disabled', true);
             $.ajax({
                     method: "POST",
@@ -946,12 +954,10 @@
             view: view,
         });
         const mainMap = map;
-        // map.addLayer(bingAerialBaseMap);
-        // map.addLayer(wms_layer);
 
         // Membuat array lapisan WMS dari GeoServer
         const RZWP3KLayerNames = [
-            'Alur_Migrasi_Mamalia_Laut',
+            'Alur_Migrasi_Mamalia',
             'Budidaya_Laut',
             'DLKr-DLKp',
             'Demersal',
@@ -1231,28 +1237,6 @@
             }),
         });
 
-        function modalLoading() {
-            $("#div_hasilCek").html('<img src="/img/loading.gif">');
-            $('#modalCekHasil').show();
-        }
-
-        // function cekHasil(lon, lat, url) {
-
-        //     ue = encodeURIComponent(url);
-        //     if (url) {
-        //         var act = '/data/cekData?lon=' + lon + '&lat=' + lat + '&ue=' + ue;
-        //         $.ajax({
-        //             url: act,
-        //             success: function(data) {
-        //                 $('#div_hasilCek').html(data);
-        //             },
-        //             error: function(error) {
-        //                 console.error('Error:', error);
-        //             }
-        //         });
-        //     }
-        // }
-
         function kirim() {
             let geojson = geojsonFeature;
             let getOverlap = getOverlapProperties;
@@ -1260,6 +1244,12 @@
             $("#getOverlap").val(JSON.stringify(getOverlap));
         }
 
+        function modalLoading() {
+            $("#div_hasilCek").html('<img src="/img/loading.gif">');
+            $('#modalCekHasil').show();
+        }
+
+        // tampilin Cek overlap features
         function cekHasil(id, kawasan, name, kode, orde, remark) {
             var act = "/data/cekData";
             $.ajax({
@@ -1283,6 +1273,7 @@
             });
         }
 
+        // Cek overlap features
         function prosesDetectInput(drawn, type = "polygon") {
             modalLoading();
             overlappingFeatures = [];
@@ -1443,28 +1434,20 @@
             });
 
             if (counterK < 2) {
-                // const viewResolution = view.getResolution();
-                // var coordinates3857 = jsonCoordinates.map(coordinate => ol.proj.transform(coordinate, 'EPSG:4326', 'EPSG:3857'));
-                // var url = KKPRLALLsource.getFeatureInfoUrl(coordinates3857[0], viewResolution, 'EPSG:3857', {
-                //     'INFO_FORMAT': 'application/json',
-                //     FEATURE_COUNT: 1
-                // });
-                // var lon = coordinates3857[0][0];
-                // var lat = coordinates3857[0][1];
-                // modalLoading();
-                // cekHasil(lon, lat, url);
                 prosesDetectInput(jsonCoordinates[0], "point", geojsonFeature);
             } else if (counterK > 2) {
                 prosesDetectInput([jsonCoordinates], "polygon", geojsonFeature);
             } else {
                 prosesDetectInput(jsonCoordinates, "line", geojsonFeature);
             }
-
-
         });
 
-        $('#isi_koordinat').keyup(function(e) {
+        $("#next_step_byFile").click(function(e) {
+            console.log("KLIK");
+        });
 
+
+        $('#isi_koordinat').keyup(function(e) {
             coordinates = [];
             jsonCoordinates = [];
             geojsonFeature = [];
@@ -1554,41 +1537,6 @@
             console.log(`error: ${error}`);
         }
 
-
-
-        // map.on('singleclick', function(evt) {
-        //     const viewResolution = view.getResolution();
-        //     const coordinate = evt.coordinate;
-        //     const projection = view.getProjection();
-        //     console.log(coordinate);
-        //     console.log(projection);
-        //     KKPRL_Layer.forEach(layer => {
-        //         const url = layer.getSource().getFeatureInfoUrl(
-        //             coordinate,
-        //             viewResolution,
-        //             projection, {
-        //                 INFO_FORMAT: 'application/json',
-        //                 FEATURE_COUNT: 1
-        //             }
-        //         );
-
-        //         if (url) {
-        //             fetch(url)
-        //                 .then(response => response.json())
-        //                 .then(data => {
-        //                     // Di sini Anda dapat memanipulasi data respons JSON
-        //                     // untuk mengambil atribut yang Anda butuhkan.
-
-        //                     if (data.features.length > 0) {
-        //                         console.log(data); // Tampilkan data JSON di konsol
-        //                         const attributes = data.features[0].properties;
-        //                         console.log(attributes); // Tampilkan atribut fitur di konsol
-        //                     }
-        //                 })
-        //         }
-        //     });
-        // });
-
         // mouse coordinate show
         const mousePositionControl = new ol.control.MousePosition({
             coordinateFormat: ol.coordinate.createStringXY(6),
@@ -1599,8 +1547,9 @@
             target: document.getElementById('mouse-position'),
             undefinedHTML: '[Posisi Koordinat X,Y]'
         });
-        map.addControl(mousePositionControl);
 
+        // Meass tool
+        map.addControl(mousePositionControl);
         const measureType = 'Polygon';
         const style = new ol.style.Style({
             fill: new ol.style.Fill({
@@ -1621,7 +1570,6 @@
                 }),
             }),
         });
-
         const labelStyle = new ol.style.Style({
             text: new ol.style.Text({
                 font: '14px Calibri,sans-serif',
@@ -1645,7 +1593,6 @@
                 }),
             }),
         });
-
         const tipStyle = new ol.style.Style({
             text: new ol.style.Text({
                 font: '12px Calibri,sans-serif',
@@ -1660,7 +1607,6 @@
                 offsetX: 15,
             }),
         });
-
         const modifyStyle = new ol.style.Style({
             image: new ol.style.Circle({
                 radius: 5,
@@ -1685,7 +1631,6 @@
                 offsetX: 15,
             }),
         });
-
         const segmentStyle = new ol.style.Style({
             text: new ol.style.Text({
                 font: '12px Calibri,sans-serif',
@@ -1776,7 +1721,6 @@
             }
             return output;
         };
-
         const formatArea = function(polygon) {
             const area = ol.sphere.getArea(polygon);
             let output;
@@ -1787,7 +1731,6 @@
             }
             return output;
         };
-
         const measure = new ol.layer.Vector({
             source: measureSource,
             style: function(feature) {
@@ -1822,14 +1765,10 @@
                 map.removeInteraction(draw);
                 tip = idleTip;
             });
-            // map.on('pointermove', function() {
-            //     tip = activeTip;
-            // });
             map.addInteraction(draw);
         }
 
-
-        // Buat tombol kontrol
+        // Buat tombol kontrol Meass
         var rulerControl = new ol.control.Control({
             element: document.getElementById('ruler-button'),
         });
@@ -1843,7 +1782,7 @@
 
 
         $('#isiByFile').change(function(e) {
-            var selectedCounter;
+            let selectedCounter;
             const file = e.target.files[0];
             const reader = new FileReader();
             jsonCoordinates = [];
@@ -1865,6 +1804,7 @@
                         var dataArr = [json][0];
                         dataArr.shift();
                         selectedCounter = dataArr.length;
+                        console.log(selectedCounter);
                         if (selectedCounter < 2) {
                             jsonCoordinates = [dataArr[0].slice(1, 3)];
                             var pointFeature = new ol.Feature({
@@ -1884,6 +1824,7 @@
                             vectorSource.addFeature(polygonFeature);
                             styleDraw = polygonStyle;
                         }
+                        console.log(jsonCoordinates);
                         const iframe = document.getElementById("petaPreview");
                         iframe.contentWindow.postMessage({
                             jsonCoordinates,
