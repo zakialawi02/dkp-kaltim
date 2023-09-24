@@ -54,8 +54,8 @@
                                     <?php foreach ($users as $user) : ?>
                                         <tr>
                                             <th scope="row"><?= $i++; ?></th>
-                                            <td><?= $user->username; ?></td>
-                                            <td><?= $user->full_name; ?></td>
+                                            <td><?= esc($user->username); ?></td>
+                                            <td><?= esc($user->full_name); ?></td>
                                             <?php if (in_groups('SuperAdmin') || in_groups('Admin')) :; ?>
                                                 <td><?= $user->email; ?></td>
                                             <?php else : ?>

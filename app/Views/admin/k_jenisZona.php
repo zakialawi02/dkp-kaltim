@@ -95,7 +95,7 @@
                                         <?php foreach ($dataZona as $Z) : ?>
                                             <tr>
                                                 <td><?= $i++; ?></td>
-                                                <td><?= $Z->nama_zona; ?></td>
+                                                <td><?= esc($Z->nama_zona); ?></td>
                                                 <!-- <td>
                                                     <div class="d-inline-flex gap-1">
                                                         <div class="btn-group mr-2" role="group" aria-label="First group">

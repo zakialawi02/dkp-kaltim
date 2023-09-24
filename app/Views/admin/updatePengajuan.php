@@ -107,23 +107,23 @@
 
                                             <div class="form-group">
                                                 <label class="form-label">NIK (Nomor Induk Kependudukan)</label>
-                                                <input type="text" class="form-control" id="nik" aria-describedby="textlHelp" name="nik" value="<?= $tampilIzin->nik; ?>" required>
+                                                <input type="text" class="form-control" id="nik" aria-describedby="textlHelp" name="nik" value="<?= esc($tampilIzin->nik); ?>" required>
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-label">NIB (Nomor Induk Berusaha)</label>
-                                                <input type="text" class="form-control" id="nik" aria-describedby="textlHelp" name="nib" value="<?= $tampilIzin->nib; ?>">
+                                                <input type="text" class="form-control" id="nik" aria-describedby="textlHelp" name="nib" value="<?= esc($tampilIzin->nib); ?>">
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-label">Nama</label>
-                                                <input type="text" class="form-control" id="nama" aria-describedby="textlHelp" name="nama" value="<?= $tampilIzin->nama; ?>" required>
+                                                <input type="text" class="form-control" id="nama" aria-describedby="textlHelp" name="nama" value="<?= esc($tampilIzin->nama); ?>" required>
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-label">Alamat</label>
-                                                <input type="text" class="form-control" id="alamat" aria-describedby="textlHelp" name="alamat" value="<?= $tampilIzin->alamat; ?>" required>
+                                                <input type="text" class="form-control" id="alamat" aria-describedby="textlHelp" name="alamat" value="<?= esc($tampilIzin->alamat); ?>" required>
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-label">No. Telp/HP</label>
-                                                <input type="text" class="form-control" id="kontak" aria-describedby="textlHelp" name="kontak" value="<?= $tampilIzin->kontak; ?>" required>
+                                                <input type="text" class="form-control" id="kontak" aria-describedby="textlHelp" name="kontak" value="<?= esc($tampilIzin->kontak); ?>" required>
                                             </div>
                                             <div class="mb-1"></div>
 
@@ -134,7 +134,7 @@
                                                 <select class="form-select" id="pilihKegiatan" name="kegiatan" for="kegiatan" style="width: 100%;" onchange="cek()" required>
                                                     <option></option>
                                                     <?php foreach ($jenisKegiatan as $K) : ?>
-                                                        <option value="<?= $K->id_kegiatan ?>" <?= $K->id_kegiatan == $tampilIzin->id_kegiatan ? 'selected' : '' ?>><?= $K->nama_kegiatan ?></option>
+                                                        <option value="<?= $K->id_kegiatan ?>" <?= $K->id_kegiatan == $tampilIzin->id_kegiatan ? 'selected' : '' ?>><?= esc($K->nama_kegiatan) ?></option>
                                                     <?php endforeach ?>
                                                 </select>
                                             </div>
@@ -146,7 +146,7 @@
                                                     $zoneName = array_unique($zoneName);
                                                     foreach ($tampilZona as $value) {
                                                         if (in_array($value->id_zona, $zoneName)) {
-                                                            echo "<span>" . $value->nama_zona . "</span>"  . "<br>";
+                                                            echo "<span>" . esc($value->nama_zona) . "</span>"  . "<br>";
                                                         }
                                                     }
                                                 } else {

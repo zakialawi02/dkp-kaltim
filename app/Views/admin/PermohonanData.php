@@ -54,10 +54,10 @@
                                     <?php foreach ($tampilIzin as $Iz) : ?>
                                         <tr>
                                             <td class="tgl"><?= date('d M Y H:i:s', strtotime($Iz->created_at)); ?></td>
-                                            <td class="nama"><?= $Iz->nik; ?></td>
-                                            <td class="nama"><?= $Iz->nama; ?></td>
-                                            <td class="almkv"><?= $Iz->alamat; ?></td>
-                                            <td class="almkv"><?= $Iz->nama_kegiatan; ?></td>
+                                            <td class="nama"><?= esc($Iz->nik); ?></td>
+                                            <td class="nama"><?= esc($Iz->nama); ?></td>
+                                            <td class="almkv"><?= esc($Iz->alamat); ?></td>
+                                            <td class="almkv"><?= esc($Iz->nama_kegiatan); ?></td>
                                             <td class="aks">
                                                 <div class="btn-group mr-2" role="group" aria-label="First group">
                                                     <a type="button" role="button" href="/admin/data/<?= ($Iz->stat_appv == '1') ? 'telah-disetujui' : 'tidak-disetujui'; ?>/lihat/<?= $Iz->id_perizinan; ?>/<?= $Iz->nama; ?>/" class="asbn btn btn-secondary bi bi-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Lihat" target="_blank"></a>

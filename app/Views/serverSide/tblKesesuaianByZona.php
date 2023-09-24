@@ -26,11 +26,11 @@
             ?>
             <tr style="<?= $bold ?>">
                 <td><?= $i++; ?></td>
-                <td><?= $K->nama_zona; ?></td>
-                <td><?= (empty($K->sub_zona)) ? "-" : "$K->sub_zona"; ?></td>
-                <td><?= $K->kode_kegiatan; ?></td>
-                <td><?= $K->nama_kegiatan; ?></td>
-                <td style="color: <?= ($K->status == "diperbolehkan") ? 'green' : (($K->status == "diperbolehkan bersyarat") ? 'brown' : 'red'); ?>;"><?= $K->status; ?></td>
+                <td><?= esc($K->nama_zona); ?></td>
+                <td><?= (empty($K->sub_zona)) ? "-" : esc($K->sub_zona); ?></td>
+                <td><?= esc($K->kode_kegiatan); ?></td>
+                <td><?= esc($K->nama_kegiatan); ?></td>
+                <td style="color: <?= ($K->status == "diperbolehkan") ? 'green' : (($K->status == "diperbolehkan bersyarat") ? 'brown' : 'red'); ?>;"><?= esc($K->status); ?></td>
                 <td>
                     <div class="d-inline-flex gap-1">
                         <div class="btn-group mr-2" role="group" aria-label="First group">

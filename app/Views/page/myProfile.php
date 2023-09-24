@@ -48,7 +48,7 @@
                                 <div class="card">
                                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
                                         <img src="/img/user/<?= user()->user_image; ?>" alt="photo Profile" class="rounded-circle">
-                                        <h2 class="m-1 mt-2 text-center"><?= user()->full_name; ?></h2>
+                                        <h2 class="m-1 mt-2 text-center"><?= esc(user()->full_name); ?></h2>
 
                                         <?php if (in_groups('Admin' && 'SuperAdmin')) : ?>
                                             <a class="badge bg-secondary"><?= user()->username; ?></a>
@@ -91,17 +91,17 @@
 
                                                 <div class="mb-2 row">
                                                     <div class="col-lg-3 col-md-4 label ">Username</div>
-                                                    <div class="col-lg-9 col-md-8">: <?= user()->username; ?></div>
+                                                    <div class="col-lg-9 col-md-8">: <?= esc(user()->username); ?></div>
                                                 </div>
 
                                                 <div class="mb-2 row">
                                                     <div class="col-lg-3 col-md-4 label ">Full Name</div>
-                                                    <div class="col-lg-9 col-md-8" id="full_name">: <?= user()->full_name; ?></div>
+                                                    <div class="col-lg-9 col-md-8" id="full_name">: <?= esc(user()->full_name); ?></div>
                                                 </div>
 
                                                 <div class="mb-2 row">
                                                     <div class="col-lg-3 col-md-4 label ">Email</div>
-                                                    <div class="col-lg-9 col-md-8">: <?= user()->email; ?></div>
+                                                    <div class="col-lg-9 col-md-8">: <?= esc(user()->email); ?></div>
                                                 </div>
 
                                                 <div class="mb-2 row">
@@ -126,28 +126,28 @@
                                                     <div class="row mb-3">
                                                         <label for="username" class="col-md-4 col-lg-3 col-form-label">Username</label>
                                                         <div class="col-md-8 col-lg-9">
-                                                            <input class="form-control" type="text" value="<?= user()->username; ?>" name="username" type="text" class="form-control" id="username" disabled readonly>
+                                                            <input class="form-control" type="text" value="<?= esc(user()->username); ?>" name="username" type="text" class="form-control" id="username" disabled readonly>
                                                         </div>
                                                     </div>
 
                                                     <div class="row mb-3">
                                                         <label for="emain" class="col-md-4 col-lg-3 col-form-label">Email</label>
                                                         <div class="col-md-8 col-lg-9">
-                                                            <input class="form-control" type="text" value="<?= user()->email; ?>" name="email" type="text" class="form-control" id="email" disabled readonly>
+                                                            <input class="form-control" type="text" value="<?= esc(user()->email); ?>" name="email" type="text" class="form-control" id="email" disabled readonly>
                                                         </div>
                                                     </div>
 
                                                     <div class="row mb-3">
                                                         <label for="full_name" class="col-md-4 col-lg-3 col-form-label">Nama Lengkap</label>
                                                         <div class="col-md-8 col-lg-9">
-                                                            <input name="full_name" type="text" class="form-control" id="full_name" value="<?= user()->full_name; ?>">
+                                                            <input name="full_name" type="text" class="form-control" id="full_name" value="<?= esc(user()->full_name); ?>">
                                                         </div>
                                                     </div>
 
                                                     <div class="row mb-3">
                                                         <label for="user_about" class="col-md-4 col-lg-3 col-form-label">About</label>
                                                         <div class="col-md-8 col-lg-9">
-                                                            <textarea class="form-control" name="user_about" id="user_about" rows="3"><?= user()->user_about; ?></textarea>
+                                                            <textarea class="form-control" name="user_about" id="user_about" rows="3"><?= esc(user()->user_about); ?></textarea>
                                                         </div>
                                                     </div>
 

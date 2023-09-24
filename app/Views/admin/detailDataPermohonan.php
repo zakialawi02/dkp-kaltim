@@ -49,7 +49,7 @@
                     <div class="alert alert-<?= ($tampilDataIzin->stat_appv == 0) ? 'warning' : 'secondary'; ?> d-flex align-items-center" role="alert">
                         <div>
                             <i class="bi <?= ($tampilDataIzin->stat_appv == 0) ? 'bi-exclamation-triangle' : 'bi-check2-circle'; ?> " style="font-size: x-large;"></i>
-                            <?= ($tampilDataIzin->stat_appv == 0) ? 'Data Permohanan Informasi Ruang Laut Oleh <u>' . $tampilDataIzin->nama . '</u> <b>Memerlukan Tindakan/Jawaban</b> Oleh Admin' : 'Data Permohanan Informasi Ruang Laut Oleh <u>' . $tampilDataIzin->nama . '</u> <b>Telah Dibalas</b>'; ?>
+                            <?= ($tampilDataIzin->stat_appv == 0) ? 'Data Permohanan Informasi Ruang Laut Oleh <u>' . esc($tampilDataIzin->nama) . '</u> <b>Memerlukan Tindakan/Jawaban</b> Oleh Admin' : 'Data Permohanan Informasi Ruang Laut Oleh <u>' . esc($tampilDataIzin->nama) . '</u> <b>Telah Dibalas</b>'; ?>
                         </div>
                     </div>
 
@@ -72,35 +72,35 @@
                                         <tr>
                                             <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;">Nama Pemohon</th>
                                             <th style="border-bottom-width: 1px; border-bottom-color: #dee2e6;">:</th>
-                                            <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;"><?= $tampilDataIzin->nama; ?></th>
+                                            <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;"><?= esc($tampilDataIzin->nama); ?></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td>NIK (Nomor Induk Kependudukan)</td>
                                             <th>:</th>
-                                            <td><?= $tampilDataIzin->nik; ?></td>
+                                            <td><?= esc($tampilDataIzin->nik); ?></td>
                                         </tr>
                                         <tr>
                                             <td>NIB (Nomor Izin Berusaha)</td>
                                             <th>:</th>
-                                            <td><?= ($tampilDataIzin->nib != null) ? $tampilDataIzin->nib : '-'; ?>
+                                            <td><?= (empty($tampilDataIzin->nib)) ? esc($tampilDataIzin->nib) : '-'; ?>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Alamat</td>
                                             <th>:</th>
-                                            <td><?= $tampilDataIzin->alamat; ?></td>
+                                            <td><?= esc($tampilDataIzin->alamat); ?></td>
                                         </tr>
                                         <tr>
                                             <td>Kontak</td>
                                             <th>:</th>
-                                            <td><?= $tampilDataIzin->kontak; ?></td>
+                                            <td><?= esc($tampilDataIzin->kontak); ?></td>
                                         </tr>
                                         <tr>
                                             <td>Jenis Kegiatan</td>
                                             <th>:</th>
-                                            <td><?= $tampilDataIzin->nama_kegiatan; ?></td>
+                                            <td><?= esc($tampilDataIzin->nama_kegiatan); ?></td>
                                         </tr>
                                         <tr>
                                             <td>Wilayah Kegiatan</td>
@@ -112,7 +112,7 @@
                                                     $zoneName = array_unique($zoneName);
                                                     foreach ($tampilZona as $value) {
                                                         if (in_array($value->id_zona, $zoneName)) {
-                                                            echo "<span>" . $value->nama_zona . "</span>"  . "<br>";
+                                                            echo "<span>" . esc($value->nama_zona) . "</span>"  . "<br>";
                                                         }
                                                     }
                                                 }
