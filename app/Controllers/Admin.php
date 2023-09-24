@@ -321,14 +321,17 @@ class Admin extends BaseController
     }
     public function updatekegiatan($id_kegiatan)
     {
+        $oldCode = $this->request->getVar('oldCode');
         $data = [
             'id_kegiatan' => $id_kegiatan,
             'nama_kegiatan' => $this->request->getPost('editKegiatan'),
             'kode_kegiatan' => $this->request->getPost('editKKegiatan'),
         ];
-        $cek = $this->kegiatan->cekDuplikat($data['kode_kegiatan'])->getRow();
-        if (!empty($cek)) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Gagal! Indikasi Duplikasi Data']);
+        if ($oldCode != $data['kode_kegiatan']) {
+            $cek = $this->kegiatan->cekDuplikat($data['kode_kegiatan'])->getRow();
+            if (!empty($cek)) {
+                return $this->response->setJSON(['status' => 'error', 'message' => 'Gagal! Indikasi Duplikasi Data']);
+            }
         }
         $this->kegiatan->save($data);
         return $this->response->setJSON(['status' => 'success', 'message' => 'Data berhasil diperbarui.']);
