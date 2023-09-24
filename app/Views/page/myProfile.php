@@ -85,7 +85,7 @@
 
                                             <div class="tab-pane fade show active profile-overview" id="profile-overview">
                                                 <h5 class="card-title">About</h5>
-                                                <p class="small fst-italic" id="user_about"><?= user()->user_about; ?></p>
+                                                <p class="small fst-italic" id="user_about"><?= esc(user()->user_about); ?></p>
 
                                                 <h5 class="card-title">Profile Details</h5>
 
