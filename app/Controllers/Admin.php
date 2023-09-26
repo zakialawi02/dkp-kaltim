@@ -11,6 +11,7 @@ use App\Models\ModelIzin;
 use App\Models\ModelUser;
 use App\Models\ModelJenisKegiatan;
 use App\Models\ModelKesesuaian;
+use App\Models\ModelModul;
 use App\Models\ModelNamaZona;
 use App\Models\ModelUpload;
 use App\Models\ModelZonaKawasan;
@@ -20,6 +21,7 @@ use Mpdf\Tag\Br;
 class Admin extends BaseController
 {
     protected $ModelSetting;
+    protected $ModelModul;
     protected $ModelUser;
     protected $ModelIzin;
     protected $ModelUpload;
@@ -31,6 +33,7 @@ class Admin extends BaseController
     {
         helper(['form', 'url']);
         $this->setting = new ModelSetting();
+        $this->modul = new ModelModul();
         $this->user = new ModelUser();
         $this->izin = new ModelIzin();
         $this->uploadFiles = new ModelUpload();
@@ -63,6 +66,106 @@ class Admin extends BaseController
         } else {
             throw new PageNotFoundException();
         };
+    }
+
+    // MODUL
+    public function dataModul()
+    {
+        $data = [
+            'title' => 'Data Modul',
+            'dataModul' => $this->modul->getModul()->getResult(),
+        ];
+        return view('admin/dataModul', $data);
+    }
+    public function tambahModul()
+    {
+        $data = [
+            'title' => 'Tambah Modul',
+        ];
+        return view('admin/tambahModul', $data);
+    }
+    public function editModul($id_modul)
+    {
+        $data = [
+            'title' => 'Edit Modul',
+            'dataModul' => $this->modul->getModul($id_modul)->getRow(),
+        ];
+        return view('admin/updateModul', $data);
+    }
+    public function tambah_modul()
+    {
+        $file = $this->request->getFile('fileModul');
+        if ($file->isValid() && !$file->hasMoved()) {
+            $originalName = $file->getName();
+            $uploadFiles = date('YmdHis') . "_" . $originalName;
+            $dataFile['file_modul'] = $uploadFiles;
+            $file->move('dokumen/modul/', $uploadFiles);
+        }
+        $data = [
+            'judul_modul' => $this->request->getVar('judulModul'),
+            'deskripsi' => $this->request->getVar('deskripsilModul'),
+        ];
+        $data = array_merge($data, $dataFile);
+        $this->modul->save($data);
+        if ($this) {
+            session()->setFlashdata('success', 'Data berhasil ditambahkan.');
+            return $this->response->redirect(site_url('/admin/dataModul'));
+        } else {
+            session()->setFlashdata('error', 'Gagal menambahkan data.');
+            return $this->response->redirect(site_url('/admin/dataModul'));
+        }
+    }
+    public function update_modul($id_modul)
+    {
+        $datas = $this->modul->getModul($id_modul)->getRow();
+        $file = $this->request->getFile('fileModul');
+        if ($file->getError() !== 4) {
+            $filed = $datas->file_modul;
+            $filed = 'dokumen/modul/' . $filed;
+            if (file_exists($filed)) {
+                unlink($filed);
+            }
+            if ($file->isValid() && !$file->hasMoved()) {
+                $originalName = $file->getName();
+                $uploadFiles = date('YmdHis') . "_" . $originalName;
+                $dataFile = $uploadFiles;
+                $file->move('dokumen/modul/', $uploadFiles);
+            }
+        } else {
+            $dataFile = $datas->file_modul;
+        }
+        $data = [
+            'id_modul' => $id_modul,
+            'judul_modul' => $this->request->getVar('judulModul'),
+            'deskripsi' => $this->request->getVar('deskripsilModul'),
+            'file_modul' => $dataFile,
+        ];
+        $this->modul->save($data);
+        if ($this) {
+            session()->setFlashdata('success', 'Data berhasil diperbarui.');
+            return $this->response->redirect(site_url('/admin/dataModul'));
+        } else {
+            session()->setFlashdata('error', 'Gagal memperbarui data.');
+            return $this->response->redirect(site_url('/admin/dataModul'));
+        }
+    }
+    public function delete_modul($id_modul)
+    {
+        $data = $this->modul->getModul($id_modul)->getRow();
+        if (!empty($data->file_modul)) {
+            $file = 'dokumen/modul/' . $data->file_modul;
+            if (file_exists($file)) {
+                unlink($file);
+            }
+        }
+        $this->modul->delete(['id_modul' => $id_modul]);
+        if ($this) {
+            session()->setFlashdata('success', 'Data berhasil dihapus.');
+            return $this->response->redirect(site_url('/admin/dataModul'));
+        } else {
+            session()->setFlashdata('error', 'Gagal menghapus data.');
+            return $this->response->redirect(site_url('/admin/dataModul'));
+        }
     }
 
     // SETTING MAP VIEW

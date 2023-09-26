@@ -47,6 +47,8 @@ $routes->get('/user/kelola', 'User::manajemen', ['filter' => 'role:SuperAdmin,Ad
 $routes->get('/admin/data/permohonan/masuk', 'Admin::pending', ['filter' => 'role:SuperAdmin,Admin']);
 $routes->get('/admin/pending', 'Admin::pending', ['filter' => 'role:SuperAdmin,Admin']);
 
+$routes->get('/admin/tambahModul', 'Admin::tambahModul', ['filter' => 'role:SuperAdmin']);
+
 
 $routes->post('/data/tambahAjuan', 'Data::tambahAjuan', ['filter' => 'role:SuperAdmin,Admin,User']);
 $routes->post('/data/updateAjuan/(:num)', 'Data::updateAjuan/$1', ['filter' => 'role:SuperAdmin,Admin,User']);
