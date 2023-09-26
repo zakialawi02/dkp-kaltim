@@ -21,10 +21,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
-    <!-- Libraries Stylesheet -->
-    <link href="/assets/lib/animate/animate.min.css" rel="stylesheet">
-    <link href="/assets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href=" https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css " rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
@@ -80,20 +77,20 @@
                 <div class="right">
 
                     <!-- versi 2 -->
-                    <form autocomplete="off" class="form" id="myForm" name="myform">
+                    <form action="/email/send" method="post" autocomplete="off" class="form" id="myForm" name="myform">
                         <?= csrf_field(); ?>
                         <div>
-                            <input type="text" placeholder="Your Name" name="name" id="name" required />
+                            <input type="text" placeholder="Nama" name="name" id="name" required />
                             <div class="feedback kosong" id="kosongName"></div>
-                            <input type="email" placeholder="Your Email" name="email" id="email" required />
+                            <input type="email" placeholder="Email" name="email" id="email" required />
                             <div class="feedback kosong" id="kosongEmail"></div>
                         </div>
-                        <input type="text" placeholder="Subject" name="judul" id="judul" required />
+                        <input type="text" placeholder="Subjek" name="judul" id="judul" required />
                         <div class="feedback kosong" id="kosongJudul"></div>
-                        <textarea cols="10" rows="10" placeholder="Your Message" name="message" id="message" required></textarea>
+                        <textarea cols="10" rows="10" placeholder="Pesan Anda" name="message" id="message" required></textarea>
 
                         <div id="terkirim"></div>
-                        <button class="btn-contact" type="submit" role="button" value="Submit" id="sendMail" name="sendMail">Kirim</button>
+                        <button class="btn-contact" type="submit" id="sendMail" name="sendMail">Kirim</button>
                     </form>
 
                 </div>
@@ -117,9 +114,7 @@
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/assets/lib/wow/wow.min.js"></script>
-    <script src="/assets/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js "></script>
 
     <!-- Template Javascript -->
     <script src="/assets/js/main.js"></script>
@@ -129,6 +124,27 @@
     <script src="/assets/js/main.js"></script>
 
 
+    <?php if (session()->getFlashdata('success')) : ?>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: '<?= session()->getFlashdata('success'); ?>',
+                timer: 1500,
+            });
+        </script>
+    <?php endif; ?>
+
+    <?php if (session()->getFlashdata('error')) : ?>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: '<?= session()->getFlashdata('error'); ?>',
+                timer: 1500,
+            });
+        </script>
+    <?php endif; ?>
 </body>
 
 </html>

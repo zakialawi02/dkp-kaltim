@@ -100,7 +100,7 @@
                                     <div class="card-body">
                                         <h4 class="card-title">Edit Data</h4>
 
-                                        <form class="row g-3" action="/data/updateAjuan/<?= $tampilIzin->id_perizinan; ?>" method="post" enctype="multipart/form-data">
+                                        <form class="row g-3" action="/data/updateAjuan/<?= $tampilIzin->id_perizinan; ?>" method="post" enctype="multipart/form-data" autocomplete="off">
                                             <?= csrf_field(); ?>
 
                                             <h5>a. Identitas Pemohon</h5>

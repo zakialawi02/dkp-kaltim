@@ -82,7 +82,7 @@
                     <div class="card mb-4">
                         <div class="card-body">
 
-                            <form action="/admin/tambah_modul" id="tambahForm" method="post" enctype="multipart/form-data">
+                            <form action="/admin/tambah_modul" id="tambahForm" method="post" enctype="multipart/form-data" autocomplete="off">
                                 <?php csrf_field() ?>
                                 <div class="row">
                                     <div class="col-md-12">
