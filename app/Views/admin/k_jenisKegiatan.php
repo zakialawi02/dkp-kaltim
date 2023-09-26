@@ -89,6 +89,7 @@
                                         <form id="editForm" method="post">
                                             <?php csrf_field() ?>
 
+                                            <input type="hidden" id="oldCode" name="oldCode">
                                             <div class="mb-3">
                                                 <label for="editKegiatan" class="form-label">Nama Kegiatan</label>
                                                 <input type="text" class="form-control form-control-sm" id="editKegiatan" name="editKegiatan" placeholder="Nama Kegiatan" required>
@@ -285,6 +286,7 @@
         $("#updatekan").click(function(e) {
             e.preventDefault();
             $("#editForm #textHelp").html("");
+            let oldCode = $("#oldCode").val();
             let editKegiatan = $("#editKegiatan").val();
             let editKKegiatan = $("#editKKegiatan").val();
             editKKegiatan = editKKegiatan.toUpperCase().replace(/\s+/g, '');
@@ -305,6 +307,7 @@
                 method: "POST",
                 url: url,
                 data: {
+                    oldCode,
                     editKegiatan,
                     editKKegiatan,
                 },
@@ -346,6 +349,7 @@
                 const url = `/admin/updatekegiatan/${data.id_kegiatan}`
                 $("#editForm").attr("action", url);
                 $("#editKegiatan").val(data.nama_kegiatan);
+                $("#oldCode").val(data.kode_kegiatan);
                 $("#editKKegiatan").val(data.kode_kegiatan);
             }).fail(function(error) {
                 console.error('Error:', error);
@@ -354,7 +358,7 @@
 
         function hapuskan(id_kegiatan) {
             Swal.fire({
-                title: 'Anda Ingin Menhapus Data Ini?',
+                title: 'Anda Ingin Menghapus Data Ini?',
                 text: "Data yang dihapus tidak bisa dikembalikan lagi",
                 icon: 'warning',
                 showCancelButton: true,

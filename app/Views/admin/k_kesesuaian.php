@@ -520,7 +520,7 @@
 
         function hapuskan(id_kesesuaian) {
             Swal.fire({
-                title: 'Anda Ingin Menhapus Data Ini?',
+                title: 'Anda Ingin Menghapus Data Ini?',
                 text: "Data yang dihapus tidak bisa dikembalikan lagi",
                 icon: 'warning',
                 showCancelButton: true,

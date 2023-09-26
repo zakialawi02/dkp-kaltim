@@ -1784,6 +1784,7 @@
         $('#isiByFile').change(function(e) {
             let selectedCounter;
             const file = e.target.files[0];
+            console.log(file);
             const reader = new FileReader();
             jsonCoordinates = [];
             vectorSource.clear();
@@ -1832,6 +1833,7 @@
                         }, '<?= base_url('/data/petaPreview'); ?>');
                     } else {
                         alert("File Belum Support");
+                        console.log(event.target.result);
 
 
 

@@ -59,7 +59,7 @@
                 <div class="col col-lg-7">
                     <div class="card">
                         <div class="card-body">
-                            <form class="row g-3" action="/data/tambahAjuan" method="post" enctype="multipart/form-data">
+                            <form class="row g-3" action="/data/tambahAjuan" method="post" enctype="multipart/form-data" autocomplete="off">
                                 <?= csrf_field(); ?>
                                 <?php
                                 $datas = session()->getFlashdata('data');

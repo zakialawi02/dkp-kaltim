@@ -55,6 +55,10 @@
                 <div class="sb-sidenav-menu-heading">Pengaturan</div>
 
                 <?php if (in_groups('SuperAdmin')) : ?>
+                    <a class="nav-link" href="/admin/dataModul">
+                        <div class="sb-nav-link-icon"><i class="bi bi-file-pdf-fill"></i></div>
+                        Modul
+                    </a>
                     <a class="nav-link collapsed" href="/admin/data/permohonan/masuk" data-bs-toggle="collapse" data-bs-target="#collapseKesesuai" aria-expanded="false" aria-controls="collapseKesesuai">
                         <div class="sb-nav-link-icon"><i class="bi bi-collection"></i></div>
                         Kesesuaian

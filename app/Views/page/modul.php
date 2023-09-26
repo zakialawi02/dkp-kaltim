@@ -58,56 +58,26 @@
             <h2 class="text-white"><?= $title; ?></h2>
         </div>
         <div class="container mt-3 pt-3">
-            <div class="data-list d-flex flex-wrap justify-content-start w-100 gap-2 pb-3">
+            <?php if (empty($dataModul)) : ?>
+                <div class="data-list d-flex flex-wrap justify-content-center w-100 gap-2 p-3">
+                    <p>Tidak ada data</p>
+                </div>
+            <?php else : ?>
+                <div class="data-list d-flex flex-wrap justify-content-start w-100 gap-2 p-3">
+                    <?php foreach ($dataModul as $row) : ?>
+                        <div class="card" style="width: 18rem;">
+                            <img src=" /img/<?= (empty($row->thumb_modul)) ? 'document.png' : $row->thumb_modul ?>" class="card-img-top p-2" alt="thumbnail" style="width: 8rem; align-self: center;">
+                            <div class="card-body">
+                                <h5 class="card-title"><?= esc($row->judul_modul); ?></h5>
+                                <p class="card-text"><?= esc($row->deskripsi); ?></p>
+                                <!-- <p style="font-size: smaller;">Zipped Shapefile</p> -->
+                                <a href="/dokumen/modul/<?= esc($row->file_modul); ?>" class="btn btn-primary bi bi-cloud-arrow-down-fill" target="_blank"> Download</a>
+                            </div>
+                        </div>
+                    <?php endforeach ?>
+                </div>
+            <?php endif ?>
 
-                <div class="card" style="width: 18rem;">
-                    <img src=" /img/no image.jpg" class="card-img-top p-2" alt="..." style="width: 8rem; align-self: center;">
-                    <div class="card-body">
-                        <h5 class="card-title">Letak Judul</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <!-- <p style="font-size: smaller;">Zipped Shapefile</p> -->
-                        <a href="#" class="btn btn-primary bi bi-cloud-arrow-down-fill"> Download</a>
-                    </div>
-                </div>
-                <div class="card" style="width: 18rem;">
-                    <img src=" /img/no image.jpg" class="card-img-top p-2" alt="..." style="width: 8rem; align-self: center;">
-                    <div class="card-body">
-                        <h5 class="card-title">Letak Judul</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <!-- <p style="font-size: smaller;">Zipped Shapefile</p> -->
-                        <a href="#" class="btn btn-primary bi bi-cloud-arrow-down-fill"> Download</a>
-                    </div>
-                </div>
-                <div class="card" style="width: 18rem;">
-                    <img src=" /img/no image.jpg" class="card-img-top p-2" alt="..." style="width: 8rem; align-self: center;">
-                    <div class="card-body">
-                        <h5 class="card-title">Letak Judul</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <!-- <p style="font-size: smaller;">Zipped Shapefile</p> -->
-                        <a href="#" class="btn btn-primary bi bi-cloud-arrow-down-fill"> Download</a>
-                    </div>
-                </div>
-                <div class="card" style="width: 18rem;">
-                    <img src=" /img/no image.jpg" class="card-img-top p-2" alt="..." style="width: 8rem; align-self: center;">
-                    <div class="card-body">
-                        <h5 class="card-title">Letak Judul</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <!-- <p style="font-size: smaller;">Zipped Shapefile</p> -->
-                        <a href="#" class="btn btn-primary bi bi-cloud-arrow-down-fill"> Download</a>
-                    </div>
-                </div>
-                <div class="card" style="width: 18rem;">
-                    <img src=" /img/no image.jpg" class="card-img-top p-2" alt="..." style="width: 8rem; align-self: center;">
-                    <div class="card-body">
-                        <h5 class="card-title">Letak Judul</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <!-- <p style="font-size: smaller;">Zipped Shapefile</p> -->
-                        <a href="#" class="btn btn-primary bi bi-cloud-arrow-down-fill"> Download</a>
-                    </div>
-                </div>
-
-
-            </div>
         </div>
     </section>
 

@@ -10,6 +10,7 @@ use App\Models\ModelSetting;
 use App\Models\ModelIzin;
 use App\Models\ModelJenisKegiatan;
 use App\Models\ModelKesesuaian;
+use App\Models\ModelModul;
 use App\Models\ModelNamaZona;
 use App\Models\ModelUpload;
 use App\Models\ModelZonaKawasan;
@@ -18,6 +19,7 @@ use Faker\Extension\Helper;
 class Data extends BaseController
 {
     protected $ModelSetting;
+    protected $ModelModul;
     protected $ModelIzin;
     protected $ModelUpload;
     protected $ModelJenisKegiatan;
@@ -28,6 +30,7 @@ class Data extends BaseController
     {
         helper(['form', 'url']);
         $this->setting = new ModelSetting();
+        $this->modul = new ModelModul();
         $this->izin = new ModelIzin();
         $this->uploadFiles = new ModelUpload();
         $this->kegiatan = new ModelJenisKegiatan();
@@ -48,7 +51,9 @@ class Data extends BaseController
     {
         $data = [
             'title' => 'Modul',
+            'dataModul' => $this->modul->getModul()->getResult(),
         ];
+        // dd($data['dataModul']);
         return view('page/modul', $data);
     }
 
