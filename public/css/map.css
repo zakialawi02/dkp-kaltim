@@ -202,11 +202,6 @@ label {
 }
 
 /* loading login logout */
-#spinners {
-    display: none;
-    z-index: 1000;
-}
-
 #spinnerss {
     display: none;
     z-index: 1000;
