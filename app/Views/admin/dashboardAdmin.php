@@ -108,7 +108,7 @@ $countAllTolak = count($allDataTolak);
                                     <div class="col-xxl-4 col-md-6 mb-3">
                                         <div class="card info-card pending-card h-100">
                                             <div class="card-body">
-                                                <h5 class="card-title">Menunggu Jawaban</h5>
+                                                <h5 class="card-title">Menunggu Tindakan</h5>
 
                                                 <div class="d-flex align-items-center">
                                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">

@@ -186,7 +186,7 @@ h6 {
       rgba(21, 21, 21, 0.276),
       rgba(17, 17, 17, 0.373)
     ),
-    url("/img/hero.webp");
+    url("/img/SIMATA LAUT.webp");
   background-size: cover;
   background-position: center;
   width: 100%;
@@ -204,14 +204,15 @@ h6 {
 .hero-header p {
   font-size: 1.3em;
   font-weight: 400;
-  margin-bottom: 1em;
 }
 
 .hero-content {
   text-align: center;
   color: white;
 }
-
+.hero-content.spacer {
+  margin-top: 10rem;
+}
 @media (max-width: 768px) {
   .hero-header h1 {
     font-size: 2.5rem;
