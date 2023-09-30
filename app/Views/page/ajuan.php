@@ -338,9 +338,9 @@
         if (hasil == "tidak diperbolehkan") {
             $(".info_status").html('<p class="tidakBoleh">Aktivitas yang tidak diperbolehkan</p>');
         } else if (hasil == "diperbolehkan bersyarat") {
-            $(".info_status").html('<p class="bolehBersyarat">Aktifitas diperbolehkan setelah memperoleh izin</p>');
+            $(".info_status").html('<p class="bolehBersyarat">Aktivitas diperbolehkan setelah memperoleh izin</p>');
         } else if (hasil == "diperbolehkan") {
-            $(".info_status").html('<p class="boleh">Aktifitas yang diperbolehkan</p>');
+            $(".info_status").html('<p class="boleh">Aktivitas yang diperbolehkan</p>');
         } else {
             $(".info_status").html('<p class="">No Data</p>');
         }

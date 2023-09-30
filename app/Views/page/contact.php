@@ -69,6 +69,7 @@
                         <span class="content">
                             <h3>Email</h3>
                             <span>sungramdkpkaltim@gmail.com</span>
+                            <span>dkpkaltimprl@gmail.com</span>
                         </span>
                     </div>
 

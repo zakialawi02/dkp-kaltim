@@ -108,7 +108,7 @@
                                                 <div class="accordion-item">
                                                     <h2 class="accordion-header" id="headingOne">
                                                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                            Menunggu Jawaban<span class="badge bg-secondary m-1"><?= $totalPending; ?></span> &nbsp;<span type="button" class="bi bi-info-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Menunggu permohonan diverifikasi"></span>
+                                                            Menunggu Tindakan<span class="badge bg-secondary m-1"><?= $totalPending; ?></span> &nbsp;<span type="button" class="bi bi-info-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Menunggu permohonan diverifikasi"></span>
                                                         </button>
                                                     </h2>
                                                     <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
@@ -121,7 +121,7 @@
                                                 <div class="accordion-item">
                                                     <h2 class="accordion-header" id="headingOne">
                                                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                            Menunggu Jawaban<span class="badge bg-secondary m-1"><?= $totalPending; ?></span> &nbsp;<span type="button" class="bi bi-info-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Menunggu permohonan diverifikasi"></span>
+                                                            Menunggu Tindakan<span class="badge bg-secondary m-1"><?= $totalPending; ?></span> &nbsp;<span type="button" class="bi bi-info-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Menunggu permohonan diverifikasi"></span>
                                                         </button>
                                                     </h2>
                                                     <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">

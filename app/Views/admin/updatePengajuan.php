@@ -230,16 +230,6 @@
         });
     </script>
     <script>
-        const files = [];
-        const loadUploaded = <?= json_encode($tampilIzin->files) ?>;
-        loadUploaded.forEach(function(file) {
-            const source = file.source;
-            const options = file.options;
-            files.push({
-                source: source,
-                options: options
-            });
-        });
         // Get a file input reference
         const input = document.querySelector('input[type="file"]');
         const dokumenUp = input.getAttribute('data-dokumenUp');
@@ -265,16 +255,8 @@
                 headers: {
                     'X-CSRF-TOKEN': '<?= csrf_hash() ?>'
                 },
-                load: {
-                    url: '/dokumen/upload-dokumen/',
-                    method: 'GET',
-                    headers: {
-                        'X-CSRF-TOKEN': '<?= csrf_hash() ?>'
-                    }
-                },
                 fetch: null,
             },
-            files: files
         });
 
         function deleteFile(nameFile) {
@@ -644,10 +626,10 @@
                             $(".info_status").html('<p class="tidakBoleh">Aktivitas yang tidak diperbolehkan</p>');
                         } else if (diperbolehkanBersyarat.length !== 0) {
                             $('#lanjutKirim').prop('disabled', false);
-                            $(".info_status").html('<p class="bolehBersyarat">Aktifitas diperbolehkan setelah memperoleh izin</p>');
+                            $(".info_status").html('<p class="bolehBersyarat">Aktivitas diperbolehkan setelah memperoleh izin</p>');
                         } else {
                             $('#lanjutKirim').prop('disabled', false);
-                            $(".info_status").html('<p class="boleh">Aktifitas yang diperbolehkan</p>');
+                            $(".info_status").html('<p class="boleh">Aktivitas yang diperbolehkan</p>');
                         }
                     } else {
                         $('#lanjutKirim').prop('disabled', false);

@@ -291,14 +291,8 @@ class Data extends BaseController
             'objectName' => $this->request->getVar('name'),
             'kode' => $this->request->getVar('kode'),
             'orde' => $this->request->getVar('orde'),
-            'remark' => $this->request->getVar('remark'),
             'geojsonFeature' => $this->request->getVar('geojsonFeature'),
         ];
-
-        // echo '<pre>';
-        // print_r($data);
-        // die;
-        // dd($data);
         return view('serverSide/cekHasil', $data);
     }
 
@@ -512,6 +506,10 @@ class Data extends BaseController
         }
         dd($dd);
     }
+
+
+
+
 
     // public function sendEmails()
     // {
