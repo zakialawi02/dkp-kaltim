@@ -123,7 +123,7 @@
                     <div class="card-body">
                         <center>
                             <h5 class="card-title">Buat Ajuan</h5>
-                            <p class="card-text">Buat Ajuan Melakukan permohonan Informasi Kesesuaian ruang Laut secara mandiri dengan system daring (online).</p>
+                            <p class="card-text">Buat Ajuan Melakukan permohonan Informasi Kesesuaian ruang Laut secara mandiri dengan sistem daring (online).</p>
                         </center>
                     </div>
                 </div>

@@ -97,6 +97,7 @@
                     </a>
                 <?php endif ?>
 
+                <hr>
                 <a class="nav-link" href="/kontak">
                     <div class="sb-nav-link-icon"><i class="bi bi-envelope-fill"></i></div>
                     Kontak Kami

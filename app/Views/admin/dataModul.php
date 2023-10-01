@@ -57,6 +57,7 @@
                                         <th>#</th>
                                         <th>Judul Modul</th>
                                         <th>Deskripsi</th>
+                                        <th>Modul</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -67,6 +68,7 @@
                                             <th><?= $i++; ?></th>
                                             <td><?= esc($M->judul_modul); ?></td>
                                             <td><?= esc($M->deskripsi); ?></td>
+                                            <td><a href="/dokumen/modul/<?= $M->file_modul; ?>" class="bi bi-file-earmark-pdf"> File</a></td>
                                             <td>
                                                 <div class="d-inline-flex gap-1">
                                                     <div class="btn-group mr-2" role="group" aria-label="First group">

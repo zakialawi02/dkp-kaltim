@@ -253,6 +253,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/ol@v7.4.0/dist/ol.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/elm-pep@1.0.6/dist/elm-pep.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://unpkg.com/@mapbox/shp-write@latest/shpwrite.js"></script>
     <script src="https://unpkg.com/ol-layerswitcher@4.1.1"></script>
 
     <script type="text/javascript">
@@ -269,6 +271,42 @@
 
         let geojson = <?= $tampilDataIzin->lokasi; ?>;
         console.log(geojson);
+        const options = {
+            folder: "shp",
+            filename: "zip_shp",
+            outputType: "blob",
+            compression: "DEFLATE",
+        };
+        // a GeoJSON bridge for features
+        const zipData = shpwrite.zip({
+            type: "FeatureCollection",
+            features: [{
+                type: "Feature",
+                geometry: {
+                    type: "Polygon",
+                    coordinates: [
+                        [
+                            117.04,
+                            -1.175
+                        ],
+                        [
+                            117.058,
+                            -1.2
+                        ],
+                        [
+                            117.07,
+                            -1.175
+                        ],
+                        [
+                            117.04,
+                            -1.175
+                        ]
+                    ],
+                },
+                properties: {},
+            }],
+        });
+
 
         // style vector geometry
         const markerStyle = new ol.style.Style({
@@ -303,7 +341,6 @@
         } else {
             styleDraw = polygonStyle;
         }
-        console.log(styleDraw);
         let vectorSource = new ol.source.Vector({
             features: new ol.format.GeoJSON().readFeatures(geojson, {
                 featureProjection: 'EPSG:3857', // Proyeksi EPSG:3857 (Web Mercator)
