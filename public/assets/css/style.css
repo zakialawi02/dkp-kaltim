@@ -188,7 +188,7 @@ h6 {
     ),
     url("/img/SIMATA LAUT.webp");
   background-size: cover;
-  background-position: center;
+  background-position: top;
   width: 100%;
   height: 92vh;
   display: flex;
@@ -211,7 +211,7 @@ h6 {
   color: white;
 }
 .hero-content.spacer {
-  margin-top: 10rem;
+  margin-top: 18rem;
 }
 @media (max-width: 768px) {
   .hero-header h1 {

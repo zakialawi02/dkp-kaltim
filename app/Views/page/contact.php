@@ -68,7 +68,7 @@
                         <span class="icon"><i class="bi bi-envelope"></i></span>
                         <span class="content">
                             <h3>Email</h3>
-                            <span>sungramdkpkaltim@gmail.com</span>
+                            <span>sungramdkpkaltim@gmail.com</span> <br>
                             <span>dkpkaltimprl@gmail.com</span>
                         </span>
                     </div>

@@ -150,6 +150,7 @@
                     <div class="card mb-3">
                         <div class="card-body">
                             <div id="map" class="map"></div>
+                            <div id="Cbtnshp"></div>
                         </div>
                     </div>
                     <div class="card ambilTindakanJawaban">
@@ -271,41 +272,6 @@
 
         let geojson = <?= $tampilDataIzin->lokasi; ?>;
         console.log(geojson);
-        const options = {
-            folder: "shp",
-            filename: "zip_shp",
-            outputType: "blob",
-            compression: "DEFLATE",
-        };
-        // a GeoJSON bridge for features
-        const zipData = shpwrite.zip({
-            type: "FeatureCollection",
-            features: [{
-                type: "Feature",
-                geometry: {
-                    type: "Polygon",
-                    coordinates: [
-                        [
-                            117.04,
-                            -1.175
-                        ],
-                        [
-                            117.058,
-                            -1.2
-                        ],
-                        [
-                            117.07,
-                            -1.175
-                        ],
-                        [
-                            117.04,
-                            -1.175
-                        ]
-                    ],
-                },
-                properties: {},
-            }],
-        });
 
 
         // style vector geometry

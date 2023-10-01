@@ -92,7 +92,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="deskripsilModul" class="form-label">Deskripsi Modul <span style="color: red;">*</span></label>
-                                            <textarea type="text" class="form-control form-control-sm" id="deskripsilModul" name="deskripsilModul" placeholder="Nama/Judul Modul" rows="5" required></textarea>
+                                            <textarea type="text" class="form-control form-control-sm" id="deskripsilModul" name="deskripsilModul" placeholder="Deskripsi Modul" rows="5" required></textarea>
                                         </div>
                                         <div class="mb-3">
                                             <label for="fileModul" class="form-label">File Modul <span style="color: red;">*</span></label>
