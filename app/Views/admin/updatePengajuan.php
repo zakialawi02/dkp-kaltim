@@ -161,6 +161,19 @@
                                             </div>
 
                                             <h5>c. Upload Berkas</h5>
+                                            <div id="tempatFile">
+                                                <div class="p-md-2 gap-2">
+                                                    <?php if ($tampilIzin->uploadFiles != null) : ?>
+                                                        <?php foreach ($tampilIzin->uploadFiles as $file) : ?>
+                                                            <div class="card mb-3" style="max-width: 500px;">
+                                                                <div class="card-body file">
+                                                                    <p class="card-text"><button type="button" class="asbn btn btn-danger bi bi-trash3-fill me-2" onclick="hapusFile('<?= $file->uploadFiles; ?>')"></button><a href="/dokumen/upload-dokumen/<?= $file->uploadFiles; ?>" target="_blank"><?= $file->uploadFiles; ?></a></p>
+                                                                </div>
+                                                            </div>
+                                                        <?php endforeach ?>
+                                                    <?php endif ?>
+                                                </div>
+                                            </div>
 
                                             <input type="file" class="filepond" name="filepond[]" value="" multiple data-dokumenUp="<?= $tampilIzin->id_perizinan; ?>" />
 
@@ -228,6 +241,22 @@
                 allowClear: true
             });
         });
+    </script>
+    <script>
+        function hapusFile(file) {
+            console.log(file);
+            $.ajax({
+                type: "POST",
+                url: `/data/delete_file`,
+                data: {
+                    file
+                },
+                dataType: "html",
+                success: function(response) {
+                    $("#tempatFile").html(response);
+                }
+            });
+        }
     </script>
     <script>
         // Get a file input reference

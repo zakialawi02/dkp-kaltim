@@ -340,16 +340,9 @@ class Data extends BaseController
             $kode_kawasan = array_map(function ($feature) {
                 return $feature['kodeKawasan'];
             }, $OverlapProperties);
-            // filter data/cek data
-            // if (!empty($isKonservasi)) {
             for ($i = 0; $i < count($OverlapProperties); $i++) {
                 $getResult[] = $this->kesesuaian->searchKesesuaian($KodeKegiatan, $id_zona[$i], $kode_kawasan[$i], $subZona[$i])->getResult();
             }
-            // } else {
-            //     for ($i = 0; $i < count($OverlapProperties); $i++) {
-            //         $getResult[] = $this->kesesuaian->searchKesesuaian($KodeKegiatan, $id_zona[$i], $kode_kawasan[$i])->getResult();
-            //     }
-            // }
             foreach ($getResult as $subArray) {
                 foreach ($subArray as $item) {
                     $result[] =  $item;
@@ -386,6 +379,17 @@ class Data extends BaseController
     {
         $result = $this->kesesuaian->selectedByKegiatan($kode_kegiatan)->getResult();
         return $result;
+    }
+
+    public function delete_file()
+    {
+        $file = $this->request->getPost('file');
+        $data = $this->uploadFiles->searchFile($file)->getRow();
+        $this->uploadFiles->delete($data->id_upload);
+        $data = [
+            'dataFile' => $this->uploadFiles->getFiles($data->id_perizinan)->getResult(),
+        ];
+        return view('serverSide/showFile', $data);
     }
 
 
@@ -452,60 +456,6 @@ class Data extends BaseController
         return $files;
     }
 
-    public function ss()
-    {
-        $id_kesesuaian = "111";
-        $kode_kawasan = "KKP3K-02";
-        $dd = $this->kesesuaian->getKesesuaian($id_kesesuaian, $kode_kawasan)->getResultArray();
-        dd($dd);
-    }
-
-    public function dump()
-    {
-        $kode_kegiatan = "K48";
-        // $id_zona = ["2"];
-        // $kode_kawasan = ["KK-P3K-ZL-03"];
-        // $sub = ["Inti"];
-        $id_zona = ["6"];
-        $kode_kawasan = ["KPU-PL-15"];
-        $sub = [];
-
-        $dd = $this->kesesuaian->searchKesesuaian($kode_kegiatan, $id_zona, $kode_kawasan, $sub)->getResult();
-        dd($dd);
-    }
-
-
-    public function dumpp()
-    {
-        $id_zona = "15";
-        $kode_kawasan = "KPU-TB-77";
-        $dd = $this->kawasan->cekDuplikat($id_zona, $kode_kawasan)->getResult();
-        dd($dd);
-    }
-    public function dumpkeg()
-    {
-        $valKegiatan = "138";
-        $fecthKegiatan = $this->kegiatan->getJenisKegiatan($valKegiatan)->getResult();
-        dd($fecthKegiatan);
-    }
-    public function dumpzon()
-    {
-        $namaZona = 'zona pariwisata';
-        $id_zona = $this->zona->searchZona($namaZona)->getResult();
-        dd($id_zona);
-    }
-    public function dumpkwsn()
-    {
-        $zone = [1, 2, 3, 4];
-        foreach ($zone as $val) {
-            $dd[] = $this->kawasan->getZKawasan($val)->getResult();
-        }
-        $dd = array_merge(...$dd);
-        foreach ($dd as $row) {
-            $kwsn[] = $row->kode_kawasan;
-        }
-        dd($dd);
-    }
 
 
 

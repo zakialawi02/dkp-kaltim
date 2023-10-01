@@ -31,4 +31,11 @@ class ModelUpload extends Model
                 ->get();
         }
     }
+    public function searchFile($name = false)
+    {
+        return $this->db->table('tbl_file_upload')
+            ->select('*')
+            ->like(['tbl_file_upload.file' => $name])
+            ->get();
+    }
 }
