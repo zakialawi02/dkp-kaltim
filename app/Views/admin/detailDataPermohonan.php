@@ -84,7 +84,7 @@
                                         <tr>
                                             <td>NIB (Nomor Izin Berusaha)</td>
                                             <th>:</th>
-                                            <td><?= (empty($tampilDataIzin->nib)) ? esc($tampilDataIzin->nib) : '-'; ?>
+                                            <td><?= (!empty($tampilDataIzin->nib)) ? esc($tampilDataIzin->nib) : '-'; ?>
                                             </td>
                                         </tr>
                                         <tr>
@@ -150,6 +150,7 @@
                     <div class="card mb-3">
                         <div class="card-body">
                             <div id="map" class="map"></div>
+                            <div id="Cbtnshp"></div>
                         </div>
                     </div>
                     <div class="card ambilTindakanJawaban">
@@ -254,8 +255,9 @@
     <script src="https://cdn.jsdelivr.net/npm/ol@v7.4.0/dist/ol.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/elm-pep@1.0.6/dist/elm-pep.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://unpkg.com/@mapbox/shp-write@latest/shpwrite.js"></script>
     <script src="https://unpkg.com/ol-layerswitcher@4.1.1"></script>
+    <!-- <script src="https://unpkg.com/@mapbox/shp-write@latest/shpwrite.js"></script> -->
+    <script src="/js/write-shp.js"></script>
 
     <script type="text/javascript">
         <?php foreach ($tampilData as $D) : ?>
@@ -267,46 +269,60 @@
         <?php endforeach ?>
 
         proj4.defs("EPSG:32750", "+proj=utm +zone=50 +south +ellps=WGS84 +datum=WGS84 +units=m +no_defs");
-        proj4.defs("EPSG:23836", "+proj=tmerc +lat_0=0 +lon_0=112.5 +k=0.9999 +x_0=200000 +y_0=1500000 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
 
-        let geojson = <?= $tampilDataIzin->lokasi; ?>;
+        const geojson = <?= $tampilDataIzin->lokasi; ?>;
         console.log(geojson);
-        const options = {
-            folder: "shp",
-            filename: "zip_shp",
-            outputType: "blob",
-            compression: "DEFLATE",
-        };
-        // a GeoJSON bridge for features
-        const zipData = shpwrite.zip({
-            type: "FeatureCollection",
-            features: [{
-                type: "Feature",
-                geometry: {
-                    type: "Polygon",
-                    coordinates: [
-                        [
-                            117.04,
-                            -1.175
-                        ],
-                        [
-                            117.058,
-                            -1.2
-                        ],
-                        [
-                            117.07,
-                            -1.175
-                        ],
-                        [
-                            117.04,
-                            -1.175
-                        ]
-                    ],
-                },
-                properties: {},
-            }],
-        });
-
+        try {
+            const btnshp = document.createElement("a");
+            btnshp.innerHTML = "Download Shapefile";
+            btnshp.id = "btnshp";
+            btnshp.className = "asbn btn btn-primary m-3";
+            btnshp.onclick = function() {
+                try {
+                    proj4.defs('EPSG:32750', '+proj=utm +zone=50 +south +datum=WGS84 +units=m +no_defs');
+                    proj4.defs('EPSG:4326', '+proj=longlat +datum=WGS84 +no_defs');
+                    const geojsonData = {
+                        "type": "FeatureCollection",
+                        "features": [],
+                    };
+                    geojsonData.features.push(geojson);
+                    geojsonData.features[0].properties.NAMA_PEMOHON = "<?= $tampilDataIzin->nama; ?>";
+                    geojsonData.features[0].properties.NIK = "<?= $tampilDataIzin->nik; ?>";
+                    geojsonData.features[0].properties.NIK = "<?= $tampilDataIzin->nib; ?>";
+                    geojsonData.features[0].properties.ALAMAT = "<?= $tampilDataIzin->alamat; ?>";
+                    geojsonData.features[0].properties.KONTAK = "<?= $tampilDataIzin->kontak; ?>";
+                    geojsonData.features[0].properties.JNS_KEGIATAN = "<?= $tampilDataIzin->nama_kegiatan; ?>";
+                    const options = {
+                        folder: '<?= $tampilDataIzin->nama; ?>_<?= $tampilDataIzin->nik; ?>',
+                        filename: "<?= $tampilDataIzin->nik; ?>",
+                        outputType: "blob",
+                        types: {
+                            point: "<?= $tampilDataIzin->nik; ?>_PO",
+                            polygon: "<?= $tampilDataIzin->nik; ?>_AR",
+                            polyline: "<?= $tampilDataIzin->nik; ?>_LN",
+                        },
+                        prj: 'PROJCS["WGS_1984_UTM_Zone_50S",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Transverse_Mercator"],PARAMETER["False_Easting",500000.0],PARAMETER["False_Northing",10000000.0],PARAMETER["Central_Meridian",117.0],PARAMETER["Scale_Factor",0.9996],PARAMETER["Latitude_Of_Origin",0.0],UNIT["Meter",1.0]]',
+                    };
+                    geojsonData.features.forEach(feature => {
+                        feature.geometry.coordinates = feature.geometry.coordinates.map(coordinates => {
+                            return coordinates.map(coord => {
+                                return proj4('EPSG:4326', 'EPSG:32750', [coord[0], coord[1]]);
+                            });
+                        });
+                    });
+                    shpwrite.download(geojsonData, options);
+                    console.log(geojsonData);
+                } catch (error) {
+                    alert("Gagal memproses data!");
+                    console.error("Gagal convert to shp" + error);
+                }
+            };
+            const containerElement = document.getElementById("Cbtnshp");
+            containerElement.appendChild(btnshp);
+        } catch (error) {
+            $("#btnshp").removeAttr("#btnshp");
+            console.error(error);
+        }
 
         // style vector geometry
         const markerStyle = new ol.style.Style({

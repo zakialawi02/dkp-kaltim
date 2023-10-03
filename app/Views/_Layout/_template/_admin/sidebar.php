@@ -52,9 +52,9 @@
                     </a> -->
                 <?php endif ?>
 
-                <div class="sb-sidenav-menu-heading">Pengaturan</div>
-
                 <?php if (in_groups('SuperAdmin')) : ?>
+                    <div class="sb-sidenav-menu-heading">Pengaturan</div>
+
                     <a class="nav-link" href="/admin/dataModul">
                         <div class="sb-nav-link-icon"><i class="bi bi-file-pdf-fill"></i></div>
                         Modul
@@ -88,14 +88,12 @@
                         <div class="sb-nav-link-icon"><i class="bi bi-person-lines-fill"></i></div>
                         Kelola Pengguna
                     </a>
-                <?php endif ?>
-
-                <?php if (in_groups('SuperAdmin') || in_groups('Admin')) : ?>
                     <a class="nav-link" href="/admin/setting">
                         <div class="sb-nav-link-icon"><i class="bi bi-sliders"></i></div>
                         Peta
                     </a>
                 <?php endif ?>
+
 
                 <hr>
                 <a class="nav-link" href="/kontak">

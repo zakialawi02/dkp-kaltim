@@ -349,7 +349,7 @@
         function kirim() {
             let idZona = <?= json_encode($valZona); ?>;
             $("#idZona").val(idZona);
-            console.log(idZona);
+            // console.log(idZona);
             $("#drawFeatures").val(JSON.stringify(geojson));
             $("#pilihKegiatan").val($("#pilihKegiatan").val());
             let kawasan = <?= json_encode($getOverlap); ?>;
@@ -357,7 +357,7 @@
                 return properties.kodeKawasan;
             });
             $("#kawasan").val(kawasan);
-            console.log(kawasan);
+            // console.log(kawasan);
         }
     </script>
 
