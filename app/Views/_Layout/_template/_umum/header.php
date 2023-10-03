@@ -9,7 +9,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav ms-auto py-4 py-lg-0">
-            <a href="<?= base_url(); ?>/#home" class="nav-item nav-link active">Beranda</a>
+            <a href="<?= base_url(); ?>#home" class="nav-item nav-link active">Beranda</a>
             <a href="/peta" class="nav-item nav-link">Cek Kesesuaian</a>
             <a href="/data/modul" class="nav-item nav-link">Modul</a>
             <a href="/#about" class="nav-item nav-link">Tentang</a>

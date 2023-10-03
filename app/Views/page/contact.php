@@ -56,20 +56,27 @@
                     <div>
                         <span class="icon"><i class="bi bi-geo-alt"></i></span>
                         <span class="content">
-                            <h3>Address</h3>
+                            <h3>Alamat</h3>
                             <span>Jalan Kesuma Bangsa, Dadi Mulya,
                                 Samarinda, Kota Samarinda, Kalimantan
                                 Timur No. 1, Kode Pos : 75242
                                 Kalimantan Timur</span>
                         </span>
                     </div>
-
                     <div>
                         <span class="icon"><i class="bi bi-envelope"></i></span>
                         <span class="content">
                             <h3>Email</h3>
                             <span>sungramdkpkaltim@gmail.com</span> <br>
                             <span>dkpkaltimprl@gmail.com</span>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="icon"><i class="bi bi-whatsapp"></i></span>
+                        <span class="content">
+                            <h3>Administrator</h3>
+                            <span>+62 852-4761-1815 (Fajar)</span> <br>
+                            <span>+62 895-7006-22086 (Wahyu)</span>
                         </span>
                     </div>
 

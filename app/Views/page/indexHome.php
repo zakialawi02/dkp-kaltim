@@ -46,10 +46,8 @@
     <!-- ======= Hero Section ======= -->
     <section id="home">
         <div class="container-fluid hero-header bg-light py-5" id="hero">
-            <div class="container py-5">
+            <div class="container py-3">
                 <div class="row g-2 align-items-center">
-                    <div class="hero-content spacer">
-                    </div>
                     <div class="hero-content">
                         <h1>Selamat Datang</h1>
                         <p>Di Aplikasi Sistem Informasi Tata Ruang Laut Kaltim (Simata Laut Kaltim) Dinas Kelautan dan Perikanan Provinsi Kalimantan Timur.</p>

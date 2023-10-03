@@ -1576,12 +1576,14 @@
                         console.log(selectedCounter);
                         if (selectedCounter < 2) {
                             jsonCoordinates = [dataArr[0].slice(1, 3)];
+                            geojsonFeature = turf.point([jsonCoordinates[0][0], jsonCoordinates[0][1]]);
                             var pointFeature = new ol.Feature({
                                 geometry: new ol.geom.Point(ol.proj.fromLonLat(jsonCoordinates[0]))
                             });
                             vectorSource.addFeature(pointFeature);
                             styleDraw = markerStyle;
                         } else {
+                            geojsonFeature = turf.polygon([jsonCoordinates]);
                             dataArr.push(dataArr[0]);
                             for (let index = 0; index < dataArr.length; index++) {
                                 var coord = dataArr[index].slice(1, 3);
@@ -1673,14 +1675,14 @@
         function geojsonFromFile(geojson) {
             geojsonFeature = [];
             const type = geojson.features[0].geometry.type;
-            jsonCoordinates = geojson.features[0].geometry.coordinates[0];
-            // console.log(jsonCoordinates);
             if (type == "Point") {
                 selectedCounter = 1;
             } else {
                 selectedCounter = 3;
             }
             if (selectedCounter < 2) {
+                jsonCoordinates = [geojson.features[0].geometry.coordinates];
+                console.log(jsonCoordinates);
                 geojsonFeature = turf.point([jsonCoordinates[0][0], jsonCoordinates[0][1]]);
                 var pointFeature = new ol.Feature({
                     geometry: new ol.geom.Point(ol.proj.fromLonLat(jsonCoordinates[0]))
@@ -1688,6 +1690,7 @@
                 vectorSource.addFeature(pointFeature);
                 styleDraw = markerStyle;
             } else {
+                jsonCoordinates = geojson.features[0].geometry.coordinates[0];
                 geojsonFeature = turf.polygon([jsonCoordinates]);
                 var polygonFeature = new ol.Feature({
                     geometry: new ol.geom.Polygon([jsonCoordinates.map(coordinate => ol.proj.transform(coordinate, 'EPSG:4326', 'EPSG:3857'))])

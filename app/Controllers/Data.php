@@ -41,10 +41,6 @@ class Data extends BaseController
 
     public function index()
     {
-        $data = [
-            'title' => 'Beranda',
-        ];
-        return view('page/indexHome', $data);
     }
 
     public function modul()
