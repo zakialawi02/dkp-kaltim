@@ -96,12 +96,7 @@
                             </div>
                             <div class="invalid-feedback" id="passwordError"></div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-check-label">
-                                <input type="checkbox" name="remember" class="form-check-input" <?php if (old('remember')) : ?> checked <?php endif ?>>
-                                <?= lang('Auth.rememberMe') ?>
-                            </label>
-                        </div>
+
                         <div class="form-group">
                             <p class="text-center">Belum punya akun? <a href="<?= url_to('register') ?>" id="signup">Daftar disini</a></p>
                         </div>
@@ -829,7 +824,9 @@
             <?php $lat = $splitKoordinat[1] ?>
         <?php endforeach ?>
 
-        proj4.defs("EPSG:32750", "+proj=utm +zone=50 +south +datum=WGS84 +units=m +no_defs +type=crs");
+        proj4.defs('EPSG:54034', '+proj=cea +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs');
+        proj4.defs('EPSG:32750', '+proj=utm +zone=50 +south +ellps=WGS84 +datum=WGS84 +units=m +no_defs');
+        proj4.defs('EPSG:3857', '+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs +type=crs');
         proj4.defs("EPSG:4326", "+proj=longlat +datum=WGS84 +no_defs +type=crs");
 
         var drawInteraction;
@@ -866,7 +863,7 @@
             crossOrigin: 'anonymous'
         });
         const projection = new ol.proj.Projection({
-            code: 'EPSG:32750',
+            code: 'EPSG:54034',
             units: 'm',
             axisOrientation: 'neu'
         });

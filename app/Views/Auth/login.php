@@ -61,13 +61,16 @@
                                 </div>
                             <?php endif; ?>
 
-                            <div class="form-group">
+                            <div class="form-group mb-3">
                                 <label for="password"><?= lang('Auth.password') ?></label>
                                 <input type="password" name="password" class="form-control  <?php if (session('errors.password')) : ?>is-invalid<?php endif ?>" placeholder="<?= lang('Auth.password') ?>" aria-describedby="emailHelp">
                                 <div class="invalid-feedback">
                                     <?= session('errors.password') ?>
                                 </div>
 
+                            </div>
+
+                            <div class="form-group mb-3">
                                 <?php if ($config->allowRemembering) : ?>
                                     <div class="form-check">
                                         <label class="form-check-label">
@@ -76,9 +79,6 @@
                                         </label>
                                     </div>
                                 <?php endif; ?>
-
-                                <br>
-
                             </div>
 
                             <div class="col-md-12 text-center ">

@@ -23,11 +23,30 @@
     <!-- Open Layers Component -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v7.4.0/ol.css">
     <link rel="stylesheet" href="https://unpkg.com/ol-layerswitcher@4.1.1/dist/ol-layerswitcher.css" />
+    <link href=" https://cdn.jsdelivr.net/npm/ol-ext@4.0.11/dist/ol-ext.min.css " rel="stylesheet">
 
     <style>
         #map {
             height: 70vh;
             cursor: grab;
+        }
+
+        .ol-ext-print-dialog {
+            z-index: 10000000;
+        }
+
+        .ol-scale-line {
+            right: 0;
+            left: auto;
+            bottom: 2em;
+        }
+
+        .ol-control-title {
+            height: 2em;
+        }
+
+        .ol-print-compass {
+            top: 1.5em !important;
         }
     </style>
 </head>
@@ -150,7 +169,7 @@
                     <div class="card mb-3">
                         <div class="card-body">
                             <div id="map" class="map"></div>
-                            <div id="Cbtnshp"></div>
+                            <div id="Cbuttons"></div>
                         </div>
                     </div>
                     <div class="card ambilTindakanJawaban">
@@ -256,7 +275,10 @@
     <script src="https://cdn.jsdelivr.net/npm/elm-pep@1.0.6/dist/elm-pep.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://unpkg.com/ol-layerswitcher@4.1.1"></script>
-    <!-- <script src="https://unpkg.com/@mapbox/shp-write@latest/shpwrite.js"></script> -->
+    <script src=" https://cdn.jsdelivr.net/npm/ol-ext@4.0.11/dist/ol-ext.min.js "></script>
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL,Object.assign"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/eligrey/FileSaver.js/aa9f4e0e/FileSaver.min.js"></script>
     <script src="/js/write-shp.js"></script>
 
     <script type="text/javascript">
@@ -268,18 +290,19 @@
             <?php $lat = $splitKoordinat[1] ?>
         <?php endforeach ?>
 
-        proj4.defs("EPSG:32750", "+proj=utm +zone=50 +south +ellps=WGS84 +datum=WGS84 +units=m +no_defs");
+        proj4.defs('EPSG:54034', '+proj=cea +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs');
+        proj4.defs('EPSG:32750', '+proj=utm +zone=50 +south +ellps=WGS84 +datum=WGS84 +units=m +no_defs');
 
         const geojson = <?= $tampilDataIzin->lokasi; ?>;
-        console.log(geojson);
+        // console.log(geojson);
         try {
             const btnshp = document.createElement("a");
-            btnshp.innerHTML = "Download Shapefile";
+            btnshp.innerHTML = " Shapefile";
             btnshp.id = "btnshp";
-            btnshp.className = "asbn btn btn-primary m-3";
+            btnshp.className = "bi bi-cloud-arrow-down asbn btn btn-primary m-md-3";
             btnshp.onclick = function() {
                 try {
-                    proj4.defs('EPSG:32750', '+proj=utm +zone=50 +south +datum=WGS84 +units=m +no_defs');
+                    proj4.defs('EPSG:54034', '+proj=cea +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs');
                     proj4.defs('EPSG:4326', '+proj=longlat +datum=WGS84 +no_defs');
                     const geojsonData = {
                         "type": "FeatureCollection",
@@ -294,7 +317,7 @@
                     geojsonData.features[0].properties.JNS_KEGIATAN = "<?= $tampilDataIzin->nama_kegiatan; ?>";
                     const options = {
                         folder: '<?= $tampilDataIzin->nama; ?>_<?= $tampilDataIzin->nik; ?>',
-                        filename: "<?= $tampilDataIzin->nik; ?>",
+                        filename: "<?= date("Y"); ?>_<?= date("m"); ?>_<?= $tampilDataIzin->nik; ?>",
                         outputType: "blob",
                         types: {
                             point: "<?= $tampilDataIzin->nik; ?>_PO",
@@ -311,18 +334,28 @@
                         });
                     });
                     shpwrite.download(geojsonData, options);
-                    console.log(geojsonData);
+                    // console.log(geojsonData);
                 } catch (error) {
                     alert("Gagal memproses data!");
                     console.error("Gagal convert to shp" + error);
                 }
             };
-            const containerElement = document.getElementById("Cbtnshp");
+            const containerElement = document.getElementById("Cbuttons");
             containerElement.appendChild(btnshp);
         } catch (error) {
             $("#btnshp").removeAttr("#btnshp");
             console.error(error);
         }
+        const btnplot = document.createElement("a");
+        btnplot.innerHTML = " Plot";
+        btnplot.id = "btnplot";
+        btnplot.className = "bi bi-cloud-arrow-down asbn btn btn-primary m-md-3";
+        btnplot.onclick = function() {
+            printControl.print();
+        };
+        const containerElement = document.getElementById("Cbuttons");
+        containerElement.appendChild(btnplot);
+
 
         // style vector geometry
         const markerStyle = new ol.style.Style({
@@ -367,7 +400,7 @@
             style: styleDraw,
         });
         const projection = new ol.proj.Projection({
-            code: 'EPSG:32750',
+            code: 'EPSG:54034',
             units: 'm',
             axisOrientation: 'neu'
         });
@@ -437,6 +470,61 @@
         });
         map.addControl(layerSwitcher);
         map.addLayer(vectorLayer);
+
+        // Add a title control
+        map.addControl(new ol.control.CanvasTitle({
+            title: 'my title',
+            visible: false,
+            style: new ol.style.Style({
+                text: new ol.style.Text({
+                    font: '20px "Lucida Grande",Verdana,Geneva,Lucida,Arial,Helvetica,sans-serif'
+                })
+            })
+        }));
+        // Add a ScaleLine control 
+        map.addControl(new ol.control.CanvasScaleLine());
+        // Print control
+        var printControl = new ol.control.PrintDialog({
+            // target: document.querySelector('.info'),
+            // targetDialog: map.getTargetElement() 
+            save: true,
+            copy: true,
+            pdf: true,
+            print: false,
+        });
+        printControl.setSize('A4');
+        printControl.setOrientation('landscape');
+        printControl.setMargin(5);
+        map.addControl(printControl);
+        let defaultPrintButton = document.querySelector('.ol-print');
+        if (defaultPrintButton) {
+            defaultPrintButton.remove();
+        }
+        /* On print > save image file */
+        printControl.on(['print', 'error'], function(e) {
+            // Print success
+            if (e.image) {
+                if (e.pdf) {
+                    // Export pdf using the print info
+                    var pdf = new jsPDF({
+                        orientation: e.print.orientation,
+                        unit: e.print.unit,
+                        format: e.print.size
+                    });
+                    pdf.addImage(e.image, 'JPEG', e.print.position[0], e.print.position[0], e.print.imageWidth, e.print.imageHeight);
+                    pdf.save(e.print.legend ? 'legend.pdf' : 'Plot.pdf');
+                } else {
+                    // Save image as file
+                    e.canvas.toBlob(function(blob) {
+                        var name = (e.print.legend ? 'legend.' : 'Plot.') + e.imageType.replace('image/', '');
+                        saveAs(blob, name);
+                    }, e.imageType, e.quality);
+                }
+            } else {
+                console.warn('No canvas to export');
+            }
+        });
+
         var extent = vectorLayer.getSource().getExtent();
         map.getView().fit(extent, {
             padding: [100, 100, 100, 100],

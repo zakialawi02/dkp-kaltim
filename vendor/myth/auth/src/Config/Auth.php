@@ -31,7 +31,7 @@ class Auth extends BaseConfig
      *
      * @var string
      */
-    public $landingRoute = '/dashboard';
+    public $landingRoute = '/admin';
 
     /**
      * --------------------------------------------------------------------
@@ -217,7 +217,7 @@ class Auth extends BaseConfig
      *
      * @var bool
      */
-    public $allowRemembering = false;
+    public $allowRemembering = true;
 
     /**
      * --------------------------------------------------------------------
@@ -229,7 +229,7 @@ class Auth extends BaseConfig
      *
      * @var int
      */
-    public $rememberLength = 10 * DAY;
+    public $rememberLength = 7 * DAY;
 
     /**
      * --------------------------------------------------------------------
