@@ -92,31 +92,24 @@
     </script>
     <script>
         window.addEventListener('message', function(event) {
-            var data = event.data;
-            var counterK = event.data.selectedCounter;
-            var jsonCoordinates = data.jsonCoordinates;
-            // console.log(counterK);
-            // console.log(jsonCoordinates);
+            let data = event.data;
+            let geometryType = event.data.geometryType;
+            let geojsonData = data.geojson;
+            // console.log(geometryType);
+            // console.log(geojsonData);
             vectorSource.clear();
-            if (counterK < 2) {
-                var pointFeature = new ol.Feature({
-                    geometry: new ol.geom.Point(ol.proj.fromLonLat(jsonCoordinates[0]))
-                });
+            if (geometryType == "Point") {
                 styleDraw = markerStyle;
-                vectorSource.addFeature(pointFeature);
-            } else if (counterK > 2) {
-                var polygonFeature = new ol.Feature({
-                    geometry: new ol.geom.Polygon([jsonCoordinates.map(coordinate => ol.proj.transform(coordinate, 'EPSG:4326', 'EPSG:3857'))])
-                });
+            } else if (geometryType == "Polygon") {
                 styleDraw = polygonStyle;
-                vectorSource.addFeature(polygonFeature);
             } else {
-                var lineFeature = new ol.Feature({
-                    geometry: new ol.geom.LineString(jsonCoordinates.map(coordinate => ol.proj.transform(coordinate, 'EPSG:4326', 'EPSG:3857')))
-                });
                 styleDraw = lineStyle;
-                vectorSource.addFeature(lineFeature);
             }
+            const features = new ol.format.GeoJSON().readFeatures(geojsonData);
+            features.forEach((feature) => {
+                feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
+                vectorSource.addFeature(feature);
+            });
             var drawedVector = new ol.layer.Vector({
                 source: vectorSource,
                 style: styleDraw,

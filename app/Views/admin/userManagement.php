@@ -187,7 +187,7 @@
                                                 </div>
 
                                                 <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                    <form id="delete-form-<?= $user->userid ?>" action="/user/delete/<?= $user->userid ?>" method="post">
+                                                    <form id="delete-form-<?= $user->userid ?>" action="/user/delete/<?= $user->userid ?>/<?= $user->username; ?>" method="post">
                                                         <?= csrf_field(); ?>
                                                         <input type="hidden" name="_method" value="DELETE">
                                                         <button type="button" class="asbn btn btn-danger bi bi-trash delete-btn" data-id="<?= $user->userid ?>"></button>
@@ -231,7 +231,7 @@
                 var userId = $(this).data('id');
                 Swal.fire({
                     title: 'Apakah Anda yakin ingin menghapus data ini?',
-                    text: "Data yang sudah dihapus tidak dapat dikembalikan!",
+                    text: "Data yang terkait akan dihapus. Data yang sudah dihapus tidak dapat dikembalikan!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

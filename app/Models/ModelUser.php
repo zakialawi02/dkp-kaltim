@@ -24,8 +24,8 @@ class ModelUser extends Model
             $db      = \Config\Database::connect();
             $builder = $db->table('users');
             $builder->select('users.id as userid, username, email, active, group_id, name, created_at,  full_name, user_about, user_image');
-            $builder->join('auth_groups_users', 'auth_groups_users.user_id = users.id');
-            $builder->join('auth_groups', 'auth_groups.id = auth_groups_users.group_id');
+            $builder->join('auth_groups_users', 'auth_groups_users.user_id = users.id', 'LEFT');
+            $builder->join('auth_groups', 'auth_groups.id = auth_groups_users.group_id', 'LEFT');
             $query = $builder->orderBy('group_id', 'ASC')->get();
             return $query;
         } else {

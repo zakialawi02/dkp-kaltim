@@ -239,12 +239,13 @@
             }),
         });
         var styleDraw;
-        if (geojson.geometry.type == "Point") {
+        let geometryType = geojson.features[0].geometry.type;
+        if (geometryType == "Point") {
             styleDraw = markerStyle;
-        } else if (geojson.geometry.type == "LineString") {
-            styleDraw = lineStyle;
-        } else {
+        } else if (geometryType == "Polygon") {
             styleDraw = polygonStyle;
+        } else {
+            styleDraw = lineStyle;
         }
         let vectorSource = new ol.source.Vector({
             features: new ol.format.GeoJSON().readFeatures(geojson, {
