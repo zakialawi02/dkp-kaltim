@@ -54,12 +54,19 @@ class MyProfile extends BaseController
                     unlink($datas);
                 }
             }
-            // Image manipulation(compress)
-            $image = \Config\Services::image()
-                ->withFile($foto)
-                ->fit(1000, 1000, 'center')
-                ->save(FCPATH . '/img/user/' . $uploadFoto);
-            $data['user_image'] = $uploadFoto;
+            try {
+                // Image manipulation(compress)
+                $image = \Config\Services::image()
+                    ->withFile($foto)
+                    ->fit(1000, 1000, 'center')
+                    ->save(FCPATH . '/img/user/' . $uploadFoto);
+                $data['user_image'] = $uploadFoto;
+            } catch (\Throwable $th) {
+                //throw $th;
+                $image = \Config\Services::image()
+                    ->save(FCPATH . '/img/user/' . $uploadFoto);
+                $data['user_image'] = $uploadFoto;
+            }
         }
         $this->setting->updateMyData($data, $id_user);
         if ($this) {
@@ -69,14 +76,6 @@ class MyProfile extends BaseController
             session()->setFlashdata('error', 'Gagal Memperbarui Data.');
             return $this->response->redirect(site_url('/MyProfile'));
         }
-    }
-
-    public function updatedUserData()
-    {
-        $id = $this->request->getPost('id');
-        $user = $this->users->getUsers($id)->getRow();
-
-        return json_encode($user);
     }
 
     public function updatePassword()

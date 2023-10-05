@@ -381,15 +381,16 @@ class Data extends BaseController
     {
         $file = $this->request->getPost('file');
         $data = $this->uploadFiles->searchFile($file)->getRow();
+        $file = 'dokumen/upload-dokumen/' . $file;
+        if (file_exists($file)) {
+            unlink($file);
+        }
         $this->uploadFiles->delete($data->id_upload);
         $data = [
             'dataFile' => $this->uploadFiles->getFiles($data->id_perizinan)->getResult(),
         ];
         return view('serverSide/showFile', $data);
     }
-
-
-
     public function uploadDoc()
     {
         $files = $this->request->getFiles();
