@@ -641,7 +641,7 @@
     <!-- login/logout -->
     <script>
         $(document).ready(function(e) {
-            $('form[name="login"]').click(function(event) {
+            $('form[name="login"]').submit(function(event) {
                 $('#loginError').text('');
                 $('#passwordError').text('');
                 var login = $('input[name="login"]').val().trim();
