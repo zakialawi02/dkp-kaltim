@@ -295,50 +295,73 @@
 
         const geojson = <?= $tampilDataIzin->lokasi; ?>;
         // console.log(geojson);
+
         try {
             const btnshp = document.createElement("a");
             btnshp.innerHTML = " Shapefile";
             btnshp.id = "btnshp";
             btnshp.className = "bi bi-cloud-arrow-down asbn btn btn-primary m-md-3";
             btnshp.onclick = function() {
+                // try {
+                proj4.defs('EPSG:54034', '+proj=cea +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs');
+                // proj4.defs('EPSG:32750', '+proj=utm +zone=50 +south +datum=WGS84 +units=m +no_defs +type=crs');
+                proj4.defs('EPSG:4326', '+proj=longlat +datum=WGS84 +no_defs');
+                const geojsonData = geojson;
+                const newProperties = {
+                    "NAMA_PEMOHON": "<?= $tampilDataIzin->nama; ?>",
+                    "NIK": "<?= $tampilDataIzin->nik ?>",
+                    "NIK": "<?= $tampilDataIzin->nib ?>",
+                    "ALAMAT": "<?= $tampilDataIzin->alamat ?>",
+                    "KONTAK": "<?= $tampilDataIzin->kontak ?>",
+                    "JNS_KEGIATAN": "<?= $tampilDataIzin->nama_kegiatan ?>",
+                };
+                geojsonData.features.forEach(feature => {
+                    feature.properties = newProperties;
+                });
+                const options = {
+                    folder: '<?= date("Y"); ?>_<?= date("m"); ?>_<?= $tampilDataIzin->nama; ?>_<?= $tampilDataIzin->nik; ?>',
+                    filename: "<?= date("Y"); ?>_<?= date("m"); ?>_<?= $tampilDataIzin->nik; ?>",
+                    outputType: "blob",
+                    types: {
+                        point: "<?= $tampilDataIzin->nik; ?>_PT",
+                        polygon: "<?= $tampilDataIzin->nik; ?>_AR",
+                        polyline: "<?= $tampilDataIzin->nik; ?>_LN",
+                    },
+                    prj: 'PROJCS["WGS_1984_UTM_Zone_50S",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Transverse_Mercator"],PARAMETER["False_Easting",500000.0],PARAMETER["False_Northing",10000000.0],PARAMETER["Central_Meridian",117.0],PARAMETER["Scale_Factor",0.9996],PARAMETER["Latitude_Of_Origin",0.0],UNIT["Meter",1.0]]',
+                };
                 try {
-                    proj4.defs('EPSG:54034', '+proj=cea +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs');
-                    proj4.defs('EPSG:4326', '+proj=longlat +datum=WGS84 +no_defs');
-                    const geojsonData = {
-                        "type": "FeatureCollection",
-                        "features": [],
-                    };
-                    geojsonData.features.push(geojson);
-                    geojsonData.features[0].properties.NAMA_PEMOHON = "<?= $tampilDataIzin->nama; ?>";
-                    geojsonData.features[0].properties.NIK = "<?= $tampilDataIzin->nik; ?>";
-                    geojsonData.features[0].properties.NIK = "<?= $tampilDataIzin->nib; ?>";
-                    geojsonData.features[0].properties.ALAMAT = "<?= $tampilDataIzin->alamat; ?>";
-                    geojsonData.features[0].properties.KONTAK = "<?= $tampilDataIzin->kontak; ?>";
-                    geojsonData.features[0].properties.JNS_KEGIATAN = "<?= $tampilDataIzin->nama_kegiatan; ?>";
-                    const options = {
-                        folder: '<?= $tampilDataIzin->nama; ?>_<?= $tampilDataIzin->nik; ?>',
-                        filename: "<?= date("Y"); ?>_<?= date("m"); ?>_<?= $tampilDataIzin->nik; ?>",
-                        outputType: "blob",
-                        types: {
-                            point: "<?= $tampilDataIzin->nik; ?>_PO",
-                            polygon: "<?= $tampilDataIzin->nik; ?>_AR",
-                            polyline: "<?= $tampilDataIzin->nik; ?>_LN",
-                        },
-                        prj: 'PROJCS["WGS_1984_UTM_Zone_50S",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Transverse_Mercator"],PARAMETER["False_Easting",500000.0],PARAMETER["False_Northing",10000000.0],PARAMETER["Central_Meridian",117.0],PARAMETER["Scale_Factor",0.9996],PARAMETER["Latitude_Of_Origin",0.0],UNIT["Meter",1.0]]',
-                    };
                     geojsonData.features.forEach(feature => {
                         feature.geometry.coordinates = feature.geometry.coordinates.map(coordinates => {
                             return coordinates.map(coord => {
                                 return proj4('EPSG:4326', 'EPSG:32750', [coord[0], coord[1]]);
                             });
                         });
+                        if (feature.geometry.bbox) {
+                            const [minLon, minLat, maxLon, maxLat] = feature.geometry.bbox;
+                            const transformedMin = proj4('EPSG:4326', 'EPSG:32750', [minLon, minLat]);
+                            const transformedMax = proj4('EPSG:4326', 'EPSG:32750', [maxLon, maxLat]);
+                            // Menetapkan ulang nilai bbox yang telah diubah
+                            feature.geometry.bbox = [
+                                transformedMin[0], transformedMin[1],
+                                transformedMax[0], transformedMax[1]
+                            ];
+                        }
                     });
-                    shpwrite.download(geojsonData, options);
-                    // console.log(geojsonData);
                 } catch (error) {
-                    alert("Gagal memproses data!");
-                    console.error("Gagal convert to shp" + error);
+                    try {
+                        geojson.features.forEach(feature => {
+                            feature.geometry.coordinates = proj4('EPSG:4326', 'EPSG:32750', feature.geometry.coordinates);
+                        });
+                    } catch (error) {
+                        console.error(error);
+                    }
                 }
+                shpwrite.download(geojsonData, options);
+                console.log(geojsonData);
+                // } catch (error) {
+                //     alert("Gagal memproses data!");
+                //     console.error("Gagal convert to shp" + error);
+                // }
             };
             const containerElement = document.getElementById("Cbuttons");
             containerElement.appendChild(btnshp);
@@ -346,15 +369,20 @@
             $("#btnshp").removeAttr("#btnshp");
             console.error(error);
         }
-        const btnplot = document.createElement("a");
-        btnplot.innerHTML = " Plot";
-        btnplot.id = "btnplot";
-        btnplot.className = "bi bi-cloud-arrow-down asbn btn btn-primary m-md-3";
-        btnplot.onclick = function() {
-            printControl.print();
-        };
-        const containerElement = document.getElementById("Cbuttons");
-        containerElement.appendChild(btnplot);
+        try {
+            const btnplot = document.createElement("a");
+            btnplot.innerHTML = " Plot";
+            btnplot.id = "btnplot";
+            btnplot.className = "bi bi-cloud-arrow-down asbn btn btn-primary m-md-3";
+            btnplot.onclick = function() {
+                printControl.print();
+            };
+            const containerElement = document.getElementById("Cbuttons");
+            containerElement.appendChild(btnplot);
+        } catch (error) {
+            $("#btnplot").removeAttr("#btnplot");
+            console.error(error);
+        }
 
 
         // style vector geometry
@@ -383,12 +411,13 @@
             }),
         });
         var styleDraw;
-        if (geojson.geometry.type == "Point") {
+        let geometryType = geojson.features[0].geometry.type;
+        if (geometryType == "Point") {
             styleDraw = markerStyle;
-        } else if (geojson.geometry.type == "LineString") {
-            styleDraw = lineStyle;
-        } else {
+        } else if (geometryType == "Polygon") {
             styleDraw = polygonStyle;
+        } else {
+            styleDraw = lineStyle;
         }
         let vectorSource = new ol.source.Vector({
             features: new ol.format.GeoJSON().readFeatures(geojson, {

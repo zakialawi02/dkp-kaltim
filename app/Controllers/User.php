@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\ModelIzin;
 use App\Models\ModelSetting;
 use App\Models\ModelUser;
 use Myth\Auth\Password;
@@ -10,20 +11,23 @@ class User extends BaseController
 {
     protected $ModelSetting;
     protected $ModelUser;
+    protected $ModelIzin;
 
     public function __construct()
     {
         $this->setting = new ModelSetting();
         $this->users = new ModelUser();
+        $this->izin = new ModelIzin();
     }
 
-    public function manajemen()
+    public function kelola()
     {
         $data = [
             'title' => 'USER MANAGEMENT',
             'users' => $this->users->getUsers()->getResult(),
             'auth_groups' => $this->users->allGroup(),
         ];
+        // dd($data['users']);
         return view('admin/userManagement', $data);
     }
 
@@ -140,10 +144,15 @@ class User extends BaseController
     }
 
     // delete data
-    public function delete($id)
+    public function delete($userid)
     {
-        $this->users->deleteRole($id);
-        $this->users->deleteUser($id);
+        $dataSubmit = $this->ambilSubmit($userid);
+        foreach ($dataSubmit as $value) {
+            $this->izin->delete($value);
+        }
+        // dd($dataSubmit);
+        $this->users->deleteRole($userid);
+        $this->users->deleteUser($userid);
         if ($this) {
             session()->setFlashdata('success', 'User berhasil dihapus.');
             return $this->response->redirect(site_url('/user/kelola'));
@@ -151,5 +160,15 @@ class User extends BaseController
             session()->setFlashdata('error', 'Gagal menghapus user.');
             return $this->response->redirect(site_url('/user/kelola'));
         }
+    }
+
+    private function ambilSubmit($userid)
+    {
+        $dataSubmit = [];
+        $data = $this->izin->getAllPermohonan()->getResult();
+        foreach ($data as $key => $value) {
+            $dataSubmit[] = $value->id_perizinan;
+        }
+        return $dataSubmit;
     }
 }

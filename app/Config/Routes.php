@@ -41,13 +41,18 @@ $routes->get('/noaccess', 'Data::noaccess');
 $routes->get('/peta', 'Data::peta');
 $routes->get('/kontak', 'Data::kontak');
 
+// kelola user
+$routes->get('/user/kelola', 'User::kelola', ['filter' => 'role:SuperAdmin,Admin']);
+$routes->post('/user/tambah', 'User::tambah', ['filter' => 'role:SuperAdmin']);
+$routes->post('/user/updateUser', 'User::updateUser', ['filter' => 'role:SuperAdmin']);
+$routes->delete('/user/delete/(:num)/(:any)', 'User::delete/$1/$2', ['filter' => 'role:SuperAdmin']);
+
 $routes->get('/dashboard', 'Admin::index', ['filter' => 'role:SuperAdmin,Admin,User']);
 $routes->get('/admin/setting', 'Admin::setting', ['filter' => 'role:SuperAdmin,Admin']);
-$routes->get('/user/kelola', 'User::manajemen', ['filter' => 'role:SuperAdmin,Admin']);
 $routes->get('/admin/data/permohonan/masuk', 'Admin::pending', ['filter' => 'role:SuperAdmin,Admin']);
 $routes->get('/admin/pending', 'Admin::pending', ['filter' => 'role:SuperAdmin,Admin']);
 
-
+// modul
 $routes->get('/admin/dataModul', 'Admin::dataModul', ['filter' => 'role:SuperAdmin']);
 $routes->get('/admin/tambahModul', 'Admin::tambahModul', ['filter' => 'role:SuperAdmin']);
 $routes->get('/admin/editModul/(:num)', 'Admin::editModul/$1', ['filter' => 'role:SuperAdmin']);
@@ -55,7 +60,7 @@ $routes->post('/admin/tambah_modul', 'Admin::tambah_modul', ['filter' => 'role:S
 $routes->post('/admin/update_modul/(:num)', 'Admin::update_modul/$1', ['filter' => 'role:SuperAdmin']);
 $routes->delete('/admin/delete_modul/(:num)', 'Admin::delete_modul/$1', ['filter' => 'role:SuperAdmin']);
 
-
+// data ajuan
 $routes->post('/data/tambahAjuan', 'Data::tambahAjuan', ['filter' => 'role:SuperAdmin,Admin,User']);
 $routes->post('/data/updateAjuan/(:num)', 'Data::updateAjuan/$1', ['filter' => 'role:SuperAdmin,Admin,User']);
 $routes->post('/data/editPengajuan/(:num)', 'Data::editPengajuan/$1', ['filter' => 'role:SuperAdmin,Admin,User']);

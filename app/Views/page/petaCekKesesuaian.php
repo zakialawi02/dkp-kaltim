@@ -832,10 +832,11 @@
         var drawInteraction;
         var drawedVector;
         let styleDraw;
-        var wkt;
         var coordinates;
-        var jsonCoordinates;
+        let geometryType;
+        let jsonCoordinates;
         var geojsonFeature;
+        let geojsonData;
         var overlappingFeatures;
         let getOverlapProperties;
         let hasilStatus;
@@ -1233,7 +1234,7 @@
         });
 
         function kirim() {
-            let geojson = geojsonFeature;
+            let geojson = geojsonData;
             let getOverlap = getOverlapProperties;
             $("#geojson").val(JSON.stringify(geojson));
             $("#getOverlap").val(JSON.stringify(getOverlap));
@@ -1256,7 +1257,7 @@
                     name,
                     kode,
                     orde,
-                    geojsonFeature,
+                    geojsonData,
                 },
                 dataType: "html",
             }).done(function(response) {
@@ -1269,153 +1270,156 @@
 
         // Cek overlap features
         function prosesDetectInput(drawn, type = "polygon") {
+            // console.log(drawn);
             modalLoading();
             overlappingFeatures = [];
-            if (type == "point") {
-                try {
-                    geoshp.features.forEach(function(layer) {
-                        var shapefileGeoJSON = layer;
-                        // console.log(shapefileGeoJSON);
-                        var geojsonFeature = turf.point(drawn);
-                        // console.log(geojsonFeature);
-                        var shapefilePoly = turf.polygon(shapefileGeoJSON.geometry.coordinates);
-                        // console.log(shapefilePoly);
-                        var inside = turf.booleanPointInPolygon(geojsonFeature, shapefilePoly);
-                        if (inside) {
-                            console.log('Overlap detected!');
-                            var overlappingFeature = {
-                                geometry: shapefileGeoJSON.geometry,
-                                properties: shapefileGeoJSON.properties,
-                            };
-                            // Tambahkan data ke dalam array overlappingFeatures
-                            overlappingFeatures.push(overlappingFeature);
-                        }
-                    });
-                } catch (error) {
-                    alert("Terjadi kesalahan, mohon ulangi atau reload browser anda");
+            let tot = drawn.length;
+            console.log(tot);
+            for (let ii = 0; ii < tot; ii++) {
+                if (type == "point") {
+                    try {
+                        geoshp.features.forEach(function(layer) {
+                            var shapefileGeoJSON = layer;
+                            // console.log(shapefileGeoJSON);
+                            var geojsonFeature = turf.point(drawn[ii]);
+                            // console.log(geojsonFeature);
+                            var shapefilePoly = turf.polygon(shapefileGeoJSON.geometry.coordinates);
+                            // console.log(shapefilePoly);
+                            var inside = turf.booleanPointInPolygon(geojsonFeature, shapefilePoly);
+                            if (inside) {
+                                console.log('Overlap detected!');
+                                var overlappingFeature = {
+                                    geometry: shapefileGeoJSON.geometry,
+                                    properties: shapefileGeoJSON.properties,
+                                };
+                                // Tambahkan data ke dalam array overlappingFeatures
+                                overlappingFeatures.push(overlappingFeature);
+                            }
+                        });
+                    } catch (error) {
+                        alert("Terjadi kesalahan, mohon ulangi atau reload browser anda");
+                    }
+                } else if (type == "line") {
+                    try {
+                        geoshp.features.forEach(function(layer) {
+                            var shapefileGeoJSON = layer;
+                            // console.log(shapefileGeoJSON);
+                            var coord = [drawn[ii][0], drawn[ii][1]];
+                            var geojsonFeature = turf.lineString(coord);
+                            // console.log(geojsonFeature);
+                            var shapefilePoly = turf.polygon(shapefileGeoJSON.geometry.coordinates);
+                            // console.log(shapefilePoly);
+                            var intersect = turf.booleanIntersects(geojsonFeature, shapefilePoly);
+                            if (intersect) {
+                                console.log('Overlap detected!');
+                                var overlappingFeature = {
+                                    geometry: shapefileGeoJSON.geometry,
+                                    properties: shapefileGeoJSON.properties,
+                                };
+                                // Tambahkan data ke dalam array overlappingFeatures
+                                overlappingFeatures.push(overlappingFeature);
+                            }
+                        });
+                    } catch (error) {
+                        alert("Terjadi kesalahan, mohon ulangi atau reload browser anda");
+                    }
+                } else { //polygon
+                    try {
+                        geoshp.features.forEach(function(layer) {
+                            var shapefileGeoJSON = layer;
+                            // console.log(shapefileGeoJSON);
+                            var geojsonFeature = turf.polygon(drawn[ii]);
+                            // console.log(geojsonFeature);
+                            var shapefilePoly = turf.polygon(shapefileGeoJSON.geometry.coordinates);
+                            // console.log(shapefilePoly);
+                            var overlap = turf.booleanIntersects(geojsonFeature, shapefilePoly);
+                            var within = turf.booleanWithin(geojsonFeature, shapefilePoly);
+                            if (overlap || within) {
+                                console.log('Overlap detected!');
+                                var overlappingFeature = {
+                                    geometry: shapefileGeoJSON.geometry,
+                                    properties: shapefileGeoJSON.properties,
+                                };
+                                // Tambahkan data ke dalam array overlappingFeatures
+                                overlappingFeatures.push(overlappingFeature);
+                            }
+                        });
+                    } catch (error) {
+                        alert("Terjadi kesalahan, mohon ulangi atau reload browser anda");
+                    }
                 }
-            } else if (type == "line") {
-                try {
-                    geoshp.features.forEach(function(layer) {
-                        var shapefileGeoJSON = layer;
-                        // console.log(shapefileGeoJSON);
-                        var geojsonFeature = turf.lineString(drawn);
-                        // console.log(geojsonFeature);
-                        var shapefilePoly = turf.polygon(shapefileGeoJSON.geometry.coordinates);
-                        // console.log(shapefilePoly);
-                        var intersect = turf.booleanIntersects(geojsonFeature, shapefilePoly);
-                        if (intersect) {
-                            console.log('Overlap detected!');
-                            var overlappingFeature = {
-                                geometry: shapefileGeoJSON.geometry,
-                                properties: shapefileGeoJSON.properties,
-                            };
-                            // Tambahkan data ke dalam array overlappingFeatures
-                            overlappingFeatures.push(overlappingFeature);
-                        }
-                    });
-                } catch (error) {
-                    alert("Terjadi kesalahan, mohon ulangi atau reload browser anda");
-                }
-            } else { //polygon
-                try {
-                    geoshp.features.forEach(function(layer) {
-                        var shapefileGeoJSON = layer;
-                        // console.log(shapefileGeoJSON);
-                        var geojsonFeature = turf.polygon(drawn);
-                        // console.log(geojsonFeature);
-                        var shapefilePoly = turf.polygon(shapefileGeoJSON.geometry.coordinates);
-                        // console.log(shapefilePoly);
-                        var overlap = turf.booleanIntersects(geojsonFeature, shapefilePoly);
-                        var within = turf.booleanWithin(geojsonFeature, shapefilePoly);
-                        if (overlap || within) {
-                            console.log('Overlap detected!');
-                            var overlappingFeature = {
-                                geometry: shapefileGeoJSON.geometry,
-                                properties: shapefileGeoJSON.properties,
-                            };
-                            // Tambahkan data ke dalam array overlappingFeatures
-                            overlappingFeatures.push(overlappingFeature);
-                        }
-                    });
-                } catch (error) {
-                    alert("Terjadi kesalahan, mohon ulangi atau reload browser anda");
-                }
-            }
 
-            var overlappingID = overlappingFeatures.map(function(feature) {
-                return feature.properties.OBJECTID;
-            });
-            var overlappingKawasan = overlappingFeatures.map(function(feature) {
-                return feature.properties.JNSRPR;
-            });
-            var overlappingObject = overlappingFeatures.map(function(feature) {
-                return feature.properties.NAMOBJ;
-            });
-            var overlappingKode = overlappingFeatures.map(function(feature) {
-                return feature.properties.KODKWS;
-            });
-            var overlappingOrde = overlappingFeatures.map(function(feature) {
-                return feature.properties.ORDE01;
-            });
+                var overlappingID = overlappingFeatures.map(function(feature) {
+                    return feature.properties.OBJECTID;
+                });
+                var overlappingKawasan = overlappingFeatures.map(function(feature) {
+                    return feature.properties.JNSRPR;
+                });
+                var overlappingObject = overlappingFeatures.map(function(feature) {
+                    return feature.properties.NAMOBJ;
+                });
+                var overlappingKode = overlappingFeatures.map(function(feature) {
+                    return feature.properties.KODKWS;
+                });
+                var overlappingOrde = overlappingFeatures.map(function(feature) {
+                    return feature.properties.ORDE01;
+                });
+            }
             cekHasil(overlappingID, overlappingKawasan, overlappingObject, overlappingKode, overlappingOrde);
         }
 
         // klik lanjut
         $('#next_step').click(function() {
-            coordinates = [];
             jsonCoordinates = [];
             geojsonFeature = [];
+            geojsonData = [];
             const selectedCounter = counterK;
-            // console.log('Nilai CounterK: ', selectedCounter);
             // Ambil nilai koordinat
             $('.ini_koordinat').each(function() {
-                const longitudeInput = parseFloat($(this).find('#tx_x').val());
-                const latitudeInput = parseFloat($(this).find('#tx_y').val());
+                const $this = $(this);
+                const longitudeInput = parseFloat($this.find('#tx_x').val());
+                const latitudeInput = parseFloat($this.find('#tx_y').val());
                 if ($('#rd_dms').is(":checked")) {
-                    const degree1 = $(this).find('#md1_1').val();
-                    const minute1 = $(this).find('#md1_2').val();
-                    const second1 = $(this).find('#md1_3').val();
-                    const degree2 = $(this).find('#md2_1').val();
-                    const minute2 = $(this).find('#md2_2').val();
-                    const second2 = $(this).find('#md2_3').val();
-                    longitude = parseFloat(degree1) + parseFloat(minute1 / 60) + parseFloat(second1 / 3600);
-                    latitude = parseFloat(degree2) - parseFloat(minute2 / 60) - parseFloat(second2 / 3600);
-                    coordinates.push([longitude + ' ' + latitude]);
+                    const degree1 = parseFloat($this.find('#md1_1').val());
+                    const minute1 = parseFloat($this.find('#md1_2').val());
+                    const second1 = parseFloat($this.find('#md1_3').val());
+                    const degree2 = parseFloat($this.find('#md2_1').val());
+                    const minute2 = parseFloat($this.find('#md2_2').val());
+                    const second2 = parseFloat($this.find('#md2_3').val());
+                    const longitude = degree1 + minute1 / 60 + second1 / 3600;
+                    const latitude = degree2 - minute2 / 60 - second2 / 3600;
                     jsonCoordinates.push([longitude, latitude]);
                 } else if ($('#rd_dd').is(":checked")) {
-                    coordinates.push([longitudeInput + ' ' + latitudeInput]);
                     jsonCoordinates.push([longitudeInput, latitudeInput]);
                 }
             });
-            console.log(jsonCoordinates);
-            // console.log('Nilai Koordinat:', coordinates);
+            // console.log(jsonCoordinates);
             vectorSource.clear();
-            var format = new ol.format.WKT();
             if (counterK < 2) {
-                var wkt = 'POINT (' + coordinates + ')';
                 geojsonFeature = turf.point([jsonCoordinates[0][0], jsonCoordinates[0][1]]);
+                geojson = turf.featureCollection([geojsonFeature]);
                 styleDraw = markerStyle;
             } else if (counterK > 2) {
-                var wkt = 'POLYGON ((' + coordinates + ',' + coordinates[0] + '))';
-                jsonCoordinates.push(jsonCoordinates[0]);
                 geojsonFeature = turf.polygon([jsonCoordinates]);
+                geojson = turf.featureCollection([geojsonFeature]);
                 styleDraw = polygonStyle;
             } else {
-                var wkt = 'LINESTRING (' + coordinates + ')';
                 geojsonFeature = turf.lineString(jsonCoordinates);
+                geojson = turf.featureCollection([geojsonFeature]);
                 styleDraw = lineStyle;
             }
-            // console.log(geojsonFeature);
-            var feature = format.readFeature(wkt, {
-                dataProjection: 'EPSG:4326',
-                featureProjection: 'EPSG:3857'
+            // console.log(geojson);
+            const features = new ol.format.GeoJSON().readFeatures(geojson);
+            features.forEach((feature) => {
+                feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
+                vectorSource.addFeature(feature);
             });
+            jsonCoordinates = getCoordinates(geojson);
             var drawedVector = new ol.layer.Vector({
                 source: vectorSource,
                 style: styleDraw,
             });
-            vectorSource.addFeature(feature);
+            geojsonData = geojson;
             map.addLayer(drawedVector);
             var extent = drawedVector.getSource().getExtent();
             map.getView().fit(extent, {
@@ -1424,32 +1428,29 @@
             });
 
             if (counterK < 2) {
-                prosesDetectInput(jsonCoordinates[0], "point", geojsonFeature);
+                prosesDetectInput([jsonCoordinates[0]], "point", geojsonData);
             } else if (counterK > 2) {
-                prosesDetectInput([jsonCoordinates], "polygon", geojsonFeature);
+                prosesDetectInput(jsonCoordinates, "polygon", geojsonData);
             } else {
-                prosesDetectInput(jsonCoordinates, "line", geojsonFeature);
+                prosesDetectInput(jsonCoordinates, "line", geojsonData);
             }
         });
         let selectedCounter;
         $("#next_step_byFile").click(function(e) {
-            console.log("KLIK");
-            if (selectedCounter < 2) {
-                prosesDetectInput(jsonCoordinates[0], "point", geojsonFeature);
-            } else if (selectedCounter > 2) {
-                prosesDetectInput([jsonCoordinates], "polygon", geojsonFeature);
+            if (geometryType == "Point") {
+                prosesDetectInput(jsonCoordinates, "point", geojsonData);
+            } else if (geometryType == "Polygon") {
+                prosesDetectInput(jsonCoordinates, "polygon", geojsonData);
             } else {
-                prosesDetectInput(jsonCoordinates, "line", geojsonFeature);
+                prosesDetectInput(jsonCoordinates, "line", geojsonData);
             }
         });
 
 
         $('#isi_koordinat').keyup(function(e) {
-            coordinates = [];
             jsonCoordinates = [];
             geojsonFeature = [];
             const selectedCounter = counterK;
-            // console.log('Nilai CounterK: ', selectedCounter);
             // Ambil nilai koordinat
             $('.ini_koordinat').each(function() {
                 const longitudeInput = parseFloat($(this).find('#tx_x').val());
@@ -1463,17 +1464,31 @@
                     const second2 = $(this).find('#md2_3').val();
                     longitude = parseFloat(degree1) + parseFloat(minute1 / 60) + parseFloat(second1 / 3600);
                     latitude = parseFloat(degree2) - parseFloat(minute2 / 60) - parseFloat(second2 / 3600);
-                    coordinates.push([longitude + ' ' + latitude]);
                     jsonCoordinates.push([longitude, latitude]);
                 } else if ($('#rd_dd').is(":checked")) {
-                    coordinates.push([longitudeInput + ' ' + latitudeInput]);
                     jsonCoordinates.push([longitudeInput, latitudeInput]);
                 }
             });
+            // console.log(jsonCoordinates);
+            if (counterK < 2) {
+                geojsonFeature = turf.point([jsonCoordinates[0][0], jsonCoordinates[0][1]]);
+                geojson = turf.featureCollection([geojsonFeature]);
+                styleDraw = markerStyle;
+            } else if (counterK > 2) {
+                geojsonFeature = turf.polygon([jsonCoordinates]);
+                geojson = turf.featureCollection([geojsonFeature]);
+                styleDraw = polygonStyle;
+            } else {
+                geojsonFeature = turf.lineString(jsonCoordinates);
+                geojson = turf.featureCollection([geojsonFeature]);
+                styleDraw = lineStyle;
+            }
+            // console.log(geojson);
+            geometryType = geojson.features[0].geometry.type;
             const iframe = document.getElementById("petaPreview");
             iframe.contentWindow.postMessage({
-                jsonCoordinates,
-                selectedCounter,
+                geojson,
+                geometryType,
             }, '<?= base_url('/data/petaPreview'); ?>');
         });
 
@@ -1496,18 +1511,29 @@
                 var drawnFeature = event.feature;
                 jsonCoordinates = drawnFeature.getGeometry().getCoordinates();
                 // console.log('Koordinat polygon yang digambar:', jsonCoordinates);
-                var polygonFeature = new ol.Feature({
-                    geometry: new ol.geom.Polygon(jsonCoordinates)
+                geojsonFeature = turf.polygon(jsonCoordinates);
+                geojsonData = turf.featureCollection([geojsonFeature]);
+                styleDraw = polygonStyle;
+                // console.log(geojsonData);
+                const features = new ol.format.GeoJSON().readFeatures(geojsonData);
+                features.forEach((feature) => {
+                    vectorSource.addFeature(feature);
                 });
-                vectorSource.addFeature(polygonFeature);
+                jsonCoordinates = getCoordinates(geojsonData);
+                var drawedVector = new ol.layer.Vector({
+                    source: vectorSource,
+                    style: polygonStyle,
+                });
+                map.addLayer(drawedVector);
                 map.removeInteraction(drawInteraction);
                 jsonCoordinates = drawnFeature.getGeometry();
                 jsonCoordinates.transform('EPSG:3857', 'EPSG:4326');
                 jsonCoordinates = jsonCoordinates.getCoordinates();
-                // console.log('Koordinat polygon yang digambar:', jsonCoordinates);
                 geojsonFeature = turf.polygon(jsonCoordinates);
+                geojsonData = turf.featureCollection([geojsonFeature]);
+                // console.log(jsonCoordinates);
                 map.getViewport().style.cursor = "grab"
-                prosesDetectInput(jsonCoordinates, "polygon", geojsonFeature);
+                prosesDetectInput([jsonCoordinates], "polygon", geojsonData);
             });
             map.addInteraction(drawInteraction);
             map.addLayer(drawedVector);
@@ -1548,7 +1574,7 @@
 
         $('#isiByFile').change(function(e) {
             const file = e.target.files[0];
-            console.log(file);
+            // console.log(file);
             const reader = new FileReader();
             jsonCoordinates = [];
             vectorSource.clear();
@@ -1570,33 +1596,39 @@
                         var dataArr = [json][0];
                         dataArr.shift();
                         selectedCounter = dataArr.length;
-                        console.log(selectedCounter);
+                        // console.log(selectedCounter);
+                        // console.log(dataArr);
                         if (selectedCounter < 2) {
                             jsonCoordinates = [dataArr[0].slice(1, 3)];
+                            // console.log(jsonCoordinates);
                             geojsonFeature = turf.point([jsonCoordinates[0][0], jsonCoordinates[0][1]]);
-                            var pointFeature = new ol.Feature({
-                                geometry: new ol.geom.Point(ol.proj.fromLonLat(jsonCoordinates[0]))
-                            });
-                            vectorSource.addFeature(pointFeature);
+                            geojson = turf.featureCollection([geojsonFeature]);
                             styleDraw = markerStyle;
                         } else {
-                            geojsonFeature = turf.polygon([jsonCoordinates]);
-                            dataArr.push(dataArr[0]);
-                            for (let index = 0; index < dataArr.length; index++) {
-                                var coord = dataArr[index].slice(1, 3);
-                                jsonCoordinates.push(coord);
-                            }
-                            var polygonFeature = new ol.Feature({
-                                geometry: new ol.geom.Polygon([jsonCoordinates.map(coordinate => ol.proj.transform(coordinate, 'EPSG:4326', 'EPSG:3857'))])
+                            jsonCoordinates = dataArr.map((coordinate) => {
+                                return [coordinate[1], coordinate[2]];
                             });
-                            vectorSource.addFeature(polygonFeature);
+                            // console.log(jsonCoordinates);
+                            geojsonFeature = turf.polygon([jsonCoordinates]);
+                            geojson = turf.featureCollection([geojsonFeature]);
                             styleDraw = polygonStyle;
                         }
-                        // console.log(jsonCoordinates);
+                        // console.log(geojson);
+                        geojsonData = geojson;
+                        const features = new ol.format.GeoJSON().readFeatures(geojson);
+                        features.forEach((feature) => {
+                            feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
+                            vectorSource.addFeature(feature);
+                        });
+                        var drawedVector = new ol.layer.Vector({
+                            source: vectorSource,
+                            style: styleDraw,
+                        });
+                        getCoordinates(geojson);
                         const iframe = document.getElementById("petaPreview");
                         iframe.contentWindow.postMessage({
-                            jsonCoordinates,
-                            selectedCounter,
+                            geojson,
+                            geometryType,
                         }, '<?= base_url('/data/petaPreview'); ?>');
                     } else if (getExtension == 'zip') {
                         let geojson;
@@ -1612,12 +1644,39 @@
                                 });
                         });
                         shpPromise.then((geojson) => {
-                            console.log(geojson);
-                            geojsonFromFile(geojson);
-                        }).catch((error) => {
-                            console.error('Error:', error);
-                            alert(error);
-                        });
+                                // console.log(geojson);
+                                geojsonData = geojson;
+                                const features = new ol.format.GeoJSON().readFeatures(geojson);
+                                features.forEach((feature) => {
+                                    // Transformasi koordinat ke EPSG:3857
+                                    feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
+                                    vectorSource.addFeature(feature);
+                                });
+                                getCoordinates(geojson);
+                                // console.log(geometryType);
+                                if (geometryType == "Point") {
+                                    vectorSource.getFeatures().forEach(function(feature) {
+                                        feature.setStyle(markerStyle);
+                                    });
+                                } else if (geometryType == "Polygon") {
+                                    vectorSource.getFeatures().forEach(function(feature) {
+                                        feature.setStyle(polygonStyle);
+                                    });
+                                } else {
+                                    vectorSource.getFeatures().forEach(function(feature) {
+                                        feature.setStyle(lineStyle);
+                                    });
+                                }
+                                const iframe = document.getElementById("petaPreview");
+                                iframe.contentWindow.postMessage({
+                                    geojson,
+                                    geometryType,
+                                }, '<?= base_url('/data/petaPreview'); ?>');
+                            })
+                            .catch((error) => {
+                                console.error('Error:', error);
+                                alert(error);
+                            });
                     } else if (getExtension == 'kmz') {
                         let geojson;
                         const zip = new JSZip();
@@ -1634,7 +1693,34 @@
                         }).then(kmlContent => {
                             const kml = new DOMParser().parseFromString(kmlContent, 'text/xml');
                             geojson = toGeoJSON.kml(kml);
-                            geojsonFromFile(geojson);
+                            // console.log(geojson);
+                            geojsonData = geojson;
+                            const features = new ol.format.GeoJSON().readFeatures(geojson);
+                            features.forEach((feature) => {
+                                // Transformasi koordinat ke EPSG:3857
+                                feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
+                                vectorSource.addFeature(feature);
+                            });
+                            getCoordinates(geojson);
+                            // console.log(geometryType);
+                            if (geometryType == "Point") {
+                                vectorSource.getFeatures().forEach(function(feature) {
+                                    feature.setStyle(markerStyle);
+                                });
+                            } else if (geometryType == "Polygon") {
+                                vectorSource.getFeatures().forEach(function(feature) {
+                                    feature.setStyle(polygonStyle);
+                                });
+                            } else {
+                                vectorSource.getFeatures().forEach(function(feature) {
+                                    feature.setStyle(lineStyle);
+                                });
+                            }
+                            const iframe = document.getElementById("petaPreview");
+                            iframe.contentWindow.postMessage({
+                                geojson,
+                                geometryType,
+                            }, '<?= base_url('/data/petaPreview'); ?>');
                         }).catch(error => {
                             alert(error.message);
                         });
@@ -1651,11 +1737,9 @@
                     reject(new Error("File not found"));
                 }
             });
-
             readFile.then(() => {
                 var drawedVector = new ol.layer.Vector({
                     source: vectorSource,
-                    style: styleDraw,
                 });
                 map.addLayer(drawedVector);
                 var extent = drawedVector.getSource().getExtent();
@@ -1669,37 +1753,51 @@
             });
         });
 
-        function geojsonFromFile(geojson) {
-            geojsonFeature = [];
-            const type = geojson.features[0].geometry.type;
-            if (type == "Point") {
-                selectedCounter = 1;
-            } else {
-                selectedCounter = 3;
-            }
-            if (selectedCounter < 2) {
-                jsonCoordinates = [geojson.features[0].geometry.coordinates];
-                console.log(jsonCoordinates);
-                geojsonFeature = turf.point([jsonCoordinates[0][0], jsonCoordinates[0][1]]);
-                var pointFeature = new ol.Feature({
-                    geometry: new ol.geom.Point(ol.proj.fromLonLat(jsonCoordinates[0]))
+        // Fungsi untuk mengambil koordinat dari fitur GeoJSON
+        function getCoordinates(geojson) {
+            jsonCoordinates = [];
+            if (geojson.type === 'FeatureCollection') {
+                // Jika GeoJSON adalah koleksi fitur (multi-fitur)
+                geojson.features.forEach((feature) => {
+                    extractCoordinatesFromFeature(feature, jsonCoordinates);
                 });
-                vectorSource.addFeature(pointFeature);
-                styleDraw = markerStyle;
+            } else if (geojson.type === 'Feature') {
+                // Jika GeoJSON adalah fitur tunggal
+                extractCoordinatesFromFeature(geojson, jsonCoordinates);
             } else {
-                jsonCoordinates = geojson.features[0].geometry.coordinates[0];
-                geojsonFeature = turf.polygon([jsonCoordinates]);
-                var polygonFeature = new ol.Feature({
-                    geometry: new ol.geom.Polygon([jsonCoordinates.map(coordinate => ol.proj.transform(coordinate, 'EPSG:4326', 'EPSG:3857'))])
-                });
-                vectorSource.addFeature(polygonFeature);
-                styleDraw = polygonStyle;
+                console.error('Tipe GeoJSON tidak didukung.');
             }
-            const iframe = document.getElementById("petaPreview");
-            iframe.contentWindow.postMessage({
-                jsonCoordinates,
-                selectedCounter,
-            }, '<?= base_url('/data/petaPreview'); ?>');
+            // console.log(jsonCoordinates);
+            return jsonCoordinates;
+        }
+        // Fungsi rekursif untuk mengambil koordinat dari fitur
+        function extractCoordinatesFromFeature(feature, coordinates) {
+            if (feature.geometry) {
+                geometryType = feature.geometry.type;
+                const geometryCoordinates = feature.geometry.coordinates;
+                switch (geometryType) {
+                    case 'Point':
+                    case 'MultiPoint':
+                    case 'LineString':
+                    case 'MultiLineString':
+                    case 'Polygon':
+                    case 'MultiPolygon':
+                        coordinates.push(geometryCoordinates);
+                        break;
+                    case 'GeometryCollection':
+                        // Jika fitur berisi koleksi geometri lainnya, ulangi proses untuk setiap geometri
+                        geometryCoordinates.forEach((geometry) => {
+                            extractCoordinatesFromFeature({
+                                geometry,
+                                type: 'Feature'
+                            }, coordinates[0]);
+                        });
+                        break;
+                    default:
+                        console.error(`Tipe geometri tidak didukung: ${geometryType}`);
+                        break;
+                }
+            }
         }
     </script>
     <script src="/js/meass-tool.js"></script>

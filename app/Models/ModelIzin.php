@@ -116,34 +116,4 @@ class ModelIzin extends Model
     {
         return $this->db->table('tbl_status_appv')->update($data, ['id_perizinan' => $id_perizinan]);
     }
-
-
-
-
-    // SCRAPING DATA FROM DATABASE FOR SELECT FORM MENU
-
-    // PROVINSI
-    public function allProvinsi()
-    {
-        return $this->db->table('tbl_provinsi')->orderBy('id_provinsi', 'ASC')->get()->getResultArray();
-    }
-    // KABUPATEN/KOTA
-    public function allKabupaten($id_provinsi)
-    {
-        return $this->db->table('tbl_kabupaten')->where('id_provinsi', $id_provinsi)->get()->getResultArray();
-    }
-    // KECAMATAN
-    public function allKecamatan($id_kecamatan)
-    {
-        return $this->db->table('tbl_kecamatan')->where('id_kabupaten', $id_kecamatan)->get()->getResultArray();
-    }
-    // KELURAHAN
-    public function allKelurahan($id_kelurahan)
-    {
-        return $this->db->table('tbl_kelurahan')->where('id_kecamatan', $id_kelurahan)->get()->getResultArray();
-    }
-    function tes()
-    {
-        return $this->db->table('test')->get();
-    }
 }
