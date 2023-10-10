@@ -138,7 +138,6 @@
                 </div>
 
             </div>
-            <!-- <div id="google_translate_element"></div> -->
         </div>
     </section>
     <!-- discover End -->
@@ -149,23 +148,7 @@
 
 
 
-    <!-- 
-    <script>
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'id',
-                includedLanguages: 'en,id',
-                autoDisplay: true
-            }, 'google_translate_element');
-            let tr = `<option value="">ID</option>
-                    <option value="en">EN</option>`;
-            let skipTranslateElement = document.getElementsByClassName('goog-te-combo');
-            if (skipTranslateElement) {
-                skipTranslateElement.innerHTML = tr;
-            }
-        }
-    </script>
-    <script src="http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script> -->
+
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

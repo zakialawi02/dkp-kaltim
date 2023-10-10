@@ -199,6 +199,15 @@ class Admin extends BaseController
 
 
     // Data Pengajuan Informasi Ruang Laut
+    public function visualPermohonan()
+    {
+        $data = [
+            'title' => 'Data Pengajuan Informasi Disetujui',
+            'tampilIzin' => $this->izin->getIzin()->getResult(),
+        ];
+        // dd($data['tampilIzin']);
+        return view('admin/visualPermohonan', $data);
+    }
     public function DataDisetujuiSemua()
     {
         $data = [

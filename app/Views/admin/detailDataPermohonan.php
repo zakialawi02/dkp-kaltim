@@ -148,10 +148,10 @@
                             </div>
 
                             <h5>Berkas</h5>
-                            <div class="p-md-2 d-md-inline-flex gap-2">
+                            <div class="p-md-2 d-flex flex-wrap gap-2 overflow-auto" style="width: 100%;">
                                 <?php if ($tampilDataIzin->uploadFiles != null) : ?>
                                     <?php foreach ($tampilDataIzin->uploadFiles as $file) : ?>
-                                        <div class="card mb-3" style="max-width: 500px;">
+                                        <div class="card mb-3 flex-grow-1" style="max-width: 500px;">
                                             <div class="card-body file">
                                                 <p class="card-text"><a href="/dokumen/upload-dokumen/<?= $file->uploadFiles; ?>" target="_blank"><?= $file->uploadFiles; ?></a></p>
                                             </div>

@@ -480,6 +480,27 @@
             $(".no-sort").css("pointer-events", "none");
         });
     </script>
+    <?php if (session()->getFlashdata('success')) : ?>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: '<?= session()->getFlashdata('success'); ?>',
+                timer: 1500,
+            });
+        </script>
+    <?php endif; ?>
+
+    <?php if (session()->getFlashdata('error')) : ?>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: '<?= session()->getFlashdata('error'); ?>',
+                timer: 1500,
+            });
+        </script>
+    <?php endif; ?>
     <script>
         $('.toggle-sidepanel').click(function() {
             $('.sidepanel').toggleClass('expanded');
@@ -640,8 +661,9 @@
     </script>
     <!-- login/logout -->
     <script>
-        $(document).ready(function(e) {
+        $(document).ready(function() {
             $('form[name="login"]').submit(function(event) {
+                event.preventDefault(); // prevent default form submit behavior
                 $('#loginError').text('');
                 $('#passwordError').text('');
                 var login = $('input[name="login"]').val().trim();
@@ -657,9 +679,32 @@
                     $("#passwordError").text('Masukkan password');
                     return;
                 }
+                var form = $(this);
+                var url = form.attr('action');
+                var method = form.attr('method');
+                var data = form.serialize();
                 $('#login-submit').hide();
                 $('#spinnerss').show();
-                e.preventDefault();
+                // AJAX request
+                $.ajax({
+                    url: url,
+                    type: method,
+                    data: data,
+                    success: function(response) {
+                        location.reload();
+                        // Swal.fire({
+                        //     title: "Login Berhasil!",
+                        //     icon: "success",
+                        //     showConfirmButton: false,
+                        //     timer: 1000
+                        // }).then(() => {
+                        //     $('.modal').hide();
+                        //     $('.modal-backdrop').hide();
+                        //     $('#button-section-group').load(location.href + ' #button-section');
+                        //     location.reload();
+                        // });
+                    },
+                });
             });
         });
     </script>

@@ -27,7 +27,7 @@
                     </a>
                     <div class="collapse" id="collapseKafe" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <div class="sb-sidenav-menu-nested nav">
-                            <!-- <a class="nav-link" href="/admin/data/permohonan/disetujui/semua/tambah">Add Data</a> -->
+                            <a class="nav-link" href="/admin/data/permohonan/peta">Peta Data Disetujui</a>
                             <a class="nav-link" href="/admin/data/permohonan/disetujui/semua">Semua Data Disetujui</a>
                             <a class="nav-link" href="/admin/data/permohonan/disetujui/terlampir">Data Disetujui Dengan Lampiran</a>
                             <a class="nav-link" href="/admin/data/permohonan/disetujui/">Data Disetujui Tanpa Lampiran</a>
