@@ -136,7 +136,7 @@ class Data extends BaseController
                     $pathInfo = pathinfo($originalName);
                     $fileName = $pathInfo['filename'];
                     $fileExt = $file->guessExtension();
-                    $uploadFiles = $fileName . "_" . uniqid() . "." . $fileExt;
+                    $uploadFiles = $fileName . "_" . date('YmdHis') . "." . $fileExt;
                     $dataF = [
                         'id_perizinan' => $insert_id,
                         'file' => $uploadFiles,

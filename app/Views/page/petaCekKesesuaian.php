@@ -1281,6 +1281,7 @@
         function kirim() {
             let geojson = geojsonData;
             let getOverlap = getOverlapProperties;
+            console.log(geojson);
             $("#geojson").val(JSON.stringify(geojson));
             $("#getOverlap").val(JSON.stringify(getOverlap));
         }
@@ -1689,14 +1690,17 @@
                                 });
                         });
                         shpPromise.then((geojson) => {
-                                // console.log(geojson);
-                                geojsonData = geojson;
                                 const features = new ol.format.GeoJSON().readFeatures(geojson);
                                 features.forEach((feature) => {
                                     // Transformasi koordinat ke EPSG:3857
                                     feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
                                     vectorSource.addFeature(feature);
                                 });
+                                geojson.features.forEach((feature) => {
+                                    feature.properties = "";
+                                });
+                                geojsonData = geojson;
+                                console.log(geojson);
                                 getCoordinates(geojson);
                                 // console.log(geometryType);
                                 if (geometryType == "Point") {

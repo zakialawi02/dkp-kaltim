@@ -308,7 +308,7 @@
                 proj4.defs('EPSG:4326', '+proj=longlat +datum=WGS84 +no_defs');
                 const geojsonData = geojson;
                 const newProperties = {
-                    "NAMA_PEMOHON": "<?= $tampilDataIzin->nama; ?>",
+                    "NAMA": "<?= $tampilDataIzin->nama; ?>",
                     "NIK": "<?= $tampilDataIzin->nik ?>",
                     "NIK": "<?= $tampilDataIzin->nib ?>",
                     "ALAMAT": "<?= $tampilDataIzin->alamat ?>",

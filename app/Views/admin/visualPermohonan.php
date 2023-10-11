@@ -26,7 +26,7 @@
 
     <style>
         #map {
-            height: 100vh;
+            height: 90vh;
             cursor: grab;
         }
     </style>
@@ -44,7 +44,7 @@
             <!-- MAIN CONTENT -->
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-2 mb-3">Data Disetujui</h1>
+                    <h1 class="mt-2 mb-3">Semua Data Disetujui</h1>
 
                     <div class="card mb-4">
                         <div class="card-body">
@@ -103,6 +103,32 @@
         proj4.defs("EPSG:32750", "+proj=utm +zone=50 +south +ellps=WGS84 +datum=WGS84 +units=m +no_defs");
         proj4.defs("EPSG:23836", "+proj=tmerc +lat_0=0 +lon_0=112.5 +k=0.9999 +x_0=200000 +y_0=1500000 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
 
+        // style vector geometry
+        const markerStyle = new ol.style.Style({
+            image: new ol.style.Icon({
+                anchor: [0.5, 1],
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'fraction',
+                opacity: 1,
+                src: '/mapSystem/images/marker-icon.png'
+            })
+        });
+        const lineStyle = new ol.style.Style({
+            stroke: new ol.style.Stroke({
+                color: 'red',
+                width: 2,
+            }),
+        });
+        const polygonStyle = new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: 'rgba(232, 85, 72, 0.3)',
+            }),
+            stroke: new ol.style.Stroke({
+                color: 'red',
+                width: 2,
+            }),
+        });
+
         const projection = new ol.proj.Projection({
             code: 'EPSG:32750',
             units: 'm',
@@ -149,8 +175,8 @@
 
         // Init To Canvas/View
         const view = new ol.View({
-            center: ol.proj.fromLonLat([118, 0]),
-            zoom: 11,
+            center: ol.proj.fromLonLat([118, -1]),
+            zoom: 5,
             Projection: projection
         });
         const map = new ol.Map({
@@ -174,16 +200,42 @@
         });
         map.addControl(layerSwitcher);
 
-        view.on('change', function() {
-            const zoomView = view.getZoom();
-            const centerCoordinate = view.getCenter();
-            const lonLatCenter = ol.proj.toLonLat(centerCoordinate);
-            $('#koordinatView').val(lonLatCenter[1] + ', ' + lonLatCenter[0])
-            $('#zoomView').val(zoomView.toFixed(1));
+        <?php $geojsonData = [] ?>
+        <?php foreach ($tampilIzin as $key => $value) : ?>
+            <?php $geojsonData[] = $value->lokasi; ?>
+        <?php endforeach ?>
+        let geojsonData = <?= json_encode($geojsonData); ?>;
+
+        let vectorSource = new ol.source.Vector();
+        let vectorLayer;
+
+        geojsonData.map((geojson) => {
+            let features = new ol.format.GeoJSON().readFeatures(geojson, {
+                featureProjection: 'EPSG:3857', // Proyeksi EPSG:3857 (Web Mercator)
+            });
+            vectorSource.addFeatures(features);
+            let styleDraw;
+            let geometryType = features[0].getGeometry().getType();
+            if (geometryType === "Point") {
+                styleDraw = markerStyle;
+            } else if (geometryType === "Polygon") {
+                styleDraw = polygonStyle;
+            } else {
+                styleDraw = lineStyle;
+            }
+            vectorLayer = new ol.layer.Vector({
+                source: vectorSource,
+                style: styleDraw,
+            });
+            map.addLayer(vectorLayer);
+            vectorLayer.setOpacity(0.7);
         });
-        const zoomInput = document.getElementById('zoomView');
-        zoomInput.addEventListener('input', function() {
-            this.value = this.value.replace(',', '.');
+
+        var extent = vectorLayer.getSource().getExtent();
+        map.getView().fit(extent, {
+            padding: [100, 100, 100, 100],
+            minResolution: map.getView().getResolutionForZoom(12),
+            duration: 1500,
         });
     </script>
 
