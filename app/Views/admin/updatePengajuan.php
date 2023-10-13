@@ -103,6 +103,8 @@
                                         <form class="row g-3" action="/data/updateAjuan/<?= $tampilIzin->id_perizinan; ?>" method="post" enctype="multipart/form-data" autocomplete="off">
                                             <?= csrf_field(); ?>
 
+                                            <input type="hidden" class="form-control" id="drawFeatures" aria-describedby="textlHelp" name="drawFeatures">
+
                                             <h5>a. Identitas Pemohon</h5>
 
                                             <div class="form-group">
@@ -319,7 +321,7 @@
             <?php $lat = $splitKoordinat[1] ?>
         <?php endforeach ?>
 
-        proj4.defs("EPSG:32750", "+proj=utm +zone=50 +south +ellps=WGS84 +datum=WGS84 +units=m +no_defs");
+        proj4.defs("EPSG:54034", "+proj=cea +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs");
         proj4.defs("EPSG:23836", "+proj=tmerc +lat_0=0 +lon_0=112.5 +k=0.9999 +x_0=200000 +y_0=1500000 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
 
         let geojson = <?= $tampilIzin->lokasi; ?>;
@@ -369,7 +371,7 @@
             style: styleDraw,
         });
         const projection = new ol.proj.Projection({
-            code: 'EPSG:32750',
+            code: 'EPSG:54034',
             units: 'm',
             axisOrientation: 'neu'
         });
@@ -461,10 +463,12 @@
             }, 2);
             worker.data(cw.makeUrl('/geojson/KKPRL_joinTableWithRZWPCopy.zip')).then(function(data) {
                 geoshp = data;
-                // console.log("Var Global:", data);
+                console.log("READY!");
                 jsonCoordinates = getCoordinates(geojson);
                 geojsonData = jsonCoordinates;
+                console.log(geometryType);
                 prosesDetectInput(jsonCoordinates, geometryType, geojsonData);
+                console.log("z");
                 cek();
             }, function(a) {
                 console.log(a)
@@ -476,9 +480,9 @@
         function prosesDetectInput(drawn, type = "polygon") {
             overlappingFeatures = [];
             let tot = drawn.length;
-            // console.log(tot);
+            console.log(tot);
             for (let ii = 0; ii < tot; ii++) {
-                if (type == "point") {
+                if (type == "Point" || type == "point") {
                     try {
                         geoshp.features.forEach(function(layer) {
                             var shapefileGeoJSON = layer;
@@ -501,7 +505,7 @@
                     } catch (error) {
                         alert("Terjadi kesalahan, mohon ulangi atau reload browser anda");
                     }
-                } else if (type == "line") {
+                } else if (type == "line" || type == "Line" || type == "LineString") {
                     try {
                         geoshp.features.forEach(function(layer) {
                             var shapefileGeoJSON = layer;
@@ -562,9 +566,6 @@
                 });
                 var overlappingKode = overlappingFeatures.map(function(feature) {
                     return feature.properties.KODKWS;
-                });
-                var overlappingOrde = overlappingFeatures.map(function(feature) {
-                    return feature.properties.ORDE01;
                 });
             }
             console.log(overlappingID);
@@ -722,6 +723,22 @@
                         break;
                 }
             }
+        }
+
+        function kirim() {
+            console.log("HELL");
+            const newProperties = {
+                "NAMA": $('[name="nama"]').val(),
+                "NIK": $('[name="nik"]').val(),
+                "NIB": $('[name="nib"]').val(),
+                "ALAMAT": $('[name="alamat"]').val(),
+                "KONTAK": $('[name="kontak"]').val(),
+                "JNS_KEGIATAN": $('#pilihKegiatan option:selected').text(),
+            };
+            geojson.features.forEach(feature => {
+                feature.properties = newProperties;
+            });
+            $("#drawFeatures").val(JSON.stringify(geojson));
         }
     </script>
 

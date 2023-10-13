@@ -23,11 +23,12 @@
     <!-- Open Layers Component -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v7.4.0/ol.css">
     <link rel="stylesheet" href="https://unpkg.com/ol-layerswitcher@4.1.1/dist/ol-layerswitcher.css" />
+    <link href=" https://cdn.jsdelivr.net/npm/ol-ext@4.0.11/dist/ol-ext.min.css " rel="stylesheet">
 
     <style>
         #map {
             height: 90vh;
-            cursor: grab;
+            /* cursor: grab; */
         }
     </style>
 </head>
@@ -98,9 +99,11 @@
     <script src="https://cdn.jsdelivr.net/npm/ol@v7.4.0/dist/ol.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/elm-pep@1.0.6/dist/elm-pep.js"></script>
     <script src="https://unpkg.com/ol-layerswitcher@4.1.1"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/ol-ext@4.0.11/dist/ol-ext.min.js "></script>
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL,Object.assign"></script>
 
     <script type="text/javascript">
-        proj4.defs("EPSG:32750", "+proj=utm +zone=50 +south +ellps=WGS84 +datum=WGS84 +units=m +no_defs");
+        proj4.defs("EPSG:54034", "+proj=cea +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs");
         proj4.defs("EPSG:23836", "+proj=tmerc +lat_0=0 +lon_0=112.5 +k=0.9999 +x_0=200000 +y_0=1500000 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
 
         // style vector geometry
@@ -110,7 +113,8 @@
                 anchorXUnits: 'fraction',
                 anchorYUnits: 'fraction',
                 opacity: 1,
-                src: '/mapSystem/images/marker-icon.png'
+                src: '/mapSystem/images/marker-icon.png',
+                scale: 0.5,
             })
         });
         const lineStyle = new ol.style.Style({
@@ -130,7 +134,7 @@
         });
 
         const projection = new ol.proj.Projection({
-            code: 'EPSG:32750',
+            code: 'EPSG:54034',
             units: 'm',
             axisOrientation: 'neu'
         });
@@ -209,27 +213,96 @@
         let vectorSource = new ol.source.Vector();
         let vectorLayer;
 
-        geojsonData.map((geojson) => {
-            let features = new ol.format.GeoJSON().readFeatures(geojson, {
-                featureProjection: 'EPSG:3857', // Proyeksi EPSG:3857 (Web Mercator)
+        const allFeaturesPT = [];
+        const allFeaturesPL = [];
+        const allFeaturesLN = [];
+        geojsonData.forEach((geojson) => {
+            geojson = JSON.parse(geojson);
+            // console.log(geojson);
+            // console.log(geojson.features.length);
+            geojson.features.map((feature) => {
+                // console.log(feature);
+                // console.log(feature.geometry.type);
+                if (feature.geometry.type == "Point") {
+                    allFeaturesPT.push(feature);
+                } else if (feature.geometry.type == "Polygon") {
+                    allFeaturesPL.push(feature);
+                } else {
+                    allFeaturesLN.push(feature);
+                }
             });
-            vectorSource.addFeatures(features);
-            let styleDraw;
-            let geometryType = features[0].getGeometry().getType();
-            if (geometryType === "Point") {
-                styleDraw = markerStyle;
-            } else if (geometryType === "Polygon") {
-                styleDraw = polygonStyle;
-            } else {
-                styleDraw = lineStyle;
-            }
-            vectorLayer = new ol.layer.Vector({
-                source: vectorSource,
-                style: styleDraw,
-            });
-            map.addLayer(vectorLayer);
-            vectorLayer.setOpacity(0.7);
         });
+        let featureCollectionPT = {
+            "type": "FeatureCollection",
+            "features": allFeaturesPT,
+        };
+        let featureCollectionPL = {
+            "type": "FeatureCollection",
+            "features": allFeaturesPL,
+        };
+        let featureCollectionLN = {
+            "type": "FeatureCollection",
+            "features": allFeaturesLN,
+        };
+        // console.log(featureCollectionPT);
+        // console.log(featureCollectionPL);
+        // console.log(featureCollectionLN);
+
+        let featuresPT = new ol.format.GeoJSON().readFeatures(featureCollectionPT, {
+            featureProjection: 'EPSG:3857', // Proyeksi EPSG:3857 (Web Mercator)
+        });
+        let featuresPL = new ol.format.GeoJSON().readFeatures(featureCollectionPL, {
+            featureProjection: 'EPSG:3857', // Proyeksi EPSG:3857 (Web Mercator)
+        });
+        let featuresLN = new ol.format.GeoJSON().readFeatures(featureCollectionLN, {
+            featureProjection: 'EPSG:3857', // Proyeksi EPSG:3857 (Web Mercator)
+        });
+        vectorSource.addFeatures(featuresPT);
+        vectorSource.addFeatures(featuresPL);
+        vectorSource.addFeatures(featuresLN);
+        vectorLayer = new ol.layer.Vector({
+            source: vectorSource,
+            style: function(feature) {
+                if (feature.getGeometry().getType() === 'Point') {
+                    return markerStyle;
+                } else if (feature.getGeometry().getType() === 'Polygon') {
+                    return polygonStyle;
+                } else {
+                    return lineStyle;
+                }
+            },
+        });
+        map.addLayer(vectorLayer);
+
+        // Select  interaction
+        var select = new ol.interaction.Select({
+            hitTolerance: 5,
+            multi: true,
+            condition: ol.events.condition.singleClick
+        });
+        map.addInteraction(select);
+        // Select control
+        var popup = new ol.Overlay.PopupFeature({
+            popupClass: 'default anim',
+            select: select,
+            canFix: true,
+            template: function(f) {
+                return {
+                    // title: function(f) {
+                    //     return f.get('NAMA')
+                    // },
+                    attributes: {
+                        NAMA: 'nama',
+                        NIK: 'nik',
+                        NIB: 'nib',
+                        ALAMAT: 'alamat',
+                        JNS_KEGIATAN: 'kegiatan',
+                    }
+                }
+            }
+        });
+        map.addOverlay(popup);
+
 
         var extent = vectorLayer.getSource().getExtent();
         map.getView().fit(extent, {

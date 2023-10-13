@@ -714,10 +714,6 @@
             $(".info_status").html('<img src="/img/loading.gif">');
             let valKegiatan = $('#pilihKegiatan').val();
             let getOverlap = overlappingFeatures;
-            // console.log(getOverlap);
-            // let properties = getOverlap.map(function(feature) {
-            //     return feature.properties;
-            // });
             objectID = getOverlap.map(function(feature) {
                 return feature.properties.OBJECTID;
             });
@@ -773,6 +769,7 @@
                 }
             }
             // console.log(getOverlapProperties);
+
             $('#lanjutKirim').prop('disabled', true);
             $.ajax({
                     method: "POST",
@@ -870,9 +867,8 @@
         <?php endforeach ?>
 
         proj4.defs('EPSG:54034', '+proj=cea +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs');
-        proj4.defs('EPSG:32750', '+proj=utm +zone=50 +south +ellps=WGS84 +datum=WGS84 +units=m +no_defs');
         proj4.defs('EPSG:3857', '+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs +type=crs');
-        proj4.defs("EPSG:4326", "+proj=longlat +datum=WGS84 +no_defs +type=crs");
+        proj4.defs('EPSG:4326', '+proj=longlat +datum=WGS84 +no_defs +type=crs');
 
         var drawInteraction;
         var drawedVector;
@@ -1292,7 +1288,7 @@
         }
 
         // tampilin Cek overlap features
-        function cekHasil(id, kawasan, name, kode, orde) {
+        function cekHasil(id, kawasan, name, kode) {
             var act = "/data/cekData";
             $.ajax({
                 url: act,
@@ -1302,7 +1298,6 @@
                     kawasan,
                     name,
                     kode,
-                    orde,
                     geojsonData,
                 },
                 dataType: "html",
@@ -1322,7 +1317,7 @@
             let tot = drawn.length;
             console.log(tot);
             for (let ii = 0; ii < tot; ii++) {
-                if (type == "point") {
+                if (type == "point" || type == "Point") {
                     try {
                         geoshp.features.forEach(function(layer) {
                             var shapefileGeoJSON = layer;
@@ -1345,7 +1340,7 @@
                     } catch (error) {
                         alert("Terjadi kesalahan, mohon ulangi atau reload browser anda");
                     }
-                } else if (type == "line") {
+                } else if (type == "line" || type == "Line" || type == "LineString") {
                     try {
                         geoshp.features.forEach(function(layer) {
                             var shapefileGeoJSON = layer;
@@ -1407,11 +1402,8 @@
                 var overlappingKode = overlappingFeatures.map(function(feature) {
                     return feature.properties.KODKWS;
                 });
-                var overlappingOrde = overlappingFeatures.map(function(feature) {
-                    return feature.properties.ORDE01;
-                });
             }
-            cekHasil(overlappingID, overlappingKawasan, overlappingObject, overlappingKode, overlappingOrde);
+            cekHasil(overlappingID, overlappingKawasan, overlappingObject, overlappingKode);
         }
 
         // klik lanjut
@@ -1422,18 +1414,36 @@
             const selectedCounter = counterK;
             // Ambil nilai koordinat
             $('.ini_koordinat').each(function() {
-                const $this = $(this);
-                const longitudeInput = parseFloat($this.find('#tx_x').val());
-                const latitudeInput = parseFloat($this.find('#tx_y').val());
+                const longitudeInput = parseFloat($(this).find('#tx_x').val());
+                const latitudeInput = parseFloat($(this).find('#tx_y').val());
                 if ($('#rd_dms').is(":checked")) {
-                    const degree1 = parseFloat($this.find('#md1_1').val());
-                    const minute1 = parseFloat($this.find('#md1_2').val());
-                    const second1 = parseFloat($this.find('#md1_3').val());
-                    const degree2 = parseFloat($this.find('#md2_1').val());
-                    const minute2 = parseFloat($this.find('#md2_2').val());
-                    const second2 = parseFloat($this.find('#md2_3').val());
-                    const longitude = degree1 + minute1 / 60 + second1 / 3600;
-                    const latitude = degree2 - minute2 / 60 - second2 / 3600;
+                    let degree1 = $(this).find('#md1_1').val();
+                    let minute1 = $(this).find('#md1_2').val();
+                    let second1 = $(this).find('#md1_3').val();
+                    let degree2 = $(this).find('#md2_1').val();
+                    let minute2 = $(this).find('#md2_2').val();
+                    let second2 = $(this).find('#md2_3').val();
+
+                    if (degree1 == '') degree1 = '0';
+                    if (minute1 == '') minute1 = '0';
+                    if (second1 == '') second1 = '0';
+                    if (minute1 < 0) minute1 = -minute1;
+                    if (second1 < 0) second1 = -second1;
+                    if (degree1 < 0 || degree1 == '-0') {
+                        minute1 = -minute1;
+                        second1 = -second1;
+                    }
+                    if (degree2 == '') degree2 = '0';
+                    if (minute2 == '') minute2 = '0';
+                    if (second2 == '') second2 = '0';
+                    if (minute2 < 0) minute2 = -minute2;
+                    if (second2 < 0) second2 = -second2;
+                    if (degree2 < 0 || degree2 == '-0') {
+                        minute2 = -minute2;
+                        second2 = -second2;
+                    }
+                    longitude = parseFloat(degree1) + parseFloat((minute1) / 60) + parseFloat((second1) / 3600);
+                    latitude = parseFloat(degree2) + parseFloat((minute2) / 60) + parseFloat((second2) / 3600);
                     jsonCoordinates.push([longitude, latitude]);
                 } else if ($('#rd_dd').is(":checked")) {
                     jsonCoordinates.push([longitudeInput, latitudeInput]);
@@ -1470,7 +1480,7 @@
             var extent = drawedVector.getSource().getExtent();
             map.getView().fit(extent, {
                 padding: [100, 100, 100, 100],
-                minResolution: map.getView().getResolutionForZoom(13),
+                minResolution: map.getView().getResolutionForZoom(17),
             });
 
             if (counterK < 2) {
@@ -1502,14 +1512,33 @@
                 const longitudeInput = parseFloat($(this).find('#tx_x').val());
                 const latitudeInput = parseFloat($(this).find('#tx_y').val());
                 if ($('#rd_dms').is(":checked")) {
-                    const degree1 = $(this).find('#md1_1').val();
-                    const minute1 = $(this).find('#md1_2').val();
-                    const second1 = $(this).find('#md1_3').val();
-                    const degree2 = $(this).find('#md2_1').val();
-                    const minute2 = $(this).find('#md2_2').val();
-                    const second2 = $(this).find('#md2_3').val();
-                    longitude = parseFloat(degree1) + parseFloat(minute1 / 60) + parseFloat(second1 / 3600);
-                    latitude = parseFloat(degree2) - parseFloat(minute2 / 60) - parseFloat(second2 / 3600);
+                    let degree1 = $(this).find('#md1_1').val();
+                    let minute1 = $(this).find('#md1_2').val();
+                    let second1 = $(this).find('#md1_3').val();
+                    let degree2 = $(this).find('#md2_1').val();
+                    let minute2 = $(this).find('#md2_2').val();
+                    let second2 = $(this).find('#md2_3').val();
+
+                    if (degree1 == '') degree1 = '0';
+                    if (minute1 == '') minute1 = '0';
+                    if (second1 == '') second1 = '0';
+                    if (minute1 < 0) minute1 = -minute1;
+                    if (second1 < 0) second1 = -second1;
+                    if (degree1 < 0 || degree1 == '-0') {
+                        minute1 = -minute1;
+                        second1 = -second1;
+                    }
+                    if (degree2 == '') degree2 = '0';
+                    if (minute2 == '') minute2 = '0';
+                    if (second2 == '') second2 = '0';
+                    if (minute2 < 0) minute2 = -minute2;
+                    if (second2 < 0) second2 = -second2;
+                    if (degree2 < 0 || degree2 == '-0') {
+                        minute2 = -minute2;
+                        second2 = -second2;
+                    }
+                    longitude = parseFloat(degree1) + parseFloat((minute1) / 60) + parseFloat((second1) / 3600);
+                    latitude = parseFloat(degree2) + parseFloat((minute2) / 60) + parseFloat((second2) / 3600);
                     jsonCoordinates.push([longitude, latitude]);
                 } else if ($('#rd_dd').is(":checked")) {
                     jsonCoordinates.push([longitudeInput, latitudeInput]);

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="utf-8" />
@@ -80,8 +80,8 @@
                                 <?php if ($tampilDataIzin->stat_appv != 0) : ?>
                                     <p style="font-size: smaller;">Pada: <?= date('d M Y H:i:s', strtotime($tampilDataIzin->date_updated)); ?></p>
                                 <?php endif ?>
-                                <?php if ($tampilDataIzin->stat_appv == 1) : ?>
-                                    <p class="card-text"><a <?= $tampilDataIzin->dokumen_lampiran == null ?  'href="#" data-bs-toggle="tooltip" data-bs-title="Dokumen Belum Dikirim"' : 'href="/dokumen/lampiran-balasan/' . $tampilDataIzin->dokumen_lampiran . '" data-bs-toggle="tooltip" data-bs-title="Lihat Dokumen" target="_blank"'; ?>><i class="bi bi-file-earmark-pdf-fill" style="color: #6697de;"></i> Lihat Dokumen Balasan</a></p>
+                                <?php if ($tampilDataIzin->stat_appv != 0) : ?>
+                                    <p class="card-text"><a <?= empty($tampilDataIzin->dokumen_lampiran) ?  'href="#" data-bs-toggle="tooltip" data-bs-title="Dokumen Belum Dikirim"' : 'href="/dokumen/lampiran-balasan/' . $tampilDataIzin->dokumen_lampiran . '" data-bs-toggle="tooltip" data-bs-title="Lihat Dokumen" target="_blank"'; ?>><i class="bi bi-file-earmark-pdf-fill" style="color: #6697de;"></i> Lihat Dokumen Balasan</a></p>
                                 <?php endif ?>
                             </div>
 
@@ -169,7 +169,15 @@
                     <div class="card mb-3">
                         <div class="card-body">
                             <div id="map" class="map"></div>
-                            <div id="Cbuttons"></div>
+                            <div id="Cbuttons">
+                                <?php if (!in_groups('User')) : ?>
+                                    <button type="button" id="muatEksisting" class="asbn btn btn-primary bi bi-arrow-clockwise"> Muat Data Eksisting</button>
+                                    <button class="asbn btn btn-primary d-none" id="loadMuatEksisting" type="button" disabled>
+                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        Loading...
+                                    </button>
+                                <?php endif ?>
+                            </div>
                         </div>
                     </div>
                     <div class="card ambilTindakanJawaban">
@@ -302,66 +310,55 @@
             btnshp.id = "btnshp";
             btnshp.className = "bi bi-cloud-arrow-down asbn btn btn-primary m-md-3";
             btnshp.onclick = function() {
-                // try {
-                proj4.defs('EPSG:54034', '+proj=cea +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs');
-                // proj4.defs('EPSG:32750', '+proj=utm +zone=50 +south +datum=WGS84 +units=m +no_defs +type=crs');
-                proj4.defs('EPSG:4326', '+proj=longlat +datum=WGS84 +no_defs');
-                const geojsonData = geojson;
-                const newProperties = {
-                    "NAMA": "<?= $tampilDataIzin->nama; ?>",
-                    "NIK": "<?= $tampilDataIzin->nik ?>",
-                    "NIK": "<?= $tampilDataIzin->nib ?>",
-                    "ALAMAT": "<?= $tampilDataIzin->alamat ?>",
-                    "KONTAK": "<?= $tampilDataIzin->kontak ?>",
-                    "JNS_KEGIATAN": "<?= $tampilDataIzin->nama_kegiatan ?>",
-                };
-                geojsonData.features.forEach(feature => {
-                    feature.properties = newProperties;
-                });
-                const options = {
-                    folder: '<?= date("Y"); ?>_<?= date("m"); ?>_<?= $tampilDataIzin->nama; ?>_<?= $tampilDataIzin->nik; ?>',
-                    filename: "<?= date("Y"); ?>_<?= date("m"); ?>_<?= $tampilDataIzin->nik; ?>",
-                    outputType: "blob",
-                    types: {
-                        point: "<?= $tampilDataIzin->nik; ?>_PT",
-                        polygon: "<?= $tampilDataIzin->nik; ?>_AR",
-                        polyline: "<?= $tampilDataIzin->nik; ?>_LN",
-                    },
-                    prj: 'PROJCS["WGS_1984_UTM_Zone_50S",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Transverse_Mercator"],PARAMETER["False_Easting",500000.0],PARAMETER["False_Northing",10000000.0],PARAMETER["Central_Meridian",117.0],PARAMETER["Scale_Factor",0.9996],PARAMETER["Latitude_Of_Origin",0.0],UNIT["Meter",1.0]]',
-                };
                 try {
-                    geojsonData.features.forEach(feature => {
-                        feature.geometry.coordinates = feature.geometry.coordinates.map(coordinates => {
-                            return coordinates.map(coord => {
-                                return proj4('EPSG:4326', 'EPSG:32750', [coord[0], coord[1]]);
-                            });
-                        });
-                        if (feature.geometry.bbox) {
-                            const [minLon, minLat, maxLon, maxLat] = feature.geometry.bbox;
-                            const transformedMin = proj4('EPSG:4326', 'EPSG:32750', [minLon, minLat]);
-                            const transformedMax = proj4('EPSG:4326', 'EPSG:32750', [maxLon, maxLat]);
-                            // Menetapkan ulang nilai bbox yang telah diubah
-                            feature.geometry.bbox = [
-                                transformedMin[0], transformedMin[1],
-                                transformedMax[0], transformedMax[1]
-                            ];
-                        }
-                    });
-                } catch (error) {
+                    proj4.defs('EPSG:54034', '+proj=cea +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs');
+                    // proj4.defs('EPSG:32750', '+proj=utm +zone=50 +south +datum=WGS84 +units=m +no_defs +type=crs');
+                    proj4.defs('EPSG:4326', '+proj=longlat +datum=WGS84 +no_defs');
+                    const geojsonData = geojson;
+                    const options = {
+                        folder: '<?= date("Y"); ?>_<?= date("m"); ?>_<?= $tampilDataIzin->nama; ?>_<?= $tampilDataIzin->nik; ?>',
+                        filename: "<?= date("Y"); ?>_<?= date("m"); ?>_<?= $tampilDataIzin->nik; ?>",
+                        outputType: "blob",
+                        types: {
+                            point: "<?= $tampilDataIzin->nik; ?>_PT",
+                            polygon: "<?= $tampilDataIzin->nik; ?>_AR",
+                            polyline: "<?= $tampilDataIzin->nik; ?>_LN",
+                        },
+                        prj: 'PROJCS["World_Cylindrical_Equal_Area",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Cylindrical_Equal_Area"],PARAMETER["False_Easting",0.0],PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",0.0],PARAMETER["Standard_Parallel_1",0.0],UNIT["Meter",1.0]]',
+                    };
                     try {
-                        geojson.features.forEach(feature => {
-                            feature.geometry.coordinates = proj4('EPSG:4326', 'EPSG:32750', feature.geometry.coordinates);
+                        geojsonData.features.forEach(feature => {
+                            feature.geometry.coordinates = feature.geometry.coordinates.map(coordinates => {
+                                return coordinates.map(coord => {
+                                    return proj4('EPSG:4326', 'EPSG:32750', [coord[0], coord[1]]);
+                                });
+                            });
+                            if (feature.geometry.bbox) {
+                                const [minLon, minLat, maxLon, maxLat] = feature.geometry.bbox;
+                                const transformedMin = proj4('EPSG:4326', 'EPSG:32750', [minLon, minLat]);
+                                const transformedMax = proj4('EPSG:4326', 'EPSG:32750', [maxLon, maxLat]);
+                                // Menetapkan ulang nilai bbox yang telah diubah
+                                feature.geometry.bbox = [
+                                    transformedMin[0], transformedMin[1],
+                                    transformedMax[0], transformedMax[1]
+                                ];
+                            }
                         });
                     } catch (error) {
-                        console.error(error);
+                        try {
+                            geojson.features.forEach(feature => {
+                                feature.geometry.coordinates = proj4('EPSG:4326', 'EPSG:32750', feature.geometry.coordinates);
+                            });
+                        } catch (error) {
+                            console.error(error);
+                        }
                     }
+                    shpwrite.download(geojsonData, options);
+                    // console.log(geojsonData);
+                } catch (error) {
+                    alert("Gagal memproses data!");
+                    console.error("Gagal convert to shp" + error);
                 }
-                shpwrite.download(geojsonData, options);
-                console.log(geojsonData);
-                // } catch (error) {
-                //     alert("Gagal memproses data!");
-                //     console.error("Gagal convert to shp" + error);
-                // }
             };
             const containerElement = document.getElementById("Cbuttons");
             containerElement.appendChild(btnshp);
@@ -371,7 +368,7 @@
         }
         try {
             const btnplot = document.createElement("a");
-            btnplot.innerHTML = " Plot";
+            btnplot.innerHTML = " Export";
             btnplot.id = "btnplot";
             btnplot.className = "bi bi-cloud-arrow-down asbn btn btn-primary m-md-3";
             btnplot.onclick = function() {
@@ -427,6 +424,8 @@
         let vectorLayer = new ol.layer.Vector({
             source: vectorSource,
             style: styleDraw,
+            name: 'Data Pemohon',
+            zIndex: 1
         });
         const projection = new ol.proj.Projection({
             code: 'EPSG:54034',
@@ -557,8 +556,125 @@
         var extent = vectorLayer.getSource().getExtent();
         map.getView().fit(extent, {
             padding: [100, 100, 100, 100],
-            minResolution: map.getView().getResolutionForZoom(12),
+            minResolution: map.getView().getResolutionForZoom(16),
             duration: 1500,
+        });
+
+        // style vector geometry eksisting
+        const markerStyleEks = new ol.style.Style({
+            image: new ol.style.Icon({
+                anchor: [0.5, 1],
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'fraction',
+                opacity: 1,
+                src: '/mapSystem/images/marker-icon2.png',
+                scale: 0.5,
+            })
+        });
+        const lineStyleEks = new ol.style.Style({
+            stroke: new ol.style.Stroke({
+                color: 'rgba(255, 191, 0)',
+                width: 2,
+            }),
+        });
+        const polygonStyleEks = new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: 'rgba(255, 191, 0, 0.7)',
+            }),
+            stroke: new ol.style.Stroke({
+                color: 'rgba(255, 191, 0)',
+                width: 2,
+            }),
+        });
+
+        let vectorSourceEks = new ol.source.Vector();
+        let vectorLayerEks;
+
+        $("#muatEksisting").click(function(e) {
+            $("#muatEksisting").addClass("d-none");
+            $("#loadMuatEksisting").removeClass("d-none");
+            $.ajax({
+                type: "GET",
+                url: "/data/loadDataEksisting",
+                dataType: "json",
+            }).done(function(response) {
+                $("#muatEksisting").removeClass("d-none");
+                $("#loadMuatEksisting").addClass("d-none");
+                // console.log(response);
+                let data = response;
+                let geojsonData = [];
+                const allFeaturesPT = [];
+                const allFeaturesPL = [];
+                const allFeaturesLN = [];
+                data.forEach(item => {
+                    geojsonData.push(item.lokasi);
+                });
+                console.log(geojsonData);
+                geojsonData.forEach((geojson) => {
+                    geojson = JSON.parse(geojson);
+                    // console.log(geojson);
+                    // console.log(geojson.features.length);
+                    geojson.features.map((feature) => {
+                        // console.log(feature);
+                        // console.log(feature.geometry.type);
+                        if (feature.geometry.type == "Point") {
+                            allFeaturesPT.push(feature);
+                        } else if (feature.geometry.type == "Polygon") {
+                            allFeaturesPL.push(feature);
+                        } else {
+                            allFeaturesLN.push(feature);
+                        }
+                    });
+                });
+                let featureCollectionPT = {
+                    "type": "FeatureCollection",
+                    "features": allFeaturesPT,
+                };
+                let featureCollectionPL = {
+                    "type": "FeatureCollection",
+                    "features": allFeaturesPL,
+                };
+                let featureCollectionLN = {
+                    "type": "FeatureCollection",
+                    "features": allFeaturesLN,
+                };
+                console.log(featureCollectionPT);
+                console.log(featureCollectionPL);
+                console.log(featureCollectionLN);
+
+                let featuresPT = new ol.format.GeoJSON().readFeatures(featureCollectionPT, {
+                    featureProjection: 'EPSG:3857', // Proyeksi EPSG:3857 (Web Mercator)
+                });
+                let featuresPL = new ol.format.GeoJSON().readFeatures(featureCollectionPL, {
+                    featureProjection: 'EPSG:3857', // Proyeksi EPSG:3857 (Web Mercator)
+                });
+                let featuresLN = new ol.format.GeoJSON().readFeatures(featureCollectionLN, {
+                    featureProjection: 'EPSG:3857', // Proyeksi EPSG:3857 (Web Mercator)
+                });
+                vectorSourceEks.addFeatures(featuresPT);
+                vectorSourceEks.addFeatures(featuresPL);
+                vectorSourceEks.addFeatures(featuresLN);
+                vectorLayerEks = new ol.layer.Vector({
+                    source: vectorSourceEks,
+                    style: function(features) {
+                        if (features.getGeometry().getType() === 'Point') {
+                            return markerStyleEks;
+                        } else if (features.getGeometry().getType() === 'Polygon') {
+                            return polygonStyleEks;
+                        } else {
+                            return lineStyleEks;
+                        }
+                    },
+                    name: 'Semua Data Telah Disetujui',
+                    zIndex: 2
+                });
+
+                map.addLayer(vectorLayerEks);
+            }).fail(function(error) {
+                $("#muatEksisting").removeClass("d-none");
+                $("#loadMuatEksisting").addClass("d-none");
+                console.error("Error: ", error);
+            });
         });
     </script>
 

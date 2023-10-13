@@ -330,7 +330,7 @@
         var extent = vectorLayer.getSource().getExtent();
         map.getView().fit(extent, {
             padding: [100, 100, 100, 100],
-            minResolution: map.getView().getResolutionForZoom(13),
+            minResolution: map.getView().getResolutionForZoom(16),
             duration: 1500,
         });
     </script>
@@ -348,9 +348,22 @@
     </script>
     <script>
         function kirim() {
+            const newProperties = {
+                "NAMA": $('[name="nama"]').val(),
+                "NIK": $('[name="nik"]').val(),
+                "NIB": $('[name="nib"]').val(),
+                "ALAMAT": $('[name="alamat"]').val(),
+                "KONTAK": $('[name="kontak"]').val(),
+                "JNS_KEGIATAN": $('#pilihKegiatan option:selected').text(),
+            };
+            // console.log(newProperties);
+            geojson.features.forEach(feature => {
+                feature.properties = newProperties;
+            });
             let idZona = <?= json_encode($valZona); ?>;
             $("#idZona").val(idZona);
             // console.log(idZona);
+            // console.log(geojson);
             $("#drawFeatures").val(JSON.stringify(geojson));
             $("#pilihKegiatan").val($("#pilihKegiatan").val());
             let kawasan = <?= json_encode($getOverlap); ?>;

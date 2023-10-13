@@ -82,12 +82,16 @@ $routes->post('/data/tambahAjuan', 'Data::tambahAjuan', ['filter' => 'role:Super
 $routes->post('/data/updateAjuan/(:num)', 'Data::updateAjuan/$1', ['filter' => 'role:SuperAdmin,Admin,User']);
 $routes->get('/data/permohonan/(:num)/edit/', 'Data::editPengajuan/$1', ['filter' => 'role:SuperAdmin,Admin,User']);
 $routes->delete('/data/delete_pengajuan/(:num)', 'Data::delete_pengajuan/$1', ['filter' => 'role:SuperAdmin,Admin,User']);
-$routes->get('/admin/data/(:any)/lihat/(:num)/(:any)', 'Admin::periksaDataPermohonan/$1/$2/$3', ['filter' => 'role:SuperAdmin,Admin,User']);
+$routes->get('/admin/data/permohonan/lihat/(:num)/(:any)', 'Admin::lihatPermohonan/$1/$2', ['filter' => 'role:SuperAdmin,Admin,User']);
+$routes->get('/admin/data/permohonan/(:any)/lihat/(:num)/(:any)', 'Admin::periksaDataPermohonan/$1/$2/$3', ['filter' => 'role:SuperAdmin,Admin,User']);
 $routes->add('/admin/data/permohonan', 'Admin::DataDisetujuiSemua');
 $routes->get('/admin/data/permohonan/disetujui/semua', 'Admin::DataDisetujuiSemua', ['filter' => 'role:SuperAdmin,Admin']);
 $routes->get('/admin/data/permohonan/disetujui/terlampir', 'Admin::DataDisetujuiDenganLampiran', ['filter' => 'role:SuperAdmin,Admin']);
 $routes->get('/admin/data/permohonan/disetujui/', 'Admin::DataDisetujuiTanpaLampiran', ['filter' => 'role:SuperAdmin,Admin']);
 $routes->get('/admin/data/permohonan/tidak-disetujui/semua', 'Admin::DataTidakDisetujui', ['filter' => 'role:SuperAdmin,Admin']);
+
+$routes->get('/admin/data/permohonan/lihat', 'Admin::mySubmission', ['filter' => 'role:SuperAdmin,Admin,User']);
+
 // doc upload
 $routes->post('/data/loadDoc/(:any)', 'Data::loadDoc/$1', ['filter' => 'role:SuperAdmin,Admin,User']);
 $routes->post('/data/uploadDoc', 'Data::uploadDoc', ['filter' => 'role:SuperAdmin,Admin,User']);
@@ -124,6 +128,7 @@ $routes->post('/admin/updateAturanKesesuaian/(:num)', 'Admin::updateAturanKesesu
 $routes->delete('/admin/delete_kesesuaian/(:num)', 'Admin::delete_kesesuaian/$1', ['filter' => 'role:SuperAdmin']);
 
 
+$routes->get('/data/loadDataEksisting', 'Data::loadDataEksisting', ['filter' => 'role:SuperAdmin,Admin']);
 
 
 

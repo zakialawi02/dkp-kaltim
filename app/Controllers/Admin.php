@@ -16,7 +16,6 @@ use App\Models\ModelNamaZona;
 use App\Models\ModelUpload;
 use App\Models\ModelZonaKawasan;
 use Faker\Extension\Helper;
-use Mpdf\Tag\Br;
 
 class Admin extends BaseController
 {
@@ -54,6 +53,7 @@ class Admin extends BaseController
                 'userMonth' => $this->user->userMonth()->getResult(),
                 'allDataPermohonan' => $this->izin->getAllPermohonan()->getResult(),
             ];
+            // dd($data['allDataPermohonan']);
             return view('admin/dashboardAdmin', $data);
         } elseif (in_groups('User')) {
             $data = [
@@ -61,11 +61,21 @@ class Admin extends BaseController
                 'userid' => $userid,
                 'userSubmitPermohonan' => $this->izin->userSubmitIzin($userid)->getResult(),
             ];
-            // dd($data['userSubmitPermohonan']);
             return view('admin/dashboardUser', $data);
         } else {
             throw new PageNotFoundException();
         };
+    }
+    public function mySubmission()
+    {
+        $userid = user_id();
+
+        $data = [
+            'title' => 'Dashboard',
+            'userid' => $userid,
+            'userSubmitPermohonan' => $this->izin->userSubmitIzin($userid)->getResult(),
+        ];
+        return view('admin/dashboardUser', $data);
     }
 
     // MODUL
@@ -275,6 +285,28 @@ class Admin extends BaseController
         if (!in_array($status, $statusArray)) {
             throw new PageNotFoundException();
         }
+        $permintaanId = $this->izin->getAllPermohonan($id_perizinan)->getRow();
+        if (empty($permintaanId) && empty($nama)) {
+            throw new PageNotFoundException();
+        }
+        if (empty($permintaanId->nama)) {
+            throw new PageNotFoundException();
+            if ($permintaanId->nama != $nama) {
+                throw new PageNotFoundException();
+            }
+        }
+        $uploadFiles = $this->uploadFiles->getFiles($id_perizinan)->getResult();
+        $data = [
+            'title' => 'Detail Data Pengajuan Informasi',
+            'tampilData' => $this->setting->tampilData()->getResult(),
+            'tampilZona' => $this->zona->getZona()->getResult(),
+            'tampilDataIzin' => (object) ((array) $permintaanId + ['uploadFiles' => $uploadFiles]),
+        ];
+        // dd($data['tampilDataIzin']);
+        return view('admin/detailDataPermohonan', $data);
+    }
+    public function lihatPermohonan($id_perizinan, $nama)
+    {
         $permintaanId = $this->izin->getAllPermohonan($id_perizinan)->getRow();
         if (empty($permintaanId) && empty($nama)) {
             throw new PageNotFoundException();

@@ -23,9 +23,11 @@ usort($allDataTerjawab, function ($a, $b) {
     return strtotime($b->date_updated) - strtotime($a->date_updated);
 });
 $countAllPermohonan = count($allData);
-$countAllSetujui = count($allDataSetujui);
+// $countAllSetujui = count($allDataSetujui);
 $countAllPending = count($allDataBaru);
-$countAllTolak = count($allDataTolak);
+// $countAllTolak = count($allDataTolak);
+$allDataTerjawab = array_slice($allDataTerjawab, 0, 5);
+$allDataBaru = array_slice($allDataBaru, 0, 5);
 ?>
 
 <!DOCTYPE html>
@@ -54,6 +56,16 @@ $countAllTolak = count($allDataTolak);
         .map {
             position: relative;
             height: 50vh;
+        }
+
+        .name {
+            min-width: 11em;
+            word-wrap: break-word;
+        }
+
+        .address {
+            min-width: 14em;
+            word-wrap: break-word;
         }
     </style>
 
@@ -155,8 +167,8 @@ $countAllTolak = count($allDataTolak);
                                                         <tr>
                                                             <th>Tanggal Masuk</th>
                                                             <th>NIK</th>
-                                                            <th>Nama Pemohon</th>
-                                                            <th style="min-width:10em">Alamat</th>
+                                                            <th class="name">Nama Pemohon</th>
+                                                            <th class="address">Nama Kegiatan</th>
                                                             <th>Kontak</th>
                                                             <th> </th>
                                                         </tr>
@@ -167,9 +179,9 @@ $countAllTolak = count($allDataTolak);
                                                                 <td><?= date('d M Y', strtotime($baru->created_at)); ?></td>
                                                                 <td><?= esc($baru->nik); ?></td>
                                                                 <td><?= esc($baru->nama); ?></td>
-                                                                <td><?= esc($baru->alamat); ?></td>
+                                                                <td><?= esc($baru->nama_kegiatan); ?></td>
                                                                 <td><?= esc($baru->kontak); ?></td>
-                                                                <td><a type="button" role="button" href="/admin/data/<?= ($baru->stat_appv == '0') ? 'menunggu-jawaban' : ''; ?>/lihat/<?= $baru->id_perizinan; ?>/<?= $baru->nama; ?>/" class="asbn btn btn-info bi bi-binoculars" data-bs-toggle="tooltip" data-bs-placement="top" title="Periksa" target="_blank"></a></td>
+                                                                <td><a type="button" role="button" href="/admin/data/permohonan/<?= ($baru->stat_appv == '0') ? 'menunggu-jawaban' : ''; ?>/lihat/<?= $baru->id_perizinan; ?>/<?= $baru->nama; ?>/" class="asbn btn btn-info bi bi-binoculars" data-bs-toggle="tooltip" data-bs-placement="top" title="Periksa" target="_blank"></a></td>
                                                             </tr>
                                                         <?php endforeach ?>
                                                     </tbody>
@@ -192,8 +204,8 @@ $countAllTolak = count($allDataTolak);
                                                         <tr>
                                                             <th>Tanggal Jawaban</th>
                                                             <th>NIK</th>
-                                                            <th>Nama Pemohon</th>
-                                                            <th style="min-width:10em">Alamat</th>
+                                                            <th class="name">Nama Pemohon</th>
+                                                            <th class="address">Nama Kegiatan</th>
                                                             <th>Status</th>
                                                             <th> </th>
                                                         </tr>
@@ -203,10 +215,10 @@ $countAllTolak = count($allDataTolak);
                                                             <tr>
                                                                 <td><?= date('d M Y', strtotime($jawab->date_updated)); ?></td>
                                                                 <td><?= esc($jawab->nik); ?></td>
-                                                                <td><?= esc($jawab->nama); ?></td>
-                                                                <td><?= esc($jawab->alamat); ?></td>
+                                                                <td class="name"><?= esc($jawab->nama); ?></td>
+                                                                <td class="address"><?= esc($jawab->nama_kegiatan); ?></td>
                                                                 <td><span class="badge bg-<?= ($jawab->stat_appv == '1') ? 'success' : 'danger'; ?>"> <?= ($jawab->stat_appv == '1') ? 'Disetujui' : 'Tidak Disetujui'; ?> </span></td>
-                                                                <td><a type="button" role="button" href="/admin/data/<?= ($jawab->stat_appv == '1') ? 'telah-disetujui' : 'tidak-disetujui'; ?>/lihat/<?= $jawab->id_perizinan; ?>/<?= $jawab->nama; ?>/" class="asbn btn btn-secondary bi bi-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Lihat" target="_blank"></a></td>
+                                                                <td><a type="button" role="button" href="/admin/data/permohonan/<?= ($jawab->stat_appv == '1') ? 'telah-disetujui' : 'tidak-disetujui'; ?>/lihat/<?= $jawab->id_perizinan; ?>/<?= $jawab->nama; ?>/" class="asbn btn btn-secondary bi bi-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Lihat" target="_blank"></a></td>
                                                             </tr>
                                                         <?php endforeach ?>
                                                     </tbody>

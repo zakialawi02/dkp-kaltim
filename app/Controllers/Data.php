@@ -166,40 +166,46 @@ class Data extends BaseController
             'alamat' => $this->request->getVar('alamat'),
             'kontak' => $this->request->getVar('kontak'),
             'id_kegiatan' => $this->request->getVar('kegiatan'),
-            // 'uploadFiles' => $uploadFiles,
+            'lokasi' => $this->request->getVar('drawFeatures'),
             'updated_at' => date('Y-m-d H:i:s'),
         ];
         // dd($data);
         $updatePengajuan =  $this->izin->updatePengajuan($data, $id_perizinan);
 
-        if (in_groups('User')) {
-            $status = [
-                'stat_appv' => '0',
-                'date_updated' => date('Y-m-d H:i:s'),
-            ];
-            $this->izin->saveStatusAppv($status, $id_perizinan);
+        $status = [
+            'stat_appv' => '0',
+            'date_updated' => date('Y-m-d H:i:s'),
+            'dokumen_lampiran' => "",
+        ];
+        $data = $this->izin->getAllPermohonan($id_perizinan)->getRow();
+        if (!empty($data->dokumen_lampiran)) {
+            $file = 'dokumen/lampiran-balasan/' . $data->dokumen_lampiran;
+            if (file_exists($file)) {
+                unlink($file);
+            }
         }
+        $this->izin->saveStatusAppv($status, $id_perizinan);
 
         if ($updatePengajuan) {
-            session()->setFlashdata('success', 'Data Berhasil diperbarui.');
+            session()->setFlashdata('success', 'Data Berhasil diperbarui dan sedang dalam menunggu balasan.');
             if (in_groups('User')) {
                 return $this->response->redirect(site_url('/dashboard'));
             } else {
-                return $this->response->redirect(site_url('/admin/data/permohonan/disetujui/semua'));
+                return $this->response->redirect(site_url('/admin/data/permohonan/lihat'));
             }
         } else {
             session()->setFlashdata('error', 'Gagal memperbarui data.');
             if (in_groups('User')) {
                 return $this->response->redirect(site_url('/dashboard'));
             } else {
-                return $this->response->redirect(site_url('/admin/data/permohonan/disetujui/semua'));
+                return $this->response->redirect(site_url('/admin/data/permohonan/lihat'));
             }
         }
     }
     // DELETE DATA PERMOHONAN
-    public function delete_pengajuan($id_perizinannya)
+    public function delete_pengajuan($id_perizinan)
     {
-        $data = (object) ((array)$this->izin->getAllPermohonan($id_perizinannya)->getRow()  + ['uploadFiles' => $this->uploadFiles->getFiles($id_perizinannya)->getResult()]);
+        $data = (object) ((array)$this->izin->getAllPermohonan($id_perizinan)->getRow()  + ['uploadFiles' => $this->uploadFiles->getFiles($id_perizinan)->getResult()]);
         if (!empty($data->uploadFiles)) {
             foreach ($data->uploadFiles as $file) {
                 $file = 'dokumen/upload-dokumen/' . $file->uploadFiles;
@@ -215,7 +221,7 @@ class Data extends BaseController
             }
         }
         // die;
-        $this->izin->delete(['id_perizinannya' => $id_perizinannya]);
+        $this->izin->delete(['id_perizinan' => $id_perizinan]);
         if ($this) {
             session()->setFlashdata('success', 'Data berhasil dihapus.');
             if (in_groups('User')) {
@@ -286,7 +292,6 @@ class Data extends BaseController
             'kawasan' => $this->request->getVar('kawasan'),
             'objectName' => $this->request->getVar('name'),
             'kode' => $this->request->getVar('kode'),
-            'orde' => $this->request->getVar('orde'),
             'geojsonFeature' => $this->request->getVar('geojsonFeature'),
         ];
         return view('serverSide/cekHasil', $data);
@@ -453,6 +458,11 @@ class Data extends BaseController
         return $files;
     }
 
+    public function loadDataEksisting()
+    {
+        $data = $this->izin->getIzin()->getResult();
+        return $this->response->setJSON($data);
+    }
 
 
 
