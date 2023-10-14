@@ -11,7 +11,7 @@ class ModelSetting extends Model
     protected $primaryKey = 'id';
 
 
-    protected $allowedFields = ['coordinat_wilayah', 'zoom_view'];
+    protected $allowedFields = ['coordinat_wilayah', 'zoom_view', 'notif_email', 'notif_wa'];
 
     function __construct()
     {

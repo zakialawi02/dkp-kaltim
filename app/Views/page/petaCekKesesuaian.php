@@ -1312,7 +1312,6 @@
         // Cek overlap features
         function prosesDetectInput(drawn, type = "polygon") {
             // console.log(drawn);
-            modalLoading();
             overlappingFeatures = [];
             let tot = drawn.length;
             console.log(tot);
@@ -1408,6 +1407,7 @@
 
         // klik lanjut
         $('#next_step').click(function() {
+            modalLoading();
             jsonCoordinates = [];
             geojsonFeature = [];
             geojsonData = [];
@@ -1493,6 +1493,7 @@
         });
         let selectedCounter;
         $("#next_step_byFile").click(function(e) {
+            modalLoading();
             if (geometryType == "Point") {
                 prosesDetectInput(jsonCoordinates, "point", geojsonData);
             } else if (geometryType == "Polygon") {
@@ -1601,6 +1602,7 @@
                 });
                 map.addLayer(drawedVector);
                 map.removeInteraction(drawInteraction);
+                modalLoading();
                 jsonCoordinates = drawnFeature.getGeometry();
                 jsonCoordinates.transform('EPSG:3857', 'EPSG:4326');
                 jsonCoordinates = jsonCoordinates.getCoordinates();

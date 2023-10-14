@@ -16,6 +16,7 @@ use App\Models\ModelNamaZona;
 use App\Models\ModelUpload;
 use App\Models\ModelZonaKawasan;
 use Faker\Extension\Helper;
+use CodeIgniter\Email\Email;
 
 class Admin extends BaseController
 {
@@ -179,7 +180,7 @@ class Admin extends BaseController
     }
 
     // SETTING MAP VIEW
-    public function Setting()
+    public function settingMap()
     {
         $data = [
             'title' => 'Setting Map View',
@@ -188,8 +189,7 @@ class Admin extends BaseController
 
         return view('admin/settingMapView', $data);
     }
-
-    public function UpdateSetting()
+    public function updateSettingMap()
     {
         // dd($this->request->getVar());
         $data = [
@@ -200,10 +200,37 @@ class Admin extends BaseController
         $this->setting->updateData($data);
         if ($this) {
             session()->setFlashdata('success', 'Data Berhasil disimpan.');
-            return $this->response->redirect(site_url('admin/setting'));
+            return $this->response->redirect(site_url('admin/setting/viewPeta'));
         } else {
             session()->setFlashdata('error', 'Gagal memperbarui data.');
-            return $this->response->redirect(site_url('admin/setting'));
+            return $this->response->redirect(site_url('admin/setting/viewPeta'));
+        }
+    }
+
+    // SETTING NOTIF
+    public function settingNotif()
+    {
+        $data = [
+            'title' => 'Setting Pemberitahuan Status Ajuan',
+            'tampilData' => $this->setting->tampilData()->getResult(),
+        ];
+        return view('admin/settingNotif', $data);
+    }
+    public function updateSettingNotif()
+    {
+        $data = [
+            'id' => 1,
+            'notif_email' => $this->request->getPost('notifEmail'),
+            'notif_wa' => $this->request->getPost('notifWA'),
+        ];
+        // dd($data);
+        $this->setting->save($data);
+        if ($this) {
+            session()->setFlashdata('success', 'Data Berhasil disimpan.');
+            return $this->response->redirect(site_url('/admin/setting/pemberitahuan_ajuan'));
+        } else {
+            session()->setFlashdata('error', 'Gagal memperbarui data.');
+            return $this->response->redirect(site_url('/admin/setting/pemberitahuan_ajuan'));
         }
     }
 
@@ -328,9 +355,9 @@ class Admin extends BaseController
         return view('admin/detailDataPermohonan', $data);
     }
 
-
     public function kirimTindakan($id_perizinan)
     {
+        $infoData = $this->izin->getAllPermohonan($id_perizinan)->getRow();
         $stat_appv = $this->request->getPost('flexRadioDefault');
         if ($stat_appv == 2) {
             $data = [
@@ -338,6 +365,29 @@ class Admin extends BaseController
                 'date_updated' => date('Y-m-d H:i:s'),
             ];
             $this->izin->saveStatusAppv($data, $id_perizinan);
+            try {
+                $settingNotif = $this->setting->tampilData()->getRow();
+                if ($settingNotif->notif_email === "on") {
+                    $userID = $infoData->user;
+                    $user = $this->user->getUsers($userID)->getRow();
+                    $emailTo = $user->email;
+                    $username = $user->username;
+                    $email = \Config\Services::email();
+                    $email->setTo($emailTo);
+                    $email->setSubject('Pemberitahuan Status Pengajuan Informasi Simata Laut Kaltim');
+                    $message = view('_Layout/_template/_email/statusAjuan');
+                    $message = str_replace('{username}', $username, $message);
+                    $message = str_replace('{url}', base_url('/data/permohonan/lihat/' . $infoData->id_perizinan . '/' . $infoData->nama), $message);
+                    $email->setMessage($message);
+                    $email->setMailType('html');
+                    $email->send();
+                }
+                if ($settingNotif->notif_wa === "on") {
+                    # code...
+                }
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
             if ($this) {
                 session()->setFlashdata('success', 'Berhasil Menyimpan Tindakan.');
                 return $this->response->redirect(site_url('/admin/data/permohonan/masuk'));
@@ -346,7 +396,6 @@ class Admin extends BaseController
                 return $this->response->redirect(site_url('/admin/data/permohonan/masuk'));
             }
         } elseif ($stat_appv == 1) {
-            $infoData = $this->izin->callPendingData($id_perizinan)->getRow();
             $nik = $infoData->nik;
             // ambil file
             $fileLampiran = $this->request->getFile('lampiranFile');
@@ -356,7 +405,6 @@ class Admin extends BaseController
                 $newName = date('YmdHis') . '_' . $nik . '.' . $extension;
                 // pindah file to hosting
                 $fileLampiran->move('dokumen/lampiran-balasan/', $newName);
-
                 $data = [
                     'stat_appv' => '1',
                     'dokumen_lampiran' => $newName,
@@ -376,6 +424,29 @@ class Admin extends BaseController
                     'date_updated' => date('Y-m-d H:i:s'),
                 ];
                 $this->izin->saveStatusAppv($data, $id_perizinan);
+                try {
+                    $settingNotif = $this->setting->tampilData()->getRow();
+                    if ($settingNotif->notif_email === "on") {
+                        $userID = $infoData->user;
+                        $user = $this->user->getUsers($userID)->getRow();
+                        $emailTo = $user->email;
+                        $username = $user->username;
+                        $email = \Config\Services::email();
+                        $email->setTo($emailTo);
+                        $email->setSubject('Pemberitahuan Status Pengajuan Informasi Simata Laut Kaltim');
+                        $message = view('_Layout/_template/_email/statusAjuan');
+                        $message = str_replace('{username}', $username, $message);
+                        $message = str_replace('{url}', base_url('/data/permohonan/lihat/' . $infoData->id_perizinan . '/' . $infoData->nama), $message);
+                        $email->setMessage($message);
+                        $email->setMailType('html');
+                        $email->send();
+                    }
+                    if ($settingNotif->notif_wa === "on") {
+                        # code...
+                    }
+                } catch (\Throwable $th) {
+                    //throw $th;
+                }
                 if ($this) {
                     session()->setFlashdata('success', 'Berhasil Menyimpan Tindakan.');
                     return $this->response->redirect(site_url('/admin/data/permohonan/masuk'));

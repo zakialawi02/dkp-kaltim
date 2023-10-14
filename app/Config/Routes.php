@@ -58,8 +58,12 @@ $routes->post('/user/updateUser', 'User::updateUser', ['filter' => 'role:SuperAd
 $routes->delete('/user/delete/(:num)/(:any)', 'User::delete/$1/$2', ['filter' => 'role:SuperAdmin']);
 
 // setting Map
-$routes->get('/admin/setting', 'Admin::setting', ['filter' => 'role:SuperAdmin,Admin']);
-$routes->post('/admin/UpdateSetting', 'Admin::UpdateSetting', ['filter' => 'role:SuperAdmin,Admin']);
+$routes->get('/admin/setting/viewPeta', 'Admin::settingMap', ['filter' => 'role:SuperAdmin,Admin']);
+$routes->post('/admin/UpdateSetting/peta', 'Admin::updateSettingMap', ['filter' => 'role:SuperAdmin,Admin']);
+
+// Setting Notif
+$routes->get('/admin/setting/pemberitahuan_ajuan', 'Admin::settingNotif', ['filter' => 'role:SuperAdmin,Admin']);
+$routes->post('/admin/UpdateSetting/pemberitahuan_ajuan', 'Admin::updateSettingNotif', ['filter' => 'role:SuperAdmin,Admin']);
 
 // modul
 $routes->get('/data/modul', 'Data::modul');
@@ -82,6 +86,7 @@ $routes->post('/data/tambahAjuan', 'Data::tambahAjuan', ['filter' => 'role:Super
 $routes->post('/data/updateAjuan/(:num)', 'Data::updateAjuan/$1', ['filter' => 'role:SuperAdmin,Admin,User']);
 $routes->get('/data/permohonan/(:num)/edit/', 'Data::editPengajuan/$1', ['filter' => 'role:SuperAdmin,Admin,User']);
 $routes->delete('/data/delete_pengajuan/(:num)', 'Data::delete_pengajuan/$1', ['filter' => 'role:SuperAdmin,Admin,User']);
+$routes->get('/data/permohonan/lihat/(:num)/(:any)', 'Admin::lihatPermohonan/$1/$2', ['filter' => 'role:SuperAdmin,Admin,User']);
 $routes->get('/admin/data/permohonan/lihat/(:num)/(:any)', 'Admin::lihatPermohonan/$1/$2', ['filter' => 'role:SuperAdmin,Admin,User']);
 $routes->get('/admin/data/permohonan/(:any)/lihat/(:num)/(:any)', 'Admin::periksaDataPermohonan/$1/$2/$3', ['filter' => 'role:SuperAdmin,Admin,User']);
 $routes->add('/admin/data/permohonan', 'Admin::DataDisetujuiSemua');

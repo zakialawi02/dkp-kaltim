@@ -51,7 +51,7 @@
 
                             <?php foreach ($tampilData as $D) : ?>
 
-                                <form class="row g-3" action="/admin/UpdateSetting" method="post" enctype="multipart/form-data">
+                                <form class="row g-3" action="/admin/UpdateSetting/peta" method="post" enctype="multipart/form-data">
                                     <?= csrf_field(); ?>
 
                                     <div class="col-md-8">

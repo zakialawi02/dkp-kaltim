@@ -84,11 +84,15 @@
                             <a class="nav-link" href="/admin/kesesuaian"> Data Kesesuaian</a>
                         </div>
                     </div>
+                    <a class="nav-link" href="/admin/setting/pemberitahuan_ajuan">
+                        <div class="sb-nav-link-icon"><i class="bi bi-bell-fill"></i></div>
+                        Notifikasi Ajuan Pemohon
+                    </a>
                     <a class="nav-link" href="/user/kelola">
                         <div class="sb-nav-link-icon"><i class="bi bi-person-lines-fill"></i></div>
                         Kelola Pengguna
                     </a>
-                    <a class="nav-link" href="/admin/setting">
+                    <a class="nav-link" href="/admin/setting/viewPeta">
                         <div class="sb-nav-link-icon"><i class="bi bi-sliders"></i></div>
                         Peta
                     </a>

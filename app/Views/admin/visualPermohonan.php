@@ -30,6 +30,24 @@
             height: 90vh;
             /* cursor: grab; */
         }
+
+        .ol-ext-print-dialog {
+            z-index: 10000000;
+        }
+
+        .ol-scale-line {
+            right: 0;
+            left: auto;
+            bottom: 2em;
+        }
+
+        .ol-control-title {
+            height: 2em;
+        }
+
+        .ol-print-compass {
+            top: 1.5em !important;
+        }
     </style>
 </head>
 
@@ -51,6 +69,7 @@
                         <div class="card-body">
 
                             <div class="map" id="map"></div>
+                            <div id="Cbuttons"></div>
 
                         </div>
                     </div>
@@ -101,6 +120,8 @@
     <script src="https://unpkg.com/ol-layerswitcher@4.1.1"></script>
     <script src=" https://cdn.jsdelivr.net/npm/ol-ext@4.0.11/dist/ol-ext.min.js "></script>
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL,Object.assign"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/eligrey/FileSaver.js/aa9f4e0e/FileSaver.min.js"></script>
 
     <script type="text/javascript">
         proj4.defs("EPSG:54034", "+proj=cea +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs");
@@ -271,6 +292,7 @@
                     return lineStyle;
                 }
             },
+            name: 'Semua Data Telah Disetujui',
         });
         map.addLayer(vectorLayer);
 
@@ -303,6 +325,73 @@
         });
         map.addOverlay(popup);
 
+        try {
+            const btnplot = document.createElement("a");
+            btnplot.innerHTML = " Export";
+            btnplot.id = "btnplot";
+            btnplot.className = "bi bi-cloud-arrow-down asbn btn btn-primary m-md-3";
+            btnplot.onclick = function() {
+                printControl.print();
+            };
+            const containerElement = document.getElementById("Cbuttons");
+            containerElement.appendChild(btnplot);
+        } catch (error) {
+            $("#btnplot").removeAttr("#btnplot");
+            console.error(error);
+        }
+        // Add a title control
+        map.addControl(new ol.control.CanvasTitle({
+            title: 'my title',
+            visible: false,
+            style: new ol.style.Style({
+                text: new ol.style.Text({
+                    font: '20px "Lucida Grande",Verdana,Geneva,Lucida,Arial,Helvetica,sans-serif'
+                })
+            })
+        }));
+        // Add a ScaleLine control 
+        map.addControl(new ol.control.CanvasScaleLine());
+        // Print control
+        var printControl = new ol.control.PrintDialog({
+            // target: document.querySelector('.info'),
+            // targetDialog: map.getTargetElement() 
+            save: true,
+            copy: true,
+            pdf: true,
+            print: false,
+        });
+        printControl.setSize('A4');
+        printControl.setOrientation('landscape');
+        printControl.setMargin(5);
+        map.addControl(printControl);
+        let defaultPrintButton = document.querySelector('.ol-print');
+        if (defaultPrintButton) {
+            defaultPrintButton.remove();
+        }
+        /* On print > save image file */
+        printControl.on(['print', 'error'], function(e) {
+            // Print success
+            if (e.image) {
+                if (e.pdf) {
+                    // Export pdf using the print info
+                    var pdf = new jsPDF({
+                        orientation: e.print.orientation,
+                        unit: e.print.unit,
+                        format: e.print.size
+                    });
+                    pdf.addImage(e.image, 'JPEG', e.print.position[0], e.print.position[0], e.print.imageWidth, e.print.imageHeight);
+                    pdf.save(e.print.legend ? 'legend.pdf' : 'Plot.pdf');
+                } else {
+                    // Save image as file
+                    e.canvas.toBlob(function(blob) {
+                        var name = (e.print.legend ? 'legend.' : 'Plot.') + e.imageType.replace('image/', '');
+                        saveAs(blob, name);
+                    }, e.imageType, e.quality);
+                }
+            } else {
+                console.warn('No canvas to export');
+            }
+        });
 
         var extent = vectorLayer.getSource().getExtent();
         map.getView().fit(extent, {
