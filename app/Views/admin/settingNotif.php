@@ -42,7 +42,7 @@
 
                             <div class="card mb-3">
                                 <div class="card-body m-0">
-                                    <p class="mb-1">Data pemohon yang telah dibalas/dijawab akan mendapatkan notifikasi pemberitahuan status pengajuan informasi terkait.</p>
+                                    <p class="mb-1">Data pemohon yang telah dibalas/dijawab akan mendapatkan notifikasi pemberitahuan status pengajuan informasi terkait ke pihak pemohon.</p>
                                     <p class="mb-1">Anda dapat mematikan fitur notifikasi tersebut pada setting dibawah ini.</p>
                                 </div>
                             </div>
@@ -61,12 +61,8 @@
 
                             <div class="card mb-3 <?= ($tampilData[0]->notif_wa === "on") ? '' : 'd-none'; ?>" id="expandNotifWA">
                                 <div class="card-body m-0">
-                                    <form action="/" method="post" id="settingNotifWA">
-                                        <div class="mb-3">
-                                            <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                                            <input class="form-control" type="text" placeholder="Default input">
-                                        </div>
-                                    </form>
+                                    <h4>Setting Whatsapp</h4>
+                                    <p>Under Development</p>
                                 </div>
                             </div>
 

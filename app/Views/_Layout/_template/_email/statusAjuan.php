@@ -108,6 +108,8 @@
                                                                         <bold style="font-weight: 800;">Hallo {username},</bold>
                                                                     </p>
                                                                     <p style="font-size: 16px; font-weight: normal;">
+                                                                        Data pengajuan informasi kesesuaian ruang laut terkait kegiatan <u>{nama_kegiatan}</u> telah ditinjau oleh pihak Dinas Kelautan dan Perikanan Provinsi Kalimantan Timur.</p>
+                                                                    <p style="font-size: 16px; font-weight: normal;">
                                                                         Admin telah memberikan jawaban terkait pengajuan informasi kesesuaian ruang laut anda.</p>
                                                                     <p style="font-size: 16px; font-weight: normal;">
                                                                         Lihat detail permohonan anda <a href="{url}">disini</a>.</p>

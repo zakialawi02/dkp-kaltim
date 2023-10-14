@@ -377,6 +377,7 @@ class Admin extends BaseController
                     $email->setSubject('Pemberitahuan Status Pengajuan Informasi Simata Laut Kaltim');
                     $message = view('_Layout/_template/_email/statusAjuan');
                     $message = str_replace('{username}', $username, $message);
+                    $message = str_replace('{nama_kegiatan}', $infoData->nama_kegiatan, $message);
                     $message = str_replace('{url}', base_url('/data/permohonan/lihat/' . $infoData->id_perizinan . '/' . $infoData->nama), $message);
                     $email->setMessage($message);
                     $email->setMailType('html');
@@ -436,6 +437,7 @@ class Admin extends BaseController
                         $email->setSubject('Pemberitahuan Status Pengajuan Informasi Simata Laut Kaltim');
                         $message = view('_Layout/_template/_email/statusAjuan');
                         $message = str_replace('{username}', $username, $message);
+                        $message = str_replace('{nama_kegiatan}', $infoData->nama_kegiatan, $message);
                         $message = str_replace('{url}', base_url('/data/permohonan/lihat/' . $infoData->id_perizinan . '/' . $infoData->nama), $message);
                         $email->setMessage($message);
                         $email->setMailType('html');
