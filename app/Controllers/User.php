@@ -144,9 +144,9 @@ class User extends BaseController
     }
 
     // delete data
-    public function delete($userid)
+    public function delete($userid, $username)
     {
-        $dataSubmit = $this->ambilSubmit($userid);
+        $dataSubmit = $this->ambilSubmit($userid, $username);
         foreach ($dataSubmit as $value) {
             $this->izin->delete($value);
         }
@@ -162,12 +162,14 @@ class User extends BaseController
         }
     }
 
-    private function ambilSubmit($userid)
+    private function ambilSubmit($userid, $username)
     {
         $dataSubmit = [];
         $data = $this->izin->getAllPermohonan()->getResult();
         foreach ($data as $key => $value) {
-            $dataSubmit[] = $value->id_perizinan;
+            if ($value->user === $userid && $value->username === $username) {
+                $dataSubmit[] = $value->id_perizinan;
+            }
         }
         return $dataSubmit;
     }

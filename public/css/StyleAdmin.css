@@ -13530,7 +13530,7 @@ table.datatablesSimple td {
 }
 
 .card-body.file p {
-  max-width: 20em;
+  max-width: 18em;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

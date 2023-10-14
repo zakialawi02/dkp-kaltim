@@ -38,11 +38,11 @@
             <?php $lat = $splitKoordinat[1] ?>
         <?php endforeach ?>
 
-        proj4.defs("EPSG:32750", "+proj=utm +zone=50 +south +datum=WGS84 +units=m +no_defs +type=crs");
+        proj4.defs("EPSG:54034", "+proj=cea +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs");
         proj4.defs("EPSG:4326", "+proj=longlat +datum=WGS84 +no_defs +type=crs");
         const vectorSource = new ol.source.Vector();
         const projection = new ol.proj.Projection({
-            code: 'EPSG:32750',
+            code: 'EPSG:54034',
             units: 'm',
             axisOrientation: 'neu'
         });
@@ -118,7 +118,7 @@
             var extent = drawedVector.getSource().getExtent();
             mymap.getView().fit(extent, {
                 padding: [100, 100, 100, 100],
-                minResolution: mymap.getView().getResolutionForZoom(8),
+                minResolution: mymap.getView().getResolutionForZoom(14),
                 duration: 1500,
             });
         });

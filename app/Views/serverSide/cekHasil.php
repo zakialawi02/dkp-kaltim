@@ -4,13 +4,11 @@ if ($objectID != null) {
     $kawasan = array_unique($kawasan);
     $name = array_unique($objectName);
     $kode = array_unique($kode);
-    $orde = array_unique($orde);
 }
 $id = $objectID ?? "";
 $kawasan = $kawasan ?? "Maaf, Tidak ada data / Tidak terdeteksi";
 $name = $name ?? "Maaf, Tidak ada data / Tidak terdeteksi";
 $kode = $kode  ?? "-";
-$orde = $orede  ?? "-";
 // dd($kawasan);
 ?>
 <p class="form-text text-muted">*Zona Yang Saling Tumpang Tindih Dengan Lokasi Geometry</p>

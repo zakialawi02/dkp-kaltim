@@ -1,7 +1,9 @@
 $(document).ready(function () {
   $("#username").keyup(function (e) {
     let username = $("#username").val();
-    console.log(username);
+    // console.log(username);
+    username = username.toLowerCase();
+    $("#username").val(username);
     if (username.indexOf(" ") !== -1) {
       $(".usernameFail").removeClass("d-none");
       $("#username").addClass("is-invalid");
