@@ -445,7 +445,7 @@
             source: vectorSource,
             style: styleDraw,
             name: 'Data Pemohon',
-            zIndex: 5
+            zIndex: 1
         });
         const projection = new ol.proj.Projection({
             code: 'EPSG:54034',
@@ -460,7 +460,6 @@
             source: new ol.source.OSM(),
             crossOrigin: 'anonymous',
             visible: true,
-            baseLayer: true,
         });
 
         const sourceBingMaps = new ol.source.BingMaps({
@@ -475,7 +474,6 @@
             source: sourceBingMaps,
             crossOrigin: 'anonymous',
             visible: false,
-            baseLayer: true,
         });
 
         const mapboxBaseURL = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiNjg2MzUzMyIsImEiOiJjbDh4NDExZW0wMXZsM3ZwODR1eDB0ajY0In0.6jHWxwN6YfLftuCFHaa1zw';
@@ -489,16 +487,9 @@
             visible: false,
             source: mapboxSource,
             crossOrigin: 'anonymous',
-            baseLayer: true,
         });
 
-        const baseMaps = new ol.layer.Group({
-            title: 'Base Layers',
-            openInLayerSwitcher: true,
-            layers: [
-                osmBaseMap, bingAerialBaseMap, mapboxBaseMap
-            ]
-        });
+        const baseMaps = [osmBaseMap, bingAerialBaseMap, mapboxBaseMap];
 
         // Init To Canvas/View
         const view = new ol.View({
@@ -694,8 +685,8 @@
                             return lineStyleEks;
                         }
                     },
-                    name: 'Data Telah Disetujui',
-                    zIndex: 1
+                    name: 'Semua Data Telah Disetujui',
+                    zIndex: 2
                 });
 
                 map.addLayer(vectorLayerEks);
