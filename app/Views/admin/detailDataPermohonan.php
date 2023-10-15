@@ -409,7 +409,8 @@
                 anchorXUnits: 'fraction',
                 anchorYUnits: 'fraction',
                 opacity: 1,
-                src: '/mapSystem/images/marker-icon.png'
+                src: '/mapSystem/images/marker-icon.png',
+                scale: 0.8,
             })
         });
         const lineStyle = new ol.style.Style({
@@ -427,6 +428,33 @@
                 width: 2,
             }),
         });
+        // style vector geometry eksisting
+        const markerStyleEks = new ol.style.Style({
+            image: new ol.style.Icon({
+                anchor: [0.5, 1],
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'fraction',
+                opacity: 1,
+                src: '/mapSystem/images/marker-icon2.png',
+                scale: 0.8,
+            })
+        });
+        const lineStyleEks = new ol.style.Style({
+            stroke: new ol.style.Stroke({
+                color: 'rgba(255, 191, 0)',
+                width: 2,
+            }),
+        });
+        const polygonStyleEks = new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: 'rgba(255, 191, 0, 0.7)',
+            }),
+            stroke: new ol.style.Stroke({
+                color: 'rgba(255, 191, 0)',
+                width: 2,
+            }),
+        });
+
         var styleDraw;
         let geometryType = geojson.features[0].geometry.type;
         if (geometryType == "Point") {
@@ -529,6 +557,40 @@
                 })
             })
         }));
+        var legend = new ol.legend.Legend({
+            title: 'Legenda',
+            margin: 5,
+            items: [{
+                title: 'Data Pemohon',
+                typeGeom: 'Point',
+                style: markerStyle,
+            }, {
+                title: 'Data Pemohon',
+                typeGeom: 'LineString',
+                style: lineStyle
+            }, {
+                title: 'Data Pemohon',
+                typeGeom: 'Polygon',
+                style: polygonStyle
+            }, {
+                title: 'Data Eksisting Disetujui',
+                typeGeom: 'Point',
+                style: markerStyleEks,
+            }, {
+                title: 'Data Eksisting Disetujui',
+                typeGeom: 'LineString',
+                style: lineStyleEks
+            }, {
+                title: 'Data Eksisting Disetujui',
+                typeGeom: 'Polygon',
+                style: polygonStyleEks
+            }]
+        });
+        // Add a legend to the print
+        var legendCtrl = new ol.control.Legend({
+            legend: legend
+        });
+        map.addControl(legendCtrl);
         // Add a ScaleLine control 
         map.addControl(new ol.control.CanvasScaleLine());
         // Print control
@@ -578,33 +640,6 @@
             padding: [100, 100, 100, 100],
             minResolution: map.getView().getResolutionForZoom(16),
             duration: 1500,
-        });
-
-        // style vector geometry eksisting
-        const markerStyleEks = new ol.style.Style({
-            image: new ol.style.Icon({
-                anchor: [0.5, 1],
-                anchorXUnits: 'fraction',
-                anchorYUnits: 'fraction',
-                opacity: 1,
-                src: '/mapSystem/images/marker-icon2.png',
-                scale: 0.5,
-            })
-        });
-        const lineStyleEks = new ol.style.Style({
-            stroke: new ol.style.Stroke({
-                color: 'rgba(255, 191, 0)',
-                width: 2,
-            }),
-        });
-        const polygonStyleEks = new ol.style.Style({
-            fill: new ol.style.Fill({
-                color: 'rgba(255, 191, 0, 0.7)',
-            }),
-            stroke: new ol.style.Stroke({
-                color: 'rgba(255, 191, 0)',
-                width: 2,
-            }),
         });
 
         let vectorSourceEks = new ol.source.Vector();
