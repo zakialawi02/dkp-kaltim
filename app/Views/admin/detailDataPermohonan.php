@@ -473,7 +473,7 @@
             source: vectorSource,
             style: styleDraw,
             name: 'Data Pemohon',
-            zIndex: 1
+            zIndex: 5
         });
         const projection = new ol.proj.Projection({
             code: 'EPSG:54034',
@@ -664,7 +664,7 @@
                 data.forEach(item => {
                     geojsonData.push(item.lokasi);
                 });
-                console.log(geojsonData);
+                // console.log(geojsonData);
                 geojsonData.forEach((geojson) => {
                     geojson = JSON.parse(geojson);
                     // console.log(geojson);
@@ -693,9 +693,9 @@
                     "type": "FeatureCollection",
                     "features": allFeaturesLN,
                 };
-                console.log(featureCollectionPT);
-                console.log(featureCollectionPL);
-                console.log(featureCollectionLN);
+                // console.log(featureCollectionPT);
+                // console.log(featureCollectionPL);
+                // console.log(featureCollectionLN);
 
                 let featuresPT = new ol.format.GeoJSON().readFeatures(featureCollectionPT, {
                     featureProjection: 'EPSG:3857', // Proyeksi EPSG:3857 (Web Mercator)
@@ -721,16 +721,46 @@
                         }
                     },
                     name: 'Semua Data Telah Disetujui',
-                    zIndex: 2
+                    zIndex: 1
                 });
 
                 map.addLayer(vectorLayerEks);
+                $("#muatEksisting").prop('disabled', true);
             }).fail(function(error) {
                 $("#muatEksisting").removeClass("d-none");
                 $("#loadMuatEksisting").addClass("d-none");
                 console.error("Error: ", error);
             });
         });
+
+        // Select  interaction
+        var select = new ol.interaction.Select({
+            hitTolerance: 5,
+            multi: true,
+            condition: ol.events.condition.singleClick
+        });
+        map.addInteraction(select);
+        // Select control
+        var popup = new ol.Overlay.PopupFeature({
+            popupClass: 'default anim',
+            select: select,
+            canFix: true,
+            template: function(f) {
+                return {
+                    // title: function(f) {
+                    //     return f.get('NAMA')
+                    // },
+                    attributes: {
+                        NAMA: 'nama',
+                        NIK: 'nik',
+                        NIB: 'nib',
+                        ALAMAT: 'alamat',
+                        JNS_KEGIATAN: 'kegiatan',
+                    }
+                }
+            }
+        });
+        map.addOverlay(popup);
 
         $("#cekKesesuaian").click(function(e) {
             cekKesesuaian();
