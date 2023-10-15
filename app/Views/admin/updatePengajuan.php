@@ -466,9 +466,8 @@
                 console.log("READY!");
                 jsonCoordinates = getCoordinates(geojson);
                 geojsonData = jsonCoordinates;
-                console.log(geometryType);
+                // console.log(geometryType);
                 prosesDetectInput(jsonCoordinates, geometryType, geojsonData);
-                console.log("z");
                 cek();
             }, function(a) {
                 console.log(a)
@@ -481,9 +480,9 @@
             overlappingFeatures = [];
             let tot = drawn.length;
             console.log(tot);
-            for (let ii = 0; ii < tot; ii++) {
-                if (type == "Point" || type == "point") {
-                    try {
+            try {
+                for (let ii = 0; ii < tot; ii++) {
+                    if (type == "Point" || type == "point") {
                         geoshp.features.forEach(function(layer) {
                             var shapefileGeoJSON = layer;
                             // console.log(shapefileGeoJSON);
@@ -502,11 +501,7 @@
                                 overlappingFeatures.push(overlappingFeature);
                             }
                         });
-                    } catch (error) {
-                        alert("Terjadi kesalahan, mohon ulangi atau reload browser anda");
-                    }
-                } else if (type == "line" || type == "Line" || type == "LineString") {
-                    try {
+                    } else if (type == "line" || type == "Line" || type == "LineString") {
                         geoshp.features.forEach(function(layer) {
                             var shapefileGeoJSON = layer;
                             // console.log(shapefileGeoJSON);
@@ -526,11 +521,7 @@
                                 overlappingFeatures.push(overlappingFeature);
                             }
                         });
-                    } catch (error) {
-                        alert("Terjadi kesalahan, mohon ulangi atau reload browser anda");
-                    }
-                } else { //polygon
-                    try {
+                    } else { //polygon
                         geoshp.features.forEach(function(layer) {
                             var shapefileGeoJSON = layer;
                             // console.log(shapefileGeoJSON);
@@ -550,26 +541,27 @@
                                 overlappingFeatures.push(overlappingFeature);
                             }
                         });
-                    } catch (error) {
-                        alert("Terjadi kesalahan, mohon ulangi atau reload browser anda");
                     }
-                }
 
-                var overlappingID = overlappingFeatures.map(function(feature) {
-                    return feature.properties.OBJECTID;
-                });
-                var overlappingKawasan = overlappingFeatures.map(function(feature) {
-                    return feature.properties.JNSRPR;
-                });
-                var overlappingObject = overlappingFeatures.map(function(feature) {
-                    return feature.properties.NAMOBJ;
-                });
-                var overlappingKode = overlappingFeatures.map(function(feature) {
-                    return feature.properties.KODKWS;
-                });
+                    var overlappingID = overlappingFeatures.map(function(feature) {
+                        return feature.properties.OBJECTID;
+                    });
+                    var overlappingKawasan = overlappingFeatures.map(function(feature) {
+                        return feature.properties.JNSRPR;
+                    });
+                    var overlappingObject = overlappingFeatures.map(function(feature) {
+                        return feature.properties.NAMOBJ;
+                    });
+                    var overlappingKode = overlappingFeatures.map(function(feature) {
+                        return feature.properties.KODKWS;
+                    });
+                }
+            } catch (error) {
+                console.log(error);
+                alert("Terjadi kesalahan, mohon ulangi atau reload browser anda");
             }
-            console.log(overlappingID);
-            console.log(overlappingFeatures);
+            // console.log(overlappingID);
+            // console.log(overlappingFeatures);
         }
 
         // Cek kesesuaian dengan jenis kegiatan yang dipilih

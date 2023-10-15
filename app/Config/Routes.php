@@ -133,6 +133,8 @@ $routes->post('/admin/updateAturanKesesuaian/(:num)', 'Admin::updateAturanKesesu
 $routes->delete('/admin/delete_kesesuaian/(:num)', 'Admin::delete_kesesuaian/$1', ['filter' => 'role:SuperAdmin']);
 
 
+$routes->Post('/email/send', 'Email::send');
+
 $routes->get('/data/loadDataEksisting', 'Data::loadDataEksisting', ['filter' => 'role:SuperAdmin,Admin']);
 
 
