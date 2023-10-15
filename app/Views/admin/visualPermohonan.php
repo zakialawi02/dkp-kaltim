@@ -135,7 +135,7 @@
                 anchorYUnits: 'fraction',
                 opacity: 1,
                 src: '/mapSystem/images/marker-icon.png',
-                scale: 0.5,
+                scale: 0.8,
             })
         });
         const lineStyle = new ol.style.Style({

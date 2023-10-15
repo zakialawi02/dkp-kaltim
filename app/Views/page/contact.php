@@ -128,9 +128,6 @@
     <script src="/assets/js/main.js"></script>
 
 
-    <!-- Template Main JS File -->
-    <script src="/assets/js/main.js"></script>
-
 
     <?php if (session()->getFlashdata('success')) : ?>
         <script>
