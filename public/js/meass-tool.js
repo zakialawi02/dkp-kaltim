@@ -1,5 +1,4 @@
 // Meass tool
-map.addControl(mousePositionControl);
 const measureType = "Polygon";
 const style = new ol.style.Style({
   fill: new ol.style.Fill({

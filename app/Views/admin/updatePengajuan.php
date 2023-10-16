@@ -626,7 +626,7 @@
                 }
             }
             // console.log(getOverlapProperties);
-            $('#lanjutKirim').prop('disabled', true);
+            // $('#lanjutKirim').prop('disabled', true);
             $.ajax({
                     method: "POST",
                     url: "/data/cekStatus",
@@ -650,17 +650,17 @@
                         let diperbolehkanBersyarat = hasil.filter(item => item.status === 'diperbolehkan bersyarat');
                         let tidakDiperbolehkan = hasil.filter(item => item.status === 'tidak diperbolehkan');
                         if (tidakDiperbolehkan.length !== 0) {
-                            $('#lanjutKirim').prop('disabled', true);
+                            // $('#lanjutKirim').prop('disabled', true);
                             $(".info_status").html('<p class="tidakBoleh">Aktivitas yang tidak diperbolehkan</p>');
                         } else if (diperbolehkanBersyarat.length !== 0) {
-                            $('#lanjutKirim').prop('disabled', false);
+                            // $('#lanjutKirim').prop('disabled', false);
                             $(".info_status").html('<p class="bolehBersyarat">Aktivitas diperbolehkan setelah memperoleh izin</p>');
                         } else {
-                            $('#lanjutKirim').prop('disabled', false);
+                            // $('#lanjutKirim').prop('disabled', false);
                             $(".info_status").html('<p class="boleh">Aktivitas yang diperbolehkan</p>');
                         }
                     } else {
-                        $('#lanjutKirim').prop('disabled', false);
+                        // $('#lanjutKirim').prop('disabled', false);
                         $(".info_status").html('<p class="">No Data</p>');
                     }
                 })

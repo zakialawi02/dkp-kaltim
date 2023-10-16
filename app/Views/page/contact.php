@@ -85,7 +85,7 @@
                 <div class="right">
 
                     <!-- versi 2 -->
-                    <form action="/email/send" method="post" autocomplete="off" class="form" id="myForm" name="myform">
+                    <form action="/email/kontak/send" method="post" autocomplete="off" class="form" id="myForm" name="myform">
                         <?= csrf_field(); ?>
                         <div>
                             <input type="text" placeholder="Nama" name="name" id="name" required />

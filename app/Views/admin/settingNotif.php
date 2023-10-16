@@ -59,6 +59,19 @@
                             </form>
 
 
+                            <div class="card mb-3 <?= ($tampilData[0]->notif_email === "on") ? '' : 'd-none'; ?>" id="expandNotifEmail">
+                                <div class="card-body m-0">
+                                    <h4>Setting Email</h4>
+                                    <form action="/email/tes/mail-notif" method="post">
+                                        <div class="mb-3">
+                                            <label for="emailTo" class="form-label">Email tujuan untuk mengirimkan email tes</label>
+                                            <input type="email" class="form-control" id="emailTo" name="emailTo" placeholder="name@mail.com">
+                                        </div>
+                                        <button type="submit" class="asbn btn btn-primary" id="tesMailNotif">Kirim Email Tes</button>
+                                    </form>
+                                </div>
+                            </div>
+
                             <div class="card mb-3 <?= ($tampilData[0]->notif_wa === "on") ? '' : 'd-none'; ?>" id="expandNotifWA">
                                 <div class="card-body m-0">
                                     <h4>Setting Whatsapp</h4>
@@ -134,8 +147,26 @@
                 })
             });
         });
+        $("#notifEmail").change(function(e) {
+            $("#expandNotifEmail").toggleClass('d-none');
+        });
         $("#notifWA").change(function(e) {
             $("#expandNotifWA").toggleClass('d-none');
+        });
+        $("#tesMailNotif").click(function(e) {
+            e.preventDefault();
+            let emailTo = $("#emailTo").val();
+            $.ajax({
+                type: "POST",
+                url: "/email/tes/mail-notif",
+                data: {
+                    emailTo
+                },
+                dataType: "json",
+                success: function(response) {
+                    $("#emailTo").val("");
+                }
+            });
         });
     </script>
 

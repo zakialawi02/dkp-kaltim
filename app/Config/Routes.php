@@ -52,7 +52,7 @@ $routes->post('/MyProfile/updatePassword', 'MyProfile::updatePassword', ['filter
 $routes->delete('/MyProfile/delete/(:num)/(:any)', 'MyProfile::delete/$1/$2', ['filter' => 'role:SuperAdmin,Admin,User']);
 
 // kelola user
-$routes->get('/user/kelola', 'User::kelola', ['filter' => 'role:SuperAdmin,Admin']);
+$routes->get('/user/kelola', 'User::kelola', ['filter' => 'role:SuperAdmin']);
 $routes->post('/user/tambah', 'User::tambah', ['filter' => 'role:SuperAdmin']);
 $routes->post('/user/updateUser', 'User::updateUser', ['filter' => 'role:SuperAdmin']);
 $routes->delete('/user/delete/(:num)/(:any)', 'User::delete/$1/$2', ['filter' => 'role:SuperAdmin']);
@@ -133,7 +133,8 @@ $routes->post('/admin/updateAturanKesesuaian/(:num)', 'Admin::updateAturanKesesu
 $routes->delete('/admin/delete_kesesuaian/(:num)', 'Admin::delete_kesesuaian/$1', ['filter' => 'role:SuperAdmin']);
 
 
-$routes->Post('/email/send', 'Email::send');
+$routes->Post('/email/kontak/send', 'Email::send');
+$routes->Post('/email/tes/mail-notif', 'Email::tesMailNotif');
 
 $routes->get('/data/loadDataEksisting', 'Data::loadDataEksisting', ['filter' => 'role:SuperAdmin,Admin']);
 

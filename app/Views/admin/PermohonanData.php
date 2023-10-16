@@ -59,6 +59,9 @@
                                             <td class="almkv"><?= esc($Iz->alamat); ?></td>
                                             <td class="almkv"><?= esc($Iz->nama_kegiatan); ?></td>
                                             <td class="aks">
+                                                <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="edit data">
+                                                    <a href="/data/permohonan/<?= $Iz->id_perizinan; ?>/edit/" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
+                                                </div>
                                                 <div class="btn-group mr-2" role="group" aria-label="First group">
                                                     <a type="button" role="button" href="/admin/data/permohonan/<?= ($Iz->stat_appv == '1') ? 'telah-disetujui' : 'tidak-disetujui'; ?>/lihat/<?= $Iz->id_perizinan; ?>/<?= $Iz->nama; ?>/" class="asbn btn btn-secondary bi bi-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Lihat" target="_blank"></a>
                                                 </div>

@@ -44,4 +44,18 @@ class Email extends BaseController
             return $this->response->redirect(site_url('/kontak'));
         }
     }
+
+    public function tesMailNotif()
+    {
+        $emailTo = $this->request->getPost('emailTo');
+        $email = \Config\Services::email();
+        $email->setTo($emailTo);
+        $email->setSubject('Pemberitahuan Status Pengajuan Informasi Simata Laut Kaltim');
+        $message = view('_Layout/_template/_email/statusAjuan');
+        $email->setMessage($message);
+        $email->setMailType('html');
+        $email->send();
+        $response = ['status' => 'true'];
+        return $this->response->setJSON($response);
+    }
 }
