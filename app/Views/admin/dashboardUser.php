@@ -214,6 +214,9 @@
                                                                                 <td><?= date('d M Y H:i:s', strtotime($tIzin->date_updated)); ?></td>
                                                                                 </td>
                                                                                 <td>
+                                                                                    <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="edit data">
+                                                                                        <a href="/data/permohonan/<?= $tIzin->id_perizinan; ?>/edit/" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
+                                                                                    </div>
                                                                                     <div class="btn-group mr-2" role="group" aria-label="First group" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="hapus data">
                                                                                         <form id="delete-form-<?= $tIzin->id_perizinan; ?>" action="/data/delete_pengajuan/<?= $tIzin->id_perizinan; ?>" method="post">
                                                                                             <?= csrf_field(); ?>

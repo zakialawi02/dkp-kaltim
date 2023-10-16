@@ -383,9 +383,6 @@ class Admin extends BaseController
                     $email->setMailType('html');
                     $email->send();
                 }
-                if ($settingNotif->notif_wa === "on") {
-                    # code...
-                }
             } catch (\Throwable $th) {
                 //throw $th;
             }
@@ -442,9 +439,6 @@ class Admin extends BaseController
                         $email->setMessage($message);
                         $email->setMailType('html');
                         $email->send();
-                    }
-                    if ($settingNotif->notif_wa === "on") {
-                        # code...
                     }
                 } catch (\Throwable $th) {
                     //throw $th;

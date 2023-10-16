@@ -325,7 +325,7 @@
         proj4.defs("EPSG:23836", "+proj=tmerc +lat_0=0 +lon_0=112.5 +k=0.9999 +x_0=200000 +y_0=1500000 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
 
         let geojson = <?= $tampilIzin->lokasi; ?>;
-        console.log(geojson);
+        // console.log(geojson);
 
         // style vector geometry
         const markerStyle = new ol.style.Style({
@@ -568,9 +568,9 @@
         function cek() {
             $(".info_status").html('<img src="/img/loading.gif">');
             let valKegiatan = $('#pilihKegiatan').val();
-            console.log(valKegiatan);
+            // console.log(valKegiatan);
             let getOverlap = overlappingFeatures;
-            console.log(getOverlap);
+            // console.log(getOverlap);
             objectID = getOverlap.map(function(feature) {
                 return feature.properties.OBJECTID;
             });
@@ -626,7 +626,7 @@
                 }
             }
             // console.log(getOverlapProperties);
-            $('#lanjutKirim').prop('disabled', true);
+            // $('#lanjutKirim').prop('disabled', true);
             $.ajax({
                     method: "POST",
                     url: "/data/cekStatus",
@@ -650,17 +650,17 @@
                         let diperbolehkanBersyarat = hasil.filter(item => item.status === 'diperbolehkan bersyarat');
                         let tidakDiperbolehkan = hasil.filter(item => item.status === 'tidak diperbolehkan');
                         if (tidakDiperbolehkan.length !== 0) {
-                            $('#lanjutKirim').prop('disabled', true);
+                            // $('#lanjutKirim').prop('disabled', true);
                             $(".info_status").html('<p class="tidakBoleh">Aktivitas yang tidak diperbolehkan</p>');
                         } else if (diperbolehkanBersyarat.length !== 0) {
-                            $('#lanjutKirim').prop('disabled', false);
+                            // $('#lanjutKirim').prop('disabled', false);
                             $(".info_status").html('<p class="bolehBersyarat">Aktivitas diperbolehkan setelah memperoleh izin</p>');
                         } else {
-                            $('#lanjutKirim').prop('disabled', false);
+                            // $('#lanjutKirim').prop('disabled', false);
                             $(".info_status").html('<p class="boleh">Aktivitas yang diperbolehkan</p>');
                         }
                     } else {
-                        $('#lanjutKirim').prop('disabled', false);
+                        // $('#lanjutKirim').prop('disabled', false);
                         $(".info_status").html('<p class="">No Data</p>');
                     }
                 })

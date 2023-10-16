@@ -13517,6 +13517,16 @@ p.tidakBoleh {
   font-size: 1rem;
 }
 
+.xs-btn {
+  font-size: 12px;
+  padding: 6px;
+}
+
+.s-btn {
+  font-size: 14px;
+  padding: 8px;
+}
+
 .img-pending {
   width: 13rem;
   height: auto;
@@ -13540,8 +13550,55 @@ p.tidakBoleh {
   aspect-ratio: 1/1;
 }
 /*--------------------------------------------------------------
-  # #####
+  # Side Panel Layer
   --------------------------------------------------------------*/
+.sidepanel {
+  width: 30vw;
+  height: auto;
+  position: absolute;
+  top: 0;
+  left: -30vw;
+  background-color: #f5f5f5;
+  transition: left 0.3s ease;
+  z-index: 10;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+}
+
+.sidepanel-content {
+  padding-left: 0.5rem;
+  max-height: 70vh;
+  overflow-y: scroll;
+}
+
+.sidepanel.expanded {
+  left: 0;
+}
+
+.toggle-sidepanel {
+  position: relative;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+  width: 18vh;
+  background-color: #f5f5f5;
+  color: #0e0e0e;
+  top: calc(-300px);
+  left: calc(100% - 44px);
+  padding: 8px;
+  padding-bottom: 10px;
+  transform: rotate(90deg);
+  z-index: 1;
+  cursor: pointer;
+  border: 1px solid #000000;
+  border-radius: 8px;
+}
+
+@media screen and (max-width: 900px) {
+  .sidepanel {
+    width: 70vw;
+    left: -70vw;
+  }
+}
 
 /*--------------------------------------------------------------
   # #####

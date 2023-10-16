@@ -886,24 +886,24 @@
 
 
         const vectorSource = new ol.source.Vector();
-        const KKPRLALLsource = new ol.source.TileWMS({
-            url: 'https://simatalautkaltim.id/geoserver/KKPRL/wms',
-            params: {
-                'LAYERS': 'KKPRL:KKPRL_RTRW_KALTIM_10_03_2023_AR_FIX',
-                'TILED': true
-            },
-            serverType: 'geoserver',
-            crossOrigin: 'anonymous'
-        });
-        const RZWP3KALLsource = new ol.source.TileWMS({
-            url: 'https://simatalautkaltim.id/geoserver/RZWP3K/wms',
-            params: {
-                'LAYERS': 'RZWP3K:RZ50K_AR_REVISIMAR_2021_FIX_29_Maret',
-                'TILED': true
-            },
-            serverType: 'geoserver',
-            crossOrigin: 'anonymous'
-        });
+        // const KKPRLALLsource = new ol.source.TileWMS({
+        //     url: 'https://simatalautkaltim.id/geoserver/KKPRL/wms',
+        //     params: {
+        //         'LAYERS': 'KKPRL:KKPRL_RTRW_KALTIM_10_03_2023_AR_FIX',
+        //         'TILED': true
+        //     },
+        //     serverType: 'geoserver',
+        //     crossOrigin: 'anonymous'
+        // });
+        // const RZWP3KALLsource = new ol.source.TileWMS({
+        //     url: 'https://simatalautkaltim.id/geoserver/RZWP3K/wms',
+        //     params: {
+        //         'LAYERS': 'RZWP3K:RZ50K_AR_REVISIMAR_2021_FIX_29_Maret',
+        //         'TILED': true
+        //     },
+        //     serverType: 'geoserver',
+        //     crossOrigin: 'anonymous'
+        // });
         const projection = new ol.proj.Projection({
             code: 'EPSG:54034',
             units: 'm',
@@ -914,7 +914,7 @@
         // BaseMap
         const osmBaseMap = new ol.layer.Tile({
             source: new ol.source.OSM(),
-            // crossOrigin: 'anonymous',
+            crossOrigin: 'anonymous',
             visible: false,
         });
 
@@ -926,7 +926,7 @@
         const bingAerialBaseMap = new ol.layer.Tile({
             preload: Infinity,
             source: sourceBingMaps,
-            // crossOrigin: 'anonymous',
+            crossOrigin: 'anonymous',
             visible: true,
         });
 
@@ -937,7 +937,7 @@
         });
         const mapboxBaseMap = new ol.layer.Tile({
             source: mapboxSource,
-            // crossOrigin: 'anonymous',
+            crossOrigin: 'anonymous',
             visible: false,
         });
 
@@ -1054,7 +1054,7 @@
                     'FORMAT': 'image/png',
                 },
                 serverType: 'geoserver',
-                // crossOrigin: 'anonymous',
+                crossOrigin: 'anonymous',
             });
             var wms_layer = new ol.layer.Tile({
                 source: wmsSource,
@@ -1074,7 +1074,7 @@
                     'FORMAT': 'image/png',
                 },
                 serverType: 'geoserver',
-                // crossOrigin: 'anonymous',
+                crossOrigin: 'anonymous',
             });
             var wms_layer = new ol.layer.Tile({
                 source: wmsSource,
@@ -1648,6 +1648,7 @@
             target: document.getElementById('mouse-position'),
             undefinedHTML: '[Posisi Koordinat X,Y]'
         });
+        map.addControl(mousePositionControl);
 
         $('#isiByFile').change(function(e) {
             const file = e.target.files[0];
