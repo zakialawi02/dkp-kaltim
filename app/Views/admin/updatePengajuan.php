@@ -219,7 +219,7 @@
     <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
 
     <!-- Template Main JS File -->
-    <script src="/js/Scripts.js"></script>
+    <script src="/js/scripts.js"></script>
 
     <script>
         $(document).ready(function() {

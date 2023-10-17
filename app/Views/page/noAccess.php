@@ -42,6 +42,9 @@
             <div id="main">
                 <div class="fof">
                     <h1><?= $pesan; ?></h1>
+                    <?php if (session()->getFlashdata('message')) : ?>
+                        <h4><?= session()->getFlashdata('message'); ?></h4>
+                    <?php endif; ?>
                     <div class="msg">
                         <p>Let's go <a href="/" class="btn btn-primary">Home</a> Or <a href="javascript:history.back()" class="btn btn-primary">Back</a> and try from there.</p>
                     </div>

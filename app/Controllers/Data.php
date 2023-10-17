@@ -162,7 +162,7 @@ class Data extends BaseController
         $user = user_id();
         $dataId = $this->izin->getAllPermohonan($id_perizinan)->getRow();
         if ($dataId->user != $user && !in_groups('Admin') && !in_groups('SuperAdmin')) {
-            return redirect()->to('/noaccess');
+            return redirect()->to('/noaccess')->with('message', 'Anda tidak memiliki hak untuk mengedit data tersebut.');
         }
         $data = [
             'nik' => $this->request->getVar('nik'),
