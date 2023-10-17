@@ -159,6 +159,11 @@ class Data extends BaseController
     public function updateAjuan($id_perizinan)
     {
         // dd($this->request->getVar());
+        $user = user_id();
+        $dataId = $this->izin->getAllPermohonan($id_perizinan)->getRow();
+        if ($dataId->user != $user && !in_groups('Admin') && !in_groups('SuperAdmin')) {
+            return redirect()->to('/noaccess');
+        }
         $data = [
             'nik' => $this->request->getVar('nik'),
             'nib' => $this->request->getVar('nib'),
@@ -166,7 +171,6 @@ class Data extends BaseController
             'alamat' => $this->request->getVar('alamat'),
             'kontak' => $this->request->getVar('kontak'),
             'id_kegiatan' => $this->request->getVar('kegiatan'),
-            'lokasi' => $this->request->getVar('drawFeatures'),
             'updated_at' => date('Y-m-d H:i:s'),
         ];
         // dd($data);
@@ -241,7 +245,11 @@ class Data extends BaseController
     // HALAMAN EDIT PERMOHONAN
     public function editPengajuan($id_perizinan)
     {
+        $user = user_id();
         $dataId = $this->izin->getAllPermohonan($id_perizinan)->getRow();
+        if ($dataId->user != $user && !in_groups('Admin') && !in_groups('SuperAdmin')) {
+            throw new PageNotFoundException();
+        }
         if (empty($dataId)) {
             throw new PageNotFoundException();
         }

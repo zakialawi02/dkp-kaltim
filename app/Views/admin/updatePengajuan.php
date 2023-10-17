@@ -103,8 +103,6 @@
                                         <form class="row g-3" action="/data/updateAjuan/<?= $tampilIzin->id_perizinan; ?>" method="post" enctype="multipart/form-data" autocomplete="off">
                                             <?= csrf_field(); ?>
 
-                                            <input type="hidden" class="form-control" id="drawFeatures" aria-describedby="textlHelp" name="drawFeatures">
-
                                             <h5>a. Identitas Pemohon</h5>
 
                                             <div class="form-group">

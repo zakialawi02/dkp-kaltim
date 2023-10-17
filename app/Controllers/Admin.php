@@ -316,12 +316,11 @@ class Admin extends BaseController
         if (empty($permintaanId) && empty($nama)) {
             throw new PageNotFoundException();
         }
-        if (empty($permintaanId->nama)) {
+        if ($permintaanId->nama != $nama) {
             throw new PageNotFoundException();
-            if ($permintaanId->nama != $nama) {
-                throw new PageNotFoundException();
-            }
         }
+        $session = session();
+        $session->set('form_id', $id_perizinan);
         $uploadFiles = $this->uploadFiles->getFiles($id_perizinan)->getResult();
         $data = [
             'title' => 'Detail Data Pengajuan Informasi',
@@ -338,11 +337,12 @@ class Admin extends BaseController
         if (empty($permintaanId) && empty($nama)) {
             throw new PageNotFoundException();
         }
-        if (empty($permintaanId->nama)) {
+        if ($permintaanId->nama != $nama) {
             throw new PageNotFoundException();
-            if ($permintaanId->nama != $nama) {
-                throw new PageNotFoundException();
-            }
+        }
+        $user = user_id();
+        if ($permintaanId->user != $user && !in_groups('Admin') && !in_groups('SuperAdmin')) {
+            throw new PageNotFoundException();
         }
         $uploadFiles = $this->uploadFiles->getFiles($id_perizinan)->getResult();
         $data = [

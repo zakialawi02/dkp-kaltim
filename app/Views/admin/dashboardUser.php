@@ -349,7 +349,7 @@
                 icon: 'success',
                 title: 'Success!',
                 text: '<?= session()->getFlashdata('success'); ?>',
-                timer: 1500,
+                timer: 2500,
             });
         </script>
     <?php endif; ?>
@@ -360,7 +360,7 @@
                 icon: 'error',
                 title: 'Oops...',
                 text: '<?= session()->getFlashdata('error'); ?>',
-                timer: 1500,
+                timer: 2500,
             });
         </script>
     <?php endif; ?>

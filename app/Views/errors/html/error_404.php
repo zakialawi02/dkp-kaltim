@@ -3,6 +3,9 @@
 
 <head>
     <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <!-- Favicons -->
+    <link href="/img/favicon.png" rel="icon">
     <title>404 Page Not Found</title>
 
     <style>
