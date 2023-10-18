@@ -886,24 +886,6 @@
 
 
         const vectorSource = new ol.source.Vector();
-        // const KKPRLALLsource = new ol.source.TileWMS({
-        //     url: 'https://simatalautkaltim.id/geoserver/KKPRL/wms',
-        //     params: {
-        //         'LAYERS': 'KKPRL:KKPRL_RTRW_KALTIM_10_03_2023_AR_FIX',
-        //         'TILED': true
-        //     },
-        //     serverType: 'geoserver',
-        //     crossOrigin: 'anonymous'
-        // });
-        // const RZWP3KALLsource = new ol.source.TileWMS({
-        //     url: 'https://simatalautkaltim.id/geoserver/RZWP3K/wms',
-        //     params: {
-        //         'LAYERS': 'RZWP3K:RZ50K_AR_REVISIMAR_2021_FIX_29_Maret',
-        //         'TILED': true
-        //     },
-        //     serverType: 'geoserver',
-        //     crossOrigin: 'anonymous'
-        // });
         const projection = new ol.proj.Projection({
             code: 'EPSG:54034',
             units: 'm',
@@ -1047,7 +1029,7 @@
         // Loop untuk menambahkan setiap lapisan WMS ke dalam objek peta
         for (const layerName of RZWP3KLayerNames) {
             const wmsSource = new ol.source.TileWMS({
-                url: 'https://simatalautkaltim.id/geoserver/RZWP3K/wms?',
+                url: '<?= $_ENV['BASE_URL_GEOSERVER'] ?>/RZWP3K/wms?',
                 params: {
                     'LAYERS': `RZWP3K:${layerName}`,
                     'TILED': true,
@@ -1067,7 +1049,7 @@
 
         for (const layerName of KKPRLLayerNames) {
             const wmsSource = new ol.source.TileWMS({
-                url: 'https://simatalautkaltim.id/geoserver/KKPRL/wms?',
+                url: '<?= $_ENV['BASE_URL_GEOSERVER'] ?>/KKPRL/wms?',
                 params: {
                     'LAYERS': `KKPRL:${layerName}`,
                     'TILED': true,

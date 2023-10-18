@@ -871,7 +871,7 @@
         const layersToShow = ['Zona_Pelabuhan_Umum', 'Sistem_Jaringan_Energi', 'Sistem_Jaringan_Telekomunikasi', 'Alur_Pelayaran_Umum_dan_Perlintasan', 'Lintas_Penyeberangan_Antarprovinsi', 'Lintas_Penyeberangan_Antarkabupaten_Kota_dalam_Provinsi'];
         for (const layerName of KKPRLLayerNames) {
             const wmsSource = new ol.source.TileWMS({
-                url: 'https://simatalautkaltim.id/geoserver/KKPRL/wms?',
+                url: '<?= $_ENV['BASE_URL_GEOSERVER'] ?>/KKPRL/wms?',
                 params: {
                     'LAYERS': `KKPRL:${layerName}`,
                     'TILED': true,
