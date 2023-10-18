@@ -305,8 +305,8 @@
 
     <!-- Vendor JS Files -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
     <script src="/js/scripts.js"></script>
 
     <script>
@@ -314,27 +314,25 @@
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     </script>
     <script>
-        $(document).ready(function() {
-            $("th").css("pointer-events", "none");
-            $(".no-sort").css("pointer-events", "none");
+        $("th").css("pointer-events", "none");
+        $(".no-sort").css("pointer-events", "none");
 
-            $(".toggle-sidepanel").click(function() {
-                $(".sidepanel").toggleClass('expanded');
-            });
-            $(document).on("click", function(event) {
-                if (!$(event.target).closest(".sidepanel").length && !$(event.target).hasClass("toggle-sidepanel")) {
-                    $(".sidepanel").removeClass('expanded');
-                }
-            });
-            const opacitySlider2 = document.getElementById('transparansi-slider2');
-            noUiSlider.create(opacitySlider2, {
-                start: [0.8],
-                range: {
-                    'min': 0,
-                    'max': 1,
-                },
-                step: 0.01,
-            });
+        $(".toggle-sidepanel").click(function() {
+            $(".sidepanel").toggleClass('expanded');
+        });
+        $(document).on("click", function(event) {
+            if (!$(event.target).closest(".sidepanel").length && !$(event.target).hasClass("toggle-sidepanel")) {
+                $(".sidepanel").removeClass('expanded');
+            }
+        });
+        const opacitySlider2 = document.getElementById('transparansi-slider2');
+        noUiSlider.create(opacitySlider2, {
+            start: [0.8],
+            range: {
+                'min': 0,
+                'max': 1,
+            },
+            step: 0.01,
         });
     </script>
     <script>
