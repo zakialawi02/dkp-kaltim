@@ -133,6 +133,7 @@ $routes->post('/admin/updateAturanKesesuaian/(:num)', 'Admin::updateAturanKesesu
 $routes->delete('/admin/delete_kesesuaian/(:num)', 'Admin::delete_kesesuaian/$1', ['filter' => 'role:SuperAdmin']);
 
 
+$routes->get('/email/testMail', 'Email::testMail');
 $routes->Post('/email/kontak/send', 'Email::send');
 $routes->Post('/email/tes/mail-notif', 'Email::tesMailNotif');
 

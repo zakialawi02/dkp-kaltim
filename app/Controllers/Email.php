@@ -58,4 +58,23 @@ class Email extends BaseController
         $response = ['status' => 'true'];
         return $this->response->setJSON($response);
     }
+
+    public function testMail()
+    {
+        $email = \Config\Services::email();
+
+        $to = 'zaki.alawi22@gmail.com';
+        $subject = 'Subject of the Email Test';
+        $message = 'Hello, this is the email message content.';
+
+        $email->setTo($to);
+        $email->setSubject($subject);
+        $email->setMessage($message);
+
+        if ($email->send()) {
+            echo 'Email successfully sent';
+        } else {
+            echo 'Email sending failed: ' . $email->printDebugger(['headers']);
+        }
+    }
 }

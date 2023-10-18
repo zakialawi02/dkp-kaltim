@@ -326,6 +326,15 @@
                     $(".sidepanel").removeClass('expanded');
                 }
             });
+            const opacitySlider2 = document.getElementById('transparansi-slider2');
+            noUiSlider.create(opacitySlider2, {
+                start: [0.8],
+                range: {
+                    'min': 0,
+                    'max': 1,
+                },
+                step: 0.01,
+            });
         });
     </script>
     <script>
@@ -348,17 +357,6 @@
                 $('#lampiran').hide();
             });
         <?php endif ?>
-    </script>
-    <script>
-        const opacitySlider2 = document.getElementById('transparansi-slider2');
-        noUiSlider.create(opacitySlider2, {
-            start: [0.8],
-            range: {
-                'min': 0,
-                'max': 1,
-            },
-            step: 0.01,
-        });
     </script>
 
     <!-- Open Layers Component -->
