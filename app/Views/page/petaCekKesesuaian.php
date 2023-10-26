@@ -1654,6 +1654,7 @@
                             header: 1
                         });
                         var dataArr = [json][0];
+                        // console.log(dataArr);
                         dataArr.shift();
                         let resultArray;
                         if (dataArr[0].length === 3) {
