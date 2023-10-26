@@ -155,7 +155,7 @@
                                                 ?>
                                             </div>
 
-                                            <div class="feedback fs-6">Keterangan:</div>
+                                            <div class="feedback fs-6">Keterangan kesesuaian:</div>
                                             <div class="info_status">
                                                 <div class="info_status" id="showKegiatan"> - </div>
                                             </div>
@@ -565,7 +565,7 @@
         // Cek kesesuaian dengan jenis kegiatan yang dipilih
         function cek() {
             $(".info_status").html('<img src="/img/loading.gif">');
-            let valKegiatan = $('#pilihKegiatan').val();
+            let valKegiatan = <?= !empty($tampilDataIzin->id_kegiatan) ? $tampilDataIzin->id_kegiatan : 0; ?>;
             // console.log(valKegiatan);
             let getOverlap = overlappingFeatures;
             // console.log(getOverlap);
@@ -663,6 +663,7 @@
                     }
                 })
                 .fail(function(error) {
+                    $(".info_status").html('<p class="fs-6">Error!!</p>');
                     console.error('Error:', error);
                 })
         }
