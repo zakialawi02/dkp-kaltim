@@ -1654,25 +1654,37 @@
                             header: 1
                         });
                         var dataArr = [json][0];
+                        // console.log(dataArr);
                         dataArr.shift();
-                        selectedCounter = dataArr.length;
                         // console.log(selectedCounter);
                         // console.log(dataArr);
-                        if (selectedCounter < 2) {
-                            jsonCoordinates = [dataArr[0].slice(1, 3)];
-                            // console.log(jsonCoordinates);
-                            geojsonFeature = turf.point([jsonCoordinates[0][0], jsonCoordinates[0][1]]);
-                            geojson = turf.featureCollection([geojsonFeature]);
-                            styleDraw = markerStyle;
-                        } else {
-                            jsonCoordinates = dataArr.map((coordinate) => {
-                                return [coordinate[1], coordinate[2]];
-                            });
-                            // console.log(jsonCoordinates);
-                            geojsonFeature = turf.polygon([jsonCoordinates]);
-                            geojson = turf.featureCollection([geojsonFeature]);
-                            styleDraw = polygonStyle;
+                        const groupedData = [];
+                        for (const item of dataArr) {
+                            const code = item[0];
+                            const coordinates = [item[1], item[2]];
+                            if (!groupedData[code]) {
+                                groupedData[code] = [];
+                            }
+                            groupedData[code].push(coordinates);
                         }
+                        console.log(groupedData);
+                        const resultArray = Object.values(groupedData);
+                        console.log(resultArray);
+
+                        geojson = turf.featureCollection([]);
+                        resultArray.forEach(function(data) {
+                            selectedCounter = data.length;
+                            if (selectedCounter < 2) {
+                                var jsonCoordinates = [data[0].slice(0, 2)];
+                                var geojsonFeature = turf.point([jsonCoordinates[0][0], jsonCoordinates[0][1]]);
+                            } else {
+                                var jsonCoordinates = data.map(function(coordinate) {
+                                    return [coordinate[0], coordinate[1]];
+                                });
+                                var geojsonFeature = turf.polygon([jsonCoordinates]);
+                            }
+                            geojson.features.push(geojsonFeature);
+                        });
                         // console.log(geojson);
                         geojsonData = geojson;
                         const features = new ol.format.GeoJSON().readFeatures(geojson);
@@ -1680,11 +1692,25 @@
                             feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
                             vectorSource.addFeature(feature);
                         });
+
                         var drawedVector = new ol.layer.Vector({
                             source: vectorSource,
-                            style: styleDraw,
                         });
                         getCoordinates(geojson);
+                        if (geometryType == "Point") {
+                            vectorSource.getFeatures().forEach(function(feature) {
+                                feature.setStyle(markerStyle);
+                            });
+                        } else if (geometryType == "Polygon") {
+                            vectorSource.getFeatures().forEach(function(feature) {
+                                feature.setStyle(polygonStyle);
+                            });
+                        } else {
+                            vectorSource.getFeatures().forEach(function(feature) {
+                                feature.setStyle(lineStyle);
+                            });
+                        }
+
                         const iframe = document.getElementById("petaPreview");
                         iframe.contentWindow.postMessage({
                             geojson,
