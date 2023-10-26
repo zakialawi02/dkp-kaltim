@@ -1654,22 +1654,61 @@
                             header: 1
                         });
                         var dataArr = [json][0];
-                        // console.log(dataArr);
                         dataArr.shift();
-                        // console.log(selectedCounter);
-                        // console.log(dataArr);
-                        const groupedData = [];
-                        for (const item of dataArr) {
-                            const code = item[0];
-                            const coordinates = [item[1], item[2]];
-                            if (!groupedData[code]) {
-                                groupedData[code] = [];
+                        let resultArray;
+                        if (dataArr[0].length === 3) {
+                            console.log("DD");
+                            console.log(dataArr);
+                            const groupedData = [];
+                            for (const item of dataArr) {
+                                const code = item[0];
+                                const coordinates = [item[1], item[2]];
+                                if (!groupedData[code]) {
+                                    groupedData[code] = [];
+                                }
+                                groupedData[code].push(coordinates);
                             }
-                            groupedData[code].push(coordinates);
+                            console.log(groupedData);
+                            resultArray = Object.values(groupedData);
+                            console.log(resultArray);
+                        } else if (dataArr[0].length === 9) {
+                            console.log("DMS");
+                            console.log(dataArr);
+                            let currentCode = null;
+                            let dataConverted = [];
+                            for (let i = 0; i < dataArr.length; i++) {
+                                let code = dataArr[i][0];
+                                let lonDegrees = dataArr[i][1];
+                                let lonMinutes = dataArr[i][2];
+                                let lonSeconds = dataArr[i][3];
+                                let latDegrees = dataArr[i][5];
+                                let latMinutes = dataArr[i][6];
+                                let latSeconds = dataArr[i][7];
+                                let lonDirection = dataArr[i][4];
+                                let latDirection = dataArr[i][8];
+
+                                let lonDecimal = convertCoordinateToDecimal(lonDegrees, lonMinutes, lonSeconds, lonDirection);
+                                let latDecimal = convertCoordinateToDecimal(latDegrees, latMinutes, latSeconds, latDirection);
+
+                                currentCode = code;
+                                dataConverted.push([code, lonDecimal, latDecimal]);
+                            }
+                            console.log(dataConverted);
+                            const groupedData = [];
+                            for (const item of dataConverted) {
+                                const code = item[0];
+                                const coordinates = [item[1], item[2]];
+                                if (!groupedData[code]) {
+                                    groupedData[code] = [];
+                                }
+                                groupedData[code].push(coordinates);
+                            }
+                            console.log(groupedData);
+                            resultArray = Object.values(groupedData);
+                            console.log(resultArray);
+                        } else {
+                            return alert("Format file tidak cocok")
                         }
-                        console.log(groupedData);
-                        const resultArray = Object.values(groupedData);
-                        console.log(resultArray);
 
                         geojson = turf.featureCollection([]);
                         resultArray.forEach(function(data) {
@@ -1887,6 +1926,16 @@
                         break;
                 }
             }
+        }
+
+        function convertCoordinateToDecimal(degrees, minutes, seconds, direction) {
+            let decimalDegree = parseFloat(degrees) + parseFloat(minutes / 60) + parseFloat(seconds / 3600);
+            if (direction === "LS" || direction === "LU" || direction === "BB" || direction === "BT") {
+                if (direction === "LS" || direction === "BB") {
+                    decimalDegree *= -1;
+                }
+            }
+            return decimalDegree;
         }
     </script>
     <script src="/js/meass-tool.js"></script>
