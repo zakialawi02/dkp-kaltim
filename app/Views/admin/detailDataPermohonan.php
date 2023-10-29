@@ -394,7 +394,6 @@
             btnshp.className = "bi bi-cloud-arrow-down asbn btn btn-primary m-md-3";
             btnshp.onclick = function() {
                 try {
-                    proj4.defs('EPSG:54034', '+proj=cea +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs');
                     // proj4.defs('EPSG:32750', '+proj=utm +zone=50 +south +datum=WGS84 +units=m +no_defs +type=crs');
                     proj4.defs('EPSG:4326', '+proj=longlat +datum=WGS84 +no_defs');
                     const geojsonData = geojson;
@@ -407,19 +406,18 @@
                             polygon: "<?= $tampilDataIzin->nik; ?>_AR",
                             polyline: "<?= $tampilDataIzin->nik; ?>_LN",
                         },
-                        prj: 'PROJCS["World_Cylindrical_Equal_Area",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Cylindrical_Equal_Area"],PARAMETER["False_Easting",0.0],PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",0.0],PARAMETER["Standard_Parallel_1",0.0],UNIT["Meter",1.0]]',
                     };
                     try {
                         geojsonData.features.forEach(feature => {
                             feature.geometry.coordinates = feature.geometry.coordinates.map(coordinates => {
                                 return coordinates.map(coord => {
-                                    return proj4('EPSG:4326', 'EPSG:32750', [coord[0], coord[1]]);
+                                    return proj4('EPSG:4326', 'EPSG:4326', [coord[0], coord[1]]);
                                 });
                             });
                             if (feature.geometry.bbox) {
                                 const [minLon, minLat, maxLon, maxLat] = feature.geometry.bbox;
-                                const transformedMin = proj4('EPSG:4326', 'EPSG:32750', [minLon, minLat]);
-                                const transformedMax = proj4('EPSG:4326', 'EPSG:32750', [maxLon, maxLat]);
+                                const transformedMin = proj4('EPSG:4326', 'EPSG:4326', [minLon, minLat]);
+                                const transformedMax = proj4('EPSG:4326', 'EPSG:4326', [maxLon, maxLat]);
                                 // Menetapkan ulang nilai bbox yang telah diubah
                                 feature.geometry.bbox = [
                                     transformedMin[0], transformedMin[1],
@@ -430,7 +428,7 @@
                     } catch (error) {
                         try {
                             geojson.features.forEach(feature => {
-                                feature.geometry.coordinates = proj4('EPSG:4326', 'EPSG:32750', feature.geometry.coordinates);
+                                feature.geometry.coordinates = proj4('EPSG:4326', 'EPSG:4326', feature.geometry.coordinates);
                             });
                         } catch (error) {
                             console.error(error);
