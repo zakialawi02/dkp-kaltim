@@ -398,7 +398,7 @@
                     proj4.defs('EPSG:4326', '+proj=longlat +datum=WGS84 +no_defs');
                     const geojsonData = geojson;
                     const options = {
-                        folder: '<?= date("Y"); ?>_<?= date("m"); ?>_<?= $tampilDataIzin->nama; ?>_<?= $tampilDataIzin->nik; ?>',
+                        folder: '<?= date("Y"); ?>_<?= date("m"); ?>_<?= esc(urlencode($tampilDataIzin->nama)); ?>_<?= $tampilDataIzin->nik; ?>',
                         filename: "<?= date("Y"); ?>_<?= date("m"); ?>_<?= $tampilDataIzin->nik; ?>",
                         outputType: "blob",
                         types: {

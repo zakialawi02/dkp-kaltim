@@ -565,7 +565,7 @@
         // Cek kesesuaian dengan jenis kegiatan yang dipilih
         function cek() {
             $(".info_status").html('<img src="/img/loading.gif">');
-            let valKegiatan = <?= !empty($tampilDataIzin->id_kegiatan) ? $tampilDataIzin->id_kegiatan : 0; ?>;
+            let valKegiatan = $('#pilihKegiatan').val();
             // console.log(valKegiatan);
             let getOverlap = overlappingFeatures;
             // console.log(getOverlap);

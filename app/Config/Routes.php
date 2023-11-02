@@ -86,9 +86,8 @@ $routes->post('/data/tambahAjuan', 'Data::tambahAjuan', ['filter' => 'role:Super
 $routes->post('/data/updateAjuan/(:num)', 'Data::updateAjuan/$1', ['filter' => 'role:SuperAdmin,Admin,User']);
 $routes->get('/data/permohonan/(:num)/edit/', 'Data::editPengajuan/$1', ['filter' => 'role:SuperAdmin,Admin,User']);
 $routes->delete('/data/delete_pengajuan/(:num)', 'Data::delete_pengajuan/$1', ['filter' => 'role:SuperAdmin,Admin,User']);
-$routes->get('/data/permohonan/lihat/(:num)/(:any)', 'Admin::lihatPermohonan/$1/$2', ['filter' => 'role:SuperAdmin,Admin,User']);
-$routes->get('/admin/data/permohonan/lihat/(:num)/(:any)', 'Admin::lihatPermohonan/$1/$2', ['filter' => 'role:SuperAdmin,Admin,User']);
-$routes->get('/admin/data/permohonan/(:any)/lihat/(:num)/(:any)', 'Admin::periksaDataPermohonan/$1/$2/$3', ['filter' => 'role:SuperAdmin,Admin,User']);
+$routes->get('/data/permohonan/lihat/(:num)', 'Admin::lihatPermohonan/$1', ['filter' => 'role:SuperAdmin,Admin,User']);
+$routes->get('/admin/data/permohonan/(:any)/lihat/(:num)', 'Admin::periksaDataPermohonan/$1/$2', ['filter' => 'role:SuperAdmin,Admin,User']);
 $routes->add('/admin/data/permohonan', 'Admin::DataDisetujuiSemua');
 $routes->get('/admin/data/permohonan/disetujui/semua', 'Admin::DataDisetujuiSemua', ['filter' => 'role:SuperAdmin,Admin']);
 $routes->get('/admin/data/permohonan/disetujui/terlampir', 'Admin::DataDisetujuiDenganLampiran', ['filter' => 'role:SuperAdmin,Admin']);

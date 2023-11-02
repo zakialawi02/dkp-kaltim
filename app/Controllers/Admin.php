@@ -306,21 +306,20 @@ class Admin extends BaseController
     }
 
     // periksa data/detail data
-    public function periksaDataPermohonan($status, $id_perizinan, $nama)
+    public function periksaDataPermohonan($status, $id_perizinan)
     {
         $statusArray = ['menunggu-jawaban', 'telah-disetujui', 'tidak-disetujui'];
         if (!in_array($status, $statusArray)) {
             throw new PageNotFoundException();
         }
         $permintaanId = $this->izin->getAllPermohonan($id_perizinan)->getRow();
-        if (empty($permintaanId) && empty($nama)) {
+        if (empty($permintaanId)) {
             throw new PageNotFoundException();
         }
-        if ($permintaanId->nama != $nama) {
+        $user = user_id();
+        if ($permintaanId->user != $user && !in_groups('Admin') && !in_groups('SuperAdmin')) {
             throw new PageNotFoundException();
         }
-        $session = session();
-        $session->set('form_id', $id_perizinan);
         $uploadFiles = $this->uploadFiles->getFiles($id_perizinan)->getResult();
         $data = [
             'title' => 'Detail Data Pengajuan Informasi',
@@ -331,13 +330,10 @@ class Admin extends BaseController
         // dd($data['tampilDataIzin']);
         return view('admin/detailDataPermohonan', $data);
     }
-    public function lihatPermohonan($id_perizinan, $nama)
+    public function lihatPermohonan($id_perizinan)
     {
         $permintaanId = $this->izin->getAllPermohonan($id_perizinan)->getRow();
-        if (empty($permintaanId) && empty($nama)) {
-            throw new PageNotFoundException();
-        }
-        if ($permintaanId->nama != $nama) {
+        if (empty($permintaanId)) {
             throw new PageNotFoundException();
         }
         $user = user_id();
@@ -378,7 +374,7 @@ class Admin extends BaseController
                     $message = view('_Layout/_template/_email/statusAjuan');
                     $message = str_replace('{username}', $username, $message);
                     $message = str_replace('{nama_kegiatan}', $infoData->nama_kegiatan, $message);
-                    $message = str_replace('{url}', base_url('/data/permohonan/lihat/' . $infoData->id_perizinan . '/' . $infoData->nama), $message);
+                    $message = str_replace('{url}', base_url('/data/permohonan/lihat/' . $infoData->id_perizinan), $message);
                     $email->setMessage($message);
                     $email->setMailType('html');
                     $email->send();
@@ -435,7 +431,7 @@ class Admin extends BaseController
                         $message = view('_Layout/_template/_email/statusAjuan');
                         $message = str_replace('{username}', $username, $message);
                         $message = str_replace('{nama_kegiatan}', $infoData->nama_kegiatan, $message);
-                        $message = str_replace('{url}', base_url('/data/permohonan/lihat/' . $infoData->id_perizinan . '/' . $infoData->nama), $message);
+                        $message = str_replace('{url}', base_url('/data/permohonan/lihat/' . $infoData->id_perizinan), $message);
                         $email->setMessage($message);
                         $email->setMailType('html');
                         $email->send();

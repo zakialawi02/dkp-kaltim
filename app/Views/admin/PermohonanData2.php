@@ -64,7 +64,7 @@
                                                     <a href="/data/permohonan/<?= $Iz->id_perizinan; ?>/edit/" class="asbn btn btn-primary bi bi-pencil-square" role="button"></a>
                                                 </div>
                                                 <div class="btn-group mr-2" role="group" aria-label="First group">
-                                                    <a type="button" role="button" href="/admin/data/permohonan/<?= ($Iz->stat_appv == '1') ? 'telah-disetujui' : 'tidak-disetujui'; ?>/lihat/<?= $Iz->id_perizinan; ?>/<?= $Iz->nama; ?>/" class="asbn btn btn-secondary bi bi-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Lihat" target="_blank"></a>
+                                                    <a type="button" role="button" href="/admin/data/permohonan/<?= ($Iz->stat_appv == '1') ? 'telah-disetujui' : 'tidak-disetujui'; ?>/lihat/<?= $Iz->id_perizinan; ?>" class="asbn btn btn-secondary bi bi-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Lihat" target="_blank"></a>
                                                 </div>
                                                 <div class="btn-group mr-2" role="group" aria-label="First group">
                                                     <form id="delete-form-<?= $Iz->id_perizinan; ?>" action="/data/delete_pengajuan/<?= $Iz->id_perizinan; ?>" method="post">

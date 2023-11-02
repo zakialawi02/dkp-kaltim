@@ -181,7 +181,7 @@ $allDataBaru = array_slice($allDataBaru, 0, 5);
                                                                 <td><?= esc($baru->nama); ?></td>
                                                                 <td><?= esc($baru->nama_kegiatan); ?></td>
                                                                 <td><?= esc($baru->kontak); ?></td>
-                                                                <td><a type="button" role="button" href="/admin/data/permohonan/<?= ($baru->stat_appv == '0') ? 'menunggu-jawaban' : ''; ?>/lihat/<?= $baru->id_perizinan; ?>/<?= $baru->nama; ?>/" class="asbn btn btn-info bi bi-binoculars" data-bs-toggle="tooltip" data-bs-placement="top" title="Periksa" target="_blank"></a></td>
+                                                                <td><a type="button" role="button" href="/admin/data/permohonan/<?= ($baru->stat_appv == '0') ? 'menunggu-jawaban' : ''; ?>/lihat/<?= $baru->id_perizinan; ?>" class="asbn btn btn-info bi bi-binoculars" data-bs-toggle="tooltip" data-bs-placement="top" title="Periksa" target="_blank"></a></td>
                                                             </tr>
                                                         <?php endforeach ?>
                                                     </tbody>
@@ -218,7 +218,7 @@ $allDataBaru = array_slice($allDataBaru, 0, 5);
                                                                 <td class="name"><?= esc($jawab->nama); ?></td>
                                                                 <td class="address"><?= esc($jawab->nama_kegiatan); ?></td>
                                                                 <td><span class="badge bg-<?= ($jawab->stat_appv == '1') ? 'success' : 'danger'; ?>"> <?= ($jawab->stat_appv == '1') ? 'Disetujui' : 'Tidak Disetujui'; ?> </span></td>
-                                                                <td><a type="button" role="button" href="/admin/data/permohonan/<?= ($jawab->stat_appv == '1') ? 'telah-disetujui' : 'tidak-disetujui'; ?>/lihat/<?= $jawab->id_perizinan; ?>/<?= $jawab->nama; ?>/" class="asbn btn btn-secondary bi bi-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Lihat" target="_blank"></a></td>
+                                                                <td><a type="button" role="button" href="/admin/data/permohonan/<?= ($jawab->stat_appv == '1') ? 'telah-disetujui' : 'tidak-disetujui'; ?>/lihat/<?= $jawab->id_perizinan; ?>" class="asbn btn btn-secondary bi bi-eye" data-bs-toggle="tooltip" data-bs-placement="top" title="Lihat" target="_blank"></a></td>
                                                             </tr>
                                                         <?php endforeach ?>
                                                     </tbody>
