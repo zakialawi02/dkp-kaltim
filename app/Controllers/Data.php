@@ -248,10 +248,12 @@ class Data extends BaseController
         $user = user_id();
         $dataId = $this->izin->getAllPermohonan($id_perizinan)->getRow();
         if ($dataId->user != $user && !in_groups('Admin') && !in_groups('SuperAdmin')) {
-            throw new PageNotFoundException();
+            session()->setFlashdata('error', 'Permintaan tidak ditemukan');
+            return redirect()->to('/admin');
         }
         if (empty($dataId)) {
-            throw new PageNotFoundException();
+            session()->setFlashdata('error', 'Permintaan tidak ditemukan');
+            return redirect()->to('/admin');
         }
         $data = [
             'title' => 'Data Pengajuan',

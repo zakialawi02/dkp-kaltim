@@ -360,7 +360,7 @@
                 icon: 'error',
                 title: 'Oops...',
                 text: '<?= session()->getFlashdata('error'); ?>',
-                timer: 2500,
+                timer: 3000,
             });
         </script>
     <?php endif; ?>

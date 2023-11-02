@@ -312,7 +312,7 @@ $allDataBaru = array_slice($allDataBaru, 0, 5);
                 icon: 'success',
                 title: 'Success!',
                 text: '<?= session()->getFlashdata('success'); ?>',
-                timer: 1500,
+                timer: 2500,
             });
         </script>
     <?php endif; ?>
@@ -323,7 +323,7 @@ $allDataBaru = array_slice($allDataBaru, 0, 5);
                 icon: 'error',
                 title: 'Oops...',
                 text: '<?= session()->getFlashdata('error'); ?>',
-                timer: 1500,
+                timer: 3000,
             });
         </script>
     <?php endif; ?>

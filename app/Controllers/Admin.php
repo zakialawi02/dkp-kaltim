@@ -310,15 +310,18 @@ class Admin extends BaseController
     {
         $statusArray = ['menunggu-jawaban', 'telah-disetujui', 'tidak-disetujui'];
         if (!in_array($status, $statusArray)) {
-            throw new PageNotFoundException();
+            session()->setFlashdata('error', 'Permintaan tidak ditemukan');
+            return redirect()->to('/admin');
         }
         $permintaanId = $this->izin->getAllPermohonan($id_perizinan)->getRow();
         if (empty($permintaanId)) {
-            throw new PageNotFoundException();
+            session()->setFlashdata('error', 'Permintaan tidak ditemukan');
+            return redirect()->to('/admin');
         }
         $user = user_id();
         if ($permintaanId->user != $user && !in_groups('Admin') && !in_groups('SuperAdmin')) {
-            throw new PageNotFoundException();
+            session()->setFlashdata('error', 'Permintaan tidak ditemukan');
+            return redirect()->to('/admin');
         }
         $uploadFiles = $this->uploadFiles->getFiles($id_perizinan)->getResult();
         $data = [
@@ -334,11 +337,13 @@ class Admin extends BaseController
     {
         $permintaanId = $this->izin->getAllPermohonan($id_perizinan)->getRow();
         if (empty($permintaanId)) {
-            throw new PageNotFoundException();
+            session()->setFlashdata('error', 'Permintaan tidak ditemukan');
+            return redirect()->to('/admin');
         }
         $user = user_id();
         if ($permintaanId->user != $user && !in_groups('Admin') && !in_groups('SuperAdmin')) {
-            throw new PageNotFoundException();
+            session()->setFlashdata('error', 'Permintaan tidak ditemukan');
+            return redirect()->to('/admin');
         }
         $uploadFiles = $this->uploadFiles->getFiles($id_perizinan)->getResult();
         $data = [
