@@ -123,7 +123,7 @@
                                             <td><span class="badge bg-<?= ($user->active == '0') ? 'danger' : 'success'; ?>"> <?= ($user->active == '0') ? 'inactive' : 'active'; ?> </span></td>
                                             <td>
                                                 <!-- Button trigger modal -->
-                                                <button type="button" class="asbn btn btn-primary bi bi-pencil-square" data-bs-toggle="modal" data-bs-target="#editUserRole-<?= $user->userid ?>"></button>
+                                                <button type="button" class="asbn btn btn-primary bi bi-pencil-square" data-bs-toggle="modal" data-bs-target="#editUserRole-<?= $user->userid ?>" <?= ($user->name == 'SuperAdmin' && user_id() != $user->userid) ? "disabled" : ""; ?>></button>
 
                                                 <!-- Modal -->
                                                 <div class="modal fade mt-5" id="editUserRole-<?= $user->userid ?>" tabindex="-1" style="z-index: 2001 ;" aria-labelledby="exampleModalLabels" aria-hidden="true">
@@ -190,7 +190,7 @@
                                                     <form id="delete-form-<?= $user->userid ?>" action="/user/delete/<?= $user->userid ?>/<?= $user->username; ?>" method="post">
                                                         <?= csrf_field(); ?>
                                                         <input type="hidden" name="_method" value="DELETE">
-                                                        <button type="button" class="asbn btn btn-danger bi bi-trash delete-btn" data-id="<?= $user->userid ?>"></button>
+                                                        <button type="button" class="asbn btn btn-danger bi bi-trash delete-btn" data-id="<?= $user->userid ?>" <?= ($user->name == 'SuperAdmin' && user_id() != $user->userid) ? "disabled" : ""; ?>></button>
                                                     </form>
                                                 </div>
 

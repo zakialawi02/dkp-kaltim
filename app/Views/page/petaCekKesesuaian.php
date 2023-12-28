@@ -245,6 +245,7 @@
                                 </div>
                             </div>
 
+                            <div id="errorSHP"></div>
 
                         </div>
                     </div>
@@ -507,6 +508,7 @@
         });
 
         $("#rd_file").click(function() {
+            $("#errorSHP").html("");
             $(".dd-input").prop("disabled", true);
             $(".dms-input").prop("disabled", true);
             $('.form_isi_koordinat').addClass('d-none');
@@ -515,6 +517,7 @@
             $('#next_step').addClass('d-none');
         });
         $("#rd_dd").click(function() {
+            $("#errorSHP").html("");
             $(".dd-input").prop("disabled", false);
             $(".dms-input").prop("disabled", true);
             $('.form_isi_koordinat').removeClass('d-none');
@@ -523,6 +526,7 @@
             $('#next_step').removeClass('d-none');
         });
         $("#rd_dms").click(function() {
+            $("#errorSHP").html("");
             $(".dd-input").prop("disabled", true);
             $(".dms-input").prop("disabled", false);
             $('.form_isi_koordinat').removeClass('d-none');
@@ -1248,7 +1252,7 @@
         });
         const polygonStyle = new ol.style.Style({
             fill: new ol.style.Fill({
-                color: 'rgba(255, 0, 0, 0.4)',
+                color: 'rgba(210, 0, 0, 0.4)',
             }),
             stroke: new ol.style.Stroke({
                 color: 'red',
@@ -1633,6 +1637,7 @@
         map.addControl(mousePositionControl);
 
         $('#isiByFile').change(function(e) {
+            $("#errorSHP").html("");
             const file = e.target.files[0];
             // console.log(file);
             const reader = new FileReader();
@@ -1757,7 +1762,7 @@
                             geometryType,
                         }, '<?= base_url('/data/petaPreview'); ?>');
                     } else if (getExtension == 'zip') {
-                        let geojson;
+                        // let geojson;
                         const shpPromise = new Promise((resolve, reject) => {
                             shp(contents)
                                 .then(function(data) {
@@ -1767,6 +1772,7 @@
                                 .catch(function(error) {
                                     console.error('Error:', error);
                                     reject('Terjadi kesalahan saat membaca file SHP zipped.');
+                                    $("#errorSHP").html("Features geometry dan proyeksi SHP tidak didukung,<br> Gunakan proyeksi WGS84 pada file SHP");
                                 });
                         });
                         shpPromise.then((geojson) => {
@@ -1810,14 +1816,14 @@
                         let geojson;
                         const zip = new JSZip();
                         zip.loadAsync(contents).then(zipData => {
-                            const kmlFile = Object.keys(zipData.files).find(filename =>
+                            const kmzFile = Object.keys(zipData.files).find(filename =>
                                 filename.toLowerCase().endsWith('.kml')
                             );
-                            if (kmlFile) {
-                                const kmlContent = zipData.files[kmlFile].async('text');
+                            if (kmzFile) {
+                                const kmlContent = zipData.files[kmzFile].async('text');
                                 return kmlContent;
                             } else {
-                                throw new Error('Tidak ada file KML dalam KMZ.');
+                                throw new Error('Tidak ada file KMZ.');
                             }
                         }).then(kmlContent => {
                             const kml = new DOMParser().parseFromString(kmlContent, 'text/xml');

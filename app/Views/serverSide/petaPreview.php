@@ -82,19 +82,19 @@
         });
         const polygonStyle = new ol.style.Style({
             fill: new ol.style.Fill({
-                color: 'rgba(255, 0, 0, 0.4)',
+                color: 'rgba(210, 0, 0, 0.4)',
             }),
             stroke: new ol.style.Stroke({
                 color: 'red',
                 width: 2,
             }),
         });
-    </script>
-    <script>
+
         window.addEventListener('message', function(event) {
             let data = event.data;
             let geometryType = event.data.geometryType;
             let geojsonData = data.geojson;
+            let styleDraw;
             // console.log(geometryType);
             // console.log(geojsonData);
             vectorSource.clear();

@@ -482,7 +482,7 @@
         });
         const polygonStyle = new ol.style.Style({
             fill: new ol.style.Fill({
-                color: 'rgba(255, 0, 0, 0.4)',
+                color: 'rgba(210, 0, 0, 0.4)',
             }),
             stroke: new ol.style.Stroke({
                 color: 'red',
