@@ -67,8 +67,9 @@ class Data extends BaseController
 
     public function pengajuan()
     {
-        $session = session()->getFlashdata('data');
-        if ($session != null) {
+        $session = session()->getFlashdata('dataAjuan');
+        $backSession = session()->getFlashdata('data');
+        if ($session != null || $backSession != null) {
             $data = [
                 'title' => 'Pengajuan Informasi',
                 'jenisKegiatan' => $this->kegiatan->getJenisKegiatan()->getResult(),
@@ -79,6 +80,14 @@ class Data extends BaseController
         return redirect()->to('/peta');
     }
 
+    /**
+     * Function to handle the submission of form data for a new request.
+     * The request data to direct to tambah data permohonan/tambahAjuan() to fill the form
+     *
+     * @param void
+     * @throws void
+     * @return redirect
+     */
     public function isiAjuan()
     {
         // dd($this->request->getPost());
@@ -90,7 +99,7 @@ class Data extends BaseController
             'hasilStatus' => $this->request->getPost('hasilStatus'),
         ];
         // dd($data);
-        session()->setFlashdata('data', $data);
+        session()->setFlashdata('dataAjuan', $data);
         // echo '<pre>';
         // print_r($data);
         // die;
@@ -116,6 +125,17 @@ class Data extends BaseController
             'updated_at' => date('Y-m-d H:i:s'),
         ];
         // dd($data);
+        // tidak masuk ke database
+        $backInput = [
+            'kawasanOverlap' => $this->request->getVar('kawasanOverlap'),
+            'ketHasil' => $this->request->getVar('ketHasil'),
+        ];
+        session()->setFlashdata('data', $backInput);
+
+        if (!$this->validate($this->izin->validationRules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
         $addPengajuan =  $this->izin->addPengajuan($data);
         $insert_id = $this->db->insertID();
         $stat_appv = 0;

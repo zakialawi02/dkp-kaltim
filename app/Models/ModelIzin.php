@@ -13,6 +13,25 @@ class ModelIzin extends Model
 
     protected $allowedFields = ['nik', 'nib', 'nama', 'kontak', 'alamat', 'lokasi', 'id_kegiatan', 'uploadFiles', 'created_at', 'updated_at'];
 
+    // Dates
+    protected $useTimestamps = true;
+    protected $dateFormat    = 'datetime';
+    protected $createdField  = 'created_at';
+    protected $updatedField  = 'updated_at';
+    protected $deletedField  = 'deleted_at';
+
+    // Validation
+    protected $validationRules      = [
+        'nik' => 'required|numeric|min_length[16]|max_length[16]',
+        'nib' => 'required|min_length[10]|max_length[20]',
+        'nama' => 'required|min_length[3]|max_length[100]',
+        'kontak' => 'required|numeric|min_length[6]|max_length[20]',
+        'alamat' => 'required|min_length[3]|max_length[200]',
+    ];
+    protected $validationMessages   = [];
+    protected $skipValidation       = false;
+    protected $cleanValidationRules = true;
+
     function __construct()
     {
         $this->db = db_connect();

@@ -87,16 +87,25 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="mb-3">
-                                            <label for="judulModul" class="form-label">Judul Modul <span style="color: red;">*</span></label>
-                                            <input type="text" class="form-control form-control-sm" id="judulModul" name="judulModul" placeholder="Nama/Judul Modul" required>
+                                            <label for="judul_modul" class="form-label">Judul Modul <span style="color: red;">*</span></label>
+                                            <input type="text" class="form-control form-control-sm" id="judul_modul" name="judul_modul" placeholder="Nama/Judul Modul" value="<?= old('judul_modul'); ?>" required>
+                                            <?php if (session()->has('errors')) : ?>
+                                                <span class="text-danger"><?= session('errors.judul_modul') ?></span>
+                                            <?php endif ?>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="deskripsilModul" class="form-label">Deskripsi Modul <span style="color: red;">*</span></label>
-                                            <textarea type="text" class="form-control form-control-sm" id="deskripsilModul" name="deskripsilModul" placeholder="Deskripsi Modul" rows="5" required></textarea>
+                                            <label for="deskripsi" class="form-label">Deskripsi Modul <span style="color: red;">*</span></label>
+                                            <textarea type="text" class="form-control form-control-sm" id="deskripsi" name="deskripsi" placeholder="Deskripsi Modul" rows="5" required><?= old('deskripsi'); ?></textarea>
+                                            <?php if (session()->has('errors')) : ?>
+                                                <span class="text-danger"><?= session('errors.deskripsi') ?></span>
+                                            <?php endif ?>
                                         </div>
                                         <div class="mb-3">
                                             <label for="fileModul" class="form-label">File Modul <span style="color: red;">*</span></label>
                                             <input type="file" class="form-control form-control-sm" id="fileModul" name="fileModul" accept=".pdf, image/*" required>
+                                            <?php if (session()->has('errors')) : ?>
+                                                <span class="text-danger"><?= session('errors.fileModul') ?></span>
+                                            <?php endif ?>
                                         </div>
                                         <!-- <div class="mb-3">
                                             <label for="thumbModul" class="form-label">Thumbnail</label>
