@@ -355,12 +355,13 @@ class Admin extends BaseController
     // periksa data/detail data
     public function periksaDataPermohonan($status, $id_perizinan)
     {
+        $permintaanId = $this->izin->getAllPermohonan($id_perizinan)->getRow();
         $statusArray = ['menunggu-jawaban', 'telah-disetujui', 'tidak-disetujui'];
         if (!in_array($status, $statusArray)) {
             session()->setFlashdata('error', 'Permintaan tidak ditemukan');
             return redirect()->to('/admin');
         }
-        $permintaanId = $this->izin->getAllPermohonan($id_perizinan)->getRow();
+
         if (empty($permintaanId)) {
             session()->setFlashdata('error', 'Permintaan tidak ditemukan');
             return redirect()->to('/admin');

@@ -129,6 +129,7 @@ class Data extends BaseController
         $backInput = [
             'kawasanOverlap' => $this->request->getVar('kawasanOverlap'),
             'ketHasil' => $this->request->getVar('ketHasil'),
+            'lokasi' => $this->request->getVar('drawFeatures'),
         ];
         session()->setFlashdata('data', $backInput);
 

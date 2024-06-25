@@ -47,12 +47,12 @@
 
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Nama Lengkap <span style="color: red;">*</span></label>
-                                <input type="text" name="full_name" class="form-control" aria-describedby="emailHelp" placeholder="Enter Full Name" value="<?= old('full_name') ?>" required>
+                                <input type="text" name="full_name" class="form-control <?php if (session('errors.full_name')) : ?>is-invalid<?php endif ?>" placeholder="Nama Lengkap" value="<?= old('full_name') ?>" required>
                             </div>
 
                             <div class="form-group">
                                 <label for="username"><?= lang('Auth.username') ?>/Username <span style="color: red;">*</span></label>
-                                <input type="text" class="form-control <?php if (session('errors.username')) : ?>is-invalid<?php endif ?>" name="username" id="username" placeholder="<?= lang('Auth.username') ?>" value="<?= old('username') ?>" aria-describedby="emailHelp">
+                                <input type="text" class="form-control <?php if (session('errors.username')) : ?>is-invalid<?php endif ?>" name="username" id="username" placeholder="<?= lang('Auth.username') ?>" value="<?= old('username') ?>">
                                 <p class="form-text usernameFail d-none" style="color: red; font-size: small;">Username Tidak Boleh Mengandung Spasi</p>
                             </div>
 

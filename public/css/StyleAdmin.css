@@ -13540,10 +13540,7 @@ p.tidakBoleh {
 }
 
 .card-body.file p {
-  max-width: 18em;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+ 
 }
 .profile-card img {
   object-fit: cover;
