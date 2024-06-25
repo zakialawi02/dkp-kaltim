@@ -49,6 +49,11 @@
         .ol-print-compass {
             top: 1.5em !important;
         }
+
+        table tbody tr th,
+        table tbody tr td {
+            align-content: center;
+        }
     </style>
 </head>
 
@@ -88,14 +93,12 @@
 
                             <div class="table-responsive">
                                 <table class="table table-responsive">
-                                    <thead class="thead-left">
-                                        <tr>
-                                            <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;">Nama Pemohon</th>
-                                            <th style="border-bottom-width: 1px; border-bottom-color: #dee2e6;">:</th>
-                                            <th style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;"><?= esc($tampilDataIzin->nama); ?></th>
-                                        </tr>
-                                    </thead>
                                     <tbody>
+                                        <tr>
+                                            <td style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;">Nama Pemohon</td>
+                                            <th style="border-bottom-width: 1px; border-bottom-color: #dee2e6;">:</th>
+                                            <td style="font-weight: 400; border-bottom-width: 1px; border-bottom-color: #dee2e6;"><?= esc($tampilDataIzin->nama); ?></td>
+                                        </tr>
                                         <tr>
                                             <td>NIK (Nomor Induk Kependudukan)</td>
                                             <th>:</th>
@@ -161,23 +164,25 @@
                                             <th>:</th>
                                             <td><?= date('d M Y H:i:s', strtotime($tampilDataIzin->created_at)); ?></td>
                                         </tr>
+                                        <tr>
+                                            <td>Berkas</td>
+                                            <th>:</th>
+                                            <td>
+                                                <?php if ($tampilDataIzin->uploadFiles != null) : ?>
+                                                    <?php foreach ($tampilDataIzin->uploadFiles as $file) : ?>
+                                                        <div class="card mb-3 flex-grow-1">
+                                                            <div class="card-body file">
+                                                                <p class="card-text"><a href="/dokumen/upload-dokumen/<?= $file->uploadFiles; ?>" target="_blank"><?= $file->uploadFiles; ?></a></p>
+                                                            </div>
+                                                        </div>
+                                                    <?php endforeach ?>
+                                                <?php else : ?>
+                                                    <p class="form-text">Tidak ada berkas</p>
+                                                <?php endif ?>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
-                            </div>
-
-                            <h5>Berkas</h5>
-                            <div class="p-md-2 d-flex flex-wrap gap-2 overflow-auto" style="width: 100%;">
-                                <?php if ($tampilDataIzin->uploadFiles != null) : ?>
-                                    <?php foreach ($tampilDataIzin->uploadFiles as $file) : ?>
-                                        <div class="card mb-3 flex-grow-1" style="max-width: 500px;">
-                                            <div class="card-body file">
-                                                <p class="card-text"><a href="/dokumen/upload-dokumen/<?= $file->uploadFiles; ?>" target="_blank"><?= $file->uploadFiles; ?></a></p>
-                                            </div>
-                                        </div>
-                                    <?php endforeach ?>
-                                <?php else : ?>
-                                    <p class="form-text">Tidak ada berkas</p>
-                                <?php endif ?>
                             </div>
 
                         </div>

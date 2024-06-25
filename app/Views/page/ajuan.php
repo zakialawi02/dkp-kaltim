@@ -59,26 +59,40 @@
                 <div class="col col-lg-7">
                     <div class="card">
                         <div class="card-body">
-                            <form class="row g-3" action="/data/tambahAjuan" method="post" enctype="multipart/form-data" autocomplete="off">
+                            <form id="form-ajuan" class="row g-3" action="/data/tambahAjuan" method="post" enctype="multipart/form-data" autocomplete="off">
+
                                 <?= csrf_field(); ?>
                                 <?php
-                                $datas = session()->getFlashdata('data');
-                                $geojson = json_decode($datas['geojson']);
-                                $getOverlap = json_decode($datas['getOverlap']);
-                                $valZona = $datas['valZona'];
-                                $hasil = ($datas['hasilStatus']);
+                                $datas = session()->getFlashdata('dataAjuan');
+                                $geojson = json_decode($datas['geojson'] ?? '');
+                                if ($geojson == NULL) {
+                                    $d = session()->getFlashdata('data') ?? NULL;
+                                    $geojson = $d['lokasi'] ?? '';
+                                    $geojson = json_decode($geojson ?? '');
+                                }
+                                $getOverlap = json_decode($datas['getOverlap'] ?? '[]');
+                                if ($getOverlap == []) {
+                                    $d = session()->getFlashdata('data') ?? NULL;
+                                    $getOverlap = $d['kawasanOverlap'] ?? '[]';
+                                    $getOverlap = json_decode($getOverlap ?? '[]');
+                                }
+                                $valZona = old('idZona', $datas['valZona'] ?? null);
+                                $hasil  =  $datas['hasilStatus'] ?? NULL;
+                                $valKegiatan = old('idKegiatan', $datas['kegiatanValue'] ?? null);
                                 if (!empty($valZona)) {
                                     $zoneName = array_map(function ($prop) {
                                         return $prop->namaZona;
-                                    }, $getOverlap);
+                                    }, $getOverlap ?? []);
                                     $zoneName = array_unique(($zoneName));
                                 }
                                 ?>
 
 
+                                <input type="hidden" class="form-control" id="ketHasil" aria-describedby="textlHelp" name="ketHasil" value="">
+                                <input type="hidden" class="form-control" id="kawasanOverlap" aria-describedby="textlHelp" name="kawasanOverlap" value="">
                                 <input type="hidden" class="form-control" id="kawasan" aria-describedby="textlHelp" name="kawasan" value="">
                                 <input type="hidden" class="form-control" id="idZona" aria-describedby="textlHelp" name="idZona" value="">
-                                <input type="hidden" class="form-control" id="idKegiatan" aria-describedby="textlHelp" name="idKegiatan" value="<?= $datas['kegiatanValue']; ?>">
+                                <input type="hidden" class="form-control" id="idKegiatan" aria-describedby="textlHelp" name="idKegiatan" value="<?= old('idKegiatan', $valKegiatan); ?>">
                                 <input type="hidden" class="form-control" id="drawFeatures" aria-describedby="textlHelp" name="drawFeatures">
 
                                 <h5>a. Identitas Pemohon</h5>
@@ -86,23 +100,38 @@
                                 <p class="m-0 p-0"><span style="color: red;">*</span> <span class="form-text">Wajib di isi</span> </p>
                                 <div class="form-group">
                                     <label class="form-label">NIB (Nomor Induk Berusaha)</label>
-                                    <input type="text" class="form-control" id="nib" aria-describedby="textlHelp" name="nib" maxlength="14" pattern="[0-9]*" title="Format berupa angka">
+                                    <input type="text" class="form-control" id="nib" aria-describedby="textlHelp" name="nib" maxlength="14" pattern="[0-9]*" title="Format berupa angka" value="<?= old('nib'); ?>">
+                                    <?php if (session()->has('errors')) : ?>
+                                        <span class="text-danger"><?= session('errors.nib') ?></span>
+                                    <?php endif ?>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">NIK (Nomor Induk Kependudukan) <span style="color: red;">*</span></label>
-                                    <input type="text" class="form-control" id="nik" aria-describedby="textlHelp" name="nik" maxlength="16" pattern="[0-9]*" title="Format berupa angka" required>
+                                    <input type="text" class="form-control" id="nik" aria-describedby="textlHelp" name="nik" maxlength="16" pattern="[0-9]*" title="Format berupa angka" value="<?= old('nik'); ?>" required>
+                                    <?php if (session()->has('errors')) : ?>
+                                        <span class="text-danger"><?= session('errors.nik') ?></span>
+                                    <?php endif ?>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Nama <span style="color: red;">*</span></label>
-                                    <input type="text" class="form-control" id="nama" aria-describedby="textlHelp" name="nama" required>
+                                    <input type="text" class="form-control" id="nama" aria-describedby="textlHelp" name="nama" value="<?= old('nama'); ?>" required>
+                                    <?php if (session()->has('errors')) : ?>
+                                        <span class="text-danger"><?= session('errors.nama') ?></span>
+                                    <?php endif ?>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Alamat <span style="color: red;">*</span></label>
-                                    <input type="text" class="form-control" id="alamat" aria-describedby="textlHelp" name="alamat" required>
+                                    <input type="text" class="form-control" id="alamat" aria-describedby="textlHelp" name="alamat" value="<?= old('alamat'); ?>" required>
+                                    <?php if (session()->has('errors')) : ?>
+                                        <span class="text-danger"><?= session('errors.alamat') ?></span>
+                                    <?php endif ?>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">No. Telp/HP <span style="color: red;">*</span></label>
-                                    <input type="text" class="form-control" id="kontak" aria-describedby="textlHelp" name="kontak" pattern="^\+?[0-9]+$" title="Format No. Telp/HP tidak sesuai" maxlength="15" required>
+                                    <input type="text" class="form-control" id="kontak" aria-describedby="textlHelp" name="kontak" pattern="^\+?[0-9]+$" title="Format No. Telp/HP tidak sesuai" maxlength="15" value="<?= old('kontak'); ?>" required>
+                                    <?php if (session()->has('errors')) : ?>
+                                        <span class="text-danger"><?= session('errors.kontak') ?></span>
+                                    <?php endif ?>
                                 </div>
                                 <div class="mb-1"></div>
 
@@ -113,7 +142,7 @@
                                     <select class="form-select" id="pilihKegiatan" name="kegiatan" style="width: 100%;" required disabled>
                                         <option></option>
                                         <?php foreach ($jenisKegiatan as $K) : ?>
-                                            <option value=" <?= $K->id_kegiatan ?>" <?= $K->id_kegiatan == $datas['kegiatanValue'] ? 'selected' : '' ?>><?= $K->nama_kegiatan ?></option>
+                                            <option value=" <?= $K->id_kegiatan ?>" <?= $K->id_kegiatan == $valKegiatan ? 'selected' : '' ?>><?= $K->nama_kegiatan ?></option>
                                         <?php endforeach ?>
                                     </select>
                                 </div>
@@ -211,7 +240,7 @@
         proj4.defs("EPSG:23836", "+proj=tmerc +lat_0=0 +lon_0=112.5 +k=0.9999 +x_0=200000 +y_0=1500000 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
 
         let geojson = <?= json_encode($geojson); ?>;
-        // console.log(geojson);
+        console.log(geojson);
 
         // style vector geometry
         const markerStyle = new ol.style.Style({
@@ -239,7 +268,7 @@
             }),
         });
         var styleDraw;
-        let geometryType = geojson.features[0].geometry.type;
+        let geometryType = geojson?.features[0].geometry.type;
         if (geometryType == "Point") {
             styleDraw = markerStyle;
         } else if (geometryType == "Polygon") {
@@ -335,7 +364,7 @@
         });
     </script>
     <script>
-        let hasil = <?= $hasil; ?>;
+        let hasil = <?= isset($hasil) ? $hasil :  '"' . old('ketHasil', "") . '"'; ?>;
         if (hasil == "tidak diperbolehkan") {
             $(".info_status").html('<p class="tidakBoleh">Aktivitas yang tidak diperbolehkan</p>');
         } else if (hasil == "diperbolehkan bersyarat") {
@@ -372,7 +401,32 @@
             });
             $("#kawasan").val(kawasan);
             // console.log(kawasan);
+            let kawasanOverlap = <?= json_encode($getOverlap); ?>;
+            $("#kawasanOverlap").val(JSON.stringify(kawasanOverlap));
+            $("#ketHasil").val(hasil);
         }
+    </script>
+    <script>
+        $(document).ready(function() {
+            let formChanged = false;
+            document.getElementById('form-ajuan').addEventListener('change', () => {
+                if (!formChanged) {
+                    formChanged = true;
+                }
+            });
+            window.addEventListener('beforeunload', function(e) {
+                if (!formChanged) return undefined;
+                // Cancel the event as per the standard.
+                e.preventDefault();
+                // Chrome requires returnValue to be set.
+                e.returnValue = '';
+                return 'Are you sure you want to leave? Changes you made may not be saved.';
+            });
+
+            document.getElementById('form-ajuan').addEventListener('submit', function(event) {
+                formChanged = false;
+            });
+        });
     </script>
 
 </body>

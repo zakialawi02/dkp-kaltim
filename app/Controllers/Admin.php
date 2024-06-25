@@ -29,6 +29,7 @@ class Admin extends BaseController
     protected $ModelNamaZona;
     protected $ModelZonaKawasan;
     protected $ModelKesesuaian;
+
     public function __construct()
     {
         helper(['form', 'url']);
@@ -80,6 +81,11 @@ class Admin extends BaseController
     }
 
     // MODUL
+    /**
+     * Retrieves data for the 'Data Modul' page.
+     *
+     * @return View The rendered view for displaying data modul.
+     */
     public function dataModul()
     {
         $data = [
@@ -88,6 +94,11 @@ class Admin extends BaseController
         ];
         return view('admin/dataModul', $data);
     }
+    /**
+     * Retrieves data for the 'Tambah Modul' page.
+     *
+     * @return View The rendered view for adding a new modul.
+     */
     public function tambahModul()
     {
         $data = [
@@ -95,6 +106,12 @@ class Admin extends BaseController
         ];
         return view('admin/tambahModul', $data);
     }
+    /**
+     * Retrieves data for editing a specific module.
+     *
+     * @param int $id_modul The ID of the module to be edited
+     * @return Some_Return_Value The rendered view for updating the module
+     */
     public function editModul($id_modul)
     {
         $data = [
@@ -103,19 +120,42 @@ class Admin extends BaseController
         ];
         return view('admin/updateModul', $data);
     }
+    /**
+     * Retrieves data for adding a new modul.
+     *
+     * @return View The rendered view for adding a new modul.
+     */
     public function tambah_modul()
     {
+        $data = [
+            'judul_modul' => $this->request->getVar('judul_modul'),
+            'deskripsi' => $this->request->getVar('deskripsi'),
+        ];
+
+        if (!$this->validate($this->modul->validationRules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+        if (!$this->validate([
+            'fileModul' => [
+                'rules' => 'uploaded[fileModul]|max_size[fileModul,21048]',
+                'errors' => [
+                    'uploaded' => 'Pilih file terlebih dahulu',
+                    'max_size' => 'Ukuran file melebihi 20MB',
+                ]
+            ],
+        ])) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
         $file = $this->request->getFile('fileModul');
+        $dataFile = [];
         if ($file->isValid() && !$file->hasMoved()) {
             $originalName = $file->getName();
             $uploadFiles = date('YmdHis') . "_" . $originalName;
             $dataFile['file_modul'] = $uploadFiles;
             $file->move('dokumen/modul/', $uploadFiles);
         }
-        $data = [
-            'judul_modul' => $this->request->getVar('judulModul'),
-            'deskripsi' => $this->request->getVar('deskripsilModul'),
-        ];
+
         $data = array_merge($data, $dataFile);
         $this->modul->save($data);
         if ($this) {
@@ -128,6 +168,16 @@ class Admin extends BaseController
     }
     public function update_modul($id_modul)
     {
+        $data = [
+            'id_modul' => $id_modul,
+            'judul_modul' => $this->request->getVar('judul_modul'),
+            'deskripsi' => $this->request->getVar('deskripsi'),
+        ];
+
+        if (!$this->validate($this->modul->validationRules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
         $datas = $this->modul->getModul($id_modul)->getRow();
         $file = $this->request->getFile('fileModul');
         if ($file->getError() !== 4) {
@@ -145,12 +195,9 @@ class Admin extends BaseController
         } else {
             $dataFile = $datas->file_modul;
         }
-        $data = [
-            'id_modul' => $id_modul,
-            'judul_modul' => $this->request->getVar('judulModul'),
-            'deskripsi' => $this->request->getVar('deskripsilModul'),
-            'file_modul' => $dataFile,
-        ];
+
+        $data['file_modul'] = $dataFile;
+
         $this->modul->save($data);
         if ($this) {
             session()->setFlashdata('success', 'Data berhasil diperbarui.');
@@ -308,12 +355,13 @@ class Admin extends BaseController
     // periksa data/detail data
     public function periksaDataPermohonan($status, $id_perizinan)
     {
+        $permintaanId = $this->izin->getAllPermohonan($id_perizinan)->getRow();
         $statusArray = ['menunggu-jawaban', 'telah-disetujui', 'tidak-disetujui'];
         if (!in_array($status, $statusArray)) {
             session()->setFlashdata('error', 'Permintaan tidak ditemukan');
             return redirect()->to('/admin');
         }
-        $permintaanId = $this->izin->getAllPermohonan($id_perizinan)->getRow();
+
         if (empty($permintaanId)) {
             session()->setFlashdata('error', 'Permintaan tidak ditemukan');
             return redirect()->to('/admin');

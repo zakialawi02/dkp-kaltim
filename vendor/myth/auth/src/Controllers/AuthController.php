@@ -77,6 +77,7 @@ class AuthController extends Controller
         }
 
         $login    = $this->request->getPost('login');
+        // dd($login);
         $password = $this->request->getPost('password');
         $remember = (bool) $this->request->getPost('remember');
 
@@ -151,7 +152,8 @@ class AuthController extends Controller
 
         // Validate basics first since some password rules rely on these fields
         $rules = config('Validation')->registrationRules ?? [
-            'username' => 'required|alpha_numeric|min_length[3]|max_length[30]|is_unique[users.username]',
+            'full_name' => 'required|min_length[4]',
+            'username' => 'required|alpha_numeric|min_length[4]|max_length[30]|is_unique[users.username]',
             'email'    => 'required|valid_email|is_unique[users.email]',
         ];
 
@@ -179,7 +181,9 @@ class AuthController extends Controller
         $allowedPostFields = array_merge(['password'], $this->config->validFields, $this->config->personalFields);
         $userData = $this->request->getPost($allowedPostFields);
         $userData['full_name'] = $full_name;
-
+        $userData['username'] = strtolower($userData['username']);
+        $userData['email'] = strtolower($userData['email']);
+        // dd($userData);
         $user = new User($userData);
 
         $this->config->requireActivation === null ? $user->activate() : $user->generateActivateHash();

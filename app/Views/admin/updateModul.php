@@ -82,17 +82,23 @@
                     <div class="card mb-4">
                         <div class="card-body">
 
-                            <form action="/admin/update_modul/<?= $dataModul->id_modul; ?>" id="editForm" method="post" enctype="multipart/form-data" autocomplete="off">
+                            <form novalidate action="/admin/update_modul/<?= $dataModul->id_modul; ?>" id="editForm" method="post" enctype="multipart/form-data" autocomplete="off">
                                 <?php csrf_field() ?>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="mb-3">
-                                            <label for="judulModul" class="form-label">Judul Modul <span style="color: red;">*</span></label>
-                                            <input type="text" class="form-control form-control-sm" id="judulModul" name="judulModul" placeholder="Nama/Judul Modul" value="<?= esc($dataModul->judul_modul); ?>" required>
+                                            <label for="judul_modul" class="form-label">Judul Modul <span style="color: red;">*</span></label>
+                                            <input type="text" class="form-control form-control-sm" id="judul_modul" name="judul_modul" placeholder="Nama/Judul Modul" value="<?= old('judul_modul', esc($dataModul->judul_modul)); ?>" required>
+                                            <?php if (session()->has('errors')) : ?>
+                                                <span class="text-danger"><?= session('errors.judul_modul') ?></span>
+                                            <?php endif ?>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="deskripsilModul" class="form-label">Deskripsi Modul <span style="color: red;">*</span></label>
-                                            <textarea type="text" class="form-control form-control-sm" id="deskripsilModul" name="deskripsilModul" placeholder="Nama/Judul Modul" rows="5" required><?= esc($dataModul->deskripsi); ?></textarea>
+                                            <label for="deskripsi" class="form-label">Deskripsi Modul <span style="color: red;">*</span></label>
+                                            <textarea type="text" class="form-control form-control-sm" id="deskripsi" name="deskripsi" placeholder="Nama/Judul Modul" rows="5" required><?= old('deskripsi', esc($dataModul->deskripsi)); ?></textarea>
+                                            <?php if (session()->has('errors')) : ?>
+                                                <span class="text-danger"><?= session('errors.judul_modul') ?></span>
+                                            <?php endif ?>
                                         </div>
                                         <div class="mb-3">
                                             <label for="fileModul" class="form-label">File Modul </label>

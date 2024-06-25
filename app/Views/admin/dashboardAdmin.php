@@ -174,16 +174,22 @@ $allDataBaru = array_slice($allDataBaru, 0, 5);
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <?php foreach ($allDataBaru as $baru) : ?>
+                                                        <?php if (empty($allDataBaru)) : ?>
                                                             <tr>
-                                                                <td><?= date('d M Y', strtotime($baru->created_at)); ?></td>
-                                                                <td><?= esc($baru->nik); ?></td>
-                                                                <td><?= esc($baru->nama); ?></td>
-                                                                <td><?= esc($baru->nama_kegiatan); ?></td>
-                                                                <td><?= esc($baru->kontak); ?></td>
-                                                                <td><a type="button" role="button" href="/admin/data/permohonan/<?= ($baru->stat_appv == '0') ? 'menunggu-jawaban' : ''; ?>/lihat/<?= $baru->id_perizinan; ?>" class="asbn btn btn-info bi bi-binoculars" data-bs-toggle="tooltip" data-bs-placement="top" title="Periksa" target="_blank"></a></td>
+                                                                <td colspan="6" class="text-center">Belum ada data</td>
                                                             </tr>
-                                                        <?php endforeach ?>
+                                                        <?php else : ?>
+                                                            <?php foreach ($allDataBaru as $baru) : ?>
+                                                                <tr>
+                                                                    <td><?= date('d M Y', strtotime($baru->created_at)); ?></td>
+                                                                    <td><?= esc($baru->nik); ?></td>
+                                                                    <td><?= esc($baru->nama); ?></td>
+                                                                    <td><?= esc($baru->nama_kegiatan); ?></td>
+                                                                    <td><?= esc($baru->kontak); ?></td>
+                                                                    <td><a type="button" role="button" href="/admin/data/permohonan/<?= ($baru->stat_appv == '0') ? 'menunggu-jawaban' : ''; ?>/lihat/<?= $baru->id_perizinan; ?>" class="asbn btn btn-info bi bi-binoculars" data-bs-toggle="tooltip" data-bs-placement="top" title="Periksa" target="_blank"></a></td>
+                                                                </tr>
+                                                            <?php endforeach ?>
+                                                        <?php endif ?>
                                                     </tbody>
                                                 </table>
 

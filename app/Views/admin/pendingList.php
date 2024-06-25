@@ -72,7 +72,7 @@
                                             <td><?= esc($S->alamat); ?></td>
                                             <td><?= esc($S->nama_kegiatan); ?></td>
                                             <td>
-                                                <a type="button" role="button" href="/admin/data/permohonan/<?= ($S->stat_appv == '0') ? 'menunggu-jawaban' : ''; ?>/lihat/<?= $S->id_perizinan; ?>/<?= $S->nama; ?>/" class="asbn btn btn-info bi bi-binoculars" data-bs-toggle="tooltip" data-bs-placement="top" title="Aksi" target="_blank"> Periksa</a>
+                                                <a type="button" role="button" href="/admin/data/permohonan/<?= ($S->stat_appv == '0') ? 'menunggu-jawaban' : ''; ?>/lihat/<?= $S->id_perizinan; ?>" class="asbn btn btn-info bi bi-binoculars" data-bs-toggle="tooltip" data-bs-placement="top" title="Aksi" target="_blank"> Periksa</a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

@@ -60,6 +60,7 @@
                                                 <div class="form-group">
                                                     <label for="username" class="col-form-label">Username</label>
                                                     <input type="text" class="form-control " name="username" id="username" pattern="^\S{5,}$" title="Minimum 5 karakter & Tidak Boleh Mengandung Spasi" required>
+                                                    <p class="form-text usernameFail d-none" style="color: red; font-size: small;">Username Tidak Boleh Mengandung Spasi</p>
                                                     <div id="usernameError" class="error form-text" style="color: red;"></div>
                                                 </div>
                                                 <div class="form-group">
@@ -114,7 +115,7 @@
                                     <?php $i = 1; ?>
                                     <?php foreach ($users as $user) : ?>
                                         <tr>
-                                            <th scope="row"><?= $i++; ?></th>
+                                            <td scope="row"><?= $i++; ?></td>
                                             <td><?= esc($user->username); ?></td>
                                             <td><?= date('d M Y', strtotime($user->created_at)); ?></td>
                                             <td><?= esc($user->full_name); ?></td>
@@ -157,18 +158,18 @@
                                                                         <input type="password" class="form-control" name="password_hash" id="password_hash" autocomplete="off">
                                                                         <div id="emailHelp" class="form-text">Kosongkan jika tidak ingin mengganti password</div>
                                                                     </div>
-                                                                    <div class="col-md-6">
+                                                                    <div class="col-md-6" <?= ($user->username == "superadmin") ? "hidden" : ""; ?>>
                                                                         <label for="role" class="col-form-label">Role</label>
-                                                                        <select class="form-control " name="role" id="role" required <?= ($user->userid == 46) ? "disabled" : ""; ?>>
+                                                                        <select class="form-control " name="role" id="role" required>
                                                                             <option value="">--Pilih Role--</option>
                                                                             <?php foreach ($auth_groups as $key => $value) : ?>
                                                                                 <option value="<?= $value['id'] ?>" <?= $value['id'] == $user->group_id ? "selected" : null ?>><?= $value['name'] ?></option>
                                                                             <?php endforeach ?>
                                                                         </select>
                                                                     </div>
-                                                                    <div class="col-md-6">
+                                                                    <div class="col-md-6" <?= ($user->username == "superadmin") ? "hidden" : ""; ?>>
                                                                         <label for="active" class="col-form-label">Status</label>
-                                                                        <select class="form-control " name="active" id="active" required <?= ($user->userid == 46) ? "disabled" : ""; ?>>
+                                                                        <select class="form-control " name="active" id="active" required>
                                                                             <option value="">--Status--</option>
                                                                             <?php $active = $user->active; ?>
                                                                             <option value="1" <?php if ($active == 1) echo "selected"; ?>>Active</option>
@@ -190,7 +191,7 @@
                                                     <form id="delete-form-<?= $user->userid ?>" action="/user/delete/<?= $user->userid ?>/<?= $user->username; ?>" method="post">
                                                         <?= csrf_field(); ?>
                                                         <input type="hidden" name="_method" value="DELETE">
-                                                        <button type="button" class="asbn btn btn-danger bi bi-trash delete-btn" data-id="<?= $user->userid ?>" <?= ($user->userid == 46) ? "disabled" : ""; ?>></button>
+                                                        <button type="button" class="asbn btn btn-danger bi bi-trash delete-btn" data-id="<?= $user->userid ?>" <?= ($user->username == "superadmin") ? "disabled" : ""; ?>></button>
                                                     </form>
                                                 </div>
 
@@ -223,7 +224,7 @@
     <!-- Template Main JS File -->
     <script src="/js/datatables-simple-demo.js"></script>
     <script src="/js/scripts.js"></script>
-
+    <script src="/js/action=1.js"></script>
 
     <script>
         $(document).ready(function() {
